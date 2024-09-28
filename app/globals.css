@@ -4,8 +4,10 @@
 @import "fonts/pretendard.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /*--background: #ffffff;*/
+  /*--foreground: #171717;*/
+    --background: #1E201E;
+    --foreground: #ededed;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,11 +36,15 @@ article.post {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
 
 article.post .post-body {
     max-width: 768px;
     margin: 0 auto;
+    padding: 1.25rem;
+    font-size: 1.1em;
+    line-height: 150%
 }
 
 

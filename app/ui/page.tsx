@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import PostHeader from '@/app/entities/post/PostHeader';
 import PostBody from '@/app/entities/post/PostBody';
