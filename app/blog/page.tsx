@@ -6,7 +6,7 @@ import example2 from '@/app/public/thumbnail_example2.jpg';
 
 const PortfolioBlogUI = () => {
   return (
-    <section className={'bg-transparent w-full h-screen'}>
+    <section className={'bg-transparent w-full '}>
       <article className={'post'}>
         <PostHeader
           title={'개인 프로젝트를 성공하는 3가지 방법'}

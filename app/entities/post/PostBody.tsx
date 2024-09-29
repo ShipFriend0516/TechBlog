@@ -3,7 +3,9 @@ interface Props {
 }
 
 const PostBody = ({ content }: Props) => {
-  return <div className={'post-body py-10 whitespace-pre-wrap'}>{content}</div>;
+  return (
+    <div className={'post-body py-16 pb-20 whitespace-pre-wrap'}>{content}</div>
+  );
 };
 
 export default PostBody;
