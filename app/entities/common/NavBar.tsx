@@ -24,7 +24,7 @@ const NavBar = () => {
   }, []);
   return (
     <nav
-      className={`${isFixed ? 'fixed bg-white bg-opacity-20' : 'relative'} h-16 top-0 px-12 w-screen  inline-flex items-center z-40`}
+      className={`${isFixed ? 'fixed bg-white bg-opacity-20' : 'relative'} h-16 top-0 px-12 w-screen  inline-flex items-center z-40 backdrop-blur-sm`}
     >
       <div>
         <Link href={'/blogList'}>
