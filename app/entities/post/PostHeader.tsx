@@ -1,5 +1,6 @@
 import Image, { ImageProps } from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import Profile from '@/app/entities/common/Profile';
 
 interface Props {
   title: string;
@@ -24,9 +25,7 @@ const PostHeader = ({
       <h2 className={'post-subtitle'}>{subTitle}</h2>
       <div className={'pb-10 inline-flex items-center '}>
         <div className={'items-center post-author flex'}>
-          <div
-            className={'w-8 h-8 aspect-square rounded-full bg-gray-300 '}
-          ></div>
+          <Profile profileThumbnail={''} />
           <span className={'font-bold mx-2'}>{author}</span>
         </div>
         <span className={'post-date'}>
