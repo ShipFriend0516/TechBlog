@@ -24,20 +24,19 @@ const NavBar = () => {
   }, []);
   return (
     <nav
-      className={`${isFixed ? 'fixed' : 'absolute'} top-0 w-screen bg-white bg-opacity-20 inline-flex items-center`}
+      className={`${isFixed ? 'fixed bg-white bg-opacity-20' : 'relative'} h-16 top-0 px-12 w-screen  inline-flex items-center`}
     >
       <div>
-        <Profile profileThumbnail={''} />
+        <Link href={'/'}>
+          <Profile profileThumbnail={''} username={'Jeongwoo Seo'} />
+        </Link>
       </div>
       <ul className={'inline-flex max-w-5xl w-full justify-between gap-3 '}>
         <li className={'px-4 py-2'}>
-          <Link href="/">Home</Link>
+          <Link href="/blog">Blog</Link>
         </li>
         <li className={'px-4 py-2'}>
-          <Link href="/about">About</Link>
-        </li>
-        <li className={'px-4 py-2'}>
-          <Link href="/contact">Contact</Link>
+          <Link href="/portfolio">Portfolio</Link>
         </li>
       </ul>
     </nav>

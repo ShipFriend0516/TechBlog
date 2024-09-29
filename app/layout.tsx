@@ -29,10 +29,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`dark ${geistSans.variable} ${geistMono.variable} antialiased `}
+        className={`dark ${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col justify-between`}
       >
         <NavBar />
-        {children}
+        <>{children}</>
         <Footer />
       </body>
     </html>
