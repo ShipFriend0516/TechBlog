@@ -4,7 +4,8 @@ import './globals.css';
 import Footer from '@/app/entities/common/Footer';
 import React from 'react';
 import NavBar from '@/app/entities/common/NavBar';
-
+import icon from './favicon.png';
+import { AlternateURLs } from 'next/dist/lib/metadata/types/alternative-urls-types';
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
@@ -19,6 +20,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'My Blog',
   description: '나의 개인 블로그!',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
