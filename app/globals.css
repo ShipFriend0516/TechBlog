@@ -32,6 +32,11 @@ body {
   }
 }
 
+/* Post Preview */
+.post-preview {
+    height: 520px;
+}
+
 article.post {
     display: flex;
     flex-direction: column;

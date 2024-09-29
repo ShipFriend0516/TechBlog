@@ -3,7 +3,8 @@
 import React from 'react';
 import PostHeader from '@/app/entities/post/PostHeader';
 import PostBody from '@/app/entities/post/PostBody';
-import example from '@/app/public/thumbnail_example.jpg';
+// import example from '@/app/public/thumbnail_example.jpg';
+import example2 from '@/app/public/thumbnail_example2.jpg';
 const PortfolioBlogUI = () => {
   return (
     <section className={'bg-transparent w-full h-screen'}>
@@ -14,7 +15,7 @@ const PortfolioBlogUI = () => {
           author={'Jeongwoo'}
           date={new Date().getTime()}
           timeToRead={3}
-          backgroundThumbnail={example}
+          backgroundThumbnail={example2}
         />
         <PostBody
           content={
