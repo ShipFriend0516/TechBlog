@@ -27,11 +27,11 @@ const NavBar = () => {
       className={`${isFixed ? 'fixed bg-white bg-opacity-20' : 'relative'} h-16 top-0 px-12 w-screen  inline-flex items-center`}
     >
       <div>
-        <Link href={'/'}>
+        <Link href={'/blogList'}>
           <Profile profileThumbnail={''} username={'Jeongwoo Seo'} />
         </Link>
       </div>
-      <ul className={'inline-flex max-w-5xl w-full justify-between gap-3 '}>
+      <ul className={'inline-flex max-w-5xl w-full justify-end gap-3 '}>
         <li className={'px-4 py-2'}>
           <Link href="/blog">Blog</Link>
         </li>
