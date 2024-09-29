@@ -1,7 +1,3 @@
-import Image from 'next/image';
-import Profile from '@/app/entities/common/Profile';
-import Timestamp from '@/app/entities/common/Timestamp';
-import example from '@/app/public/thumbnail_example2.jpg';
 import PostPreview from '@/app/entities/post/PostPreview';
 
 const BlogList = () => {

@@ -4,8 +4,7 @@ import './globals.css';
 import Footer from '@/app/entities/common/Footer';
 import React from 'react';
 import NavBar from '@/app/entities/common/NavBar';
-import icon from './favicon.png';
-import { AlternateURLs } from 'next/dist/lib/metadata/types/alternative-urls-types';
+
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
