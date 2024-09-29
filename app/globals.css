@@ -101,3 +101,9 @@ section.footer a:disabled , section.footer .disabled {
     color: var(--disabled);
 }
 
+.transition-slow {
+    transition: all 0.3s;
+    transition-delay: unset;
+    transition-timing-function: ease-in-out;
+}
+
