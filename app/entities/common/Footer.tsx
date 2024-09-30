@@ -3,9 +3,11 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     <footer
-      className={'w-screen bg-gray-950 h-96 flex flex-col justify-between'}
+      className={'w-screen bg-gray-950 min-h-96 flex flex-col justify-between'}
     >
-      <section className={'footer w-full flex justify-center'}>
+      <section
+        className={'footer w-full flex flex-col md:flex-row justify-center'}
+      >
         <div className={'footer-col'}>
           <b>BLOG</b>
           <div>
@@ -46,6 +48,7 @@ const Footer = () => {
         <div className={'footer-col'}>
           <b>Subscribe</b>
           <form className={'flex flex-col gap-4'}>
+            <p className={'text-gray-300'}>새 글을 구독해보세요</p>
             <input
               className={
                 'border-b bg-transparent px-4 py-1.5 inset-3 outline-black'
@@ -70,8 +73,12 @@ const Footer = () => {
         </div>
         <div className={'footer-col'}>
           <b>Explore</b>
-          <Link href={'/blog'}>Blog</Link>
-          <Link href={'/portfolio'}>Portfolio</Link>
+          <div>
+            <Link href={'/blog'}>Blog</Link>
+          </div>
+          <div>
+            <Link href={'/portfolio'}>Portfolio</Link>
+          </div>
         </div>
       </section>
       <p className="text-center text-sm text-gray-600 p-2">
