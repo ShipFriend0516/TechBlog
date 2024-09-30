@@ -1,3 +1,5 @@
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+
 interface Post {
   title: string;
   subTitle?: string;
@@ -6,6 +8,7 @@ interface Post {
   timeToRead: number;
   content: string;
   comment?: string[];
+  profileImage?: string | StaticImport;
 }
 
 export { Post };

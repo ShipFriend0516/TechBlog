@@ -13,6 +13,7 @@ const PostPreview = ({
   subTitle,
   author,
   date,
+  profileImage,
   timeToRead,
 }: Omit<Post, 'content'>) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +21,7 @@ const PostPreview = ({
   return (
     <div
       className={
-        'post-preview mb-12 p-5 bg-gray-100 text-black max-w-3xl mx-auto rounded-lg'
+        'post-preview mb-12 p-5 pb-10 bg-gray-100 text-black max-w-3xl mx-auto rounded-lg'
       }
     >
       <div
@@ -45,11 +46,11 @@ const PostPreview = ({
           onLoadingComplete={() => setIsLoading(false)}
         />
       </div>
-      <div className={'h-1/3 flex flex-col gap-4 py-5 p-5'}>
+      <div className={'h-1/3 flex flex-col gap-4 py-5 p-2'}>
         <h2 className={'font-bold text-2xl'}>{title}</h2>
         <p>{subTitle ? subTitle.slice(0, 100) + '...' : ''}</p>
         <div className={'inline-flex justify-between w-full'}>
-          <Profile profileThumbnail={''} username={author} />
+          <Profile profileThumbnail={profileImage} username={author} />
           <Timestamp date={date} />
         </div>
       </div>

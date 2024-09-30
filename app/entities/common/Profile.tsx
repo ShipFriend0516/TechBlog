@@ -3,14 +3,18 @@ import React from 'react';
 import Image from 'next/image';
 
 interface Props {
-  profileThumbnail: string | StaticImport;
+  profileThumbnail?: string | StaticImport;
   username: string;
 }
 
 const Profile = ({ profileThumbnail, username }: Props) => {
   return (
     <div className={'flex items-center text-nowrap'}>
-      <div className={'w-8 h-8 aspect-square rounded-full bg-gray-300 '}>
+      <div
+        className={
+          'w-8 h-8 aspect-square rounded-full bg-gray-300 overflow-hidden'
+        }
+      >
         {profileThumbnail && (
           <Image
             src={profileThumbnail}

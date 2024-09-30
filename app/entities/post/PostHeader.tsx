@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Profile from '@/app/entities/common/Profile';
+import profile from '@/app/public/profile.jpg';
 
 interface Props {
   title: string;
@@ -25,7 +26,7 @@ const PostHeader = ({
       <h2 className={'post-subtitle'}>{subTitle}</h2>
       <div className={'pb-10 inline-flex items-center '}>
         <div className={'items-center post-author flex'}>
-          <Profile profileThumbnail={''} username={author} />
+          <Profile profileThumbnail={profile} username={author} />
         </div>
         <span className={'post-date'}>
           {new Date(date).toLocaleDateString()}

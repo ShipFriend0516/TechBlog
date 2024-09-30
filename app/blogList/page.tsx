@@ -1,4 +1,5 @@
 import PostPreview from '@/app/entities/post/PostPreview';
+import profile from '@/app/public/profile.jpg';
 
 const BlogList = () => {
   const posts = [
@@ -22,7 +23,7 @@ const BlogList = () => {
   return (
     <section>
       <h1 className={'text-4xl text-center font-bold mt-8'}>Post List</h1>
-      <ul className={'post-list my-12'}>
+      <ul className={'post-list my-12 px-4'}>
         {posts.map((post) => (
           <li key={post.id}>
             <PostPreview
@@ -31,6 +32,7 @@ const BlogList = () => {
               author={post.author}
               date={post.date}
               timeToRead={post.timeToRead}
+              profileImage={profile}
             />
           </li>
         ))}
