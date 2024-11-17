@@ -24,7 +24,6 @@ body {
   background: var(--background);
   font-family: 'Pretendard','system-ui',Arial, Helvetica, sans-serif;
     max-width: 1280px;
-    margin: 0 auto;
     overflow-x: hidden;
 }
 
