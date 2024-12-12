@@ -29,7 +29,7 @@ const PostHeader = ({
           <Profile profileThumbnail={profile} username={author} />
         </div>
         <span className={'post-date'}>
-          {new Date(date).toLocaleDateString()}
+          {new Date(date).toLocaleDateString('ko-KR')}
         </span>
         <span className={'post-time-to-read mx-2'}>{timeToRead} min read</span>
       </div>
