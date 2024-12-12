@@ -23,23 +23,28 @@ const NavBar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  const fixedStyle = isFixed ? 'bg-white bg-opacity-20' : 'bg-background';
+
   return (
-    <nav
-      className={`${isFixed ? 'fixed bg-white bg-opacity-20' : 'relative'} h-16 top-0 px-8 w-screen  inline-flex items-center justify-center z-40 backdrop-blur-sm`}
-    >
-      <div>
-        <Link href={'/blogList'}>
-          <Profile profileThumbnail={profile} username={'Jeongwoo Seo'} />
-        </Link>
+    <nav>
+      <div className={'h-16 w-full'} />
+      <div
+        className={`${fixedStyle} fixed h-16 top-0 px-8 w-screen  inline-flex items-center justify-center z-40 backdrop-blur-sm`}
+      >
+        <div>
+          <Link href={'/blogList'}>
+            <Profile profileThumbnail={profile} username={'Jeongwoo Seo'} />
+          </Link>
+        </div>
+        <ul className={'inline-flex max-w-5xl w-full justify-end gap-3 '}>
+          <li className={'px-4 py-2'}>
+            <Link href="/blog">Blog</Link>
+          </li>
+          <li className={'px-4 py-2'}>
+            <Link href="/portfolio">Portfolio</Link>
+          </li>
+        </ul>
       </div>
-      <ul className={'inline-flex max-w-5xl w-full justify-end gap-3 '}>
-        <li className={'px-4 py-2'}>
-          <Link href="/blog">Blog</Link>
-        </li>
-        <li className={'px-4 py-2'}>
-          <Link href="/portfolio">Portfolio</Link>
-        </li>
-      </ul>
     </nav>
   );
 };
