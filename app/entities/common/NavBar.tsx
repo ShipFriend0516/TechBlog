@@ -32,13 +32,13 @@ const NavBar = () => {
         className={`${fixedStyle} fixed h-16 top-0 px-8 w-screen  inline-flex items-center justify-center z-40 backdrop-blur-sm`}
       >
         <div>
-          <Link href={'/blogList'}>
+          <Link href={'/'}>
             <Profile profileThumbnail={profile} username={'Jeongwoo Seo'} />
           </Link>
         </div>
         <ul className={'inline-flex max-w-5xl w-full justify-end gap-3 '}>
           <li className={'px-4 py-2'}>
-            <Link href="/blog">Blog</Link>
+            <Link href="/posts">Blog</Link>
           </li>
           <li className={'px-4 py-2'}>
             <Link href="/portfolio">Portfolio</Link>
