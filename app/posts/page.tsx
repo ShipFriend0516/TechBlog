@@ -22,8 +22,8 @@ const BlogList = () => {
   ];
   return (
     <section>
-      <h1 className={'text-4xl text-center font-bold mt-8'}>Post List</h1>
-      <ul className={'post-list my-12 px-4'}>
+      <h1 className={'text-4xl text-center font-bold mt-8'}>발행된 글</h1>
+      <ul className={'w-full post-list my-12 px-4'}>
         {posts.map((post) => (
           <li key={post.id}>
             <PostPreview
