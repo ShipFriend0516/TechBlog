@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'My Blog',
+  title: 'Oracion Blog',
   description: '나의 개인 블로그!',
   icons: {
     icon: '/favicon.ico',
