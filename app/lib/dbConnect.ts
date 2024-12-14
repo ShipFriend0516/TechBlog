@@ -1,7 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 
 declare global {
-  var mongoose: any; // MongoDB 인스턴스를 전역으로 사용하기 위한 타입 선언
+  // eslint-disable-next-line no-var
+  var mongoose: {
+    conn: Mongoose | null;
+    promise: Promise<Mongoose> | null;
+  };
 }
 
 const MONGODB_URI = process.env.DB_URI!;
@@ -10,13 +14,21 @@ if (!MONGODB_URI) {
   throw new Error('MongoDB URI가 없습니다. 환경변수를 설정해주세요.');
 }
 
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+interface CachedConnection {
+  conn: Mongoose | null;
+  promise: Promise<Mongoose> | null;
 }
 
-async function dbConnect() {
+let cached = global.mongoose as CachedConnection;
+
+if (!cached) {
+  cached = global.mongoose = {
+    conn: null,
+    promise: null,
+  };
+}
+
+async function dbConnect(): Promise<Mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
@@ -25,7 +37,7 @@ async function dbConnect() {
     console.log('🎶 Success to connect with database');
   });
 
-  mongoose.connection.on('error', (error) => {
+  mongoose.connection.on('error', (error: Error) => {
     console.error('👻 MongoDB Connect Fail!', error);
   });
 

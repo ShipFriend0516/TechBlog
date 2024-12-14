@@ -18,7 +18,6 @@ const AdminPage = () => {
           }
           defaultText={'포트폴리오 업로드'}
           hoverText={'새로운 포트폴리오 프로젝트를 업로드합니다.'}
-          content={'포트폴리오 업로드'}
         />
       </div>
     </section>
