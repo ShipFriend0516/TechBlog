@@ -21,6 +21,14 @@ async function dbConnect() {
     return cached.conn;
   }
 
+  mongoose.connection.on('connected', () => {
+    console.log('🎶 Success to connect with database');
+  });
+
+  mongoose.connection.on('error', (error) => {
+    console.error('👻 MongoDB Connect Fail!', error);
+  });
+
   if (!cached.promise) {
     const opts = {
       bufferCommands: true,
