@@ -21,7 +21,7 @@ const PostPreview = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <Link href={`/post/${_id}`}>
+    <Link href={`/posts/${_id}`}>
       <div
         className={
           'w-full post-preview mb-12 p-5 pb-10 bg-gray-100 text-black max-w-3xl mx-auto rounded-lg'
