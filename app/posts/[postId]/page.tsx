@@ -15,7 +15,7 @@ const PortfolioBlogUI = () => {
   console.log(posts);
 
   useEffect(() => {
-    setPost(posts.find((post: Post) => post.id === postId));
+    setPost(posts.find((post: Post) => post._id === postId));
     setLoading(false);
     console.log(post);
   }, [posts, postId]);

@@ -10,17 +10,18 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import Link from 'next/link';
 
 const PostPreview = ({
+  _id,
   title,
   subTitle,
   author,
   date,
   profileImage,
   timeToRead,
-}: Omit<Post, 'content' | '_id'>) => {
+}: Omit<Post, 'content'>) => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <Link href={'/post'}>
+    <Link href={`/post/${_id}`}>
       <div
         className={
           'w-full post-preview mb-12 p-5 pb-10 bg-gray-100 text-black max-w-3xl mx-auto rounded-lg'

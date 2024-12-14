@@ -56,6 +56,7 @@ const BlogList = () => {
               post._id && (
                 <li key={post._id}>
                   <PostPreview
+                    _id={post._id}
                     title={post.title}
                     subTitle={post.subTitle}
                     author={post.author}
