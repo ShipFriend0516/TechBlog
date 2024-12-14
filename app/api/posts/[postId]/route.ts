@@ -2,10 +2,12 @@
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 
-export async function GET(req: Request) {
+export async function GET(
+  req: Request,
+  { params }: { params: { postId: string } }
+) {
   try {
-    const { searchParams } = new URL(req.url);
-    const _id = searchParams.get('_id');
+    const _id = params.postId;
     if (!_id) {
       return Response.json({
         success: false,
