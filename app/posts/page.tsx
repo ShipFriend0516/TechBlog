@@ -46,7 +46,9 @@ const BlogList = () => {
       <h1 className={'text-4xl text-center font-bold mt-8'}>발행된 글</h1>
       <ul className={'w-full post-list my-12 px-4'}>
         {loading ? (
-          <LoadingIndicator />
+          <div className={'w-1/3'}>
+            <LoadingIndicator />
+          </div>
         ) : (
           posts &&
           posts.map(
