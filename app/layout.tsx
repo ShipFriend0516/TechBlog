@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'My Blog',
+  title: 'Oracion Blog',
   description: '나의 개인 블로그!',
   icons: {
     icon: '/favicon.ico',
@@ -35,7 +35,7 @@ export default function RootLayout({
         className={`dark ${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col justify-between`}
       >
         <NavBar />
-        <>{children}</>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>
