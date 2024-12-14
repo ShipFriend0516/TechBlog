@@ -21,10 +21,10 @@ const PostPreview = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <Link href={`/posts/${_id}`}>
+    <Link href={`/posts/${_id}`} className={' mx-auto '}>
       <div
         className={
-          'w-full post-preview mb-12 p-5 pb-10 bg-gray-100 text-black max-w-3xl mx-auto rounded-lg'
+          'w-full post-preview mb-12 p-5 pb-10 bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-200'
         }
       >
         <div

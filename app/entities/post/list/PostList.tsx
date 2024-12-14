@@ -5,7 +5,7 @@ import profile from '@/app/public/profile.jpg';
 
 const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
   return (
-    <ul className={'w-full post-list my-12 px-4'}>
+    <ul className={'max-w-3xl mx-auto post-list my-12 px-4'}>
       {props.loading ? (
         <div className={'mx-auto w-1/3 h-full pt-20'}>
           <LoadingIndicator message={'발행된 글을 로딩 중입니다..'} />
