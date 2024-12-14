@@ -16,7 +16,7 @@ const PostPreview = ({
   date,
   profileImage,
   timeToRead,
-}: Omit<Post, 'content'>) => {
+}: Omit<Post, 'content' | '_id'>) => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
