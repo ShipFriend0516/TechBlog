@@ -34,7 +34,7 @@ const BlogList = () => {
     const data = await response.data;
     setPosts(data.posts);
     console.log(data.posts);
-    // setLoading(false);
+    setLoading(false);
   };
 
   useEffect(() => {
