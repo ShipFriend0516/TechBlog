@@ -34,7 +34,7 @@ const BlogList = () => {
     const data = await response.data;
     setPosts(data.posts);
     console.log(data.posts);
-    setLoading(false);
+    // setLoading(false);
   };
 
   useEffect(() => {
@@ -46,8 +46,8 @@ const BlogList = () => {
       <h1 className={'text-4xl text-center font-bold mt-8'}>발행된 글</h1>
       <ul className={'w-full post-list my-12 px-4'}>
         {loading ? (
-          <div className={'w-1/3'}>
-            <LoadingIndicator />
+          <div className={'mx-auto w-1/3 h-full pt-20'}>
+            <LoadingIndicator message={'블로그를 로딩 중입니다..'} />
           </div>
         ) : (
           posts &&
