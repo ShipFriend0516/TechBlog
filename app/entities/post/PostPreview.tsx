@@ -38,14 +38,14 @@ const PostPreview = ({
           )}
           <Image
             src={example}
+            priority={true}
             alt={'dd'}
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            width={500}
+            height={300}
             className={`bg-cover w-full h-full transition-opacity duration-300 ${
               isLoading ? 'opacity-0' : 'opacity-100'
             }`}
-            onLoadingComplete={() => setIsLoading(false)}
+            onLoad={() => setIsLoading(false)}
           />
         </div>
         <div className={'h-1/3 flex flex-col gap-4 py-5 p-2'}>
