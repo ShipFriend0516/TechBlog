@@ -2,7 +2,7 @@ import Post from '@/app/models/Post';
 import dbConnect from '@/app/lib/dbConnect';
 
 // GET /api/posts - 모든 글 조회
-export async function GET(req: Request) {
+export async function GET() {
   try {
     await dbConnect();
     const posts = await Post.find({}).lean();

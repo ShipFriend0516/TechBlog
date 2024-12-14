@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import PostHeader from '@/app/entities/post/detail/PostHeader';
 import PostBody from '@/app/entities/post/detail/PostBody';
 import example2 from '@/app/public/thumbnail_example2.jpg';
-import { posts } from '@/app/constants/posts';
 import { useParams } from 'next/navigation';
 import { Post } from '@/app/types/Post';
 import { getPostDetail } from '@/app/entities/post/api/postAPI';
@@ -15,7 +14,7 @@ const PortfolioBlogUI = () => {
 
   useEffect(() => {
     getPostDetailRequest();
-  }, [posts, postId]);
+  }, [postId]);
 
   const getPostDetailRequest = async () => {
     const data = await getPostDetail(postId as string);
