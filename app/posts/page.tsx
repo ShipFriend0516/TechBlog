@@ -12,7 +12,6 @@ const BlogList = () => {
     const response = await axios.get('/api/posts');
     const data = await response.data;
     setPosts(data.posts);
-    console.log(data.posts);
     setLoading(false);
   };
 
