@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import PostHeader from '@/app/entities/post/PostHeader';
-import PostBody from '@/app/entities/post/PostBody';
+import PostHeader from '@/app/entities/post/detail/PostHeader';
+import PostBody from '@/app/entities/post/detail/PostBody';
 import example2 from '@/app/public/thumbnail_example2.jpg';
 import { posts } from '@/app/constants/posts';
 import { useParams } from 'next/navigation';
