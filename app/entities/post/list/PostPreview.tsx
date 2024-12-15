@@ -24,7 +24,7 @@ const PostPreview = ({
     <Link href={`/posts/${_id}`} className={' mx-auto '}>
       <div
         className={
-          'w-full post-preview mb-12 p-5 pb-10 bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-200'
+          'w-full post-preview mb-12 p-5 pb-10 bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gray-200/50'
         }
       >
         <div
