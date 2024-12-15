@@ -11,7 +11,7 @@ const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
       }
     >
       {props.loading ? (
-        <div className={'mx-auto col-span-2 w-1/3 h-full pt-20'}>
+        <div className={'mx-auto col-span-3 w-1/3 h-full pt-20'}>
           <LoadingIndicator message={'발행된 글을 로딩 중입니다..'} />
         </div>
       ) : (
