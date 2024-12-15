@@ -9,19 +9,23 @@ import { BiCommentDetail } from 'react-icons/bi';
 import { IoSettingsSharp } from 'react-icons/io5';
 import Link from 'next/link';
 import GithubLogin from '@/app/entities/common/Button/GithubLogin';
+import BubbleBackground from '@/app/entities/common/Background/BubbleBackground';
 
 const AdminDashboard = () => {
   const { data: session } = useSession();
 
   if (!session) {
     return (
-      <header className="mb-8 h-96 flex flex-col gap-4 justify-center items-center">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">관리자 대시보드</h1>
-          <p className="text-gray-200">로그인이 필요한 기능입니다.</p>
-        </div>
-        <GithubLogin signIn={signIn} />
-      </header>
+      <>
+        <BubbleBackground />
+        <header className="mb-8 h-96 flex flex-col gap-4 justify-center items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">관리자 대시보드</h1>
+            <p className="text-gray-200">로그인이 필요한 기능입니다.</p>
+          </div>
+          <GithubLogin signIn={signIn} />
+        </header>
+      </>
     );
   }
 
