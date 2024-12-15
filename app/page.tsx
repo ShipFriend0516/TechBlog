@@ -1,7 +1,29 @@
+'use client';
 import Image from 'next/image';
-import profileBackground from '@/app/public/profile-background.webp';
+import profileBackground from '@/app/public/plane.jpg';
+import profile from '@/app/public/profile.jpg';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { Post } from '@/app/types/Post';
+import axios from 'axios';
+import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
+import Link from 'next/link';
 
 export default function Home() {
+  const [posts, setPosts] = useState<Post[]>();
+  const [loading, setLoading] = useState(true);
+
+  const getPosts = async () => {
+    const response = await axios.get('/api/posts');
+    const data = await response.data;
+    setPosts(data.posts);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-8">
       {/* Hero Section */}
@@ -31,7 +53,7 @@ export default function Home() {
           <Image
             width={500}
             height={400}
-            src="/api/placeholder/600/400"
+            src={profile}
             alt="About image"
             className="object-cover w-full h-full bg-gray-500"
           />
@@ -44,10 +66,17 @@ export default function Home() {
             학습과 성장을 추구합니다.
           </p>
           <div className="flex gap-4">
-            {/*<Github className="w-5 h-5 text-gray-200 hover:text-gray-900 cursor-pointer" />*/}
-            {/*<Twitter className="w-5 h-5 text-gray-200 hover:text-gray-900 cursor-pointer" />*/}
-            {/*<Linkedin className="w-5 h-5 text-gray-200 hover:text-gray-900 cursor-pointer" />*/}
-            {/*<Mail className="w-5 h-5 text-gray-200 hover:text-gray-900 cursor-pointer" />*/}
+            <a href={'https://github.com/ShipFriend0516'} target={'_blank'}>
+              <FaGithub className="w-5 h-5 text-gray-200 hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
+            </a>
+            <a
+              href={
+                'https://www.linkedin.com/in/%EC%A0%95%EC%9A%B0-%EC%84%9C-9a0b79312/'
+              }
+              target={'_blank'}
+            >
+              <FaLinkedin className="w-5 h-5 text-gray-200 hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
+            </a>
           </div>
         </div>
       </section>
@@ -56,25 +85,32 @@ export default function Home() {
       <section className="grid gap-6">
         <h2 className="text-2xl font-semibold">Latest Articles</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="group cursor-pointer">
-              <div className="relative h-48 mb-4 overflow-hidden rounded-lg">
-                <Image
-                  width={500}
-                  height={400}
-                  src={`/api/placeholder/400/${300 + i}`}
-                  alt={`Article ${i}`}
-                  className="object-cover w-full h-full transition-transform group-hover:scale-105 bg-gray-500"
-                />
-              </div>
-              <h3 className="font-medium mb-2">
-                How to improve your coding skills
-              </h3>
-              <p className="text-sm text-gray-200">
-                Tips and tricks for becoming a better developer
-              </p>
-            </div>
-          ))}
+          {loading ? (
+            <LoadingIndicator />
+          ) : (
+            posts &&
+            posts.slice(0, 3).map((post) => (
+              <Link
+                href={`/posts/${post._id}`}
+                key={post._id}
+                className="group cursor-pointer"
+              >
+                <div className="relative h-48 mb-4 overflow-hidden rounded-lg">
+                  <Image
+                    width={500}
+                    height={400}
+                    src={post.thumbnailImage || ''}
+                    alt={`Article ${post.title}`}
+                    className="object-center bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform group-hover:scale-105 bg-gray-500"
+                  />
+                </div>
+                <h3 className="font-medium mb-2">{post.title}</h3>
+                <p className="text-sm text-gray-200">
+                  {post.subTitle && post.subTitle.slice(0, 80)}
+                </p>
+              </Link>
+            ))
+          )}
         </div>
       </section>
     </main>

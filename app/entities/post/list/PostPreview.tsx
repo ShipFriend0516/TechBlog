@@ -24,7 +24,7 @@ const PostPreview = ({
     <Link href={`/posts/${_id}`} className={' mx-auto '}>
       <div
         className={
-          'w-full post-preview mb-12 p-5 pb-10 bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-200'
+          'w-full post-preview p-5 pb-8 bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gray-200/50'
         }
       >
         <div
@@ -51,7 +51,7 @@ const PostPreview = ({
         </div>
         <div className={'h-1/3 flex flex-col gap-4 py-5 p-2'}>
           <h2 className={'font-bold text-2xl'}>{title}</h2>
-          <p>{subTitle ? subTitle.slice(0, 100) + '...' : ''}</p>
+          <p>{subTitle ? subTitle.slice(0, 80) + '...' : ''}</p>
           <div className={'inline-flex justify-between w-full'}>
             <Profile profileThumbnail={profileImage} username={author} />
             <Timestamp date={date} />
