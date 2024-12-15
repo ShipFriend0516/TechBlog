@@ -1,5 +1,5 @@
 'use client';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 import { RiFileTextLine } from 'react-icons/ri';
 import { BiFolder } from 'react-icons/bi';
@@ -7,6 +7,8 @@ import { HiBookOpen } from 'react-icons/hi';
 import { FaChartBar } from 'react-icons/fa';
 import { BiCommentDetail } from 'react-icons/bi';
 import { IoSettingsSharp } from 'react-icons/io5';
+import Link from 'next/link';
+import GithubLogin from '@/app/entities/common/Button/GithubLogin';
 
 const AdminDashboard = () => {
   const { data: session } = useSession();
@@ -14,12 +16,7 @@ const AdminDashboard = () => {
   if (!session) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <button
-          className="px-8 py-2 text-2xl bg-black text-white rounded-md shadow-md hover:bg-gray-800 transition-all"
-          onClick={() => signIn('github')}
-        >
-          GitHub로 로그인
-        </button>
+        <GithubLogin signIn={signIn} />
       </div>
     );
   }
@@ -71,16 +68,25 @@ const AdminDashboard = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">관리자 대시보드</h1>
-        <p className="text-gray-200">{session.user?.name}님, 환영합니다</p>
+      <header className="mb-8 flex justify-between">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">관리자 대시보드</h1>
+          <p className="text-gray-200">{session.user?.name}님, 환영합니다</p>
+        </div>
+        <button
+          className="right-0 px-4 py-1 bg-red-500 text-white rounded-md shadow-md hover:bg-red-700 transition-all"
+          onClick={() => signOut()}
+        >
+          로그아웃
+        </button>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {dashboardItems.map((item, index) => (
-          <a
+          <Link
             key={index}
             href={item.link}
+            prefetch={false}
             className={`${item.bgColor} p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
           >
             <div className="flex items-center mb-4">
@@ -90,7 +96,7 @@ const AdminDashboard = () => {
               <h2 className="text-xl font-semibold ml-3">{item.title}</h2>
             </div>
             <p className="text-gray-200">{item.description}</p>
-          </a>
+          </Link>
         ))}
       </div>
 
