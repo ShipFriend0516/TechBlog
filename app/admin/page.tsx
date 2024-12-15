@@ -1,6 +1,23 @@
+'use client';
 import HoverButton from '@/app/entities/common/HoverButton';
+import { signIn, useSession } from 'next-auth/react';
 
 const AdminPage = () => {
+  const { data: session } = useSession();
+
+  if (!session) {
+    return (
+      <button
+        className={
+          'px-8 py-2 text-2xl bg-black mx-auto my-20 text-white rounded-md shadow-md'
+        }
+        onClick={() => signIn('github')}
+      >
+        GitHub로 로그인
+      </button>
+    );
+  }
+
   return (
     <section className={'py-6'}>
       <h2 className={'text-3xl text-center'}>관리자 페이지</h2>
