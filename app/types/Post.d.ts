@@ -10,6 +10,7 @@ interface Post {
   content: string;
   comment?: string[];
   profileImage?: string | StaticImport;
+  thumbnailImage?: string | StaticImport;
 }
 
 export { Post };
