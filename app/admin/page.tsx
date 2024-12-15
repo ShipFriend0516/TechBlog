@@ -1,44 +1,111 @@
 'use client';
-import HoverButton from '@/app/entities/common/HoverButton';
 import { signIn, useSession } from 'next-auth/react';
 
-const AdminPage = () => {
+import { RiFileTextLine } from 'react-icons/ri';
+import { BiFolder } from 'react-icons/bi';
+import { HiBookOpen } from 'react-icons/hi';
+import { FaChartBar } from 'react-icons/fa';
+import { BiCommentDetail } from 'react-icons/bi';
+import { IoSettingsSharp } from 'react-icons/io5';
+
+const AdminDashboard = () => {
   const { data: session } = useSession();
 
   if (!session) {
     return (
-      <button
-        className={
-          'px-8 py-2 text-2xl bg-black mx-auto my-20 text-white rounded-md shadow-md'
-        }
-        onClick={() => signIn('github')}
-      >
-        GitHub로 로그인
-      </button>
+      <div className="flex justify-center items-center h-screen">
+        <button
+          className="px-8 py-2 text-2xl bg-black text-white rounded-md shadow-md hover:bg-gray-800 transition-all"
+          onClick={() => signIn('github')}
+        >
+          GitHub로 로그인
+        </button>
+      </div>
     );
   }
 
+  const dashboardItems = [
+    {
+      title: '블로그 포스트 작성',
+      icon: <RiFileTextLine />,
+      description: '새로운 글을 작성합니다.',
+      bgColor: 'bg-blue-950/20', // 짙은 파란색의 투명도 적용
+      link: '/admin/write',
+    },
+    {
+      title: '프로젝트 관리',
+      icon: <BiFolder />,
+      description: '포트폴리오 프로젝트를 관리합니다.',
+      bgColor: 'bg-yellow-950/20', // 짙은 노란색의 투명도 적용
+      link: '/admin/portfolio',
+    },
+    {
+      title: '게시글 수정/삭제',
+      icon: <HiBookOpen />,
+      description: '기존 게시글을 관리합니다.',
+      bgColor: 'bg-green-950/20', // 짙은 초록색의 투명도 적용
+      link: '/admin/posts',
+    },
+    {
+      title: '방문자 및 조회수 분석',
+      icon: <FaChartBar />,
+      description: '블로그 통계를 확인합니다.',
+      bgColor: 'bg-purple-950/20', // 짙은 보라색의 투명도 적용
+      link: '/admin/analytics',
+    },
+    {
+      title: '댓글 확인 및 관리',
+      icon: <BiCommentDetail />,
+      description: '댓글을 관리합니다.',
+      bgColor: 'bg-pink-950/20', // 짙은 분홍색의 투명도 적용
+      link: '/admin/comments',
+    },
+    {
+      title: '블로그 설정 관리',
+      icon: <IoSettingsSharp />,
+      description: '블로그 설정을 변경합니다.',
+      bgColor: 'bg-gray-800/20', // 짙은 회색의 투명도 적용
+      link: '/admin/settings',
+    },
+  ];
+
   return (
-    <section className={'py-6'}>
-      <h2 className={'text-3xl text-center'}>관리자 페이지</h2>
-      <div className={'w-full inline-flex justify-center'}>
-        <HoverButton
-          className={
-            'w-1/4 h-1/4 m-10 shadow hover:shadow-xl text-black text-2xl aspect-square bg-blue-200 p-10 hover:rounded-3xl transition-slow'
-          }
-          defaultText={'블로그 업로드'}
-          hoverText={'새로운 글을 작성합니다.'}
-        />
-        <HoverButton
-          className={
-            'w-1/4 h-1/4 m-10 shadow hover:shadow-xl text-black text-2xl aspect-square bg-amber-200 p-10 hover:rounded-3xl transition-slow'
-          }
-          defaultText={'포트폴리오 업로드'}
-          hoverText={'새로운 포트폴리오 프로젝트를 업로드합니다.'}
-        />
+    <div className="p-6 max-w-7xl mx-auto">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">관리자 대시보드</h1>
+        <p className="text-gray-200">{session.user?.name}님, 환영합니다</p>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+        {dashboardItems.map((item, index) => (
+          <a
+            key={index}
+            href={item.link}
+            className={`${item.bgColor} p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
+          >
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-white rounded-lg shadow-sm">
+                {item.icon}
+              </div>
+              <h2 className="text-xl font-semibold ml-3">{item.title}</h2>
+            </div>
+            <p className="text-gray-200">{item.description}</p>
+          </a>
+        ))}
       </div>
-    </section>
+
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold mb-4">최근 활동</h3>
+          {/* 여기에 최근 활동 목록 추가 */}
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold mb-4">빠른 통계</h3>
+          {/* 여기에 간단한 통계 추가 */}
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default AdminPage;
+export default AdminDashboard;
