@@ -7,7 +7,7 @@ interface Props {
 
 const PostBody = ({ content, loading }: Props) => {
   return (
-    <div className={'post-body px-4 py-16 pb-20 whitespace-pre-wrap'}>
+    <div className={'post-body px-4 py-16 pb-52 whitespace-pre-wrap'}>
       {loading ? <LoadingIndicator /> : content}
     </div>
   );
