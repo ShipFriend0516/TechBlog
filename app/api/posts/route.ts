@@ -5,12 +5,15 @@ import dbConnect from '@/app/lib/dbConnect';
 export async function GET() {
   try {
     await dbConnect();
-    const posts = await Post.find({}).lean();
+    const posts = await Post.find({}).sort({ createdAt: -1 }).lean();
 
-    return Response.json({ success: true, posts: posts.reverse() });
+    return Response.json({ success: true, posts: posts });
   } catch (error) {
     console.error(error);
-    return Response.json({ success: false, error: 'Cannot Find Posts' });
+    return Response.json(
+      { success: false, error: '포스트 목록 불러오기 실패', detail: error },
+      { status: 500 }
+    );
   }
 }
 //
