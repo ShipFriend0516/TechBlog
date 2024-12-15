@@ -31,7 +31,7 @@ const PortfolioBlogUI = () => {
           author={post?.author || ''}
           date={post?.date || 0}
           timeToRead={post?.timeToRead || 0}
-          backgroundThumbnail={example2}
+          backgroundThumbnail={post?.thumbnailImage || example2}
         />
         <PostBody loading={loading} content={post ? post.content : ''} />
       </article>

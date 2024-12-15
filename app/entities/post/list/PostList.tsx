@@ -24,6 +24,7 @@ const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
                   date={post.date}
                   timeToRead={post.timeToRead}
                   profileImage={profile}
+                  thumbnailImage={post.thumbnailImage}
                 />
               </li>
             )

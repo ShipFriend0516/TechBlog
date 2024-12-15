@@ -16,6 +16,7 @@ const PostPreview = ({
   author,
   date,
   profileImage,
+  thumbnailImage,
 }: Omit<Post, 'content'>) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -37,12 +38,12 @@ const PostPreview = ({
             </div>
           )}
           <Image
-            src={example}
+            src={thumbnailImage || example}
             priority={true}
             alt={'dd'}
             width={500}
             height={300}
-            className={`bg-cover w-full h-full transition-opacity duration-300 ${
+            className={`object-cover bg-cover w-full h-full transition-opacity duration-300 ${
               isLoading ? 'opacity-0' : 'opacity-100'
             }`}
             onLoad={() => setIsLoading(false)}

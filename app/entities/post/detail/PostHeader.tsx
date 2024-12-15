@@ -75,6 +75,8 @@ const PostHeader = ({
         <div className={'image-container absolute -z-10 w-full top-0 blur'}>
           <Image
             className={'w-full'}
+            width={1024}
+            height={720}
             src={backgroundThumbnail}
             alt={'Post Thumbnail'}
           />

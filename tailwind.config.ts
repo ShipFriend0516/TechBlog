@@ -17,9 +17,28 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0' },
         },
+        float: {
+          '0%': {
+            transform: 'translateY(0) scale(0)',
+            opacity: '0',
+          },
+          '20%': {
+            transform: 'translateY(-20vh) scale(1)',
+            opacity: '0.1',
+          },
+          '80%': {
+            transform: 'translateY(-80vh) scale(1)',
+            opacity: '0.1',
+          },
+          '100%': {
+            transform: 'translateY(-100vh) scale(1)',
+            opacity: '0',
+          },
+        },
       },
       animation: {
         blink: 'blink 1s ease-in-out infinite',
+        float: 'float 10s ease-in-out infinite',
       },
     },
   },
