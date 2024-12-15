@@ -35,6 +35,11 @@ const postSchema = new Schema(
       type: String,
       required: false,
     },
+    thumbnailImage: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   {
     timestamps: true, // createdAt, updatedAt 자동 생성

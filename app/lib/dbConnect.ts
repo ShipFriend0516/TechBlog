@@ -8,9 +8,9 @@ declare global {
   };
 }
 
-const MONGODB_URI = process.env.DB_URI!;
+const MONGODB_URI = process.env.DB_URI;
 
-if (!MONGODB_URI) {
+if (!MONGODB_URI && process.env.NODE_ENV !== 'production') {
   throw new Error('MongoDB URI가 없습니다. 환경변수를 설정해주세요.');
 }
 
@@ -46,7 +46,7 @@ async function dbConnect(): Promise<Mongoose> {
       bufferCommands: true,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
       return mongoose;
     });
   }
