@@ -17,7 +17,7 @@ interface BlogFormProps {
 }
 
 const BlogForm = ({ postBlog }: BlogFormProps) => {
-  const [submitLoading, setSubmitLoading] = useState<boolean>(true);
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const buttonStyle = `font-bold py-2 px-4 rounded mr-2 `;
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
