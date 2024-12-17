@@ -21,14 +21,18 @@ const PostBody = ({ content, loading }: Props) => {
           }}
           className={'post-body px-4 py-16 pb-52 whitespace-pre-wrap'}
           source={content}
-          rehypeRewrite={(node, index, parent) => {
-            if (
-              node.tagName === 'a' &&
-              parent &&
-              /^h(1|2|3|4|5|6)/.test(parent.tagName)
-            ) {
-              parent.children = parent.children.slice(1);
-            }
+          // rehypeRewrite={(node, index, parent) => {
+          //   if (
+          //     'tagName' in node &&
+          //     node.tagName === 'a' &&
+          //     parent &&
+          //     /^h(1|2|3|4|5|6)/.test('tagName' in parent ? parent.tagName : '')
+          //   ) {
+          //     parent.children = parent.children.slice(1);
+          //   }
+          // }}
+          wrapperElement={{
+            'data-color-mode': 'dark',
           }}
         />
       )}
