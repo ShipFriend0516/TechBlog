@@ -1,7 +1,6 @@
 'use client';
 import { useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
-import GithubLogin from '@/app/entities/common/Button/GithubLogin';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
