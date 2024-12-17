@@ -12,5 +12,6 @@ interface Post {
   profileImage?: string | StaticImport;
   thumbnailImage?: string | StaticImport;
 }
+type PostBody = Omit<Post, '_id' | 'date' | 'timeToRead' | 'comment'>;
 
-export { Post };
+export { Post, PostBody };

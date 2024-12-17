@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@uiw/react-md-editor": "^4.0.4",
     "@vercel/blob": "^0.27.0",
     "axios": "^1.7.9",
     "mongoose": "^8.9.0",

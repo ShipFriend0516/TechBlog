@@ -1,4 +1,5 @@
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
+import MDEditor from '@uiw/react-md-editor';
 
 interface Props {
   content: string;
@@ -7,8 +8,24 @@ interface Props {
 
 const PostBody = ({ content, loading }: Props) => {
   return (
-    <div className={'post-body px-4 py-16 pb-52 whitespace-pre-wrap'}>
-      {loading ? <LoadingIndicator /> : content}
+    <div className={'w-full  '}>
+      {loading ? (
+        <div className={'w-1/3 mx-auto'}>
+          <LoadingIndicator />
+        </div>
+      ) : (
+        <MDEditor.Markdown
+          style={{
+            backgroundColor: 'var(--background)',
+            color: 'var(--text-primary)',
+          }}
+          className={'post-body px-4 py-16 pb-52 whitespace-pre-wrap'}
+          source={content}
+          wrapperElement={{
+            'data-color-mode': 'dark',
+          }}
+        />
+      )}
     </div>
   );
 };
