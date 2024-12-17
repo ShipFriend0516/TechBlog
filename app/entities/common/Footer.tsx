@@ -82,7 +82,8 @@ const Footer = () => {
         </div>
       </section>
       <p className="text-center text-sm text-gray-600 p-2">
-        © 2024 Seo Jeongwoo. All rights reserved.
+        © 2024
+        <a href={'/admin'}> Seo Jeongwoo.</a> All rights reserved.
       </p>
     </footer>
   );
