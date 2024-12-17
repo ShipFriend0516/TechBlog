@@ -9,6 +9,8 @@ const BlogWritePage = () => {
   const postBlog = async (post: PostBody) => {
     try {
       const response = await axios.post('/api/posts', post);
+      const data = await response.data;
+      console.log('글 발행 결과', data);
     } catch (e) {
       console.error('글 발행 중 오류 발생', e);
     }
