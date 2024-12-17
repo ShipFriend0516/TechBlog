@@ -1,3 +1,4 @@
+'use client';
 import BlogForm from '@/app/entities/post/write/BlogForm';
 import axios from 'axios';
 import { Post } from '@/app/types/Post';
@@ -16,7 +17,7 @@ const BlogWritePage = () => {
   return (
     <section className={'pt-4'}>
       <h1 className={'text-3xl text-center mb-4'}>글 작성</h1>
-      <BlogForm onSubmit={postBlog} />
+      <BlogForm postBlog={postBlog} />
     </section>
   );
 };
