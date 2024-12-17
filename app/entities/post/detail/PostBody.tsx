@@ -10,7 +10,7 @@ const PostBody = ({ content, loading }: Props) => {
   return (
     <div className={'w-full  '}>
       {loading ? (
-        <div className={'w-1/2 mx-auto'}>
+        <div className={'w-1/3 mx-auto'}>
           <LoadingIndicator />
         </div>
       ) : (
