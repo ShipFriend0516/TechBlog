@@ -9,6 +9,7 @@ import Link from 'next/link';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import LoadingSpinner from '@/app/entities/common/Loading/LoadingSpinner';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -18,13 +19,13 @@ interface BlogFormProps {
 
 const BlogForm = ({ postBlog }: BlogFormProps) => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
-  const buttonStyle = `font-bold py-2 px-4 rounded mr-2 `;
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
   const [content, setContent] = useState<string | undefined>('');
   const [profileImage, setProfileImage] = useState<string | StaticImport>();
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
   const [errors, setErrors] = useState<string[]>([]);
+  const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
 
   // 필요할 때 객체로 조합
   const postBody: PostBody = {
@@ -88,7 +89,6 @@ const BlogForm = ({ postBlog }: BlogFormProps) => {
       postBlog(post);
     } catch (e) {
       console.error('글 발행 중 오류 발생', e);
-    } finally {
       setSubmitLoading(false);
     }
   };
@@ -140,7 +140,7 @@ const BlogForm = ({ postBlog }: BlogFormProps) => {
             submitHandler(postBody);
           }}
         >
-          글 발행
+          {submitLoading ? <LoadingSpinner /> : '글 발행'}
         </button>
       </div>
     </div>
