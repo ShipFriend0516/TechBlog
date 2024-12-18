@@ -12,3 +12,7 @@ export const getPostDetail = async (
 
   return response.data;
 };
+
+export const deletePost = async (postId: string) => {
+  return await axios.delete(`/api/posts/${postId}`);
+};
