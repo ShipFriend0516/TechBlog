@@ -2,12 +2,15 @@
 import BlogForm from '@/app/entities/post/write/BlogForm';
 import axios from 'axios';
 import { Post } from '@/app/types/Post';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 type PostBody = Omit<Post, '_id' | 'date' | 'timeToRead' | 'comment'>;
 
 const BlogWritePage = () => {
   const router = useRouter();
+  const params = useSearchParams();
+  const postId = params.get('postId');
+
   const postBlog = async (post: PostBody) => {
     try {
       const response = await axios.post('/api/posts', post);
@@ -24,7 +27,7 @@ const BlogWritePage = () => {
   return (
     <section className={'pt-4'}>
       <h1 className={'text-3xl text-center mb-4'}>글 작성</h1>
-      <BlogForm postBlog={postBlog} />
+      <BlogForm postBlog={postBlog} postId={postId || null} />
     </section>
   );
 };
