@@ -81,8 +81,8 @@ const PostHeader = ({
         >
           <Image
             className={'w-full h-full'}
-            width={720}
-            height={400}
+            width={480}
+            height={300}
             src={backgroundThumbnail}
             alt={'Post Thumbnail'}
           />
