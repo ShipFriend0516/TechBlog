@@ -11,6 +11,7 @@ import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import LoadingSpinner from '@/app/entities/common/Loading/LoadingSpinner';
 import axios from 'axios';
+import useToast from '@/app/hooks/useToast';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -27,7 +28,9 @@ const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
   const [profileImage, setProfileImage] = useState<string | StaticImport>();
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
   const [errors, setErrors] = useState<string[]>([]);
+  const toast = useToast();
   const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
+  const NICKNAME = '개발자 서정우';
 
   useEffect(() => {
     if (postId) {
@@ -35,11 +38,10 @@ const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
     }
   }, [postId]);
 
-  // 필요할 때 객체로 조합
   const postBody: PostBody = {
     title,
     subTitle,
-    author: '개발자 서정우',
+    author: NICKNAME,
     content: content || '',
     profileImage,
     thumbnailImage,
@@ -90,6 +92,7 @@ const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
       setSubmitLoading(true);
       const { isValid, errors } = validatePost(post);
       if (!isValid) {
+        toast.error('유효성 검사 실패');
         console.error('유효성 검사 실패', errors);
         return;
       }
