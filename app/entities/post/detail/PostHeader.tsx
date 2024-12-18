@@ -44,7 +44,11 @@ const PostHeader = ({
   }, [title]);
 
   return (
-    <div className={'post-header relative overflow-hidden w-full text-center'}>
+    <div
+      className={
+        'post-header h-[292px] relative overflow-hidden w-full text-center'
+      }
+    >
       <h1 className={'post-title pt-20'}>
         {displayTitle}
         {!isTypingComplete && (
@@ -72,13 +76,18 @@ const PostHeader = ({
         <span className={'post-time-to-read mx-2'}>{timeToRead} min read</span>
       </div>
       {backgroundThumbnail && (
-        <div className={'image-container absolute -z-10 w-full top-0 blur'}>
+        <div
+          className={'image-container h-full absolute -z-10 w-full top-0 blur'}
+        >
           <Image
-            className={'w-full'}
-            width={1024}
-            height={720}
+            className={'w-full h-full'}
+            width={480}
+            height={300}
             src={backgroundThumbnail}
-            alt={'Post Thumbnail'}
+            alt={`${title} Thumbnail`}
+            loading={'eager'}
+            priority={true}
+            placeholder={'empty'}
           />
         </div>
       )}

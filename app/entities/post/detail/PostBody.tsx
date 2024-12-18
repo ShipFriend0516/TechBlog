@@ -8,7 +8,7 @@ interface Props {
 
 const PostBody = ({ content, loading }: Props) => {
   return (
-    <div className={'w-full  '}>
+    <div className={'w-full post-body px-4 py-16 pb-52 min-h-[500px]'}>
       {loading ? (
         <div className={'w-1/3 mx-auto'}>
           <LoadingIndicator />
@@ -19,7 +19,7 @@ const PostBody = ({ content, loading }: Props) => {
             backgroundColor: 'var(--background)',
             color: 'var(--text-primary)',
           }}
-          className={'post-body px-4 py-16 pb-52 whitespace-pre-wrap'}
+          className={''}
           source={content}
           wrapperElement={{
             'data-color-mode': 'dark',
