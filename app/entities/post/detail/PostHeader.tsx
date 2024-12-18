@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Profile from '@/app/entities/common/Profile';
 import profile from '@/app/public/profile.jpg';
+import { FaBook } from 'react-icons/fa';
 
 interface Props {
   title: string;
@@ -46,17 +47,17 @@ const PostHeader = ({
   return (
     <div
       className={
-        'post-header h-[292px] relative overflow-hidden w-full text-center'
+        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center'
       }
     >
-      <h1 className={'post-title pt-20'}>
+      <h1 className={'font-bold mb-4 pt-10 md:pt-20 text-3xl lg:text-5xl'}>
         {displayTitle}
         {!isTypingComplete && (
           <span className="inline-block w-1 h-6 ml-1 bg-black animate-blink" />
         )}
       </h1>
       <h2
-        className={`post-subtitle transition-opacity duration-500 ${
+        className={`md:text-2xl font-bold mb-4 transition-opacity duration-500 ${
           isTypingComplete ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -73,7 +74,12 @@ const PostHeader = ({
         <span className={'post-date'}>
           {new Date(date).toLocaleDateString('ko-KR')}
         </span>
-        <span className={'post-time-to-read mx-2'}>{timeToRead} min read</span>
+        <span
+          className={'post-time-to-read mx-2 inline-flex items-center gap-2'}
+        >
+          <FaBook />
+          {timeToRead} min read
+        </span>
       </div>
       {backgroundThumbnail && (
         <div
