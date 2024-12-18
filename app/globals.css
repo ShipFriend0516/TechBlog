@@ -63,22 +63,9 @@ article.post h6 {
 article.post .post-body {
   max-width: 768px;
   margin: 0 auto;
-  /*padding: 3rem 1.25rem;*/
   font-size: 1.1em;
   line-height: 150%;
 }
-
-/*article.post h1.post-title {*/
-/*  font-size: 3rem;*/
-/*  font-weight: bold;*/
-/*  margin-bottom: 1rem;*/
-/*}*/
-
-/*article.post h2 {*/
-/*  font-size: 1.5rem;*/
-/*  font-weight: bold;*/
-/*  margin-bottom: 1rem;*/
-/*}*/
 
 article.post h3 {
   font-size: 1.25rem;

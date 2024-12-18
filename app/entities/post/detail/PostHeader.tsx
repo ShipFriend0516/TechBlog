@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Profile from '@/app/entities/common/Profile';
 import profile from '@/app/public/profile.jpg';
+import { FaBook } from 'react-icons/fa';
 
 interface Props {
   title: string;
@@ -73,7 +74,12 @@ const PostHeader = ({
         <span className={'post-date'}>
           {new Date(date).toLocaleDateString('ko-KR')}
         </span>
-        <span className={'post-time-to-read mx-2'}>{timeToRead} min read</span>
+        <span
+          className={'post-time-to-read mx-2 inline-flex items-center gap-2'}
+        >
+          <FaBook />
+          {timeToRead} min read
+        </span>
       </div>
       {backgroundThumbnail && (
         <div
