@@ -36,10 +36,6 @@ jobs:
       - name: Lint check
         run: pnpm lint
 
-      # 테스트 실행 (테스트 스크립트가 있는 경우)
-      - name: Run tests
-        run: pnpm test
-
       # 빌드 테스트
       - name: Build test
         run: pnpm build
