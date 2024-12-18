@@ -35,7 +35,6 @@ const PortfolioBlogUI = () => {
         />
         <PostBody loading={loading} content={post ? post.content : ''} />
       </article>
-      <footer></footer>
     </section>
   );
 };
