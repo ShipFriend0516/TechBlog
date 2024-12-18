@@ -10,9 +10,18 @@ import { IoSettingsSharp } from 'react-icons/io5';
 import Link from 'next/link';
 import GithubLogin from '@/app/entities/common/Button/GithubLogin';
 import BubbleBackground from '@/app/entities/common/Background/BubbleBackground';
+import { useEffect } from 'react';
+import useToast from '@/app/hooks/useToast';
 
 const AdminDashboard = () => {
   const { data: session } = useSession();
+  const toast = useToast();
+
+  useEffect(() => {
+    if (session) {
+      toast.success('관리자 페이지에 오신 것을 환영합니다.');
+    }
+  }, []);
 
   if (!session) {
     return (

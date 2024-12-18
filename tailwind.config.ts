@@ -13,6 +13,16 @@ const config: Config = {
         foreground: 'var(--foreground)',
       },
       keyframes: {
+        slideUp: {
+          '0%': {
+            transform: 'translateY(100%)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+        },
         blink: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0' },
@@ -39,6 +49,7 @@ const config: Config = {
       animation: {
         blink: 'blink 1s ease-in-out infinite',
         float: 'float 10s ease-in-out infinite',
+        slideUp: 'slideUp 0.5s ease-out',
       },
     },
   },
