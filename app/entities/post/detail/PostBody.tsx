@@ -19,7 +19,7 @@ const PostBody = ({ content, loading }: Props) => {
             backgroundColor: 'var(--background)',
             color: 'var(--text-primary)',
           }}
-          className={'post-body px-4 py-16 pb-52 whitespace-pre-wrap'}
+          className={'post-body px-4 py-16 pb-52'}
           source={content}
           wrapperElement={{
             'data-color-mode': 'dark',
