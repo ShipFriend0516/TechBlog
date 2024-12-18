@@ -7,6 +7,7 @@ import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import { deletePost } from '@/app/entities/post/api/postAPI';
 import { useRouter } from 'next/navigation';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
+import useToast from '@/app/hooks/useToast';
 
 const AdminPostListPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -14,6 +15,7 @@ const AdminPostListPage = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const toast = useToast();
 
   useEffect(() => {
     getPosts();
@@ -27,6 +29,7 @@ const AdminPostListPage = () => {
   };
 
   const handleEdit = (postId: string) => {
+    toast.success('글 수정 페이지로 이동합니다.');
     router.push(`/admin/write?postId=${postId}`);
   };
 
@@ -43,9 +46,9 @@ const AdminPostListPage = () => {
 
     const response = await deletePost(selectedPost);
     if (response.status === 200) {
-      alert('삭제되었습니다.');
+      toast.success('삭제되었습니다.');
     } else {
-      alert('삭제에 실패했습니다.');
+      toast.error('삭제에 실패했습니다.');
     }
   };
 
