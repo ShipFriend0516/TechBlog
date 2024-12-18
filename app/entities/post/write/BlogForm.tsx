@@ -10,14 +10,16 @@ import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import LoadingSpinner from '@/app/entities/common/Loading/LoadingSpinner';
+import axios from 'axios';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 interface BlogFormProps {
   postBlog: (post: PostBody) => void;
+  postId: string | null;
 }
 
-const BlogForm = ({ postBlog }: BlogFormProps) => {
+const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
@@ -26,6 +28,12 @@ const BlogForm = ({ postBlog }: BlogFormProps) => {
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
   const [errors, setErrors] = useState<string[]>([]);
   const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
+
+  useEffect(() => {
+    if (postId) {
+      getPostDetail();
+    }
+  }, [postId]);
 
   // 필요할 때 객체로 조합
   const postBody: PostBody = {
@@ -93,6 +101,18 @@ const BlogForm = ({ postBlog }: BlogFormProps) => {
     }
   };
 
+  const getPostDetail = async () => {
+    try {
+      const response = await axios.get(`/api/posts/${postId}`);
+      const data = await response.data;
+      setTitle(data.post.title || 'dd');
+      setSubTitle(data.post.subTitle);
+      setContent(data.post.content);
+    } catch (e) {
+      console.error('글 조회 중 오류 발생', e);
+    }
+  };
+
   return (
     <div className={'px-16'}>
       <input
@@ -100,12 +120,14 @@ const BlogForm = ({ postBlog }: BlogFormProps) => {
         placeholder="제목"
         className="w-full p-2 border border-gray-300 rounded mb-4 text-black font-bold"
         onChange={(e) => setTitle(e.target.value)}
+        value={title}
       />
       <input
         type="text"
         placeholder="소제목"
         className="w-full p-2 border border-gray-300 rounded mb-4 text-black"
         onChange={(e) => setSubTitle(e.target.value)}
+        value={subTitle}
       />
       <MDEditor
         value={content}
@@ -140,7 +162,7 @@ const BlogForm = ({ postBlog }: BlogFormProps) => {
             submitHandler(postBody);
           }}
         >
-          {submitLoading ? <LoadingSpinner /> : '글 발행'}
+          {submitLoading ? <LoadingSpinner /> : postId ? '글 수정' : '글 발행'}
         </button>
       </div>
     </div>
