@@ -84,7 +84,10 @@ const PostHeader = ({
             width={480}
             height={300}
             src={backgroundThumbnail}
-            alt={'Post Thumbnail'}
+            alt={`${title} Thumbnail`}
+            loading={'eager'}
+            priority={true}
+            placeholder={'empty'}
           />
         </div>
       )}
