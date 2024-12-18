@@ -101,7 +101,7 @@ export default function Home() {
                     height={400}
                     src={post.thumbnailImage || ''}
                     alt={`Article ${post.title}`}
-                    className="object-center bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform group-hover:scale-105 bg-gray-500"
+                    className="object-cover bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform group-hover:scale-105 bg-gray-500"
                   />
                 </div>
                 <h3 className="font-medium mb-2">{post.title}</h3>

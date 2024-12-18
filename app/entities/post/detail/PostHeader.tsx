@@ -86,7 +86,7 @@ const PostHeader = ({
           className={'image-container h-full absolute -z-10 w-full top-0 blur'}
         >
           <Image
-            className={'w-full h-full'}
+            className={'object-cover w-full h-full'}
             width={480}
             height={300}
             src={backgroundThumbnail}
