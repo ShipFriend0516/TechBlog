@@ -68,14 +68,14 @@ export async function DELETE(
 
     if (!deletedPost) {
       return Response.json(
-        { success: false, error: 'Post not found' },
+        { success: false, error: '삭제할 글을 찾을 수 없습니다.' },
         { status: 404 }
       );
     }
 
     return Response.json({
       success: true,
-      message: 'Post deleted successfully',
+      message: '글이 삭제되었습니다.',
     });
   } catch (error) {
     console.error(error);
