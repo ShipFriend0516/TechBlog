@@ -4,6 +4,7 @@ import './globals.css';
 import Footer from '@/app/entities/common/Footer';
 import React from 'react';
 import NavBar from '@/app/entities/common/NavBar';
+import ToastProvider from '@/app/entities/common/Toast/ToastProvider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -37,6 +38,7 @@ export default function RootLayout({
         <NavBar />
         <main className="flex-grow">{children}</main>
         <Footer />
+        <ToastProvider />
       </body>
     </html>
   );
