@@ -49,14 +49,14 @@ const PostHeader = ({
         'post-header h-[292px] relative overflow-hidden w-full text-center'
       }
     >
-      <h1 className={'post-title pt-20'}>
+      <h1 className={'font-bold mb-4 pt-20 text-3xl lg:text-5xl'}>
         {displayTitle}
         {!isTypingComplete && (
           <span className="inline-block w-1 h-6 ml-1 bg-black animate-blink" />
         )}
       </h1>
       <h2
-        className={`post-subtitle transition-opacity duration-500 ${
+        className={`text-xl lg:text-2xl font-bold mb-4 transition-opacity duration-500 ${
           isTypingComplete ? 'opacity-100' : 'opacity-0'
         }`}
       >
