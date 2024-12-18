@@ -44,7 +44,11 @@ const PostHeader = ({
   }, [title]);
 
   return (
-    <div className={'post-header  relative overflow-hidden w-full text-center'}>
+    <div
+      className={
+        'post-header h-[292px] relative overflow-hidden w-full text-center'
+      }
+    >
       <h1 className={'post-title pt-20'}>
         {displayTitle}
         {!isTypingComplete && (
