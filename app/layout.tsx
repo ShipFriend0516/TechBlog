@@ -18,8 +18,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Oracion Blog',
-  description: '나의 개인 블로그!',
+  title: 'ShipFriend TechBlog',
+  description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
   icons: {
     icon: '/favicon.ico',
   },

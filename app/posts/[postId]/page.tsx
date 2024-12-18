@@ -6,6 +6,7 @@ import example2 from '@/app/public/thumbnail_example2.jpg';
 import { useParams } from 'next/navigation';
 import { Post } from '@/app/types/Post';
 import { getPostDetail } from '@/app/entities/post/api/postAPI';
+import Comments from '@/app/entities/comment/Comments';
 
 const PortfolioBlogUI = () => {
   const { postId } = useParams();
@@ -35,6 +36,7 @@ const PortfolioBlogUI = () => {
         />
         <PostBody loading={loading} content={post ? post.content : ''} />
       </article>
+      <Comments />
     </section>
   );
 };
