@@ -94,6 +94,7 @@ const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
       if (!isValid) {
         toast.error('유효성 검사 실패');
         console.error('유효성 검사 실패', errors);
+        setSubmitLoading(false);
         return;
       }
 
