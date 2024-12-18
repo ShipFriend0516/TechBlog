@@ -1,6 +1,7 @@
 import Post from '@/app/models/Post';
 import dbConnect from '@/app/lib/dbConnect';
 import { getServerSession } from 'next-auth/next';
+import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 
 // GET /api/posts - 모든 글 조회
 export async function GET() {
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
       content,
       timeToRead: Math.ceil(content.length / 500),
       profileImage,
-      thumbnailImage,
+      thumbnailImage: thumbnailImage || getThumbnailInMarkdown(content),
     };
 
     const newPost = await Post.create(post);
