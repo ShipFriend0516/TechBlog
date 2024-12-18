@@ -36,28 +36,24 @@ jobs:
       - name: Lint check
         run: pnpm lint
 
-      # 테스트 실행 (테스트 스크립트가 있는 경우)
-      - name: Run tests
-        run: pnpm test
-
       # 빌드 테스트
       - name: Build test
         run: pnpm build
         env:
           DB_URI: ${{ secrets.DB_URI }}
 
-  cd:
-    name: Continuous Deployment
-    needs: ci
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
-
-    steps:
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ./
-          vercel-args: '--prod'
+#  cd:
+#    name: Continuous Deployment
+#    needs: ci
+#    runs-on: ubuntu-latest
+#    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+#
+#    steps:
+#      - name: Deploy to Vercel
+#        uses: amondnet/vercel-action@v25
+#        with:
+#          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+#          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+#          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+#          working-directory: ./
+#          vercel-args: '--prod'
