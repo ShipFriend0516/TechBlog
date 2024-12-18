@@ -76,11 +76,13 @@ const PostHeader = ({
         <span className={'post-time-to-read mx-2'}>{timeToRead} min read</span>
       </div>
       {backgroundThumbnail && (
-        <div className={'image-container absolute -z-10 w-full top-0 blur'}>
+        <div
+          className={'image-container h-full absolute -z-10 w-full top-0 blur'}
+        >
           <Image
-            className={'w-full'}
-            width={1024}
-            height={720}
+            className={'w-full h-full'}
+            width={720}
+            height={400}
             src={backgroundThumbnail}
             alt={'Post Thumbnail'}
           />
