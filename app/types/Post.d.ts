@@ -14,6 +14,6 @@ interface Post {
   thumbnailImage?: string | StaticImport;
   updatedAt?: number;
 }
-type PostBody = Omit<Post, '_id' | 'date' | 'timeToRead' | 'comment'>;
+type PostBody = Omit<Post, '_id' | 'slug' | 'date' | 'timeToRead' | 'comment'>;
 
 export { Post, PostBody };
