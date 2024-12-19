@@ -13,6 +13,7 @@ const handler = NextAuth({
       return user.email === process.env.ADMIN_EMAIL;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export { handler as GET, handler as POST };
