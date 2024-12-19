@@ -91,7 +91,7 @@ export default function Home() {
             posts &&
             posts.slice(0, 3).map((post) => (
               <Link
-                href={`/posts/${post._id}`}
+                href={`/posts/${post.slug}`}
                 key={post._id}
                 className="group cursor-pointer"
               >
