@@ -1,31 +1,57 @@
-'use client';
-import React, { useEffect, useState } from 'react';
 import PostHeader from '@/app/entities/post/detail/PostHeader';
 import PostBody from '@/app/entities/post/detail/PostBody';
 import example2 from '@/app/public/thumbnail_example2.jpg';
-import { useParams } from 'next/navigation';
-import { Post } from '@/app/types/Post';
-import { getPostDetail } from '@/app/entities/post/api/postAPI';
 import Comments from '@/app/entities/comment/Comments';
+import { Metadata } from 'next';
+import dbConnect from '@/app/lib/dbConnect';
+import Post from '@/app/models/Post';
 
-const PortfolioBlogUI = () => {
-  const { slug } = useParams();
-  const [post, setPost] = useState<Post | undefined>();
-  const [loading, setLoading] = useState(true);
+async function getPostDetail(slug: string) {
+  await dbConnect();
 
-  useEffect(() => {
-    getPostDetailRequest();
-  }, [slug]);
+  const post = await Post.findOne({ slug: decodeURIComponent(slug) }).lean();
 
-  const getPostDetailRequest = async () => {
-    const data = await getPostDetail(slug as string);
-    setPost(data.post);
-    setLoading(false);
+  if (!post) {
+    throw new Error('Post not found');
+  }
+
+  return { post: JSON.parse(JSON.stringify(post)) };
+}
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> => {
+  const { post } = await getPostDetail(params.slug);
+
+  return {
+    title: post.title,
+    description: post.subTitle || post.content.substring(0, 160),
+    openGraph: {
+      title: post.title,
+      description: post.subTitle || post.content.substring(0, 160),
+      images: [post.thumbnailImage || example2.src],
+      type: 'article',
+      publishedTime: new Date(post.createdAt).toISOString(),
+      authors: [post.author],
+    },
+    other: {
+      'application-name': '사이트 이름',
+      author: post.author,
+      publish_date: new Date(post.date).toISOString(),
+      'og:type': 'article',
+      'article:tag': 'technology,programming,web development',
+    },
   };
+};
 
+const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
+  const { post } = await getPostDetail(params.slug);
+  console.log(params.slug);
   return (
-    <section className={'bg-transparent w-full flex-grow'}>
-      <article className={'post'}>
+    <section className="bg-transparent w-full flex-grow">
+      <article className="post">
         <PostHeader
           title={post?.title || ''}
           subTitle={post?.subTitle || ''}
@@ -34,7 +60,7 @@ const PortfolioBlogUI = () => {
           timeToRead={post?.timeToRead || 0}
           backgroundThumbnail={post?.thumbnailImage || example2}
         />
-        <PostBody loading={loading} content={post ? post.content : ''} />
+        <PostBody loading={false} content={post?.content || ''} />
       </article>
       <Comments />
     </section>

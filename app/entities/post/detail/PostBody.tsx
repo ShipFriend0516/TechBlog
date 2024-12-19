@@ -1,3 +1,4 @@
+'use client';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import MDEditor from '@uiw/react-md-editor';
 
