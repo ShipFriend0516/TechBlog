@@ -25,14 +25,13 @@ export const generateMetadata = async ({
   params: { slug: string };
 }): Promise<Metadata> => {
   const { post } = await getPostDetail(params.slug);
-
   return {
     title: post.title,
     description: post.subTitle || post.content.substring(0, 160),
     openGraph: {
       title: post.title,
       description: post.subTitle || post.content.substring(0, 160),
-      images: [post.thumbnailImage || example2.src],
+      images: [post.thumbnailImage || (example2.src as string)],
       type: 'article',
       publishedTime: new Date(post.createdAt).toISOString(),
       authors: [post.author],

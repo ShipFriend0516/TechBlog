@@ -1,11 +1,9 @@
 'use client';
 import BlogForm from '@/app/entities/post/write/BlogForm';
 import axios from 'axios';
-import { Post } from '@/app/types/Post';
+import { PostBody } from '@/app/types/Post';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useToast from '@/app/hooks/useToast';
-
-type PostBody = Omit<Post, '_id' | 'date' | 'timeToRead' | 'comment'>;
 
 const BlogWritePage = () => {
   const router = useRouter();

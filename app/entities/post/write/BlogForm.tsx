@@ -16,7 +16,7 @@ import useToast from '@/app/hooks/useToast';
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 interface BlogFormProps {
-  postBlog: (post: PostBody) => void;
+  postBlog: (post: PostBody) => Promise<void>;
   postId: string | null;
 }
 
