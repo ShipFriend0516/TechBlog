@@ -2,6 +2,7 @@ import Post from '@/app/models/Post';
 import dbConnect from '@/app/lib/dbConnect';
 import { getServerSession } from 'next-auth/next';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
+import { generateUniqueSlug } from '@/app/lib/utils/post';
 
 // GET /api/posts - 모든 글 조회
 export async function GET() {
@@ -40,6 +41,7 @@ export async function POST(req: Request) {
     }
 
     const post = {
+      slug: generateUniqueSlug(title, Post),
       title,
       subTitle,
       author,

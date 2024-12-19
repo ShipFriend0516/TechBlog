@@ -1,6 +1,7 @@
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
-import { createPostSlug } from '@/app/lib/utils/post';
-
+import { createPostSlug, generateUniqueSlug } from '@/app/lib/utils/post';
+import type { Post } from '@/app/types/Post';
+import { Model } from 'mongoose';
 describe('마크다운에서 이미지 경로 추출 함수 테스트', () => {
   it('마크다운에서 이미지 경로 추출', () => {
     const content = `
@@ -44,5 +45,20 @@ describe('블로그 slug 생성 함수 테스트', () => {
     const title = '물음표?';
     const slug = createPostSlug(title);
     expect(slug).toBe('물음표');
+  });
+
+  test('중복된 slug 생성', async () => {
+    const title = '중복된 제목';
+    const Post = {
+      findOne: jest
+        .fn()
+        .mockReturnValueOnce({ slug: '중복된-제목' })
+        .mockReturnValueOnce(null),
+    };
+    const slug = await generateUniqueSlug(
+      title,
+      Post as unknown as Model<Post>
+    );
+    expect(slug).toBe('중복된-제목-1');
   });
 });
