@@ -5,6 +5,7 @@ import Comments from '@/app/entities/comment/Comments';
 import { Metadata } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
+import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 
 async function getPostDetail(slug: string) {
   await dbConnect();
@@ -50,20 +51,23 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
   const { post } = await getPostDetail(params.slug);
   console.log(params.slug);
   return (
-    <section className="bg-transparent w-full flex-grow">
-      <article className="post">
-        <PostHeader
-          title={post?.title || ''}
-          subTitle={post?.subTitle || ''}
-          author={post?.author || ''}
-          date={post?.date || 0}
-          timeToRead={post?.timeToRead || 0}
-          backgroundThumbnail={post?.thumbnailImage || example2}
-        />
-        <PostBody loading={false} content={post?.content || ''} />
-      </article>
-      <Comments />
-    </section>
+    <>
+      <PostJSONLd post={post} />
+      <section className="bg-transparent w-full flex-grow">
+        <article className="post">
+          <PostHeader
+            title={post?.title || ''}
+            subTitle={post?.subTitle || ''}
+            author={post?.author || ''}
+            date={post?.date || 0}
+            timeToRead={post?.timeToRead || 0}
+            backgroundThumbnail={post?.thumbnailImage || example2}
+          />
+          <PostBody loading={false} content={post?.content || ''} />
+        </article>
+        <Comments />
+      </section>
+    </>
   );
 };
 
