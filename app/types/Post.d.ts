@@ -3,6 +3,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 interface Post {
   _id: string;
   title: string;
+  slug: string;
   subTitle?: string;
   author: string;
   date: number;

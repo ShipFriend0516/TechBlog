@@ -10,7 +10,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import Link from 'next/link';
 
 const PostPreview = ({
-  _id,
+  slug,
   title,
   subTitle,
   author,
@@ -21,7 +21,7 @@ const PostPreview = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <Link href={`/posts/${_id}`} className={' mx-auto '}>
+    <Link href={`/posts/${slug}`} className={' mx-auto '}>
       <div
         className={
           'w-full post-preview p-5 pb-8 bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gray-200/50'
@@ -40,7 +40,7 @@ const PostPreview = ({
           <Image
             src={thumbnailImage || example}
             priority={true}
-            alt={'dd'}
+            alt={title}
             width={500}
             height={300}
             className={`object-cover bg-cover w-full h-full transition-opacity duration-300 ${

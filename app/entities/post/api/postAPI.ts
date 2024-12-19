@@ -13,6 +13,14 @@ export const getPostDetail = async (
   return response.data;
 };
 
+export const getPostDetailWithSlug = async (
+  slug: string
+): Promise<GetPostDetailResponse> => {
+  const response = await axios.get(`/api/posts/${slug}`);
+
+  return response.data;
+};
+
 export const deletePost = async (postId: string) => {
   return await axios.delete(`/api/posts/${postId}`);
 };

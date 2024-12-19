@@ -9,16 +9,16 @@ import { getPostDetail } from '@/app/entities/post/api/postAPI';
 import Comments from '@/app/entities/comment/Comments';
 
 const PortfolioBlogUI = () => {
-  const { postId } = useParams();
+  const { slug } = useParams();
   const [post, setPost] = useState<Post | undefined>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getPostDetailRequest();
-  }, [postId]);
+  }, [slug]);
 
   const getPostDetailRequest = async () => {
-    const data = await getPostDetail(postId as string);
+    const data = await getPostDetail(slug as string);
     setPost(data.post);
     setLoading(false);
   };
