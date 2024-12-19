@@ -6,14 +6,6 @@ interface GetPostDetailResponse {
 }
 
 export const getPostDetail = async (
-  postId: string
-): Promise<GetPostDetailResponse> => {
-  const response = await axios.get(`/api/posts/${postId}`);
-
-  return response.data;
-};
-
-export const getPostDetailWithSlug = async (
   slug: string
 ): Promise<GetPostDetailResponse> => {
   const response = await axios.get(`/api/posts/${slug}`);
