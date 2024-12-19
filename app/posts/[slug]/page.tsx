@@ -31,7 +31,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: post.title,
       description: post.subTitle || post.content.substring(0, 160),
-      images: [post.thumbnailImage || (example2.src as string)],
+      images: [post.thumbnailImage || example2],
       type: 'article',
       publishedTime: new Date(post.createdAt).toISOString(),
       authors: [post.author],
