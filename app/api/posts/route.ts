@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     }
 
     const post = {
-      slug: generateUniqueSlug(title, Post),
+      slug: await generateUniqueSlug(title, Post),
       title,
       subTitle,
       author,
