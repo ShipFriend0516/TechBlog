@@ -1,15 +1,15 @@
-// app/api/posts/[postId]/route.ts
+// app/api/posts/[slug]/route.ts
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import { NextRequest } from 'next/server';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: { slug: string } }
 ) {
   try {
     await dbConnect();
-    const post = await Post.findById(params.postId).lean();
+    const post = await Post.findOne({ slug: params.slug }).lean();
 
     if (!post) {
       return Response.json(
@@ -30,13 +30,13 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: { slug: string } }
 ) {
   try {
     await dbConnect();
     const body = await req.json();
 
-    const updatedPost = await Post.findByIdAndUpdate(params.postId, body, {
+    const updatedPost = await Post.findByIdAndUpdate(params.slug, body, {
       new: true,
       runValidators: true,
     }).lean();
@@ -60,11 +60,11 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: { slug: string } }
 ) {
   try {
     await dbConnect();
-    const deletedPost = await Post.findByIdAndDelete(params.postId).lean();
+    const deletedPost = await Post.findByIdAndDelete(params.slug).lean();
 
     if (!deletedPost) {
       return Response.json(

@@ -34,11 +34,11 @@ async function dbConnect(): Promise<Mongoose> {
   }
 
   mongoose.connection.on('connected', () => {
-    console.log('🎶 Success to connect with database');
+    console.log('🎶 MongoDB와 연결 성공');
   });
 
   mongoose.connection.on('error', (error: Error) => {
-    console.error('👻 MongoDB Connect Fail!', error);
+    console.error('👻 MongoDB 연결 실패!', error);
   });
 
   if (!cached.promise) {

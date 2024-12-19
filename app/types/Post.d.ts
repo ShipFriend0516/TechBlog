@@ -3,6 +3,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 interface Post {
   _id: string;
   title: string;
+  slug: string;
   subTitle?: string;
   author: string;
   date: number;
@@ -11,7 +12,8 @@ interface Post {
   comment?: string[];
   profileImage?: string | StaticImport;
   thumbnailImage?: string | StaticImport;
+  updatedAt?: number;
 }
-type PostBody = Omit<Post, '_id' | 'date' | 'timeToRead' | 'comment'>;
+type PostBody = Omit<Post, '_id' | 'slug' | 'date' | 'timeToRead' | 'comment'>;
 
 export { Post, PostBody };
