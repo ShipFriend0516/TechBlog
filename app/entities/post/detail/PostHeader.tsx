@@ -47,10 +47,10 @@ const PostHeader = ({
   return (
     <div
       className={
-        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center'
+        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center bg-gray-400/50'
       }
     >
-      <h1 className={'font-bold mb-4 pt-10 md:pt-20 text-3xl lg:text-5xl'}>
+      <h1 className={'font-bold mb-4 pt-10 md:pt-20 text-3xl lg:text-5xl '}>
         {displayTitle}
         {!isTypingComplete && (
           <span className="inline-block w-1 h-6 ml-1 bg-black animate-blink" />

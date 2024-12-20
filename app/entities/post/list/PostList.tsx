@@ -22,6 +22,7 @@ const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
               <li key={post._id}>
                 <PostPreview
                   _id={post._id}
+                  slug={post.slug}
                   title={post.title}
                   subTitle={post.subTitle}
                   author={post.author}

@@ -1,3 +1,4 @@
+'use client';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import MDEditor from '@uiw/react-md-editor';
 
@@ -8,7 +9,7 @@ interface Props {
 
 const PostBody = ({ content, loading }: Props) => {
   return (
-    <div className={'w-full post-body px-4 py-16 pb-52 min-h-[500px]'}>
+    <div className={'w-full post-body px-4 py-16 min-h-[500px]'}>
       {loading ? (
         <div className={'w-1/3 mx-auto'}>
           <LoadingIndicator />

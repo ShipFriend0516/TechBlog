@@ -12,11 +12,12 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import LoadingSpinner from '@/app/entities/common/Loading/LoadingSpinner';
 import axios from 'axios';
 import useToast from '@/app/hooks/useToast';
+import { useBlockNavigate } from '@/app/hooks/useBlockNavigate';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 interface BlogFormProps {
-  postBlog: (post: PostBody) => void;
+  postBlog: (post: PostBody) => Promise<void>;
   postId: string | null;
 }
 
@@ -31,6 +32,8 @@ const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
   const toast = useToast();
   const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
   const NICKNAME = '개발자 서정우';
+
+  useBlockNavigate({ title, content: content || '' });
 
   useEffect(() => {
     if (postId) {
