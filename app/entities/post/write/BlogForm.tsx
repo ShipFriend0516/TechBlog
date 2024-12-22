@@ -49,7 +49,6 @@ const BlogForm = () => {
   const postBlog = async (post: PostBody) => {
     try {
       const response = await axios.post('/api/posts', post);
-      const data = await response.data;
       if (response.status === 201) {
         toast.success('글이 성공적으로 발행되었습니다.');
         router.push('/posts');
