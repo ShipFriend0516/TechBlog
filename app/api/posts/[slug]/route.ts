@@ -2,6 +2,7 @@
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import { NextRequest } from 'next/server';
+import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 
 export async function GET(
   req: NextRequest,
@@ -38,7 +39,7 @@ export async function PUT(
 
     const updatedPost = await Post.findOneAndUpdate(
       { slug: params.slug },
-      body,
+      { ...body, thumbnailImage: getThumbnailInMarkdown(body.content) },
       {
         new: true,
         runValidators: true,
