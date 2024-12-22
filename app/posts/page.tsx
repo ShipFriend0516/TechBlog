@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Post } from '@/app/types/Post';
 import PostList from '@/app/entities/post/list/PostList';
 import SearchSection from '@/app/entities/post/list/SearchSection';
+import { debounce } from 'lodash';
 
 const BlogList = () => {
   const [posts, setPosts] = useState<Post[]>();
@@ -20,8 +21,10 @@ const BlogList = () => {
     setLoading(false);
   };
 
+  const debouncedGetPosts = debounce(getPosts, 500);
+
   useEffect(() => {
-    getPosts(query);
+    debouncedGetPosts(query);
   }, [query]);
 
   return (
