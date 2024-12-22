@@ -2,10 +2,13 @@ import { Post } from '@/app/types/Post';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import PostPreview from '@/app/entities/post/list/PostPreview';
 import profile from '@/app/public/profile.jpg';
-import { notFound } from 'next/navigation';
 import NotFound from '@/app/entities/common/Animation/NotFound';
 
-const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
+const PostList = (props: {
+  query: string;
+  loading: boolean;
+  posts: Post[] | undefined;
+}) => {
   return (
     <ul
       className={
@@ -37,7 +40,9 @@ const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
         )
       ) : (
         <div className={'col-span-3'}>
-          <NotFound message={'검색 결과가 없습니다.'} />
+          <NotFound
+            message={`${props.query || '검색어'}에 대한 검색 결과가 없습니다.`}
+          />
         </div>
       )}
     </ul>

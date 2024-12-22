@@ -31,7 +31,7 @@ const BlogList = () => {
     <section>
       <h1 className={'text-4xl text-center font-bold mt-8'}>발행된 글</h1>
       <SearchSection query={query} setQuery={setQuery} />
-      <PostList loading={loading} posts={posts} />
+      <PostList query={query} loading={loading} posts={posts} />
     </section>
   );
 };
