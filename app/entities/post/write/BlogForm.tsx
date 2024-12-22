@@ -50,7 +50,6 @@ const BlogForm = () => {
     try {
       const response = await axios.post('/api/posts', post);
       const data = await response.data;
-      console.log('글 발행 결과', data);
       if (response.status === 201) {
         toast.success('글이 성공적으로 발행되었습니다.');
         router.push('/posts');
@@ -140,7 +139,6 @@ const BlogForm = () => {
     try {
       const response = await axios.get(`/api/posts/${slug}`);
       const data = await response.data;
-      console.log('글 조회 결과', data);
       setTitle(data.post.title || 'dd');
       setSubTitle(data.post.subTitle);
       setContent(data.post.content);
