@@ -15,7 +15,6 @@ const BlogList = () => {
     const response = await axios.get(
       `/api/posts${query ? `?query=${query}` : ''}`
     );
-    console.log(query);
     const data = await response.data;
     setPosts(data.posts);
     setLoading(false);
