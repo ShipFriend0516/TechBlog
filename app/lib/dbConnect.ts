@@ -28,7 +28,7 @@ if (!cached) {
   };
 }
 
-async function dbConnect(): Promise<Mongoose> {
+async function dbConnect(uri?: string): Promise<Mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
@@ -46,9 +46,11 @@ async function dbConnect(): Promise<Mongoose> {
       bufferCommands: true,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(uri ?? MONGODB_URI!, opts)
+      .then((mongoose) => {
+        return mongoose;
+      });
   }
 
   try {
