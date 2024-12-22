@@ -5,10 +5,25 @@ import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 import { generateUniqueSlug } from '@/app/lib/utils/post';
 
 // GET /api/posts - 모든 글 조회
-export async function GET() {
+export async function GET(req: Request) {
   try {
     await dbConnect();
-    const posts = await Post.find({}).sort({ createdAt: -1 }).lean();
+    const { searchParams } = new URL(req.url);
+
+    const query = searchParams.get('query') || '';
+
+    // 검색 조건 구성
+    const searchConditions = {
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { content: { $regex: query, $options: 'i' } },
+        { subTitle: { $regex: query, $options: 'i' } },
+      ],
+    };
+
+    const posts = await Post.find(searchConditions)
+      .sort({ date: -1 })
+      .limit(10);
 
     return Response.json({ success: true, posts: posts });
   } catch (error) {

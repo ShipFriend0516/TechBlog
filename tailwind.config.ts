@@ -9,8 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        default: 'var(--text-default)',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        overlay: 'var(--bg-overlay)',
+      },
+      textColor: {
+        overlay: 'var(--text-overlay)',
       },
       fontFamily: {
         sans: ['var(--font-pretendard)', 'sans-serif'],
@@ -19,6 +24,16 @@ const config: Config = {
         slideUp: {
           '0%': {
             transform: 'translateY(100%)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+        },
+        popUp: {
+          '0%': {
+            transform: 'translateY(20px)',
             opacity: '0',
           },
           '100%': {
@@ -51,6 +66,7 @@ const config: Config = {
       },
       animation: {
         blink: 'blink 1s ease-in-out infinite',
+        popUp: 'popUp 0.5s ease-out',
         float: 'float 10s ease-in-out infinite',
         slideUp: 'slideUp 0.5s ease-out',
       },

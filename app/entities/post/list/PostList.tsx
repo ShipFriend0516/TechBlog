@@ -2,8 +2,13 @@ import { Post } from '@/app/types/Post';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import PostPreview from '@/app/entities/post/list/PostPreview';
 import profile from '@/app/public/profile.jpg';
+import NotFound from '@/app/entities/common/Animation/NotFound';
 
-const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
+const PostList = (props: {
+  query: string;
+  loading: boolean;
+  posts: Post[] | undefined;
+}) => {
   return (
     <ul
       className={
@@ -14,8 +19,7 @@ const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
         <div className={'mx-auto col-span-3 w-1/3 h-full pt-20'}>
           <LoadingIndicator message={'발행된 글을 로딩 중입니다..'} />
         </div>
-      ) : (
-        props.posts &&
+      ) : props.posts && props.posts.length > 0 ? (
         props.posts.map(
           (post) =>
             post._id && (
@@ -34,6 +38,12 @@ const PostList = (props: { loading: boolean; posts: Post[] | undefined }) => {
               </li>
             )
         )
+      ) : (
+        <div className={'col-span-3'}>
+          <NotFound
+            message={`${props.query || '검색어'}에 대한 검색 결과가 없습니다.`}
+          />
+        </div>
       )}
     </ul>
   );

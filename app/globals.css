@@ -5,15 +5,31 @@
 :root {
   /*--background: #ffffff;*/
   /*--foreground: #171717;*/
+  --background: #ededed;
+  --foreground: #1e201e;
+  --disabled: #a0a0a0;
+  --text-default: #000000;
+  --text-overlay: #FFFFFF;
+  --bg-overlay: #1e201e;
+}
+.dark {
   --background: #1e201e;
   --foreground: #ededed;
   --disabled: #a0a0a0;
+  --text-default: #FFFFFF;
+  --text-overlay: #000000;
+  --bg-overlay: #ededed;
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #1e201e;
     --foreground: #ededed;
+    --disabled: #a0a0a0;
+    --text-default: #FFFFFF;
+    --text-overlay: #000000;
+    --bg-overlay: #ededed;
   }
 }
 
