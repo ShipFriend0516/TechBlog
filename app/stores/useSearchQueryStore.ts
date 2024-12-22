@@ -2,22 +2,17 @@ import { create } from 'zustand';
 
 interface SearchQueryState {
   latestSearchQueries: string[];
-  setSearchQuery: (searchQuery: string) => void;
+  addSearchQuery: (searchQuery: string) => void;
 }
-const useSearchQueryStore = () => {
-  const searchQueryStore = create((set) => ({
-    latestSearchQueries: [],
-  }));
-
-  const addSearchQuery = (searchQuery: string) => {
-    searchQueryStore.setState((state: SearchQueryState) => {
+const searchQueryStore = create<SearchQueryState>((set) => ({
+  latestSearchQueries: [],
+  addSearchQuery: (searchQuery: string) => {
+    set((state: SearchQueryState) => {
       return {
         latestSearchQueries: [searchQuery, ...state.latestSearchQueries],
       };
     });
-  };
+  },
+}));
 
-  return { searchQueryStore, addSearchQuery };
-};
-
-export default useSearchQueryStore;
+export default searchQueryStore;

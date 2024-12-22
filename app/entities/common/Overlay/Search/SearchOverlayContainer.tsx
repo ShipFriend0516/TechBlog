@@ -11,6 +11,7 @@ const SearchOverlayContainer = (props: {
   const emptyInput = () => {
     props.setQuery('');
   };
+
   return (
     <div className=" px-5 p-4">
       <div className="flex mb-4">

@@ -1,11 +1,12 @@
 'use client';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { FaBook, FaSearch } from 'react-icons/fa';
 import { BiChevronDown } from 'react-icons/bi';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import SeriesDropdownItem from '@/app/entities/post/series/SeriesDropdownItem';
 import Tag from '@/app/entities/common/Tag';
 import SearchOverlayContainer from '@/app/entities/common/Overlay/Search/SearchOverlayContainer';
+import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 
 interface SearchSectionProps {
   query: string;
@@ -15,6 +16,7 @@ interface SearchSectionProps {
 const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
+  const latest = useSearchQueryStore((state) => state.latestSearchQueries);
 
   return (
     <div className="w-full max-w-6xl mx-auto">
@@ -70,7 +72,7 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
                 setQuery={setQuery}
                 value={query}
                 onCancel={() => setSearchOpen(false)}
-                tags={['Next.js', 'React', 'TypeScript', 'Tailwind CSS']}
+                tags={latest || []}
               />
             </Overlay>
           )}
