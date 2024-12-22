@@ -2,10 +2,8 @@
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import { useEffect, useState } from 'react';
-
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-
 import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import LoadingSpinner from '@/app/entities/common/Loading/LoadingSpinner';
@@ -18,7 +16,7 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 const BlogForm = () => {
   const params = useSearchParams();
-  const postId = params.get('postId');
+  const slug = params.get('slug');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
@@ -34,10 +32,10 @@ const BlogForm = () => {
   useBlockNavigate({ title, content: content || '' });
 
   useEffect(() => {
-    if (postId) {
+    if (slug) {
       getPostDetail();
     }
-  }, [postId]);
+  }, [slug]);
 
   const postBody: PostBody = {
     title,
@@ -60,6 +58,19 @@ const BlogForm = () => {
     } catch (e) {
       toast.error('글 발행 중 오류 발생했습니다.');
       console.error('글 발행 중 오류 발생', e);
+    }
+  };
+
+  const updatePost = async (post: PostBody) => {
+    try {
+      const response = await axios.put(`/api/posts/${slug}`, post);
+      if (response.status === 200) {
+        toast.success('글이 성공적으로 수정되었습니다.');
+        router.push('/posts');
+      }
+    } catch (e) {
+      toast.error('글 수정 중 오류 발생했습니다.');
+      console.error('글 수정 중 오류 발생', e);
     }
   };
 
@@ -114,7 +125,11 @@ const BlogForm = () => {
         return;
       }
 
-      postBlog(post);
+      if (slug) {
+        updatePost(post);
+      } else {
+        postBlog(post);
+      }
     } catch (e) {
       console.error('글 발행 중 오류 발생', e);
       setSubmitLoading(false);
@@ -123,8 +138,9 @@ const BlogForm = () => {
 
   const getPostDetail = async () => {
     try {
-      const response = await axios.get(`/api/posts/${postId}`);
+      const response = await axios.get(`/api/posts/${slug}`);
       const data = await response.data;
+      console.log('글 조회 결과', data);
       setTitle(data.post.title || 'dd');
       setSubTitle(data.post.subTitle);
       setContent(data.post.content);
@@ -182,7 +198,7 @@ const BlogForm = () => {
             submitHandler(postBody);
           }}
         >
-          {submitLoading ? <LoadingSpinner /> : postId ? '글 수정' : '글 발행'}
+          {submitLoading ? <LoadingSpinner /> : slug ? '글 수정' : '글 발행'}
         </button>
       </div>
     </div>
