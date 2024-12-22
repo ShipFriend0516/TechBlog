@@ -28,18 +28,19 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
               style={{ marginLeft: `${(heading.type - 1) * 16}px` }}
               className={`${heading.type === 1 ? 'font-bold' : ''} `}
             >
-              <Link
+              <a
                 className={
-                  'p-1  transition-all hover:bg-green-50 rounded-md text-nowrap overflow-x-hidden'
+                  'p-1  transition-all hover:bg-green-50 rounded-md text-nowrap overflow-x-hidden scroll-smooth  '
                 }
                 href={`#${heading.id
                   .toLowerCase()
-                  .replace(/[^a-zA-Z0-9가-힣]/g, '-')
-                  .replace(/-+/g, '-')
-                  .replace(/^-|-$/g, '')}`}
+                  .replaceAll('.', '')
+                  .replaceAll(/[^a-zA-Z0-9가-힣]/g, '-')
+                  .replaceAll(/-+/g, '-')
+                  .replaceAll(/^-|-$/g, '')}`}
               >
                 {'∟ ' + heading.title}
-              </Link>
+              </a>
             </li>
           );
         })}
