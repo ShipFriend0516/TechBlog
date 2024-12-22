@@ -3,34 +3,18 @@ import { useEffect, useRef, useState } from 'react';
 import { FaBook, FaSearch } from 'react-icons/fa';
 import { BiChevronDown } from 'react-icons/bi';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
+import SeriesDropdownItem from '@/app/entities/post/series/SeriesDropdownItem';
 
 const SearchSection = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
-  const seriesRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        seriesRef.current &&
-        !seriesRef.current.contains(event.target as Node)
-      ) {
-        setSeriesOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   return (
     <div className="w-full max-w-6xl mx-auto">
       <nav className="flex items-center justify-between py-4 px-6">
         <div className="flex items-center space-x-6">
           {/* 시리즈 드롭다운 */}
-          <div className="relative" ref={seriesRef}>
+          <div className="relative">
             <button
               onClick={() => setSeriesOpen(!seriesOpen)}
               className="flex items-center space-x-2 hover:text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-100"
@@ -47,22 +31,16 @@ const SearchSection = () => {
             {seriesOpen && (
               <div className="bg-overlay absolute left-0 mt-2 w-64 z-50 text-overlay">
                 <div className="py-2">
-                  <a
-                    href="#"
-                    className="block px-4 py-3 hover:bg-gray-100 transition-colors"
-                    onClick={() => setSeriesOpen(false)}
-                  >
-                    <div className="font-medium">Next.js 최적화</div>
-                    <div className="text-sm text-gray-500">3개의 포스트</div>
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-3 hover:bg-gray-100 transition-colors"
-                    onClick={() => setSeriesOpen(false)}
-                  >
-                    <div className="font-medium">블로그 개발기</div>
-                    <div className="text-sm text-gray-500">5개의 포스트</div>
-                  </a>
+                  <SeriesDropdownItem
+                    setSeriesOpen={setSeriesOpen}
+                    seriesTitle={'Next.js 최적화'}
+                    seriesCount={3}
+                  />
+                  <SeriesDropdownItem
+                    setSeriesOpen={setSeriesOpen}
+                    seriesTitle={'블로그 개발기'}
+                    seriesCount={5}
+                  />
                 </div>
               </div>
             )}
@@ -80,7 +58,7 @@ const SearchSection = () => {
 
           {/* 검색 오버레이 */}
           {searchOpen && (
-            <Overlay setSearchOpen={setSearchOpen}>
+            <Overlay setOverlayOpen={setSearchOpen}>
               <div className="px-5 p-4">
                 <div className="flex items-center space-x-4 mb-4">
                   <FaSearch size={20} className="text-gray-400" />
