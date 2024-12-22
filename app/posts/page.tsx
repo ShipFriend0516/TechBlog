@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Post } from '@/app/types/Post';
 import PostList from '@/app/entities/post/list/PostList';
+import SearchSection from '@/app/entities/post/list/SearchSection';
 
 const BlogList = () => {
   const [posts, setPosts] = useState<Post[]>();
@@ -22,6 +23,7 @@ const BlogList = () => {
   return (
     <section>
       <h1 className={'text-4xl text-center font-bold mt-8'}>발행된 글</h1>
+      <SearchSection />
       <PostList loading={loading} posts={posts} />
     </section>
   );
