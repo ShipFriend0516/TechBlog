@@ -3,25 +3,22 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import { useEffect, useState } from 'react';
 
-import * as commands from '@uiw/react-md-editor/commands';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
+
 import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import LoadingSpinner from '@/app/entities/common/Loading/LoadingSpinner';
 import axios from 'axios';
 import useToast from '@/app/hooks/useToast';
 import { useBlockNavigate } from '@/app/hooks/useBlockNavigate';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
-interface BlogFormProps {
-  postBlog: (post: PostBody) => Promise<void>;
-  postId: string | null;
-}
-
-const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
+const BlogForm = () => {
+  const params = useSearchParams();
+  const postId = params.get('postId');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
@@ -30,6 +27,7 @@ const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
   const [errors, setErrors] = useState<string[]>([]);
   const toast = useToast();
+  const router = useRouter();
   const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
   const NICKNAME = '개발자 서정우';
 
@@ -48,6 +46,21 @@ const BlogForm = ({ postBlog, postId }: BlogFormProps) => {
     content: content || '',
     profileImage,
     thumbnailImage,
+  };
+
+  const postBlog = async (post: PostBody) => {
+    try {
+      const response = await axios.post('/api/posts', post);
+      const data = await response.data;
+      console.log('글 발행 결과', data);
+      if (response.status === 201) {
+        toast.success('글이 성공적으로 발행되었습니다.');
+        router.push('/posts');
+      }
+    } catch (e) {
+      toast.error('글 발행 중 오류 발생했습니다.');
+      console.error('글 발행 중 오류 발생', e);
+    }
   };
 
   const validatePost = (
