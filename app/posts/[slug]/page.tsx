@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
+import PostTOC from '@/app/entities/post/detail/PostTOC';
 
 async function getPostDetail(slug: string) {
   await dbConnect();
