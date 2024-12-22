@@ -5,6 +5,7 @@ import Footer from '@/app/entities/common/Footer';
 import React from 'react';
 import NavBar from '@/app/entities/common/NavBar';
 import ToastProvider from '@/app/entities/common/Toast/ToastProvider';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   title: 'ShipFriend TechBlog',
@@ -79,6 +80,7 @@ export default function RootLayout({
         <main className="flex-grow pb-20">{children}</main>
         <Footer />
         <ToastProvider />
+        <GoogleAnalytics gaId={'G-8HJPFDHXEC'} />
       </body>
     </html>
   );
