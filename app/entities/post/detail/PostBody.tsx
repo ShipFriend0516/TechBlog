@@ -10,7 +10,9 @@ interface Props {
 
 const PostBody = ({ content, loading }: Props) => {
   return (
-    <div className={'max-w-3xl post-body px-4 py-16 min-h-[500px] relative'}>
+    <div
+      className={'max-w-3xl post-body px-4 py-16 min-h-[500px] relative    '}
+    >
       {loading ? (
         <div className={'w-1/3 mx-auto'}>
           <LoadingIndicator />
