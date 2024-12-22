@@ -49,6 +49,10 @@ article.post li {
   list-style: circle;
 }
 
+.post-toc ul > li {
+    list-style: none;
+}
+
 article.post h1,
 article.post h2,
 article.post h3,
