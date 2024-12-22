@@ -3,12 +3,7 @@ import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  await dbConnect();
-  const posts = await Post.find({}).sort({ date: -1 });
-
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-
-  // 정적 페이지 URL
   const staticPages = [
     {
       url: baseUrl,
@@ -23,6 +18,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
   ];
+
+  if (!process.env.DB_URI) {
+    console.error('Database URI is not defined');
+
+    return staticPages;
+  }
+
+  await dbConnect(process.env.DB_URI);
+  const posts = await Post.find({}).sort({ date: -1 });
 
   const postUrls = posts.map((post) => ({
     url: `${baseUrl}/posts/${post.slug}`,
