@@ -36,10 +36,14 @@ export async function PUT(
     await dbConnect();
     const body = await req.json();
 
-    const updatedPost = await Post.findByIdAndUpdate(params.slug, body, {
-      new: true,
-      runValidators: true,
-    }).lean();
+    const updatedPost = await Post.findOneAndUpdate(
+      { slug: params.slug },
+      body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).lean();
 
     if (!updatedPost) {
       return Response.json(
