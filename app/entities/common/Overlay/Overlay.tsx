@@ -1,4 +1,3 @@
-'use client';
 import { ReactNode, useEffect, useRef } from 'react';
 
 interface OverlayProps {
