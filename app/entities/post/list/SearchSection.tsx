@@ -1,11 +1,15 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { FaBook, FaSearch } from 'react-icons/fa';
 import { BiChevronDown } from 'react-icons/bi';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import SeriesDropdownItem from '@/app/entities/post/series/SeriesDropdownItem';
 
-const SearchSection = () => {
+interface SearchSectionProps {
+  query: string;
+  setQuery: (query: string) => void;
+}
+const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
 
@@ -67,6 +71,8 @@ const SearchSection = () => {
                     placeholder="검색어를 입력하세요..."
                     className="w-full p-2 outline-none"
                     autoFocus
+                    onChange={(e) => setQuery(e.target.value)}
+                    value={query}
                   />
                   <button
                     onClick={() => setSearchOpen(false)}
