@@ -28,9 +28,9 @@ const AdminPostListPage = () => {
     setLoading(false);
   };
 
-  const handleEdit = (postId: string) => {
+  const handleEdit = (slug: string) => {
     toast.success('글 수정 페이지로 이동합니다.');
-    router.push(`/admin/write?postId=${postId}`);
+    router.push(`/admin/write?slug=${slug}`);
   };
 
   const handleDeleteClick = (postId: string) => {
@@ -68,7 +68,7 @@ const AdminPostListPage = () => {
             <PostListItem
               key={post._id}
               post={post}
-              handleEdit={() => handleEdit(post._id)}
+              handleEdit={() => handleEdit(post.slug)}
               handleDelete={() => handleDeleteClick(post._id)}
             />
           ))}

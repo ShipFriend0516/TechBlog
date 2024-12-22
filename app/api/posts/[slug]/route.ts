@@ -2,6 +2,7 @@
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import { NextRequest } from 'next/server';
+import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 
 export async function GET(
   req: NextRequest,
@@ -36,10 +37,14 @@ export async function PUT(
     await dbConnect();
     const body = await req.json();
 
-    const updatedPost = await Post.findByIdAndUpdate(params.slug, body, {
-      new: true,
-      runValidators: true,
-    }).lean();
+    const updatedPost = await Post.findOneAndUpdate(
+      { slug: params.slug },
+      { ...body, thumbnailImage: getThumbnailInMarkdown(body.content) },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).lean();
 
     if (!updatedPost) {
       return Response.json(
