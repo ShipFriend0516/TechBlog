@@ -2,32 +2,43 @@ import Link from 'next/link';
 
 const PostTOC = ({ postContent }: { postContent: string }) => {
   const parseHeadings = (content: string) => {
-    // content에는 # 제목이 포함된 문자열이 들어옵니다.
-    // 샵의 개수와 제목을 추출해서 배열로 만들어주세요.
-    // ex) content = '# 제목1\n## 제목2\n### 제목3'
-    // return [{ id: '제목1', title: '제목1' }, { id: '제목2', title: '제목2' }, { id: '제목3', title: '제목3' }]
-
     const headings = content.match(/#{1,6} .+/g);
-    const result = (headings ?? []).map((heading: string) => ({
+
+    return (headings ?? []).map((heading: string) => ({
       id: heading.replace(/#/g, '').trim(),
       type: heading.lastIndexOf('#') + 1,
       title: heading.replace(/#/g, '').trim(),
     }));
-    return result;
   };
 
+  // fixed 계산
+  // 화면 너비 1000px 기준으로 계산
+  // toc 크기 280px
+  // post 영역 768px
+
   return (
-    <div className="post-toc hidden lg:block absolute -right-60 text-sm bg-gray-100/80 rounded-md p-4 text-black">
-      <h3>Table of Contents</h3>
+    <div className="fixed post-toc hidden lg:block w-[280px] top-1/2 -translate-y-1/2 left-[calc(50%+524px)]  transition-all  text-sm bg-gray-100/80 rounded-md p-4 text-black">
+      <h4 className={'text-xl font-bold'}>📌 Table of Contents</h4>
       <ul className={'list-none'}>
         {parseHeadings(postContent).map((heading) => {
+          console.log(heading);
           return (
             <li
               key={heading.id}
-              style={{ marginLeft: `${(heading.type - 1) * 10}px` }}
+              style={{ marginLeft: `${(heading.type - 1) * 16}px` }}
+              className={`${heading.type === 1 ? 'font-bold' : ''} `}
             >
-              <Link href={`#${heading.id}`}>
-                {'#'.repeat(heading.type) + ' ' + heading.title}
+              <Link
+                className={
+                  'p-1  transition-all hover:bg-green-50 rounded-md text-nowrap overflow-x-hidden'
+                }
+                href={`#${heading.id
+                  .toLowerCase()
+                  .replace(/[^a-zA-Z0-9가-힣]/g, '-')
+                  .replace(/-+/g, '-')
+                  .replace(/^-|-$/g, '')}`}
+              >
+                {'∟ ' + heading.title}
               </Link>
             </li>
           );
