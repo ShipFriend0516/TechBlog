@@ -11,14 +11,9 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
     }));
   };
 
-  // fixed 계산
-  // 화면 너비 1000px 기준으로 계산
-  // toc 크기 280px
-  // post 영역 768px
-
   return (
     <div className="fixed post-toc hidden lg:block w-[280px] top-1/2 -translate-y-1/2 left-[calc(50%+524px)]  transition-all  text-sm bg-gray-100/80 rounded-md p-4 text-black">
-      <h4 className={'text-xl font-bold'}>📌 Table of Contents</h4>
+      <h4 className={'text-xl font-bold mb-2'}>📌 Table of Contents</h4>
       <ul className={'list-none'}>
         {parseHeadings(postContent).map((heading) => {
           const href =
