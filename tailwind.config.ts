@@ -9,8 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        default: 'var(--text-default)',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        overlay: 'var(--bg-overlay)',
+      },
+      textColor: {
+        overlay: 'var(--text-overlay)',
       },
       fontFamily: {
         sans: ['var(--font-pretendard)', 'sans-serif'],
