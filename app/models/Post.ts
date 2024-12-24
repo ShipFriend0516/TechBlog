@@ -46,6 +46,16 @@ const postSchema = new Schema(
       required: false,
       default: '',
     },
+    seriesId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Series',
+      required: false,
+    },
+    tags: {
+      type: [String],
+      required: false,
+      default: [],
+    },
   },
   {
     timestamps: true, // createdAt, updatedAt 자동 생성
