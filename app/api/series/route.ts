@@ -7,6 +7,12 @@ export async function POST(request: Request) {
   try {
     await dbConnect();
     const body = await request.json();
+    if (!body.title) {
+      return NextResponse.json(
+        { error: '시리즈 제목을 입력해주세요.' },
+        { status: 400 }
+      );
+    }
 
     const series = await Series.create({
       slug: createPostSlug(body.title),
