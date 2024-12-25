@@ -16,6 +16,7 @@ import { Series } from '@/app/types/Series';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import { FaPlus } from 'react-icons/fa6';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
+import { getAllSeriesData } from '@/app/entities/series/api/series';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -28,6 +29,7 @@ const BlogForm = () => {
   const [content, setContent] = useState<string | undefined>('');
   const [profileImage, setProfileImage] = useState<string | StaticImport>();
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
+  const [seriesList, setSeriesList] = useState<Series[]>([]);
   const [series, setSeries] = useState<string | null>(null);
 
   const [errors, setErrors] = useState<string[]>([]);
@@ -37,6 +39,10 @@ const BlogForm = () => {
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
 
   useBlockNavigate({ title, content: content || '' });
+
+  useEffect(() => {
+    getSeries();
+  }, []);
 
   useEffect(() => {
     if (slug) {
@@ -52,7 +58,17 @@ const BlogForm = () => {
     profileImage,
     thumbnailImage,
   };
+  // 시리즈
+  const getSeries = async () => {
+    try {
+      const data = await getAllSeriesData();
+      setSeriesList(data);
+    } catch (e) {
+      console.error('시리즈 조회 중 오류 발생', e);
+    }
+  };
 
+  // 블로그
   const postBlog = async (post: PostBody) => {
     try {
       const response = await axios.post('/api/posts', post);
@@ -114,23 +130,6 @@ const BlogForm = () => {
     }
   };
 
-  const seriesMock: Series[] = [
-    {
-      _id: '1',
-      title: '블로그 개발기',
-      slug: '블로그-개발기',
-      description: 'Nextjs로 만드는 나만의 블로그',
-      posts: ['nextjs로-블로그-만들기'],
-      order: ['nextjs로-블로그-만들기'],
-      postCount: 1,
-      thumbnailImage:
-        'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbvXERD%2FbtsLpc0LWRA%2Fj66Mq1K3kYYbYnp704XIT1%2Fimg.webp',
-      date: new Date().getTime(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-  ];
-
   return (
     <div className={'px-16'}>
       <input
@@ -153,11 +152,12 @@ const BlogForm = () => {
         >
           <span className={'font-bold'}>시리즈</span>
           <Select
-            options={[
-              { value: seriesMock[0].slug, label: seriesMock[0].title },
-            ]}
+            options={seriesList.map((s) => ({
+              value: s.slug,
+              label: s.title,
+            }))}
             setValue={setSeries}
-            defaultValue={seriesMock[0].slug}
+            defaultValue={seriesList[0].slug}
           />
         </label>
         <button
