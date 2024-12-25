@@ -22,7 +22,7 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
 
   const getSeries = async () => {
     const data = await getAllSeriesData();
-    console.log(data);
+    setSeries(data);
   };
 
   useEffect(() => {
