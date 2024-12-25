@@ -13,6 +13,7 @@ interface Post {
   profileImage?: string | StaticImport;
   thumbnailImage?: string | StaticImport;
   updatedAt?: number;
+  seriesId?: string;
 }
 type PostBody = Omit<Post, '_id' | 'slug' | 'date' | 'timeToRead' | 'comment'>;
 
