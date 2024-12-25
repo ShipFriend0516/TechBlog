@@ -1,12 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBook, FaSearch } from 'react-icons/fa';
 import { BiChevronDown } from 'react-icons/bi';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
-import SeriesDropdownItem from '@/app/entities/post/series/SeriesDropdownItem';
-import Tag from '@/app/entities/common/Tag';
+import SeriesDropdownItem from '@/app/entities/series/SeriesDropdownItem';
 import SearchOverlayContainer from '@/app/entities/common/Overlay/Search/SearchOverlayContainer';
 import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
+import { getAllSeriesData } from '@/app/entities/series/api/series';
+import { Series } from '@/app/types/Series';
 
 interface SearchSectionProps {
   query: string;
@@ -17,6 +18,16 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
   const latest = useSearchQueryStore((state) => state.latestSearchQueries);
+  const [series, setSeries] = useState<Series[] | null>([]);
+
+  const getSeries = async () => {
+    const data = await getAllSeriesData();
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getSeries();
+  }, []);
 
   return (
     <div className="w-full max-w-6xl mx-auto">
@@ -40,16 +51,17 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
             {seriesOpen && (
               <div className="bg-overlay absolute left-0 mt-2 w-64 z-50 text-overlay">
                 <div className="py-2">
-                  <SeriesDropdownItem
-                    setSeriesOpen={setSeriesOpen}
-                    seriesTitle={'Next.js 최적화'}
-                    seriesCount={3}
-                  />
-                  <SeriesDropdownItem
-                    setSeriesOpen={setSeriesOpen}
-                    seriesTitle={'블로그 개발기'}
-                    seriesCount={5}
-                  />
+                  {series?.map((s) => (
+                    <SeriesDropdownItem
+                      key={s.slug}
+                      setSeriesOpen={setSeriesOpen}
+                      seriesTitle={s.title}
+                      seriesCount={s.postCount}
+                    />
+                  ))}
+                  {series?.length === 0 && (
+                    <div className={'p-2'}>시리즈가 없습니다.</div>
+                  )}
                 </div>
               </div>
             )}
@@ -66,16 +78,14 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
           </button>
 
           {/* 검색 오버레이 */}
-          {searchOpen && (
-            <Overlay setOverlayOpen={setSearchOpen}>
-              <SearchOverlayContainer
-                setQuery={setQuery}
-                value={query}
-                onCancel={() => setSearchOpen(false)}
-                tags={latest || []}
-              />
-            </Overlay>
-          )}
+          <Overlay overlayOpen={searchOpen} setOverlayOpen={setSearchOpen}>
+            <SearchOverlayContainer
+              setQuery={setQuery}
+              value={query}
+              onCancel={() => setSearchOpen(false)}
+              tags={latest || []}
+            />
+          </Overlay>
         </div>
       </nav>
     </div>
