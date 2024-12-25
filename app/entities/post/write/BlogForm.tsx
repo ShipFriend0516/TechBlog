@@ -1,7 +1,7 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
@@ -17,6 +17,7 @@ import Overlay from '@/app/entities/common/Overlay/Overlay';
 import { FaPlus } from 'react-icons/fa6';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
+import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -30,8 +31,8 @@ const BlogForm = () => {
   const [profileImage, setProfileImage] = useState<string | StaticImport>();
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
   const [seriesList, setSeriesList] = useState<Series[]>([]);
-  const [series, setSeries] = useState<string | null>(null);
-
+  const [seriesId, setSeriesId] = useState<string>();
+  const [seriesLoading, setSeriesLoading] = useState(true);
   const [errors, setErrors] = useState<string[]>([]);
   const toast = useToast();
   const router = useRouter();
@@ -57,12 +58,16 @@ const BlogForm = () => {
     content: content || '',
     profileImage,
     thumbnailImage,
+    seriesId: seriesId || '',
   };
+
   // 시리즈
   const getSeries = async () => {
     try {
       const data = await getAllSeriesData();
       setSeriesList(data);
+      setSeriesId(data[0]._id);
+      setSeriesLoading(false);
     } catch (e) {
       console.error('시리즈 조회 중 오류 발생', e);
     }
@@ -151,14 +156,18 @@ const BlogForm = () => {
           className={'inline-flex items-center text-nowrap flex-grow gap-2'}
         >
           <span className={'font-bold'}>시리즈</span>
-          <Select
-            options={seriesList.map((s) => ({
-              value: s.slug,
-              label: s.title,
-            }))}
-            setValue={setSeries}
-            defaultValue={seriesList[0].slug}
-          />
+          {seriesLoading ? (
+            <div>loading...</div>
+          ) : (
+            <Select
+              options={seriesList.map((s) => ({
+                value: s._id,
+                label: s.title,
+              }))}
+              setValue={setSeriesId}
+              defaultValue={seriesList[0] ? seriesList[0]._id : ''}
+            />
+          )}
         </label>
         <button
           onClick={() => setCreateSeriesOpen(true)}
