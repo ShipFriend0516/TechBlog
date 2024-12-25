@@ -13,6 +13,9 @@ import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
 import { validatePost } from '@/app/lib/utils/validate/validate';
 import Select from '@/app/entities/common/Select';
 import { Series } from '@/app/types/Series';
+import Overlay from '@/app/entities/common/Overlay/Overlay';
+import { FaPlus } from 'react-icons/fa6';
+import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -26,11 +29,12 @@ const BlogForm = () => {
   const [profileImage, setProfileImage] = useState<string | StaticImport>();
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
   const [series, setSeries] = useState<string | null>(null);
-  const [newSeries, setNewSeries] = useState<string | null>(null);
+
   const [errors, setErrors] = useState<string[]>([]);
   const toast = useToast();
   const router = useRouter();
   const NICKNAME = '개발자 서정우';
+  const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
 
   useBlockNavigate({ title, content: content || '' });
 
@@ -143,8 +147,10 @@ const BlogForm = () => {
         onChange={(e) => setSubTitle(e.target.value)}
         value={subTitle}
       />
-      <div className={'flex gap-2 items-center'}>
-        <label className={'w-1/3 inline-flex text-nowrap flex-grow gap-2'}>
+      <div className={'flex items-center gap-2  w-1/2 mb-4'}>
+        <label
+          className={'inline-flex items-center text-nowrap flex-grow gap-2'}
+        >
           <span className={'font-bold'}>시리즈</span>
           <Select
             options={[
@@ -154,17 +160,24 @@ const BlogForm = () => {
             defaultValue={seriesMock[0].slug}
           />
         </label>
-        <div>
-          <input
-            type="text"
-            placeholder="시리즈 생성하기"
-            className="w-1/2 p-2 border border-gray-300 rounded text-black"
-            onChange={(e) => setNewSeries(e.target.value)}
-            value={newSeries || ''}
-          />
-          <button className={'bg-green-400 text-black p-2 px-4'}>생성</button>
-        </div>
+        <button
+          onClick={() => setCreateSeriesOpen(true)}
+          className={
+            'inline-flex items-center gap-2 bg-green-200 text-black p-2 px-4 rounded-md hover:bg-green-300'
+          }
+        >
+          새로운 시리즈 <FaPlus />
+        </button>
       </div>
+      <Overlay
+        overlayOpen={createSeriesOpen}
+        setOverlayOpen={setCreateSeriesOpen}
+      >
+        <CreateSeriesOverlayContainer
+          setCreateSeriesOpen={setCreateSeriesOpen}
+        />
+      </Overlay>
+
       <MDEditor
         value={content}
         onChange={setContent}
