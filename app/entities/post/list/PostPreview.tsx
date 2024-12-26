@@ -50,7 +50,7 @@ const PostPreview = ({
           />
         </div>
         <div className={'h-1/3 flex flex-col gap-4 py-5 p-2'}>
-          <h2 className={'font-bold text-2xl'}>{title}</h2>
+          <h2 className={'font-bold text-xl'}>{title}</h2>
           <p>{subTitle ? subTitle.slice(0, 80) + '...' : ''}</p>
           <div className={'inline-flex justify-between w-full'}>
             <Profile profileThumbnail={profileImage} username={author} />
