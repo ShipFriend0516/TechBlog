@@ -54,7 +54,7 @@ const PostPreview = ({
             <h2 className={'font-bold text-xl'}>{title}</h2>
             <p>{subTitle ? subTitle.slice(0, 80) + '...' : ''}</p>
           </div>
-          <div className={'inline-flex justify-between w-full'}>
+          <div className={'inline-flex items-center justify-between w-full'}>
             <Profile profileThumbnail={profileImage} username={author} />
             <Timestamp date={date} />
           </div>
