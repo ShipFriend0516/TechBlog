@@ -1,5 +1,4 @@
 import { Post } from '@/app/types/Post';
-import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import PostPreview from '@/app/entities/post/list/PostPreview';
 import profile from '@/app/public/profile.jpg';
 import NotFound from '@/app/entities/common/Animation/NotFound';
@@ -22,7 +21,7 @@ const PostList = (props: {
             'flex justify-center items-center gap-2 mx-auto col-span-3 w-1/3 h-full pt-20'
           }
         >
-          <ImSpinner2 className={'text-3xl animate-spin ease-in'} />
+          <ImSpinner2 className={'text-3xl animate-spin'} />
           <span>발행된 글을 불러오는 중...</span>
         </div>
       ) : props.posts && props.posts.length > 0 ? (
