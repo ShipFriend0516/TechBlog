@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaBookOpen, FaCalendar } from 'react-icons/fa';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import { Series } from '@/app/types/Series';
+import Image from 'next/image';
 
 const SeriesListPage = () => {
   const [series, setSeries] = useState<Series[]>([]);
@@ -40,9 +41,12 @@ const SeriesListPage = () => {
           >
             <div className="relative aspect-video w-full overflow-hidden">
               {item.thumbnailImage ? (
-                <img
+                <Image
+                  width={400}
+                  height={300}
                   src={item.thumbnailImage}
                   alt={item.title}
+                  loading={'lazy'}
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200"
                 />
               ) : (
