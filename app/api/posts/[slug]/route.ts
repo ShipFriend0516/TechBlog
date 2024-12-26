@@ -88,7 +88,7 @@ export async function DELETE(
 ) {
   try {
     await dbConnect();
-    const post = await Post.findOne({ slug: params.slug });
+    const post = await Post.findById(params.slug);
 
     if (!post) {
       return NextResponse.json(
@@ -104,7 +104,7 @@ export async function DELETE(
       });
     }
 
-    await Post.deleteOne({ slug: params.slug });
+    await Post.deleteOne({ _id: params.slug });
 
     return NextResponse.json({
       message: '포스트가 성공적으로 삭제되었습니다.',
