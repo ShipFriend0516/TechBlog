@@ -56,7 +56,7 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
                       key={s.slug}
                       setSeriesOpen={setSeriesOpen}
                       seriesTitle={s.title}
-                      seriesCount={s.postCount}
+                      seriesCount={s.posts.length || 0}
                     />
                   ))}
                   {series?.length === 0 && (
