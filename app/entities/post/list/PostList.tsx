@@ -3,6 +3,7 @@ import PostPreview from '@/app/entities/post/list/PostPreview';
 import profile from '@/app/public/profile.jpg';
 import NotFound from '@/app/entities/common/Animation/NotFound';
 import { ImSpinner2 } from 'react-icons/im';
+import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 
 const PostList = (props: {
   query: string;
@@ -12,23 +13,16 @@ const PostList = (props: {
   return (
     <ul
       className={
-        'max-w-6xl mx-auto post-list my-12 px-4 grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-6'
+        'h-fit max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-6'
       }
     >
       {props.loading ? (
-        <div
-          className={
-            'flex justify-center items-center gap-2 mx-auto col-span-3 w-1/3 h-full pt-20'
-          }
-        >
-          <ImSpinner2 className={'text-3xl animate-spin'} />
-          <span>발행된 글을 불러오는 중...</span>
-        </div>
+        <SVGLoadingSpinner message={'발행된 글을 불러오는 중...'} />
       ) : props.posts && props.posts.length > 0 ? (
         props.posts.map(
           (post) =>
             post._id && (
-              <li key={post._id}>
+              <li className={'block'} key={post._id}>
                 <PostPreview
                   _id={post._id}
                   slug={post.slug}

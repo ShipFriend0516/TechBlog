@@ -21,7 +21,7 @@ const PostPreview = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <Link href={`/posts/${slug}`} className={' mx-auto '}>
+    <Link href={`/posts/${slug}`} className={'mx-auto h-[400px]'}>
       <div
         className={
           'w-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gray-200/50 overflow-hidden'
