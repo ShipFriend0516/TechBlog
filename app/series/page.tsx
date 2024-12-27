@@ -24,7 +24,6 @@ const SeriesListPage = () => {
         <h3 className="text-xl font-semibold text-slate-700">
           No Series Found
         </h3>
-        <p className="text-slate-500 mt-2">Start creating your first series!</p>
       </div>
     );
   }

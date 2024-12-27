@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { FaBookOpen, FaCalendar } from 'react-icons/fa';
 import React from 'react';
 import { Series } from '@/app/types/Series';
+import Link from 'next/link';
 
 interface SeriesPreviewProps {
   item: Series;
@@ -9,7 +10,8 @@ interface SeriesPreviewProps {
 
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
   return (
-    <div
+    <Link
+      href={`/posts?series=${item.slug}`}
       key={item.slug}
       className="group bg-white  rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden border border-slate-200"
     >
@@ -50,7 +52,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
           {item.description || 'No description available'}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 export default SeriesPreview;
