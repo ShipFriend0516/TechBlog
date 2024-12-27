@@ -2,7 +2,6 @@ import { Post } from '@/app/types/Post';
 import PostPreview from '@/app/entities/post/list/PostPreview';
 import profile from '@/app/public/profile.jpg';
 import NotFound from '@/app/entities/common/Animation/NotFound';
-import { ImSpinner2 } from 'react-icons/im';
 import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 
 const PostList = (props: {

@@ -11,7 +11,7 @@ const SVGLoadingSpinner = ({ message }: SVGLoadingSpinnerProps) => {
       }
     >
       <ImSpinner2 className={'text-3xl animate-spin'} />
-      <span>{message}</span>
+      {message && <span> {message}</span>}
     </div>
   );
 };
