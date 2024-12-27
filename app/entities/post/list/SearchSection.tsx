@@ -1,20 +1,28 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { FaBook, FaSearch } from 'react-icons/fa';
-import { BiChevronDown } from 'react-icons/bi';
+import { BiChevronDown, BiReset } from 'react-icons/bi';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import SeriesDropdownItem from '@/app/entities/series/SeriesDropdownItem';
 import SearchOverlayContainer from '@/app/entities/common/Overlay/Search/SearchOverlayContainer';
 import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import { Series } from '@/app/types/Series';
+import { LuTimerReset } from 'react-icons/lu';
+import { MdLockReset } from 'react-icons/md';
+import { RiResetRightLine } from 'react-icons/ri';
 
 interface SearchSectionProps {
   query: string;
   setQuery: (query: string) => void;
+  resetSearchCondition: () => void;
 }
 
-const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
+const SearchSection = ({
+  query,
+  setQuery,
+  resetSearchCondition,
+}: SearchSectionProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
   const latest = useSearchQueryStore((state) => state.latestSearchQueries);
@@ -70,10 +78,16 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
         </div>
 
         {/* 검색 버튼 및 검색창 */}
-        <div className="relative">
+        <div className={'flex items-center'}>
+          <button
+            onClick={resetSearchCondition}
+            className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
+          >
+            <RiResetRightLine size={20} />
+          </button>
           <button
             onClick={() => setSearchOpen(!searchOpen)}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
           >
             <FaSearch size={20} />
           </button>

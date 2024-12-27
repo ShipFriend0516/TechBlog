@@ -8,6 +8,7 @@ const PostList = (props: {
   query: string;
   loading: boolean;
   posts: Post[] | undefined;
+  resetSearchCondition: () => void;
 }) => {
   return (
     <ul
@@ -37,10 +38,16 @@ const PostList = (props: {
             )
         )
       ) : (
-        <div className={'col-span-3'}>
+        <div className={'flex flex-col gap-4 col-span-3'}>
           <NotFound
             message={`${props.query || '검색어'}에 대한 검색 결과가 없습니다.`}
           />
+          <button
+            onClick={props.resetSearchCondition}
+            className={'bg-black hover:bg-gray-600 px-4 py-1 rounded mx-auto'}
+          >
+            검색 초기화하기
+          </button>
         </div>
       )}
     </ul>
