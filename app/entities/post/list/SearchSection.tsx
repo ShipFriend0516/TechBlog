@@ -55,6 +55,7 @@ const SearchSection = ({ query, setQuery }: SearchSectionProps) => {
                     <SeriesDropdownItem
                       key={s.slug}
                       setSeriesOpen={setSeriesOpen}
+                      seriesSlug={s.slug}
                       seriesTitle={s.title}
                       seriesCount={s.posts.length || 0}
                     />

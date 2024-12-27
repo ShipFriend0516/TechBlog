@@ -1,18 +1,20 @@
 import Link from 'next/link';
 
 interface SeriesDropdownItemProps {
+  seriesSlug: string;
   setSeriesOpen: (open: boolean) => void;
   seriesTitle: string;
   seriesCount: number;
 }
 const SeriesDropdownItem = ({
+  seriesSlug,
   seriesTitle,
   seriesCount,
   setSeriesOpen,
 }: SeriesDropdownItemProps) => {
   return (
     <Link
-      href="#"
+      href={`/posts?series=${seriesSlug}`}
       className="block px-4 py-3 hover:bg-overlay-200 transition-colors"
       onClick={() => setSeriesOpen(false)}
     >
