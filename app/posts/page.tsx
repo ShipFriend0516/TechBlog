@@ -6,16 +6,22 @@ import PostList from '@/app/entities/post/list/PostList';
 import SearchSection from '@/app/entities/post/list/SearchSection';
 import { debounce } from 'lodash';
 import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
+import { useSearchParams } from 'next/navigation';
 
 const BlogList = () => {
   const [posts, setPosts] = useState<Post[]>();
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const addLatestQuery = useSearchQueryStore((state) => state.addSearchQuery);
-  const getPosts = async (query?: string) => {
-    const response = await axios.get(
-      `/api/posts${query ? `?query=${query}` : ''}`
-    );
+  const searchParams = useSearchParams();
+  const seriesSlugParam = searchParams.get('series');
+  const getPosts = async (query?: string, seriesSlug?: string | null) => {
+    const response = await axios.get(`/api/posts`, {
+      params: {
+        query: query,
+        series: seriesSlug,
+      },
+    });
     const data = await response.data;
     setPosts(data.posts);
     if (query) addLatestQuery(query);
@@ -25,8 +31,8 @@ const BlogList = () => {
   const debouncedGetPosts = useCallback(debounce(getPosts, 500), []);
 
   useEffect(() => {
-    debouncedGetPosts(query);
-  }, [query]);
+    debouncedGetPosts(query, seriesSlugParam);
+  }, [query, seriesSlugParam]);
 
   return (
     <section>

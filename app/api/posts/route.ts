@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth/next';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 import { generateUniqueSlug } from '@/app/lib/utils/post';
 import Series from '@/app/models/Series';
+import { QuerySelector } from 'mongoose';
 
 // GET /api/posts - 모든 글 조회
 export async function GET(req: Request) {
@@ -12,6 +13,11 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
 
     const query = searchParams.get('query') || '';
+    const seriesSlug = searchParams.get('series') || '';
+
+    const seriesId = seriesSlug
+      ? await Series.findOne({ slug: seriesSlug }, '_id')
+      : null;
 
     // 검색 조건 구성
     const searchConditions = {
@@ -20,9 +26,17 @@ export async function GET(req: Request) {
         { content: { $regex: query, $options: 'i' } },
         { subTitle: { $regex: query, $options: 'i' } },
       ],
+      $and: [],
     };
 
+    if (seriesId) {
+      (searchConditions.$and as QuerySelector<string>[]).push({
+        seriesId: seriesId,
+      } as QuerySelector<string>);
+    }
+
     const posts = await Post.find(searchConditions)
+
       .sort({ date: -1 })
       .limit(10);
 
