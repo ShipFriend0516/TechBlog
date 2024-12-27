@@ -1,7 +1,7 @@
 import { ImSpinner2 } from 'react-icons/im';
 
 interface SVGLoadingSpinnerProps {
-  message: string;
+  message?: string;
 }
 const SVGLoadingSpinner = ({ message }: SVGLoadingSpinnerProps) => {
   return (
