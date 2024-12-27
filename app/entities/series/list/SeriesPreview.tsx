@@ -13,7 +13,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
     <Link
       href={`/posts?series=${item.slug}`}
       key={item.slug}
-      className="group bg-white  rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden border border-slate-200"
+      className="cursor-pointer group bg-white  rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden border border-slate-200"
     >
       <div className="relative aspect-video w-full overflow-hidden">
         {item.thumbnailImage ? (
