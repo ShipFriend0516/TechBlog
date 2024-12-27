@@ -1,16 +1,23 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import LoadingSpinner from '@/app/entities/common/Loading/LoadingSpinner';
 import axios from 'axios';
 import useToast from '@/app/hooks/useToast';
 import { useBlockNavigate } from '@/app/hooks/useBlockNavigate';
 import { useRouter, useSearchParams } from 'next/navigation';
+import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
+import { validatePost } from '@/app/lib/utils/validate/validate';
+import Select from '@/app/entities/common/Select';
+import { Series } from '@/app/types/Series';
+import Overlay from '@/app/entities/common/Overlay/Overlay';
+import { FaPlus } from 'react-icons/fa6';
+import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
+import { getAllSeriesData } from '@/app/entities/series/api/series';
+import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -23,13 +30,20 @@ const BlogForm = () => {
   const [content, setContent] = useState<string | undefined>('');
   const [profileImage, setProfileImage] = useState<string | StaticImport>();
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
+  const [seriesList, setSeriesList] = useState<Series[]>([]);
+  const [seriesId, setSeriesId] = useState<string>();
+  const [seriesLoading, setSeriesLoading] = useState(true);
   const [errors, setErrors] = useState<string[]>([]);
   const toast = useToast();
   const router = useRouter();
-  const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
   const NICKNAME = '개발자 서정우';
+  const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
 
   useBlockNavigate({ title, content: content || '' });
+
+  useEffect(() => {
+    getSeries();
+  }, []);
 
   useEffect(() => {
     if (slug) {
@@ -44,8 +58,22 @@ const BlogForm = () => {
     content: content || '',
     profileImage,
     thumbnailImage,
+    seriesId: seriesId || '',
   };
 
+  // 시리즈
+  const getSeries = async () => {
+    try {
+      const data = await getAllSeriesData();
+      setSeriesList(data);
+      setSeriesId(data[0]._id);
+      setSeriesLoading(false);
+    } catch (e) {
+      console.error('시리즈 조회 중 오류 발생', e);
+    }
+  };
+
+  // 블로그
   const postBlog = async (post: PostBody) => {
     try {
       const response = await axios.post('/api/posts', post);
@@ -72,50 +100,11 @@ const BlogForm = () => {
     }
   };
 
-  const validatePost = (
-    post: PostBody
-  ): { isValid: boolean; errors: string[] } => {
-    const errors: string[] = [];
-
-    // 필수 필드 검사
-    if (!post.title?.trim()) {
-      errors.push('제목은 필수입니다');
-    }
-    if (!post.content?.trim()) {
-      errors.push('내용은 필수입니다');
-    }
-
-    // 길이 제한 검사
-    if (post.title && post.title.length > 100) {
-      errors.push('제목은 100자를 초과할 수 없습니다');
-    }
-    if (post.subTitle && post.subTitle.length > 200) {
-      errors.push('부제목은 200자를 초과할 수 없습니다');
-    }
-    if (post.content && post.content.length > 50000) {
-      errors.push('내용은 20000자를 초과할 수 없습니다');
-    }
-
-    // 최소 길이 검사
-    if (post.title && post.title.length < 2) {
-      errors.push('제목은 최소 2자 이상이어야 합니다');
-    }
-
-    if (post.content && post.content.length < 10) {
-      errors.push('내용은 최소 10자 이상이어야 합니다');
-    }
-
-    setErrors(errors);
-    return {
-      isValid: errors.length === 0,
-      errors,
-    };
-  };
-
   const submitHandler = (post: PostBody) => {
     try {
       setSubmitLoading(true);
       const { isValid, errors } = validatePost(post);
+      setErrors(errors);
       if (!isValid) {
         toast.error('유효성 검사 실패');
         console.error('유효성 검사 실패', errors);
@@ -162,6 +151,42 @@ const BlogForm = () => {
         onChange={(e) => setSubTitle(e.target.value)}
         value={subTitle}
       />
+      <div className={'flex items-center gap-2  w-1/2 mb-4'}>
+        <label
+          className={'inline-flex items-center text-nowrap flex-grow gap-2'}
+        >
+          <span className={'font-bold'}>시리즈</span>
+          {seriesLoading ? (
+            <div>loading...</div>
+          ) : (
+            <Select
+              options={seriesList.map((s) => ({
+                value: s._id,
+                label: s.title,
+              }))}
+              setValue={setSeriesId}
+              defaultValue={seriesList[0] ? seriesList[0]._id : ''}
+            />
+          )}
+        </label>
+        <button
+          onClick={() => setCreateSeriesOpen(true)}
+          className={
+            'inline-flex items-center gap-2 bg-green-200 text-black p-2 px-4 rounded-md hover:bg-green-300'
+          }
+        >
+          새로운 시리즈 <FaPlus />
+        </button>
+      </div>
+      <Overlay
+        overlayOpen={createSeriesOpen}
+        setOverlayOpen={setCreateSeriesOpen}
+      >
+        <CreateSeriesOverlayContainer
+          setCreateSeriesOpen={setCreateSeriesOpen}
+        />
+      </Overlay>
+
       <MDEditor
         value={content}
         onChange={setContent}
@@ -177,27 +202,12 @@ const BlogForm = () => {
           ))}
         </div>
       )}
-      <div className={'w-full flex justify-center my-6'}>
-        <Link
-          href={'/admin'}
-          className={buttonStyle + ' text-black bg-gray-200 hover:bg-red-500 '}
-        >
-          <button>나가기</button>
-        </Link>
-        <button className={buttonStyle + 'bg-blue-500 hover:bg-blue-700 '}>
-          임시 저장
-        </button>
-        <button
-          disabled={submitLoading}
-          className={buttonStyle + 'bg-emerald-500  hover:bg-emerald-700 '}
-          onClick={(e) => {
-            e.preventDefault();
-            submitHandler(postBody);
-          }}
-        >
-          {submitLoading ? <LoadingSpinner /> : slug ? '글 수정' : '글 발행'}
-        </button>
-      </div>
+      <PostWriteButtons
+        slug={slug}
+        postBody={postBody}
+        submitHandler={submitHandler}
+        submitLoading={submitLoading}
+      />
     </div>
   );
 };

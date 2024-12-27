@@ -3,6 +3,8 @@ import dbConnect from '@/app/lib/dbConnect';
 import { getServerSession } from 'next-auth/next';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 import { generateUniqueSlug } from '@/app/lib/utils/post';
+import Series from '@/app/models/Series';
+import { QuerySelector } from 'mongoose';
 
 // GET /api/posts - 모든 글 조회
 export async function GET(req: Request) {
@@ -11,6 +13,11 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
 
     const query = searchParams.get('query') || '';
+    const seriesSlug = searchParams.get('series') || '';
+
+    const seriesId = seriesSlug
+      ? await Series.findOne({ slug: seriesSlug }, '_id')
+      : null;
 
     // 검색 조건 구성
     const searchConditions = {
@@ -19,9 +26,17 @@ export async function GET(req: Request) {
         { content: { $regex: query, $options: 'i' } },
         { subTitle: { $regex: query, $options: 'i' } },
       ],
+      $and: [],
     };
 
+    if (seriesId) {
+      (searchConditions.$and as QuerySelector<string>[]).push({
+        seriesId: seriesId,
+      } as QuerySelector<string>);
+    }
+
     const posts = await Post.find(searchConditions)
+
       .sort({ date: -1 })
       .limit(10);
 
@@ -45,8 +60,15 @@ export async function POST(req: Request) {
     }
 
     await dbConnect();
-    const { title, subTitle, author, content, profileImage, thumbnailImage } =
-      await req.json();
+    const {
+      title,
+      subTitle,
+      author,
+      content,
+      profileImage,
+      thumbnailImage,
+      seriesId,
+    } = await req.json();
 
     if (!title || !content || !author || !content) {
       return Response.json(
@@ -64,6 +86,7 @@ export async function POST(req: Request) {
       timeToRead: Math.ceil(content.length / 500),
       profileImage,
       thumbnailImage: thumbnailImage || getThumbnailInMarkdown(content),
+      seriesId: seriesId || null,
     };
 
     const newPost = await Post.create(post);
@@ -72,6 +95,13 @@ export async function POST(req: Request) {
         { success: false, error: '글 작성 실패' },
         { status: 500 }
       );
+    }
+
+    if (post.seriesId) {
+      await Series.findByIdAndUpdate(post.seriesId, {
+        $push: { posts: newPost._id },
+        $inc: { postCount: 1 }, // postCount 1 증가
+      });
     }
 
     return Response.json(

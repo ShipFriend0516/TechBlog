@@ -1,10 +1,15 @@
 import { ReactNode, useEffect, useRef } from 'react';
 
 interface OverlayProps {
+  overlayOpen: boolean;
   setOverlayOpen: (open: boolean) => void;
   children: ReactNode;
 }
-const Overlay = ({ setOverlayOpen, children }: OverlayProps) => {
+const Overlay = ({
+  overlayOpen = false,
+  setOverlayOpen,
+  children,
+}: OverlayProps) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -20,11 +25,16 @@ const Overlay = ({ setOverlayOpen, children }: OverlayProps) => {
   }, []);
 
   return (
-    <div ref={overlayRef} className="fixed inset-0 bg-black bg-opacity-50 z-50">
-      <div className="animate-popUp  container bg-overlay bg-opacity-90 text-overlay rounded-lg mx-auto mt-[24%] max-w-2xl">
-        {children}
+    overlayOpen && (
+      <div
+        ref={overlayRef}
+        className="fixed inset-0 bg-black bg-opacity-50 z-50"
+      >
+        <div className="animate-popUp  container bg-overlay bg-opacity-90 text-overlay rounded-lg mx-auto mt-[24%] max-w-2xl">
+          {children}
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
