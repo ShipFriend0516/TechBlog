@@ -20,11 +20,12 @@ const BlogList = () => {
   const getPosts = async (query?: string, seriesSlug?: string | null) => {
     const response = await axios.get(`/api/posts`, {
       params: {
-        query: query,
+        query: query ? query : null,
         series: seriesSlug,
       },
     });
     const data = await response.data;
+    console.log(data);
     setPosts(data.posts);
     if (query) addLatestQuery(query);
     setLoading(false);
