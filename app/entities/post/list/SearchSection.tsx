@@ -8,9 +8,7 @@ import SearchOverlayContainer from '@/app/entities/common/Overlay/Search/SearchO
 import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import { Series } from '@/app/types/Series';
-import { LuTimerReset } from 'react-icons/lu';
-import { MdLockReset } from 'react-icons/md';
-import { RiResetRightLine } from 'react-icons/ri';
+import { RiRestartLine } from 'react-icons/ri';
 
 interface SearchSectionProps {
   query: string;
@@ -83,7 +81,7 @@ const SearchSection = ({
             onClick={resetSearchCondition}
             className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
           >
-            <RiResetRightLine size={20} />
+            <RiRestartLine size={20} />
           </button>
           <button
             onClick={() => setSearchOpen(!searchOpen)}

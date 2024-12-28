@@ -13,7 +13,7 @@ const PostList = (props: {
   return (
     <ul
       className={
-        'h-fit max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-6'
+        'h-fit max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
       }
     >
       {props.loading ? (
