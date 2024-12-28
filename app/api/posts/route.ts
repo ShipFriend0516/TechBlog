@@ -31,12 +31,11 @@ export async function GET(req: Request) {
 
     if (seriesId) {
       (searchConditions.$and as QuerySelector<string>[]).push({
-        seriesId: seriesId,
+        seriesId: seriesId._id,
       } as QuerySelector<string>);
     }
 
     const posts = await Post.find(searchConditions)
-
       .sort({ date: -1 })
       .limit(10);
 

@@ -6,8 +6,8 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { Post } from '@/app/types/Post';
 import axios from 'axios';
-import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import Link from 'next/link';
+import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>();
@@ -86,7 +86,9 @@ export default function Home() {
         <h2 className="text-2xl font-semibold">Latest Articles</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {loading ? (
-            <LoadingIndicator />
+            <div className={'col-span-3 h-full'}>
+              <SVGLoadingSpinner />
+            </div>
           ) : (
             posts &&
             posts.slice(0, 3).map((post) => (
