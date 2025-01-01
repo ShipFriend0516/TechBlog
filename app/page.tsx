@@ -41,7 +41,7 @@ export default function Home() {
             Frontend Developer
           </h1>
         </div>
-        <p className="text-lg text-gray-200 max-w-2xl">
+        <p className="text-lg text-default max-w-2xl">
           안녕하세요, 서정우입니다. 사용자 경험과 깔끔한 코드 작성에 중점을 두고
           있으며, 멈추지 않는 기술의 변화를 즐깁니다.
         </p>
@@ -60,14 +60,14 @@ export default function Home() {
         </div>
         <div className="grid gap-4">
           <h2 className="text-2xl font-semibold">About Me</h2>
-          <p className="text-gray-200">
+          <p className="text-default">
             프론트엔드 개발자로서 React, Next.js, TypeScript를 주로 사용합니다.
             항상 사용자 입장에서 생각하고, 성능 최적화에 관심이 많으며, 지속적인
             학습과 성장을 추구합니다.
           </p>
           <div className="flex gap-4">
             <a href={'https://github.com/ShipFriend0516'} target={'_blank'}>
-              <FaGithub className="w-5 h-5 text-gray-200 hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
+              <FaGithub className="w-5 h-5 text-default hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
             </a>
             <a
               href={
@@ -75,7 +75,7 @@ export default function Home() {
               }
               target={'_blank'}
             >
-              <FaLinkedin className="w-5 h-5 text-gray-200 hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
+              <FaLinkedin className="w-5 h-5 text-default hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
             </a>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function Home() {
                   />
                 </div>
                 <h3 className="font-medium mb-2">{post.title}</h3>
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-default">
                   {post.subTitle && post.subTitle.slice(0, 80)}
                 </p>
               </Link>
