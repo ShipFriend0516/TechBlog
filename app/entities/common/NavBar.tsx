@@ -7,6 +7,7 @@ import profile from '@/app/public/profile.jpg';
 import IconButton from '@/app/entities/common/Button/IconButton';
 import { FaRegMoon, FaRegSun } from 'react-icons/fa';
 import useTheme from '@/app/hooks/useTheme';
+import { IoMoonSharp, IoSunny, IoSunnySharp } from 'react-icons/io5';
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -42,7 +43,7 @@ const NavBar = () => {
         </div>
         <ul
           className={
-            'inline-flex max-w-5xl w-full justify-end gap-6 items-center'
+            'inline-flex max-w-5xl w-full justify-end gap-4 items-center'
           }
         >
           <li>
@@ -57,7 +58,8 @@ const NavBar = () => {
           <li>
             <IconButton
               onClick={toggleTheme}
-              Icon={theme === 'light' ? FaRegSun : FaRegMoon}
+              Icon={theme === 'light' ? IoSunnySharp : IoMoonSharp}
+              size={20}
             />
           </li>
         </ul>

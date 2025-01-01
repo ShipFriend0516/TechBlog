@@ -47,7 +47,7 @@ const PostHeader = ({
   return (
     <div
       className={
-        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center bg-gray-400/50'
+        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center bg-gray-400/40 text-white'
       }
     >
       <h1 className={'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl '}>
