@@ -4,8 +4,12 @@ import { useEffect, useState } from 'react';
 import Profile from '@/app/entities/common/Profile';
 
 import profile from '@/app/public/profile.jpg';
+import IconButton from '@/app/entities/common/Button/IconButton';
+import { FaRegMoon, FaRegSun } from 'react-icons/fa';
+import useTheme from '@/app/hooks/useTheme';
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +40,11 @@ const NavBar = () => {
             <Profile profileThumbnail={profile} username={'Jeongwoo Seo'} />
           </Link>
         </div>
-        <ul className={'inline-flex max-w-5xl w-full justify-end gap-6 '}>
+        <ul
+          className={
+            'inline-flex max-w-5xl w-full justify-end gap-6 items-center'
+          }
+        >
           <li>
             <Link href="/posts">Blog</Link>
           </li>
@@ -45,6 +53,12 @@ const NavBar = () => {
           </li>
           <li>
             <Link href="/portfolio">Portfolio</Link>
+          </li>
+          <li>
+            <IconButton
+              onClick={toggleTheme}
+              Icon={theme === 'light' ? FaRegSun : FaRegMoon}
+            />
           </li>
         </ul>
       </div>
