@@ -2,6 +2,7 @@
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import MDEditor from '@uiw/react-md-editor';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
+import useTheme from '@/app/hooks/useTheme';
 
 interface Props {
   content: string;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const PostBody = ({ content, loading }: Props) => {
+  const { theme } = useTheme();
   return (
     <div
       className={'max-w-full post-body px-4 py-16 min-h-[500px] relative    '}
@@ -27,7 +29,7 @@ const PostBody = ({ content, loading }: Props) => {
             className={''}
             source={content}
             wrapperElement={{
-              'data-color-mode': 'dark',
+              'data-color-mode': theme,
             }}
           />
           <PostTOC postContent={content || ''} />

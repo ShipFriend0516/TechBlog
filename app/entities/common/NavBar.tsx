@@ -4,8 +4,13 @@ import { useEffect, useState } from 'react';
 import Profile from '@/app/entities/common/Profile';
 
 import profile from '@/app/public/profile.jpg';
+import IconButton from '@/app/entities/common/Button/IconButton';
+import { FaRegMoon, FaRegSun } from 'react-icons/fa';
+import useTheme from '@/app/hooks/useTheme';
+import { IoMoonSharp, IoSunny, IoSunnySharp } from 'react-icons/io5';
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +41,11 @@ const NavBar = () => {
             <Profile profileThumbnail={profile} username={'Jeongwoo Seo'} />
           </Link>
         </div>
-        <ul className={'inline-flex max-w-5xl w-full justify-end gap-6 '}>
+        <ul
+          className={
+            'inline-flex max-w-5xl w-full justify-end gap-4 items-center'
+          }
+        >
           <li>
             <Link href="/posts">Blog</Link>
           </li>
@@ -45,6 +54,13 @@ const NavBar = () => {
           </li>
           <li>
             <Link href="/portfolio">Portfolio</Link>
+          </li>
+          <li>
+            <IconButton
+              onClick={toggleTheme}
+              Icon={theme === 'light' ? IoSunnySharp : IoMoonSharp}
+              size={20}
+            />
           </li>
         </ul>
       </div>
