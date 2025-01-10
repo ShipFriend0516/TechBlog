@@ -67,7 +67,7 @@ export default function Home() {
           </p>
           <div className="flex gap-4">
             <a href={'https://github.com/ShipFriend0516'} target={'_blank'}>
-              <FaGithub className="w-5 h-5 text-default hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
+              <FaGithub className="w-5 h-5 text-default hover:scale-125 transition cursor-pointer" />
             </a>
             <a
               href={
@@ -75,7 +75,7 @@ export default function Home() {
               }
               target={'_blank'}
             >
-              <FaLinkedin className="w-5 h-5 text-default hover:text-gray-100 hover:scale-125 transition cursor-pointer" />
+              <FaLinkedin className="w-5 h-5 text-default hover:scale-125 transition cursor-pointer" />
             </a>
           </div>
         </div>
