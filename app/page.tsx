@@ -24,6 +24,10 @@ export default function Home() {
     getPosts();
   }, []);
 
+  const linkedinLink =
+    'https://www.linkedin.com/in/%EC%A0%95%EC%9A%B0-%EC%84%9C-9a0b79312/';
+  const githubLink = 'https://github.com/ShipFriend0516';
+
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-8">
       {/* Hero Section */}
@@ -66,15 +70,10 @@ export default function Home() {
             학습과 성장을 추구합니다.
           </p>
           <div className="flex gap-4">
-            <a href={'https://github.com/ShipFriend0516'} target={'_blank'}>
+            <a href={githubLink} target={'_blank'}>
               <FaGithub className="w-5 h-5 text-default hover:scale-125 transition cursor-pointer" />
             </a>
-            <a
-              href={
-                'https://www.linkedin.com/in/%EC%A0%95%EC%9A%B0-%EC%84%9C-9a0b79312/'
-              }
-              target={'_blank'}
-            >
+            <a href={linkedinLink} target={'_blank'}>
               <FaLinkedin className="w-5 h-5 text-default hover:scale-125 transition cursor-pointer" />
             </a>
           </div>
