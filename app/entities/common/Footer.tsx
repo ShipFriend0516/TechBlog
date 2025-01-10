@@ -1,28 +1,26 @@
+'use client';
 import Link from 'next/link';
+import useToast from '@/app/hooks/useToast';
 
 const Footer = () => {
+  const toast = useToast();
+
   return (
     <footer
-      className={'w-screen bg-gray-950 min-h-96 flex flex-col justify-between'}
+      className={
+        'w-screen bg-neutral-200 dark:bg-gray-950  min-h-96 flex flex-col justify-between'
+      }
     >
       <section
         className={'footer w-full flex flex-col md:flex-row justify-center'}
       >
         <div className={'footer-col'}>
           <b>BLOG</b>
-          <div>
-            <p
-              className={
-                'text-left text-gray-100 font-serif whitespace-pre-wrap'
-              }
-            >
+          <div className={'text-weak'}>
+            <p className={'text-left font-serif whitespace-pre-wrap'}>
               a developer who never stops growing.
             </p>
-            <p
-              className={
-                'text-left text-gray-100 font-serif whitespace-pre-wrap'
-              }
-            >
+            <p className={'text-left font-serif whitespace-pre-wrap'}>
               성장을 멈추지 않는 개발자.
             </p>
           </div>
@@ -48,7 +46,7 @@ const Footer = () => {
         <div className={'footer-col'}>
           <b>Subscribe</b>
           <form className={'flex flex-col gap-4'}>
-            <p className={'text-gray-300'}>새 글을 구독해보세요</p>
+            <p className={'text-default'}>새 글을 구독해보세요</p>
             <input
               className={
                 'border-b bg-transparent px-4 py-1.5 inset-3 outline-black'
@@ -63,9 +61,13 @@ const Footer = () => {
             />
             <button
               className={
-                'rounded-md border bg-transparent py-3 w-1/2  shadow-lg hover:bg-white hover:text-black transition'
+                'rounded-md border bg-transparent py-3 w-1/2 border-black hover:shadow-lg hover:bg-white hover:text-black transition'
               }
               aria-label={'구독 버튼'}
+              onClick={(e) => {
+                e.preventDefault();
+                toast.error('새 글 구독은 아직 지원하지 않는 기능입니다.');
+              }}
             >
               Subscribe
             </button>

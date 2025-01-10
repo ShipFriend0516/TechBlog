@@ -11,6 +11,7 @@
   --text-default: #000000;
   --text-overlay: #FFFFFF;
   --bg-overlay: #1e201e;
+  --text-weak: #474b4e;
 }
 .dark {
   --background: #1e201e;
@@ -19,6 +20,7 @@
   --text-default: #FFFFFF;
   --text-overlay: #000000;
   --bg-overlay: #ededed;
+  --text-weak: rgba(255, 255, 255, 0.7);
 }
 
 
@@ -116,6 +118,11 @@ section.footer > div.footer-col {
 section.footer > div.footer-col b {
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+section.footer input {
+  background-color: white;
+  border-radius: 4px;
 }
 
 section.footer a:hover {
