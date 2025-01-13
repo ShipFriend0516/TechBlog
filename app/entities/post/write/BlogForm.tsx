@@ -17,7 +17,7 @@ import Overlay from '@/app/entities/common/Overlay/Overlay';
 import { FaPlus } from 'react-icons/fa6';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
-import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
+import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -135,6 +135,11 @@ const BlogForm = () => {
     }
   };
 
+  const handleLinkCopy = (image: string) => {
+    navigator.clipboard.writeText(image);
+    toast.success('이미지 링크가 복사되었습니다.');
+  };
+
   return (
     <div className={'px-16'}>
       <input
@@ -193,6 +198,7 @@ const BlogForm = () => {
         height={500}
         visibleDragbar={false}
       />
+      <UploadImageContainer onClick={handleLinkCopy} />
       {errors && (
         <div className={'mt-2'}>
           {errors.slice(0, 3).map((error, index) => (
