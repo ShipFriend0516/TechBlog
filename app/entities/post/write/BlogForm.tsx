@@ -40,18 +40,6 @@ const BlogForm = () => {
   const NICKNAME = '개발자 서정우';
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
 
-  const [uploadedImages, setUploadedImages] = useState<string[]>([
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  ]);
-
   useBlockNavigate({ title, content: content || '' });
 
   useEffect(() => {
@@ -211,10 +199,7 @@ const BlogForm = () => {
         height={500}
         visibleDragbar={false}
       />
-      <UploadImageContainer
-        uploadedImages={uploadedImages}
-        onClick={handleLinkCopy}
-      />
+      <UploadImageContainer onClick={handleLinkCopy} />
       {errors && (
         <div className={'mt-2'}>
           {errors.slice(0, 3).map((error, index) => (

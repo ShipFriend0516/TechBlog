@@ -20,7 +20,13 @@ const UploadedImage = ({ onClick, image }: UploadedImageProps) => {
       >
         링크 복사
       </p>
-      <Image className={'group'} src={image} alt={'dd'} fill={true} />
+      <Image
+        className={'group'}
+        src={image}
+        alt={'이미지'}
+        fill={true}
+        sizes={'400'}
+      />
     </li>
   );
 };

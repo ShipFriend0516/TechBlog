@@ -1,14 +1,52 @@
-import Image from 'next/image';
+'use client';
 import UploadedImage from '@/app/entities/post/write/UploadedImage';
+import { FaImage } from 'react-icons/fa';
+import { upload } from '@vercel/blob/client';
+import { revalidatePath } from 'next/cache';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 
 interface UploadImageContainerProps {
-  uploadedImages: string[];
   onClick: (link: string) => void;
 }
-const UploadImageContainer = ({
-  uploadedImages,
-  onClick,
-}: UploadImageContainerProps) => {
+const UploadImageContainer = ({ onClick }: UploadImageContainerProps) => {
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  ]);
+  const uploadToBlob = async (event: ChangeEvent) => {
+    try {
+      event.preventDefault();
+      console.log(event);
+      const target = event.target as HTMLInputElement;
+      if (!target.files) {
+        throw new Error('이미지가 선택되지 않았습니다.');
+      }
+
+      const file = target.files[0];
+
+      const timestamp = new Date().getTime();
+      const pathname = `/images/${timestamp}-${file.name}`;
+      const newBlob = await upload(pathname, file, {
+        access: 'public',
+        handleUploadUrl: '/api/upload',
+      });
+
+      setUploadedImages([...uploadedImages, newBlob.url]);
+      return;
+    } catch (error) {
+      console.error('업로드 실패:', error);
+      throw error;
+    }
+  };
+
   return (
     <div className={'w-full mt-4'}>
       <div className={'flex justify-between my-1'}>
@@ -16,11 +54,27 @@ const UploadImageContainer = ({
           <span className={'text-xl font-bold'}>업로드된 이미지</span>
           <p>클릭하여 링크 복사</p>
         </div>
-        <button
-          className={'bg-emerald-500 rounded-md px-2 hover:bg-emerald-600'}
+        <div
+          className={
+            'cursor-pointer relative w-12 h-12 bg-emerald-500  rounded-md overflow-hidden'
+          }
         >
-          이미지 업로드
-        </button>
+          <FaImage
+            className={
+              'absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none'
+            }
+          />
+          <input
+            type={'file'}
+            multiple={true}
+            placeholder={'이미지 업로드'}
+            onChange={uploadToBlob}
+            className={
+              'w-full h-full file:hidden text-transparent  px-2 hover:bg-emerald-600'
+            }
+            accept={'image/*'}
+          ></input>
+        </div>
       </div>
 
       <ul
