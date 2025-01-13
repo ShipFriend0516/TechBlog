@@ -93,6 +93,12 @@ article.post .post-body p:has(img) {
 text-align: center;
 }
 
+article.post .post-body img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+}
+
 article.post h3 {
   font-size: 1.25rem;
   font-weight: bold;
@@ -142,4 +148,26 @@ section.footer .disabled {
   transition: all 0.3s;
   transition-delay: unset;
   transition-timing-function: ease-in-out;
+}
+
+/* HR Style */
+article.post .post-body hr {
+  border: 0px solid;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 100, 0, 0.75), rgba(0, 0, 0, 0));
+  margin: 32px 0px;
+  display: block;
+}
+
+article.post .post-body hr::before {
+  position: absolute;
+  background-color: #efefef;
+  border: 10px solid #006400;
+  border-top: 10px solid transparent;
+  border-radius: 2px;
+  padding: 0px;
+  transform: rotate(180deg);
+  left: 50%;
+  margin: -5px 0px 0px -21px;
+  content: "";
 }
