@@ -89,6 +89,10 @@ article.post .post-body {
   line-height: 150%;
 }
 
+article.post .post-body p:has(img) {
+text-align: center;
+}
+
 article.post h3 {
   font-size: 1.25rem;
   font-weight: bold;
