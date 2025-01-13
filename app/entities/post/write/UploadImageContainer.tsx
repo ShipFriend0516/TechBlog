@@ -2,29 +2,16 @@
 import UploadedImage from '@/app/entities/post/write/UploadedImage';
 import { FaImage } from 'react-icons/fa';
 import { upload } from '@vercel/blob/client';
-import { revalidatePath } from 'next/cache';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 interface UploadImageContainerProps {
   onClick: (link: string) => void;
 }
 const UploadImageContainer = ({ onClick }: UploadImageContainerProps) => {
-  const inputFileRef = useRef<HTMLInputElement>(null);
-  const [uploadedImages, setUploadedImages] = useState<string[]>([
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  ]);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const uploadToBlob = async (event: ChangeEvent) => {
     try {
       event.preventDefault();
-      console.log(event);
       const target = event.target as HTMLInputElement;
       if (!target.files) {
         throw new Error('이미지가 선택되지 않았습니다.');

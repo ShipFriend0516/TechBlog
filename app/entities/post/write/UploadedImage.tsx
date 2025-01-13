@@ -21,7 +21,7 @@ const UploadedImage = ({ onClick, image }: UploadedImageProps) => {
         링크 복사
       </p>
       <Image
-        className={'group'}
+        className={'group object-cover'}
         src={image}
         alt={'이미지'}
         fill={true}
