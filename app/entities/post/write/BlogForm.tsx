@@ -17,7 +17,8 @@ import Overlay from '@/app/entities/common/Overlay/Overlay';
 import { FaPlus } from 'react-icons/fa6';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
-import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
+import Image from 'next/image';
+import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -38,6 +39,18 @@ const BlogForm = () => {
   const router = useRouter();
   const NICKNAME = '개발자 서정우';
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
+
+  const [uploadedImages, setUploadedImages] = useState<string[]>([
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1736082063156-c268c92717cf?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  ]);
 
   useBlockNavigate({ title, content: content || '' });
 
@@ -135,6 +148,11 @@ const BlogForm = () => {
     }
   };
 
+  const handleLinkCopy = (image: string) => {
+    navigator.clipboard.writeText(image);
+    toast.success('이미지 링크가 복사되었습니다.');
+  };
+
   return (
     <div className={'px-16'}>
       <input
@@ -192,6 +210,10 @@ const BlogForm = () => {
         onChange={setContent}
         height={500}
         visibleDragbar={false}
+      />
+      <UploadImageContainer
+        uploadedImages={uploadedImages}
+        onClick={handleLinkCopy}
       />
       {errors && (
         <div className={'mt-2'}>
