@@ -17,7 +17,6 @@ import Overlay from '@/app/entities/common/Overlay/Overlay';
 import { FaPlus } from 'react-icons/fa6';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
-import Image from 'next/image';
 import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
