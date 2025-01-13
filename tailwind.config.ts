@@ -6,6 +6,7 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -13,6 +14,7 @@ const config: Config = {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         overlay: 'var(--bg-overlay)',
+        weak: 'var(--text-weak)',
       },
       textColor: {
         overlay: 'var(--text-overlay)',
