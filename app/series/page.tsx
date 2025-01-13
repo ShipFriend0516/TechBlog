@@ -32,7 +32,7 @@ const SeriesListPage = () => {
   }
 
   return (
-    <section className={'w-full p-10'}>
+    <section className={'w-full p-10 max-w-5xl mx-auto'}>
       <h1 className={'text-4xl font-bold mt-4'}>시리즈</h1>
       <p className={'text-lg mb-4'}>시리즈별로 글을 확인해보세요.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
