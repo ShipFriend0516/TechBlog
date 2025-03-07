@@ -5,31 +5,30 @@
 :root {
   /*--background: #ffffff;*/
   /*--foreground: #171717;*/
-  --background: #ededed;
+  --background: #ffffff;
   --foreground: #1e201e;
   --disabled: #a0a0a0;
   --text-default: #000000;
-  --text-overlay: #FFFFFF;
+  --text-overlay: #ffffff;
   --bg-overlay: #1e201e;
   --text-weak: #474b4e;
 }
 .dark {
   --background: #1e201e;
-  --foreground: #ededed;
+  --foreground: #ffffff;
   --disabled: #a0a0a0;
-  --text-default: #FFFFFF;
+  --text-default: #ffffff;
   --text-overlay: #000000;
   --bg-overlay: #ededed;
   --text-weak: rgba(255, 255, 255, 0.7);
 }
-
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #1e201e;
     --foreground: #ededed;
     --disabled: #a0a0a0;
-    --text-default: #FFFFFF;
+    --text-default: #ffffff;
     --text-overlay: #000000;
     --bg-overlay: #ededed;
   }
@@ -90,7 +89,7 @@ article.post .post-body {
 }
 
 article.post .post-body p:has(img) {
-text-align: center;
+  text-align: center;
 }
 
 article.post .post-body img {
@@ -154,7 +153,12 @@ section.footer .disabled {
 article.post .post-body hr {
   border: 0px solid;
   height: 1px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 100, 0, 0.75), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 100, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
   margin: 32px 0px;
   display: block;
 }
@@ -169,5 +173,5 @@ article.post .post-body hr::before {
   transform: rotate(180deg);
   left: 50%;
   margin: -5px 0px 0px -21px;
-  content: "";
+  content: '';
 }

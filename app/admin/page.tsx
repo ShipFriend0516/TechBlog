@@ -88,7 +88,7 @@ const AdminDashboard = () => {
       <header className="mb-8 flex justify-between">
         <div>
           <h1 className="text-3xl font-bold mb-2">관리자 대시보드</h1>
-          <p className="text-gray-200">{session.user?.name}님, 환영합니다</p>
+          <p className=" text-default">{session.user?.name}님, 환영합니다</p>
         </div>
         <button
           className="right-0 px-4 py-1 bg-red-500 text-white rounded-md shadow-md hover:bg-red-700 transition-all"
@@ -107,24 +107,22 @@ const AdminDashboard = () => {
             className={`${item.bgColor} p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
           >
             <div className="flex items-center mb-4">
-              <div className="p-2 bg-white rounded-lg shadow-sm">
+              <div className="p-2  border text-weak  rounded-lg shadow-sm">
                 {item.icon}
               </div>
               <h2 className="text-xl font-semibold ml-3">{item.title}</h2>
             </div>
-            <p className="text-gray-200">{item.description}</p>
+            <p className="text-default">{item.description}</p>
           </Link>
         ))}
       </div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold mb-4">최근 활동</h3>
-          {/* 여기에 최근 활동 목록 추가 */}
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold mb-4">빠른 통계</h3>
-          {/* 여기에 간단한 통계 추가 */}
         </div>
       </div>
     </div>
