@@ -1,14 +1,17 @@
 'use client';
 import Image from 'next/image';
-import profileBackground from '@/app/public/plane.jpg';
+import profileBackground from '@/app/public/plane2.jpg';
 import profile from '@/app/public/profile.jpg';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { Post } from '@/app/types/Post';
 import axios from 'axios';
 import Link from 'next/link';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 import Skeleton from '@/app/entities/common/Skeleton';
+import project1 from '@/app/public/images/preview-logo.png';
+import project2 from '@/app/public/images/primitive-logo.png';
+import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
+import { Project } from '@/app/types/Portfolio';
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>();
@@ -29,6 +32,26 @@ export default function Home() {
     'https://www.linkedin.com/in/%EC%A0%95%EC%9A%B0-%EC%84%9C-9a0b79312/';
   const githubLink = 'https://github.com/ShipFriend0516';
 
+  const projects: Project[] = [
+    {
+      title: 'PREVIEW',
+      description: 'WebRTC 기반 화상 면접 스터디 플랫폼',
+      image: project1,
+      tags: ['React', 'WebRTC', 'Fullstack'],
+      demoUrl: 'https://boostcamp-preview.kro.kr/',
+      githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
+    },
+    {
+      title: 'Primitive',
+      description: '프로그래밍 동아리 PRIMITIVE 홍보 및 프로젝트 공유 플랫폼',
+      image: project2,
+      tags: ['React', 'TypeScript', 'Firebase'],
+      demoUrl: 'https://primitive.kr',
+      githubUrl: 'https://github.com/ShipFriend0516/Primitive',
+      slug: 'primitive',
+    },
+  ];
+
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-8">
       {/* Hero Section */}
@@ -42,9 +65,19 @@ export default function Home() {
             className="object-cover bg-gray-100 w-full h-full"
           />
           <div className="absolute inset-0 bg-black/10"></div>
-          <h1 className="absolute bottom-8 left-8 text-4xl font-bold text-white">
-            Frontend Developer
-          </h1>
+          <div
+            className={
+              'absolute top-0 left-0 p-8 w-full h-full flex flex-col gap-2 text-white '
+            }
+          >
+            <h1 className="  text-4xl font-bold ">Frontend Developer</h1>
+            <p className={'text-xl '}>
+              <span className="text-sm font-bold">Jeongwoo Seo</span>
+            </p>
+            <div className={' flex flex-col justify-end flex-grow'}>
+              <div>React · NextJS · TypeScript</div>
+            </div>
+          </div>
         </div>
         <p className="text-lg text-default max-w-2xl">
           안녕하세요, 서정우입니다. 사용자 경험과 깔끔한 코드 작성에 중점을 두고
@@ -78,6 +111,16 @@ export default function Home() {
               <FaLinkedin className="w-5 h-5 text-default hover:scale-125 transition cursor-pointer" />
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* Featured projects */}
+      <section className="grid gap-6">
+        <h2 className="text-2xl font-semibold">Featured Projects</h2>
+        <div className={'grid grid-cols-2 gap-6'}>
+          {projects.map((project) => {
+            return <PortfolioPreview key={project.title} project={project} />;
+          })}
         </div>
       </section>
 
@@ -125,6 +168,17 @@ export default function Home() {
             ))
           )}
         </div>
+      </section>
+      {/*     더보기 버튼*/}
+      <section className={'w-full flex justify-center'}>
+        <Link
+          href={'/posts'}
+          className={
+            'px-4 py-1 bg-overlay text-overlay rounded-md hover:bg-opacity-70 hover:shadow-lg transition '
+          }
+        >
+          더 많은 글 보러가기
+        </Link>
       </section>
     </main>
   );

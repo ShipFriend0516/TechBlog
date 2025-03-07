@@ -5,7 +5,7 @@
 :root {
   /*--background: #ffffff;*/
   /*--foreground: #171717;*/
-  --background: #ffffff;
+  --background: #f8f8f8;
   --foreground: #1e201e;
   --disabled: #a0a0a0;
   --text-default: #000000;
@@ -15,7 +15,7 @@
 }
 .dark {
   --background: #1e201e;
-  --foreground: #ffffff;
+  --foreground: #f8f8f8;
   --disabled: #a0a0a0;
   --text-default: #ffffff;
   --text-overlay: #000000;
@@ -151,7 +151,7 @@ section.footer .disabled {
 
 /* HR Style */
 article.post .post-body hr {
-  border: 0px solid;
+  border: 0 solid;
   height: 1px;
   background-image: linear-gradient(
     to right,
@@ -159,7 +159,7 @@ article.post .post-body hr {
     rgba(0, 100, 0, 0.75),
     rgba(0, 0, 0, 0)
   );
-  margin: 32px 0px;
+  margin: 32px 0;
   display: block;
 }
 
@@ -169,10 +169,10 @@ article.post .post-body hr::before {
   border: 10px solid #006400;
   border-top: 10px solid transparent;
   border-radius: 2px;
-  padding: 0px;
+  padding: 0;
   transform: rotate(180deg);
   left: 50%;
-  margin: -5px 0px 0px -21px;
+  margin: -5px 0 0 -21px;
   content: '';
 }
 
