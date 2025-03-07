@@ -21,10 +21,10 @@ const PostPreview = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <Link href={`/posts/${slug}`} className={'mx-auto h-[400px]'}>
+    <Link href={`/posts/${slug}`} className={'mx-auto h-[400px] group '}>
       <div
         className={
-          'w-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gray-200/50 overflow-hidden'
+          'w-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl hover:shadow-gray-200/80 overflow-hidden'
         }
       >
         <div
@@ -43,9 +43,9 @@ const PostPreview = ({
             alt={title}
             width={500}
             height={300}
-            className={`object-cover bg-cover w-full h-full transition-opacity duration-300 ${
+            className={`object-cover bg-cover w-full h-full transition duration-300 ${
               isLoading ? 'opacity-0' : 'opacity-100'
-            }`}
+            } group-hover:scale-105 transition duration-200`}
             onLoad={() => setIsLoading(false)}
           />
         </div>
