@@ -24,7 +24,7 @@ const PostPreview = ({
     <Link href={`/posts/${slug}`} className={'mx-auto h-[400px] group '}>
       <div
         className={
-          'w-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl hover:shadow-gray-200/80 overflow-hidden'
+          'w-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl dark:shadow-gray-200/40 hover:shadow-gray-200/80 overflow-hidden'
         }
       >
         <div
