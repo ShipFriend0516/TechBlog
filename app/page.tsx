@@ -8,6 +8,7 @@ import { Post } from '@/app/types/Post';
 import axios from 'axios';
 import Link from 'next/link';
 import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
+import Skeleton from '@/app/entities/common/Skeleton';
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>();
@@ -85,9 +86,20 @@ export default function Home() {
         <h2 className="text-2xl font-semibold">Latest Articles</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {loading ? (
-            <div className={'col-span-3 h-full'}>
-              <SVGLoadingSpinner />
-            </div>
+            <>
+              <div className={'flex flex-col gap-2'}>
+                <Skeleton className={'w-full h-48'} />
+                <Skeleton className={'w-full h-10'} />
+              </div>
+              <div className={'flex flex-col gap-2'}>
+                <Skeleton className={'w-full h-48'} />
+                <Skeleton className={'w-full h-10'} />
+              </div>
+              <div className={'flex flex-col gap-2'}>
+                <Skeleton className={'w-full h-48'} />
+                <Skeleton className={'w-full h-10'} />
+              </div>
+            </>
           ) : (
             posts &&
             posts.slice(0, 3).map((post) => (
@@ -100,7 +112,7 @@ export default function Home() {
                   <Image
                     width={500}
                     height={400}
-                    src={post.thumbnailImage || ''}
+                    src={post.thumbnailImage || profile}
                     alt={`Article ${post.title}`}
                     className="object-cover bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform group-hover:scale-105 bg-gray-500"
                   />

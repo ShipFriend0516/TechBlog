@@ -5,7 +5,6 @@ import Profile from '@/app/entities/common/Profile';
 
 import profile from '@/app/public/profile.jpg';
 import IconButton from '@/app/entities/common/Button/IconButton';
-import { FaRegMoon, FaRegSun } from 'react-icons/fa';
 import useTheme from '@/app/hooks/useTheme';
 import { IoMoonSharp, IoSunny, IoSunnySharp } from 'react-icons/io5';
 const NavBar = () => {
