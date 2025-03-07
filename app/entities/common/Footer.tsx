@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer
       className={
-        'w-screen bg-neutral-200 dark:bg-gray-950  min-h-96 flex flex-col justify-between'
+        'w-screen bg-neutral-100  dark:bg-gray-950  min-h-96 flex flex-col justify-between shadow-top'
       }
     >
       <section
