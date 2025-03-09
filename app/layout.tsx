@@ -6,6 +6,7 @@ import React from 'react';
 import NavBar from '@/app/entities/common/NavBar';
 import ToastProvider from '@/app/entities/common/Toast/ToastProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: 'ShipFriend TechBlog',
@@ -73,8 +74,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme;
+                const isDark = savedTheme === 'dark';
+                if (isDark) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+                document.documentElement.style.backgroundColor = isDark ? '#1f2937' : '#ffffff';
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`dark ${pretendard.variable} font-sans antialiased min-h-screen flex flex-col justify-between`}
+        className={`${pretendard.variable} font-sans antialiased min-h-screen flex flex-col justify-between`}
       >
         <NavBar />
         <main className="flex-grow pb-20">{children}</main>
