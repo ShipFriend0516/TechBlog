@@ -86,7 +86,7 @@ export default function RootLayout({
                 } else {
                   document.documentElement.classList.remove('dark');
                 }
-                document.documentElement.style.backgroundColor = isDark ? '#1f2937' : '#ffffff';
+                document.documentElement.style.backgroundColor = isDark ? '#1e201e' : '#ffffff';
               })();
             `,
           }}
