@@ -67,17 +67,7 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="ko">
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+const preventFOUC = `
               (function() {
                 const savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme;
                 const isDark = savedTheme === 'dark';
@@ -88,7 +78,19 @@ export default function RootLayout({
                 }
                 document.documentElement.style.backgroundColor = isDark ? '#1e201e' : '#ffffff';
               })();
-            `,
+            `;
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="ko">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: preventFOUC,
           }}
         />
       </head>
