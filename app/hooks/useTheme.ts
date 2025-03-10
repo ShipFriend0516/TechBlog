@@ -9,9 +9,9 @@ const useTheme = () => {
 
   useEffect(() => {
     if (theme === 'dark') {
-      document.body.classList.add('dark');
+      document.documentElement.classList.add('dark');
     } else {
-      document.body.classList.remove('dark');
+      document.documentElement.classList.remove('dark');
     }
   }, [theme]);
 
