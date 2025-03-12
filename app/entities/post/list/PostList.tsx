@@ -13,7 +13,7 @@ const PostList = (props: {
   return (
     <ul
       className={
-        'h-fit max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
+        'max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
       }
     >
       {props.loading ? (
@@ -22,7 +22,7 @@ const PostList = (props: {
         props.posts.map(
           (post) =>
             post._id && (
-              <li className={'block'} key={post._id}>
+              <li className={'block '} key={post._id}>
                 <PostPreview
                   _id={post._id}
                   slug={post.slug}

@@ -21,15 +21,15 @@ const PostPreview = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <Link href={`/posts/${slug}`} className={'mx-auto h-[400px] group '}>
+    <Link href={`/posts/${slug}`} className={'block mx-auto group  '}>
       <div
         className={
-          'w-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl dark:shadow-gray-200/40 hover:shadow-gray-200/80 overflow-hidden'
+          'w-full h-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl dark:shadow-gray-200/40 hover:shadow-gray-200/80 overflow-hidden'
         }
       >
         <div
           className={
-            'image-container rounded-t-md overflow-hidden h-2/3 flex justify-center relative '
+            'image-container  rounded-t-md overflow-hidden h-1/2 flex justify-center relative '
           }
         >
           {isLoading && (
@@ -49,7 +49,7 @@ const PostPreview = ({
             onLoad={() => setIsLoading(false)}
           />
         </div>
-        <div className={'h-1/3 flex flex-col justify-between gap-4 p-4'}>
+        <div className={'h-1/2 flex flex-col justify-between gap-4 p-4'}>
           <div>
             <h2 className={'font-bold text-xl'}>{title}</h2>
             <p>{subTitle ? subTitle.slice(0, 80) + '...' : ''}</p>
