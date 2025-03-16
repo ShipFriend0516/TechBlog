@@ -19,7 +19,7 @@ const IconButton = ({
     <button
       onClick={onClick}
       className={
-        className || 'p-4 fill-current hover:bg-gray-200/50 rounded-md'
+        className || 'p-3 fill-current hover:bg-gray-200/50 rounded-md'
       }
     >
       <Icon size={size || 20} />

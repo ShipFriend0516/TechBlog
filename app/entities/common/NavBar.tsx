@@ -58,7 +58,7 @@ const NavBar = () => {
             <IconButton
               onClick={toggleTheme}
               Icon={theme === 'light' ? IoSunnySharp : IoMoonSharp}
-              size={20}
+              size={16}
             />
           </li>
         </ul>
