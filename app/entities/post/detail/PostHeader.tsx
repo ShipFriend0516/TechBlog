@@ -47,12 +47,14 @@ const PostHeader = ({
   return (
     <div
       className={
-        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center bg-gray-400/40 text-white'
+        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center  text-white'
       }
     >
       {backgroundThumbnail && (
         <div
-          className={'image-container h-full absolute z-0 w-full top-0 blur'}
+          className={
+            'image-container h-full absolute z-0 w-full top-0 blur bg-gray-400/40'
+          }
         >
           <Image
             className={'object-cover w-full h-full'}
@@ -66,7 +68,7 @@ const PostHeader = ({
           />
         </div>
       )}
-      <div className="relative z-10">
+      <div className="relative h-full z-10 bg-gray-400/40">
         <h1
           className={'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl z-10'}
         >
