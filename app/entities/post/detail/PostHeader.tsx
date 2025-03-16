@@ -50,40 +50,9 @@ const PostHeader = ({
         'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center bg-gray-400/40 text-white'
       }
     >
-      <h1 className={'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl '}>
-        {displayTitle}
-        {!isTypingComplete && (
-          <span className="inline-block w-1 h-6 ml-1 bg-black animate-blink" />
-        )}
-      </h1>
-      <h2
-        className={`md:text-2xl font-bold mb-4 transition-opacity duration-500 ${
-          isTypingComplete ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        {subTitle}
-      </h2>
-      <div
-        className={`pb-10 inline-flex items-center transition-opacity duration-500 ${
-          isTypingComplete ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <div className={'items-center post-author flex'}>
-          <Profile profileThumbnail={profile} username={author} />
-        </div>
-        <span className={'post-date'}>
-          {new Date(date).toLocaleDateString('ko-KR')}
-        </span>
-        <span
-          className={'post-time-to-read mx-2 inline-flex items-center gap-2'}
-        >
-          <FaBook />
-          {timeToRead} min read
-        </span>
-      </div>
       {backgroundThumbnail && (
         <div
-          className={'image-container h-full absolute -z-10 w-full top-0 blur'}
+          className={'image-container h-full absolute z-0 w-full top-0 blur'}
         >
           <Image
             className={'object-cover w-full h-full'}
@@ -97,6 +66,41 @@ const PostHeader = ({
           />
         </div>
       )}
+      <div className="relative z-10">
+        <h1
+          className={'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl z-10'}
+        >
+          {displayTitle}
+          {!isTypingComplete && (
+            <span className="inline-block w-1 h-6 ml-1 bg-black animate-blink" />
+          )}
+        </h1>
+        <h2
+          className={`md:text-2xl font-bold mb-4 transition-opacity duration-500 ${
+            isTypingComplete ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          {subTitle}
+        </h2>
+        <div
+          className={`pb-10 inline-flex items-center transition-opacity duration-500 ${
+            isTypingComplete ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <div className={'items-center post-author flex'}>
+            <Profile profileThumbnail={profile} username={author} />
+          </div>
+          <span className={'post-date'}>
+            {new Date(date).toLocaleDateString('ko-KR')}
+          </span>
+          <span
+            className={'post-time-to-read mx-2 inline-flex items-center gap-2'}
+          >
+            <FaBook />
+            {timeToRead} min read
+          </span>
+        </div>
+      </div>
     </div>
   );
 };

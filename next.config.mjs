@@ -5,6 +5,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'idmlft3uczstcjaa.public.blob.vercel-storage.com',
+        pathname: '/images/**',
       },
       {
         protocol: 'https',
