@@ -14,6 +14,7 @@ export async function GET(req: Request) {
 
     const query = searchParams.get('query') || '';
     const seriesSlug = searchParams.get('series') || '';
+    const isCompact = searchParams.get('compact') === 'true';
 
     const seriesId = seriesSlug
       ? await Series.findOne({ slug: seriesSlug }, '_id')
@@ -35,9 +36,15 @@ export async function GET(req: Request) {
       } as QuerySelector<string>);
     }
 
-    const posts = await Post.find(searchConditions)
-      .sort({ date: -1 })
-      .limit(10);
+    let q = Post.find(searchConditions);
+
+    if (isCompact) {
+      q = q.select(
+        'slug title _id subTitle author date tags thumbnailImage seriesId timeToRead createdAt updatedAt'
+      );
+    }
+
+    const posts = await q.sort({ date: -1 }).limit(10);
 
     return Response.json({ success: true, posts: posts });
   } catch (error) {

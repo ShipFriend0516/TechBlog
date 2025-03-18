@@ -22,6 +22,7 @@ const BlogList = () => {
       params: {
         query: query ? query : null,
         series: seriesSlug,
+        compact: 'true',
       },
     });
     const data = await response.data;
