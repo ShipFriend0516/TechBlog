@@ -31,6 +31,27 @@ const PostBody = ({ content, loading }: Props) => {
             wrapperElement={{
               'data-color-mode': theme,
             }}
+            rehypeRewrite={(node) => {
+              if (node.type === 'element' && node.tagName === 'aside') {
+                for (const child of [...node.children]) {
+                  if (node.children[0] === child && child.type === 'text') {
+                    node.children[0] = {
+                      type: 'element',
+                      tagName: 'span',
+                      properties: {
+                        className: 'aside-emoji',
+                      },
+                      children: [
+                        {
+                          type: 'text',
+                          value: child.value!,
+                        },
+                      ],
+                    };
+                  }
+                }
+              }
+            }}
           />
           <PostTOC postContent={content || ''} />
         </>

@@ -165,7 +165,7 @@ article.post .post-body hr {
 
 article.post .post-body hr::before {
   position: absolute;
-  background-color: #efefef;
+  background-color: var(--background);
   border: 10px solid #006400;
   border-top: 10px solid transparent;
   border-radius: 2px;
@@ -180,4 +180,24 @@ article.post .post-body hr::before {
   box-shadow:
     0 -4px 6px -1px rgba(0, 0, 0, 0.1),
     0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+
+.post-body aside {
+  background-color: rgba(231 ,241 ,231);
+  border-radius: 4px;
+  padding: .8em;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+}
+
+.post-body aside .aside-emoji {
+  margin-right: 8px;
+  font-size: 1.4em;
+  padding: .2em;
+}
+
+.post-body aside p {
+    margin: 0;
 }
