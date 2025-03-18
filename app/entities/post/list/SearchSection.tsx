@@ -39,10 +39,18 @@ const SearchSection = ({
 
   return (
     <div className="w-full max-w-6xl mx-auto">
+      {seriesOpen && (
+        <div
+          className={
+            'fixed top-0 left-0 w-screen h-screen z-40 bg-neutral-800/10'
+          }
+          onClick={() => setSeriesOpen(false)}
+        ></div>
+      )}
       <nav className="flex items-center justify-between py-4 px-6">
         <div className="flex items-center space-x-6">
           {/* 시리즈 드롭다운 */}
-          <div className="relative">
+          <div className="relative ">
             <button
               onClick={() => setSeriesOpen(!seriesOpen)}
               className="flex items-center space-x-2 hover:text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-100"
