@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 interface CarouselProps {
@@ -11,6 +11,8 @@ const Carousel = ({ slides }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const interval = 3000;
+  const carouselRef = useRef<HTMLDivElement>(null);
+
   const prevSlide = () => {
     setCurrentIndex(
       currentIndex - 1 < 0
@@ -52,9 +54,19 @@ const Carousel = ({ slides }: CarouselProps) => {
     return () => clearInterval(timer);
   }, [isPlaying, interval, currentIndex]);
 
+  useEffect(() => {
+    if (!carouselRef.current) return;
+    carouselRef.current.addEventListener('mouseenter', () => {
+      setIsPlaying(false);
+    });
+    carouselRef.current.addEventListener('mouseleave', () => {
+      setIsPlaying(true);
+    });
+  }, [carouselRef]);
+
   return (
-    <div className={'relative p-10 pb-12'}>
-      <div className={'overflow-hidden'}>
+    <div className={'relative p-10 pb-12 '}>
+      <div className={'overflow-hidden'} ref={carouselRef}>
         <div
           className="flex transition-transform duration-500 ease-in-out h-full"
           style={{
@@ -77,14 +89,14 @@ const Carousel = ({ slides }: CarouselProps) => {
         <button
           onClick={() => prevSlide()}
           className="absolute -left-20 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-4 text-black hover:bg-neutral-300"
-          aria-label="Previous slide"
+          aria-label="이전 슬라이드"
         >
           <FaArrowLeft />
         </button>
         <button
           onClick={() => nextSlide()}
           className="absolute -right-20 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-4 text-black hover:bg-neutral-300"
-          aria-label="Next slide"
+          aria-label="다음 슬라이드"
         >
           <FaArrowRight />
         </button>
@@ -98,7 +110,7 @@ const Carousel = ({ slides }: CarouselProps) => {
               className={`w-3 h-3 rounded-full ${
                 index === currentIndex ? 'bg-emerald-500' : 'bg-gray-400'
               }`}
-              aria-label={`Go to slide ${index + 1}`}
+              aria-label={`슬라이드 ${index + 1}번으로 이동`}
             />
           ))}
         </div>
