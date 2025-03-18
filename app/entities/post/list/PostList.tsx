@@ -13,7 +13,7 @@ const PostList = (props: {
   return (
     <ul
       className={
-        'max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
+        'max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6'
       }
     >
       {props.loading ? (
@@ -38,7 +38,7 @@ const PostList = (props: {
             )
         )
       ) : (
-        <div className={'flex flex-col gap-4 col-span-3'}>
+        <div className={'flex flex-col gap-4 col-span-4'}>
           <NotFound
             message={`${props.query || '검색어'}에 대한 검색 결과가 없습니다.`}
           />

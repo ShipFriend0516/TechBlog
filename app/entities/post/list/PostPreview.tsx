@@ -50,11 +50,17 @@ const PostPreview = ({
           />
         </div>
         <div className={'h-1/2 flex flex-col justify-between gap-4 p-4'}>
-          <div>
-            <h2 className={'font-bold text-xl'}>{title}</h2>
-            <p>{subTitle ? subTitle.slice(0, 80) + '...' : ''}</p>
+          <div className={''}>
+            <h2 className={'font-bold text-lg'}>{title}</h2>
+            <p className={'overflow-hidden text-nowrap w-full'}>
+              {subTitle ? subTitle.slice(0, 40) + '...' : ''}
+            </p>
           </div>
-          <div className={'inline-flex items-center justify-between w-full'}>
+          <div
+            className={
+              'inline-flex items-center justify-between w-full text-sm'
+            }
+          >
             <Profile profileThumbnail={profileImage} username={author} />
             <Timestamp date={date} />
           </div>

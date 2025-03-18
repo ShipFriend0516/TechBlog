@@ -28,12 +28,11 @@ const Timestamp = ({ date }: Props) => {
       return new Intl.DateTimeFormat('ko', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
       }).format(date);
     }
   };
 
-  return <div>{formatRelativeTime(timestamp(date))}</div>;
+  return <div className={''}>{formatRelativeTime(timestamp(date))}</div>;
 };
 
 export default Timestamp;
