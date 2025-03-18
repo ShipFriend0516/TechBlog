@@ -11,8 +11,21 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
     }));
   };
 
+  const renderEmoji = (type: number) => {
+    switch (type) {
+      case 1:
+        return '🌲';
+      case 2:
+        return '🪓';
+      case 3:
+        return '🪵';
+      default:
+        return '🪵';
+    }
+  };
+
   return (
-    <div className="absolute post-toc hidden 2xl:block w-[280px] top-20 left-full ml-16  transition-all  text-sm bg-gray-100/80 rounded-md p-4 text-black">
+    <div className="fixed post-toc hidden 2xl:block w-[300px] top-40 right-20 ml-16  transition-all  text-sm bg-gray-100/80 rounded-md p-4 text-black z-[2]">
       <h4 className={'text-xl font-bold mb-2'}>📌 Table of Contents</h4>
       <ul className={'list-none'}>
         {parseHeadings(postContent).map((heading) => {
@@ -27,17 +40,18 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
             <li
               key={heading.id}
               style={{ marginLeft: `${(heading.type - 1) * 16}px` }}
-              className={`${heading.type === 1 ? 'font-bold' : ''} `}
+              className={`${heading.type === 1 ? 'font-bold mb-1' : ''} `}
             >
               <Link
                 scroll={true}
                 className={
-                  'p-1  transition-all hover:bg-green-50 rounded-md text-nowrap overflow-x-hidden scroll-smooth '
+                  'p-1  transition-all hover:bg-green-50 rounded-md  overflow-x-hidden scroll-smooth '
                 }
                 onClick={(e) => {
                   e.preventDefault();
                   document.querySelector(href)?.scrollIntoView({
                     behavior: 'smooth',
+                    block: 'center',
                   });
                 }}
                 href={`#${heading.id
@@ -47,7 +61,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
                   .replaceAll(/-+/g, '-')
                   .replaceAll(/^-|-$/g, '')}`}
               >
-                {'∟ ' + heading.title}
+                {renderEmoji(heading.type) + ' ' + heading.title}
               </Link>
             </li>
           );

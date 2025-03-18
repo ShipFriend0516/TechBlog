@@ -53,7 +53,7 @@ const PostHeader = ({
       {backgroundThumbnail && (
         <div
           className={
-            'image-container h-full absolute z-0 w-full top-0 blur bg-gray-400/40'
+            'image-container h-full absolute z-10 w-full top-0 blur bg-gray-400/40'
           }
         >
           <Image
@@ -68,7 +68,7 @@ const PostHeader = ({
           />
         </div>
       )}
-      <div className="relative h-full z-10 bg-gray-400/40">
+      <div className="relative h-full z-20 bg-gray-400/40">
         <h1
           className={'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl z-10'}
         >
