@@ -1,32 +1,12 @@
 import Carousel from '@/app/entities/portfolio/Carousel';
 import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
-import { Project } from '@/app/types/Portfolio';
-import project1 from '@/app/public/images/preview-logo.png';
-import project2 from '@/app/public/images/primitive-logo.png';
+import { projects } from '@/app/portfolio/data';
 
 const PortfolioPage = () => {
-  const projects: Project[] = [
-    {
-      title: 'PREVIEW',
-      description: 'WebRTC 기반 화상 면접 스터디 플랫폼',
-      image: project1,
-      tags: ['React', 'WebRTC', 'Fullstack'],
-      demoUrl: 'https://boostcamp-preview.kro.kr/',
-      githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
-    },
-    {
-      title: 'Primitive',
-      description: '프로그래밍 동아리 PRIMITIVE 홍보 및 프로젝트 공유 플랫폼',
-      image: project2,
-      tags: ['React', 'TypeScript', 'Firebase'],
-      demoUrl: 'https://primitive.kr',
-      githubUrl: 'https://github.com/ShipFriend0516/Primitive',
-      slug: 'primitive',
-    },
-  ];
   const slides = [
     <PortfolioPreview key={projects[0].title} project={projects[0]} />,
     <PortfolioPreview key={projects[1].title} project={projects[1]} />,
+    <PortfolioPreview key={projects[2].title} project={projects[2]} />,
   ];
 
   return (
