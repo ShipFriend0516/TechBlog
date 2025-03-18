@@ -14,6 +14,7 @@ interface Post {
   thumbnailImage?: string | StaticImport;
   updatedAt?: number;
   seriesId?: string;
+  tags?: string[];
 }
 type PostBody = Omit<Post, '_id' | 'slug' | 'date' | 'timeToRead' | 'comment'>;
 

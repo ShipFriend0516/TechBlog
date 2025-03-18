@@ -17,6 +17,7 @@ const PostPreview = ({
   date,
   profileImage,
   thumbnailImage,
+  tags,
 }: Omit<Post, 'content'>) => {
   const [isLoading, setIsLoading] = useState(true);
 
