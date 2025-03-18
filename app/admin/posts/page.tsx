@@ -22,7 +22,11 @@ const AdminPostListPage = () => {
   }, []);
 
   const getPosts = async () => {
-    const response = await axios.get('/api/posts');
+    const response = await axios.get('/api/posts', {
+      params: {
+        compact: 'true',
+      },
+    });
     const data = await response.data;
     setPosts(data.posts);
     setLoading(false);
