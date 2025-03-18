@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -22,7 +23,7 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
           height={400}
           src={project.image}
           alt={`${project.title} 프로젝트 이미지`}
-          className={`aspect-video object-cover transition-transform duration-500 ${
+          className={`w-full aspect-video object-cover transition-transform duration-500 ${
             isHovered ? 'scale-105' : 'scale-100'
           }`}
         />

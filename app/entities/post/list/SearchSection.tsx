@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { FaBook, FaSearch } from 'react-icons/fa';
-import { BiChevronDown, BiReset } from 'react-icons/bi';
+import { BiChevronDown } from 'react-icons/bi';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import SeriesDropdownItem from '@/app/entities/series/SeriesDropdownItem';
 import SearchOverlayContainer from '@/app/entities/common/Overlay/Search/SearchOverlayContainer';
