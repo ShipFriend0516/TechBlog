@@ -20,7 +20,7 @@ const SearchOverlayContainer = (props: {
           <input
             type="text"
             placeholder="검색어를 입력하세요..."
-            className="w-full p-2 outline-none"
+            className="w-full p-2 outline-none text-default dark:text-black"
             autoFocus
             onChange={(e) => props.setQuery(e.target.value)}
             value={props.value}
@@ -42,7 +42,7 @@ const SearchOverlayContainer = (props: {
 
       <div className="space-y-4">
         <div className="text-sm text-gray-500">최근 검색어</div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 text-default dark:text-black">
           {props.tags.map((tag) => (
             <Tag key={tag} content={tag} onClick={() => props.setQuery(tag)} />
           ))}

@@ -26,7 +26,6 @@ const BlogList = () => {
       },
     });
     const data = await response.data;
-    console.log(data);
     setPosts(data.posts);
     if (query) addLatestQuery(query);
     setLoading(false);
@@ -50,6 +49,7 @@ const BlogList = () => {
         query={query}
         setQuery={setQuery}
         resetSearchCondition={resetSearchCondition}
+        searchSeries={seriesSlugParam || ''}
       />
       <PostList
         query={query}
