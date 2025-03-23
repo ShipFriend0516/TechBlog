@@ -9,7 +9,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import Skeleton from '@/app/entities/common/Skeleton';
 import project1 from '@/app/public/images/preview-logo.png';
-import project2 from '@/app/public/images/primitive-logo.png';
+import project2 from '@/app/public/images/primitive-logo.webp';
 import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
 import { Project } from '@/app/types/Portfolio';
 

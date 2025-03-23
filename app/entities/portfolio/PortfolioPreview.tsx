@@ -61,11 +61,11 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
       </div>
 
       <div className="p-6">
-        <Link href={project.slug ? `/projects/${project.slug}` : '#'}>
-          <h3 className="text-xl font-bold mb-2 hover:text-blue-500 transition-colors">
-            {project.title}
-          </h3>
-        </Link>
+        {/*<Link href={project.slug ? `/projects/${project.slug}` : '#'}>*/}
+        <h3 className="text-xl font-bold mb-2 hover:text-emerald-500 transition-colors">
+          {project.title}
+        </h3>
+        {/*</Link>*/}
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
           {project.description}
         </p>

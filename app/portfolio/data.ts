@@ -1,7 +1,8 @@
 import { Project } from '@/app/types/Portfolio';
 import project1 from '@/app/public/images/preview-logo.png';
-import project2 from '@/app/public/images/primitive-logo.png';
-import project3 from '@/app/public/images/shipfriend-logo.png';
+import project2 from '@/app/public/images/primitive-logo.webp';
+import project3 from '@/app/public/images/shipfriend-logo.webp';
+import project4 from '@/app/public/images/storyhelper-logo.webp';
 
 export const projects: Project[] = [
   {
@@ -28,5 +29,14 @@ export const projects: Project[] = [
     tags: ['Next.js', 'TypeScript', 'MongoDB'],
     demoUrl: 'https://shipfriend.vercel.app/',
     githubUrl: 'https://github.com/ShipFriend0516/TechBlog',
+  },
+  {
+    title: 'StoryHelper',
+    description: '티스토리 블로그 SEO 관리 확장프로그램',
+    image: project4,
+    tags: ['React', 'Chrome Extension'],
+    demoUrl:
+      'https://chromewebstore.google.com/detail/storyhelper/inmbdknioncgblpeiiohmdihhidnjpfp?authuser=0&hl=ko',
+    githubUrl: 'https://github.com/ShipFriend0516/StoryHelper',
   },
 ];
