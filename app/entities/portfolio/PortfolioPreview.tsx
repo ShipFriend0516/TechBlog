@@ -41,7 +41,7 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
                 rel="noopener noreferrer"
               >
                 <button className="bg-neutral-500 hover:bg-neutral-600 text-white px-4 py-2 rounded-md transition-colors">
-                  데모 보기
+                  배포 링크
                 </button>
               </Link>
             )}
