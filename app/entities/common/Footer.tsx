@@ -20,9 +20,7 @@ const Footer = () => {
             <p className={'text-left font-serif whitespace-pre-wrap'}>
               a developer who never stops growing.
             </p>
-            <p className={'text-left font-serif whitespace-pre-wrap'}>
-              성장을 멈추지 않는 개발자.
-            </p>
+            <p className={'text-left font-serif whitespace-pre-wrap'}></p>
           </div>
         </div>
         <div className={'footer-col'}>
