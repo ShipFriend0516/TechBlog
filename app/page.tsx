@@ -151,13 +151,13 @@ export default function Home() {
                 key={post._id}
                 className="group cursor-pointer"
               >
-                <div className="relative h-48 mb-4 overflow-hidden rounded-lg">
+                <div className="relative h-48 mb-4 overflow-hidden rounded-lg hover:shadow-lg">
                   <Image
                     width={500}
                     height={400}
                     src={post.thumbnailImage || profile}
                     alt={`Article ${post.title}`}
-                    className="object-cover bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform group-hover:scale-105 bg-gray-500"
+                    className="object-cover bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform group-hover:scale-105 bg-gray-500 "
                   />
                 </div>
                 <h3 className="font-medium mb-2">{post.title}</h3>
