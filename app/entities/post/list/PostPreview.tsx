@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import example from '@/app/public/thumbnail_example2.jpg';
+import example from '@/app/public/thumbnail_example2.webp';
 import Profile from '@/app/entities/common/Profile';
 import Timestamp from '@/app/entities/common/Timestamp';
 import { Post } from '@/app/types/Post';
