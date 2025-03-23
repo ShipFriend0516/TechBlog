@@ -13,7 +13,7 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
 
   return (
     <div
-      className="bg-white dark:bg-neutral-800 shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
