@@ -7,6 +7,8 @@ import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
+import { FaShareAlt } from 'react-icons/fa';
+import PostShareSection from '@/app/entities/post/detail/PostShareSection';
 
 async function getPostDetail(slug: string) {
   await dbConnect();
@@ -65,6 +67,7 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
           />
           <PostBody loading={false} content={post?.content || ''} />
         </article>
+        <PostShareSection />
         <Comments />
       </section>
     </>
