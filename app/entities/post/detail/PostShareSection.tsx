@@ -1,6 +1,6 @@
 'use client';
-import { FaShareAlt } from 'react-icons/fa';
 import useToast from '@/app/hooks/useToast';
+import { MdIosShare } from 'react-icons/md';
 
 const PostShareSection = () => {
   const toast = useToast();
@@ -18,7 +18,7 @@ const PostShareSection = () => {
         'flex justify-start items-center w-full max-w-3xl mx-auto border-t border-neutral-200 py-4'
       }
     >
-      {/*  공유 버튼*/}
+      {/* 공유 버튼 */}
       <div>
         <button
           onClick={() => sharePost()}
@@ -26,7 +26,7 @@ const PostShareSection = () => {
             'inline-flex items-center gap-2 rounded-md border p-1 hover:bg-neutral-100 border-neutral-400'
           }
         >
-          <FaShareAlt />
+          <MdIosShare />
           <span className={'text-sm'}>공유</span>
         </button>
       </div>
