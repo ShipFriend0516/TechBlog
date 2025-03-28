@@ -122,14 +122,6 @@ npm run test
 npm run build
 ```
 
-## 기여 방법
-
-1. 이 저장소를 포크합니다.
-2. 새 브랜치를 생성합니다: `git checkout -b feature/새기능`
-3. 변경사항을 커밋합니다: `git commit -m '새로운 기능 추가'`
-4. 포크한 저장소에 푸시합니다: `git push origin feature/새기능`
-5. Pull Request를 생성합니다.
-
 ## 라이센스
 
 이 프로젝트는 [MIT 라이센스](LICENSE)를 따릅니다.
