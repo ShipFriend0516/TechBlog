@@ -35,7 +35,7 @@ const UploadImageContainer = ({ onClick }: UploadImageContainerProps) => {
   };
 
   return (
-    <div className={'w-full mt-4'}>
+    <div className={'w-full mt-4 '}>
       <div className={'flex justify-between my-1'}>
         <div>
           <span className={'text-xl font-bold'}>업로드된 이미지</span>
@@ -66,7 +66,7 @@ const UploadImageContainer = ({ onClick }: UploadImageContainerProps) => {
 
       <ul
         className={
-          'w-full border-t border-b px-4 py-4 bg-gray-100 whitespace-nowrap space-x-4 overflow-x-scroll gap-2'
+          'w-full border px-4 py-4 bg-gray-100 whitespace-nowrap space-x-4 overflow-x-scroll gap-2 min-h-40'
         }
       >
         {uploadedImages.map((image, index) => (

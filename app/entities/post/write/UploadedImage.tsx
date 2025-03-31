@@ -9,7 +9,7 @@ const UploadedImage = ({ onClick, image }: UploadedImageProps) => {
   return (
     <li
       className={
-        'relative rounded-md overflow-hidden w-1/3  aspect-video inline-block hover:opacity-80 cursor-pointer hover:shadow-lg group'
+        'relative rounded-md overflow-hidden max-w-[240px] w-full h-full aspect-video inline-block hover:opacity-80 cursor-pointer hover:shadow-lg group'
       }
       onClick={() => onClick(image)}
     >
