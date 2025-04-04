@@ -23,7 +23,7 @@ interface PortfolioItem {
 
 const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
   const [portfolio, setPortfolio] = useState<PortfolioItem>({
-    title: 'Primitive',
+    title: '404 Not Found',
     description: '',
     technologies: [],
     mainImage: '',
@@ -36,12 +36,14 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
 
   useEffect(() => {
     getPortfolioDetail();
-  }, []);
+  }, [params.slug]);
 
   const getPortfolioDetail = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/portfolio/${params.slug}`);
+      const response = await axios.get(`/api/portfolio`, {
+        params: { slug: params.slug },
+      });
       const data = await response.data;
       setPortfolio(data);
     } catch (error) {
