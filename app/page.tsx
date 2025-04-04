@@ -8,8 +8,6 @@ import { Post } from '@/app/types/Post';
 import axios from 'axios';
 import Link from 'next/link';
 import Skeleton from '@/app/entities/common/Skeleton';
-import project1 from '@/app/public/images/preview-logo.png';
-import project2 from '@/app/public/images/primitive-logo.webp';
 import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
 import { Project } from '@/app/types/Portfolio';
 
@@ -36,7 +34,7 @@ export default function Home() {
     {
       title: 'PREVIEW',
       description: 'WebRTC 기반 화상 면접 스터디 플랫폼',
-      image: project1,
+      image: '/images/preview-logo.png',
       tags: ['React', 'WebRTC', 'Fullstack'],
       demoUrl: 'https://boostcamp-preview.kro.kr/',
       githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
@@ -44,7 +42,7 @@ export default function Home() {
     {
       title: 'Primitive',
       description: '프로그래밍 동아리 PRIMITIVE 홍보 및 프로젝트 공유 플랫폼',
-      image: project2,
+      image: '/images/primitive-logo.webp',
       tags: ['React', 'TypeScript', 'Firebase'],
       demoUrl: 'https://primitive.kr',
       githubUrl: 'https://github.com/ShipFriend0516/Primitive',
