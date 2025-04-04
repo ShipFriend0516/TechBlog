@@ -4,6 +4,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import NotFound from '@/app/not-found';
 
 interface PortfolioDetailPageProps {
   params: {
@@ -23,7 +24,7 @@ interface PortfolioItem {
 
 const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
   const [portfolio, setPortfolio] = useState<PortfolioItem>({
-    title: '404 Not Found',
+    title: '',
     description: '',
     technologies: [],
     mainImage: '',
@@ -77,10 +78,13 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
     );
   }
 
+  if (!loading && portfolio.title === '') {
+    return <NotFound />;
+  }
+
   return (
     <section className="min-h-screen">
       <main className="w-full max-w-7xl mx-auto px-8 py-12">
-        {/* Project Title & Tech Stack */}
         <div className="mb-10">
           <div className={'flex justify-between items-center mb-2'}>
             <h1 className="text-4xl font-bold mb-3">{portfolio.title}</h1>
@@ -104,7 +108,6 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           </div>
         </div>
 
-        {/* Main Project Image */}
         <div className="w-full h-[500px] relative mb-8 bg-gray-100 rounded-lg overflow-hidden">
           {portfolio.images.length > 0 && (
             <Image
@@ -115,7 +118,6 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
             />
           )}
 
-          {/* Image Navigation Controls */}
           <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 hover:opacity-100 transition-opacity">
             <button
               onClick={handlePreviousImage}
@@ -135,7 +137,6 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           </div>
         </div>
 
-        {/* Project Description */}
         <div className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">프로젝트 개요</h2>
           <p className="text-gray-700 leading-relaxed">
@@ -143,7 +144,6 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           </p>
         </div>
 
-        {/* Thumbnails Gallery */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold">프로젝트 스크린샷</h2>
@@ -169,7 +169,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
             {portfolio.images.map((image, index) => (
               <div
                 key={index}
-                className={`relative h-24 bg-gray-100 rounded cursor-pointer overflow-hidden transition-all ${currentImageIndex === index ? 'ring-2 ring-blue-500 ring-offset-2' : 'hover:opacity-80'}`}
+                className={`relative h-24 bg-gray-100 rounded cursor-pointer overflow-hidden transition-all ${currentImageIndex === index ? 'ring-2 ring-emerald-500 ring-offset-2' : 'hover:opacity-80'}`}
                 onClick={() => selectThumbnail(index)}
               >
                 <Image
@@ -183,7 +183,6 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           </div>
         </div>
 
-        {/* Project Metadata */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6 bg-gray-50 rounded-lg">
           <div>
             <h3 className="text-sm font-semibold text-gray-500 mb-1">
