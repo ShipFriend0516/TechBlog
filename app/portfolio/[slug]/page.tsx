@@ -3,23 +3,14 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaGithub, FaGlobe } from 'react-icons/fa';
 import NotFound from '@/app/not-found';
+import { PortfolioItem } from '@/app/types/Portfolio';
 
 interface PortfolioDetailPageProps {
   params: {
     slug: string;
   };
-}
-
-interface PortfolioItem {
-  title: string;
-  description: string;
-  technologies: string[];
-  mainImage: string;
-  images: string[];
-  year: string;
-  category: string;
 }
 
 const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
@@ -96,15 +87,47 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
               <span>목록으로 돌아가기</span>
             </Link>
           </div>
-          <div className="flex gap-3 text-gray-600">
-            {portfolio.technologies.map((tech, index) => (
-              <span
-                key={index}
-                className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm"
-              >
-                {tech}
-              </span>
-            ))}
+          {/* 기술 스택 태그 및 링크 버튼 */}
+          <div className="flex flex-wrap justify-between items-center">
+            <div className="flex flex-wrap gap-3 text-gray-600">
+              {portfolio.technologies.map((tech, index) => (
+                <span
+                  key={index}
+                  className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            {/* GitHub 및 배포 링크 버튼 */}
+            <div className="flex gap-3 mt-3 sm:mt-0">
+              {portfolio.links?.githubUrl && (
+                <a
+                  href={portfolio.links?.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+                  aria-label="GitHub 저장소"
+                >
+                  <FaGithub size={18} />
+                  <span>Github</span>
+                </a>
+              )}
+
+              {portfolio.links?.deployUrl && (
+                <a
+                  href={portfolio.links?.deployUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-colors"
+                  aria-label="배포 사이트"
+                >
+                  <FaGlobe size={18} />
+                  <span>배포</span>
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
@@ -139,7 +162,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
 
         <div className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">프로젝트 개요</h2>
-          <p className="text-gray-700 leading-relaxed">
+          <p className="whitespace-pre-line text-gray-700 leading-relaxed">
             {portfolio.description}
           </p>
         </div>

@@ -1,4 +1,8 @@
-export const portfolioData = {
+import { PortfolioItem } from '@/app/types/Portfolio';
+
+export const portfolioData: {
+  [key: string]: PortfolioItem;
+} = {
   shipfriend: {
     title: 'ShipFriend Tech Blog',
     description:
@@ -34,8 +38,8 @@ export const portfolioData = {
     duration: '4개월 (진행 중)',
     category: '개인 블로그',
     links: {
-      github: 'https://github.com/username/shipfriend-blog',
-      live: 'https://shipfriend-blog.vercel.app',
+      githubUrl: 'https://github.com/shipfriend0516/techblog',
+      deployUrl: 'https://shipfriend.vercel.app',
     },
   },
   preview: {
@@ -75,8 +79,8 @@ export const portfolioData = {
     duration: '2개월',
     category: '웹 애플리케이션',
     links: {
-      github: 'https://github.com/bootskit/preview',
-      live: 'https://preview-demo.vercel.app',
+      githubUrl: 'https://github.com/bootskit/preview',
+      deployUrl: 'https://preview-demo.vercel.app',
     },
   },
   primitive: {
@@ -104,19 +108,50 @@ export const portfolioData = {
       'Vite 마이그레이션을 통한 개발 환경 최적화',
       'Recoil을 활용한 전역 상태 관리 설계',
     ],
-    mainImage: '/images/projects/primitive/main.jpg',
+    mainImage: '/images/projects/primitive/project-list.webp',
     images: [
-      '/images/projects/primitive/landing.jpg',
-      '/images/projects/primitive/projects-list.jpg',
-      '/images/projects/primitive/project-detail.jpg',
-      '/images/projects/primitive/admin-panel.jpg',
+      '/images/projects/primitive/project-list.webp',
+      '/images/projects/primitive/project-detail.webp',
+      '/images/projects/primitive/add-project.webp',
+      '/images/projects/primitive/faq.webp',
+      '/images/projects/primitive/admin-page.webp',
+      '/images/projects/primitive/recruit.webp',
     ],
     year: '2024',
     duration: '6개월',
     category: '웹 애플리케이션',
     links: {
-      github: 'https://github.com/username/primitive',
-      live: 'https://primitive-demo.vercel.app',
+      githubUrl: 'https://github.com/shipfriend0516/primitive',
+      deployUrl: 'https://primitive.kr',
+    },
+  },
+  storyhelper: {
+    title: 'StoryHelper - 티스토리 블로그 SEO 관리 확장 프로그램',
+    description:
+      '티스토리 블로그의 SEO 관리를 위한 Chrome 확장 프로그램입니다. 블로그 운영에 있어 중요한 SEO를 최적화하는데 편의성을 중점으로 도구를 추가하고, 글자수 카운터를 추가하고, 기본 단축키 이외 자주쓰이는 기능의 단축키를 추가했습니다. 이 과정에서 Chrome Extension API와 Manifest V3에 대한 이해를 높일 수 있었습니다.\n\n' +
+      'Chrome 웹스토어에서 추천 확장프로그램으로 선정되었고, 우수 게시자 배지를 부여받았습니다.',
+    technologies: ['React', 'TypeScript', 'Chrome Extension API'],
+    features: [
+      'Chrome Extension API를 활용한 웹 페이지 DOM 조작',
+      'Zustand를 활용한 상태 관리',
+      'Manifest V3를 통한 보안 강화 및 성능 최적화',
+      '사용자 설정에 따른 키워드 분석 및 SEO 점수 제공',
+    ],
+    challenges: [
+      'Chrome Extension API의 다양한 기능 이해 및 활용',
+      'Manifest V3로의 마이그레이션 과정에서 발생한 호환성 문제 해결',
+      '사용자 경험을 고려한 UI/UX 디자인 개선',
+      'SEO 점수 계산 알고리즘 최적화',
+    ],
+    mainImage: '/images/projects/storyhelper/main.webp',
+    images: ['/images/projects/storyhelper/main.webp'],
+    year: '2024',
+    duration: '3개월',
+    category: 'Chrome Extension',
+    links: {
+      githubUrl: 'https://github.com/shipfriend0516/storyhelper',
+      deployUrl:
+        'https://chromewebstore.google.com/detail/storyhelper/inmbdknioncgblpeiiohmdihhidnjpfp?authuser=0&hl=ko',
     },
   },
 };
