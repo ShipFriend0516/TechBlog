@@ -45,7 +45,7 @@ export const portfolioData: {
   preview: {
     title: 'PREVIEW - 실시간 화상 면접 스터디',
     description:
-      '개발자 면접 준비를 위한 실시간 화상 면접 스터디 서비스입니다. WebRTC와 Socket.io를 활용하여 실시간 화상 통화와 채팅 기능을 구현했습니다. 특히 WebRTC의 mesh 토폴로지 구조를 이해하고 최적화하는 과정에서 깊이 있는 기술적 탐구를 경험했으며, 복잡한 코드를 커스텀 훅으로 분리하여 유지보수성을 크게 향상시켰습니다.',
+      '면접 준비를 위한 실시간 화상 면접 스터디 서비스입니다. WebRTC와 Socket.io를 활용하여 실시간 화상 통화와 스터디 진행 기능을 구현했습니다. 특히 WebRTC의 mesh 토폴로지 구조를 이해하고 최적화하는 과정에서 깊이 있는 기술적 탐구를 경험했으며, 복잡한 코드를 커스텀 훅으로 분리하여 유지보수성을 크게 향상시켰습니다.',
     technologies: [
       'React',
       'TypeScript',
@@ -79,8 +79,7 @@ export const portfolioData: {
     duration: '2개월',
     category: '웹 애플리케이션',
     links: {
-      githubUrl: 'https://github.com/bootskit/preview',
-      deployUrl: 'https://preview-demo.vercel.app',
+      githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
     },
   },
   primitive: {
