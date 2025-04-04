@@ -59,7 +59,6 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
             {project.slug && (
               <Link
                 href={`/portfolio/${project.slug}`}
-                target="_blank"
                 rel="noopener noreferrer"
               >
                 <button className="bg-neutral-700 hover:bg-neutral-800 text-white px-4 py-2 rounded-md transition-colors">
