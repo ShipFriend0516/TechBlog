@@ -23,17 +23,6 @@
   --text-weak: rgba(255, 255, 255, 0.7);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1e201e;
-    --foreground: #ededed;
-    --disabled: #a0a0a0;
-    --text-default: #ffffff;
-    --text-overlay: #000000;
-    --bg-overlay: #ededed;
-  }
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
@@ -182,11 +171,10 @@ article.post .post-body hr::before {
     0 -2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-
 .post-body aside {
-  background-color: rgba(231 ,241 ,231);
+  background-color: rgba(231, 241, 231);
   border-radius: 4px;
-  padding: .8em;
+  padding: 0.8em;
   box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
   display: flex;
   align-items: center;
@@ -196,9 +184,9 @@ article.post .post-body hr::before {
 .post-body aside .aside-emoji {
   margin-right: 8px;
   font-size: 1.4em;
-  padding: .2em;
+  padding: 0.2em;
 }
 
 .post-body aside p {
-    margin: 0;
+  margin: 0;
 }

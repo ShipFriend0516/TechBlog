@@ -66,7 +66,7 @@ const Carousel = ({ slides }: CarouselProps) => {
 
   return (
     <div className={'relative p-10 pb-12 '}>
-      <div className={'overflow-hidden'} ref={carouselRef}>
+      <div className={'overflow-hidden rounded-md'} ref={carouselRef}>
         <div
           className="flex transition-transform duration-500 ease-in-out h-full"
           style={{

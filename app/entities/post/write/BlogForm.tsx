@@ -127,9 +127,10 @@ const BlogForm = () => {
     try {
       const response = await axios.get(`/api/posts/${slug}`);
       const data = await response.data;
-      setTitle(data.post.title || 'dd');
+      setTitle(data.post.title || '');
       setSubTitle(data.post.subTitle);
       setContent(data.post.content);
+      setSeriesId(data.post.seriesId || '');
     } catch (e) {
       console.error('글 조회 중 오류 발생', e);
     }
@@ -156,7 +157,7 @@ const BlogForm = () => {
         onChange={(e) => setSubTitle(e.target.value)}
         value={subTitle}
       />
-      <div className={'flex items-center gap-2  w-1/2 mb-4'}>
+      <div className={'flex items-center gap-2  w-2/3 mb-4'}>
         <label
           className={'inline-flex items-center text-nowrap flex-grow gap-2'}
         >
@@ -170,7 +171,13 @@ const BlogForm = () => {
                 label: s.title,
               }))}
               setValue={setSeriesId}
-              defaultValue={seriesList[0] ? seriesList[0]._id : ''}
+              defaultValue={
+                seriesId
+                  ? seriesId
+                  : seriesList.length > 0
+                    ? seriesList[0]._id
+                    : ''
+              }
             />
           )}
         </label>

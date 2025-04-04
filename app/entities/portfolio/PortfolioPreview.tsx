@@ -13,7 +13,7 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
 
   return (
     <div
-      className="bg-white dark:bg-neutral-800 shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -41,7 +41,7 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
                 rel="noopener noreferrer"
               >
                 <button className="bg-neutral-500 hover:bg-neutral-600 text-white px-4 py-2 rounded-md transition-colors">
-                  데모 보기
+                  배포 링크
                 </button>
               </Link>
             )}
@@ -61,11 +61,11 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
       </div>
 
       <div className="p-6">
-        <Link href={project.slug ? `/projects/${project.slug}` : '#'}>
-          <h3 className="text-xl font-bold mb-2 hover:text-blue-500 transition-colors">
-            {project.title}
-          </h3>
-        </Link>
+        {/*<Link href={project.slug ? `/projects/${project.slug}` : '#'}>*/}
+        <h3 className="text-xl font-bold mb-2 hover:text-emerald-500 transition-colors">
+          {project.title}
+        </h3>
+        {/*</Link>*/}
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
           {project.description}
         </p>
