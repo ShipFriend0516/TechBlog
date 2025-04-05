@@ -44,14 +44,14 @@ export async function GET(req: Request) {
       );
     }
 
-    const posts = await q.sort({ date: -1 }).limit(10);
+    const posts = await q.sort({ date: -1 });
 
     return Response.json(
       { success: true, posts: posts },
       {
         status: 200,
         headers: {
-          'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+          'Cache-Control': 'public, max-age=60, s-maxage=3600',
         },
       }
     );
