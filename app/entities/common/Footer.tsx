@@ -28,9 +28,6 @@ const Footer = () => {
           <div>
             <a href={'mailto:sjw4371@naver.com'}>Email</a>
           </div>
-          <div className={'disabled'}>
-            <a></a>discord
-          </div>
           <div>
             <a
               target={'_blank'}
