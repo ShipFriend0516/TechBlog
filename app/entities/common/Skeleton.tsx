@@ -5,7 +5,7 @@ interface SkeletonProps {
 const Skeleton = ({ className }: SkeletonProps) => {
   return (
     <div
-      className={`${className} bg-gray-300/80 animate-pulse rounded-lg duration-100`}
+      className={`${className} bg-gray-200/80 animate-pulse rounded-lg duration-100`}
     ></div>
   );
 };
