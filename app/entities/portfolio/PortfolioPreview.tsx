@@ -6,9 +6,15 @@ import { Project } from '@/app/types/Portfolio';
 
 interface PortfolioPreviewProps {
   project: Project;
+  hideTags?: boolean;
+  hoverEffect?: boolean;
 }
 
-const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
+const PortfolioPreview = ({
+  project,
+  hideTags,
+  hoverEffect = true,
+}: PortfolioPreviewProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -28,46 +34,48 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
           }`}
         />
 
-        <div
-          className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <div className="flex gap-3">
-            {project.demoUrl && (
-              <Link
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <button className="bg-neutral-500 hover:bg-neutral-600 text-white px-4 py-2 rounded-md transition-colors">
-                  배포 링크
-                </button>
-              </Link>
-            )}
-            {project.githubUrl && (
-              <Link
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md transition-colors">
-                  GitHub
-                </button>
-              </Link>
-            )}{' '}
-            {project.slug && (
-              <Link
-                href={`/portfolio/${project.slug}`}
-                rel="noopener noreferrer"
-              >
-                <button className="bg-neutral-700 hover:bg-neutral-800 text-white px-4 py-2 rounded-md transition-colors">
-                  세부 정보
-                </button>
-              </Link>
-            )}
+        {hoverEffect && (
+          <div
+            className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
+              isHovered ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div className="flex gap-3">
+              {project.demoUrl && (
+                <Link
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="bg-neutral-500 hover:bg-neutral-600 text-white px-4 py-2 rounded-md transition-colors">
+                    배포 링크
+                  </button>
+                </Link>
+              )}
+              {project.githubUrl && (
+                <Link
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md transition-colors">
+                    GitHub
+                  </button>
+                </Link>
+              )}{' '}
+              {project.slug && (
+                <Link
+                  href={`/portfolio/${project.slug}`}
+                  rel="noopener noreferrer"
+                >
+                  <button className="bg-neutral-700 hover:bg-neutral-800 text-white px-4 py-2 rounded-md transition-colors">
+                    세부 정보
+                  </button>
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="p-6">
@@ -80,7 +88,7 @@ const PortfolioPreview = ({ project }: PortfolioPreviewProps) => {
           {project.description}
         </p>
 
-        {project.tags && project.tags.length > 0 && (
+        {!hideTags && project.tags && project.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3">
             {project.tags.map((tag, index) => (
               <span
