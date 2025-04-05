@@ -106,21 +106,6 @@ const Carousel = ({ slides }: CarouselProps) => {
               hoverEffect: false,
             })}
         </div>
-        {/* Navigation Arrows */}
-        {/*<button*/}
-        {/*  onClick={() => prevSlide()}*/}
-        {/*  className="absolute -left-20 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-4 text-black hover:bg-neutral-300"*/}
-        {/*  aria-label="이전 슬라이드"*/}
-        {/*>*/}
-        {/*  <FaArrowLeft />*/}
-        {/*</button>*/}
-        {/*<button*/}
-        {/*  onClick={() => nextSlide()}*/}
-        {/*  className="absolute -right-20 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-4 text-black hover:bg-neutral-300"*/}
-        {/*  aria-label="다음 슬라이드"*/}
-        {/*>*/}
-        {/*  <FaArrowRight />*/}
-        {/*</button>*/}
 
         {/* Indicators */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
