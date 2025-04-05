@@ -25,8 +25,8 @@ const Footer = () => {
         </div>
         <div className={'footer-col'}>
           <b>Contact</b>
-          <div className={'disabled'}>
-            <a></a>email
+          <div>
+            <a href={'mailto:sjw4371@naver.com'}>Email</a>
           </div>
           <div className={'disabled'}>
             <a></a>discord
@@ -74,10 +74,16 @@ const Footer = () => {
         <div className={'footer-col'}>
           <b>Explore</b>
           <div>
-            <Link href={'/blog'}>Blog</Link>
+            <Link href={'/posts'}>Blog</Link>
+          </div>
+          <div>
+            <Link href={'/series'}>Series</Link>
           </div>
           <div>
             <Link href={'/portfolio'}>Portfolio</Link>
+          </div>
+          <div>
+            <Link href={'/admin'}>Admin</Link>
           </div>
         </div>
       </section>
