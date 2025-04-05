@@ -7,6 +7,7 @@ import SearchSection from '@/app/entities/post/list/SearchSection';
 import { debounce } from 'lodash';
 import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Pagination from '@/app/entities/common/Pagination';
 
 const BlogList = () => {
   const [posts, setPosts] = useState<Post[]>();
@@ -16,19 +17,31 @@ const BlogList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const seriesSlugParam = searchParams.get('series');
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const [totalPosts, setTotalPosts] = useState(0);
+  const ITEMS_PER_PAGE = 12;
 
   const getPosts = async (query?: string, seriesSlug?: string | null) => {
-    const response = await axios.get(`/api/posts`, {
-      params: {
-        query: query ? query : null,
-        series: seriesSlug,
-        compact: 'true',
-      },
-    });
-    const data = await response.data;
-    setPosts(data.posts);
-    if (query) addLatestQuery(query);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await axios.get(`/api/posts`, {
+        params: {
+          query: query ? query : null,
+          series: seriesSlug,
+          compact: 'true',
+          page: Number(searchParams.get('page')) || 1,
+        },
+      });
+      const data = await response.data;
+      setPosts(data.posts);
+      setTotalPosts(data.pagination.totalPosts);
+      if (query) addLatestQuery(query);
+      setLoading(false);
+    } catch (e) {
+      console.error('Error fetching posts:', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetSearchCondition = () => {
@@ -36,11 +49,11 @@ const BlogList = () => {
     router.push('/posts');
   };
 
-  const debouncedGetPosts = useCallback(debounce(getPosts, 500), []);
+  const debouncedGetPosts = useCallback(debounce(getPosts, 300), [currentPage]);
 
   useEffect(() => {
     debouncedGetPosts(query, seriesSlugParam);
-  }, [query, seriesSlugParam]);
+  }, [query, seriesSlugParam, currentPage]);
 
   return (
     <section>
@@ -56,6 +69,11 @@ const BlogList = () => {
         loading={loading}
         posts={posts}
         resetSearchCondition={resetSearchCondition}
+      />
+      <Pagination
+        totalItems={totalPosts}
+        itemsPerPage={ITEMS_PER_PAGE}
+        currentPage={currentPage}
       />
     </section>
   );
