@@ -6,6 +6,7 @@ interface IconButtonProps {
   size?: number;
   className?: string;
   onClick?: () => void;
+  props?: React.HTMLProps<HTMLButtonElement>;
 }
 
 const IconButton = ({
@@ -14,6 +15,7 @@ const IconButton = ({
   size,
   className,
   onClick,
+  ...props
 }: IconButtonProps) => {
   return (
     <button
@@ -21,6 +23,7 @@ const IconButton = ({
       className={
         className || 'p-2 fill-current hover:bg-gray-200/50 rounded-md'
       }
+      {...props}
     >
       <Icon size={size || 20} />
       {text && <span>{text}</span>}

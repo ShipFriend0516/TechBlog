@@ -6,7 +6,7 @@ import Profile from '@/app/entities/common/Profile';
 import profile from '@/app/public/profile.jpg';
 import IconButton from '@/app/entities/common/Button/IconButton';
 import useTheme from '@/app/hooks/useTheme';
-import { IoMoonSharp, IoSunny, IoSunnySharp } from 'react-icons/io5';
+import { IoMoonSharp, IoSunnySharp } from 'react-icons/io5';
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -59,6 +59,7 @@ const NavBar = () => {
               onClick={toggleTheme}
               Icon={theme === 'light' ? IoSunnySharp : IoMoonSharp}
               size={16}
+              aria-label="테마 변경 버튼"
             />
           </li>
         </ul>

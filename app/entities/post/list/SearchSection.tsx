@@ -106,12 +106,14 @@ const SearchSection = ({
           <button
             onClick={resetSearchCondition}
             className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
+            aria-label="검색 초기화"
           >
             <RiRestartLine size={20} />
           </button>
           <button
             onClick={() => setSearchOpen(!searchOpen)}
             className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
+            aria-label="검색 오버레이 열기 버튼"
           >
             <FaSearch size={20} />
           </button>
