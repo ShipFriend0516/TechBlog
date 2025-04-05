@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaArrowLeft, FaArrowRight, FaGithub, FaGlobe } from 'react-icons/fa';
+import { FaArrowLeft, FaGithub, FaGlobe } from 'react-icons/fa';
 import NotFound from '@/app/not-found';
 import { PortfolioItem } from '@/app/types/Portfolio';
+import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
 
 interface PortfolioDetailPageProps {
   params: {
@@ -81,7 +82,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
             <h1 className="text-4xl font-bold mb-3">{portfolio.title}</h1>
             <Link
               href="/portfolio"
-              className="text-gray-600 hover:text-gray-900 flex items-center gap-2 transition-colors"
+              className="text-weak hover:text-default flex items-center gap-2 transition-colors"
             >
               <FaArrowLeft size={18} />
               <span>목록으로 돌아가기</span>
@@ -144,25 +145,25 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 hover:opacity-100 transition-opacity">
             <button
               onClick={handlePreviousImage}
-              className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg hover:bg-white transition-colors"
-              aria-label="Previous image"
+              className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg hover:bg-white transition-colors dark:text-black"
+              aria-label="이전 이미지"
             >
-              <FaArrowLeft size={24} />
+              <IoMdArrowDropleft size={24} />
             </button>
 
             <button
               onClick={handleNextImage}
-              className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg hover:bg-white transition-colors"
-              aria-label="Next image"
+              className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg hover:bg-white transition-colors dark:text-black"
+              aria-label="다음 이미지"
             >
-              <FaArrowRight size={24} />
+              <IoMdArrowDropright size={24} />
             </button>
           </div>
         </div>
 
         <div className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">프로젝트 개요</h2>
-          <p className="whitespace-pre-line text-gray-700 leading-relaxed">
+          <p className="whitespace-pre-line text-weak leading-relaxed">
             {portfolio.description}
           </p>
         </div>
@@ -173,17 +174,17 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
             <div className="flex gap-2">
               <button
                 onClick={handlePreviousImage}
-                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                aria-label="Previous thumbnail"
+                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors "
+                aria-label="이전 썸네일"
               >
-                <FaArrowLeft size={18} />
+                <IoMdArrowDropleft size={18} />
               </button>
               <button
                 onClick={handleNextImage}
                 className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                aria-label="Next thumbnail"
+                aria-label="다음 썸네일"
               >
-                <FaArrowRight size={18} />
+                <IoMdArrowDropright size={18} />
               </button>
             </div>
           </div>
@@ -206,23 +207,17 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6 bg-gray-50 rounded-lg">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6 bg-gray-50 rounded-lg text-neutral-600">
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 mb-1">
-              프로젝트 유형
-            </h3>
+            <h3 className="text-sm font-semibold mb-1">프로젝트 유형</h3>
             <p className="font-medium">{portfolio.category}</p>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 mb-1">
-              완료 연도
-            </h3>
+            <h3 className="text-sm font-semibold mb-1">완료 연도</h3>
             <p className="font-medium">{portfolio.year}</p>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 mb-1">
-              사용 기술
-            </h3>
+            <h3 className="text-sm font-semibold mb-1">사용 기술</h3>
             <p className="font-medium">{portfolio.technologies.join(', ')}</p>
           </div>
         </div>
