@@ -76,16 +76,16 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
 
   return (
     <section className="min-h-screen">
-      <main className="w-full max-w-7xl mx-auto px-8 py-12">
+      <main className="w-full max-w-7xl mx-auto px-8 py-6 md:py-12">
         <div className="mb-10">
-          <div className={'flex justify-between items-center mb-2'}>
-            <h1 className="text-4xl font-bold mb-3">{portfolio.title}</h1>
+          <div className={'flex justify-between items-center mb-3'}>
+            <h1 className="text-xl md:text-4xl font-bold">{portfolio.title}</h1>
             <Link
               href="/portfolio"
               className="text-weak hover:text-default flex items-center gap-2 transition-colors"
             >
               <FaArrowLeft size={18} />
-              <span>목록으로 돌아가기</span>
+              <span className={'hidden lg:inline'}>목록으로 돌아가기</span>
             </Link>
           </div>
           {/* 기술 스택 태그 및 링크 버튼 */}
@@ -94,7 +94,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
               {portfolio.technologies.map((tech, index) => (
                 <span
                   key={index}
-                  className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm"
+                  className="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs"
                 >
                   {tech}
                 </span>
@@ -108,11 +108,10 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
                   href={portfolio.links?.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1 text-default rounded-md hover:bg-gray-700 transition-colors"
                   aria-label="GitHub 저장소"
                 >
                   <FaGithub size={18} />
-                  <span>Github</span>
                 </a>
               )}
 
@@ -121,11 +120,10 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
                   href={portfolio.links?.deployUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1 text-default rounded-md hover:bg-emerald-700 transition-colors"
                   aria-label="배포 사이트"
                 >
                   <FaGlobe size={18} />
-                  <span>배포</span>
                 </a>
               )}
             </div>
