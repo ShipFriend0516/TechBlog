@@ -5,9 +5,10 @@ import axios from 'axios';
 import PostListItem from '@/app/entities/post/list/PostListItem';
 import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import { deletePost } from '@/app/entities/post/api/postAPI';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import useToast from '@/app/hooks/useToast';
+import Pagination from '@/app/entities/common/Pagination';
 
 const AdminPostListPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -16,19 +17,26 @@ const AdminPostListPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const toast = useToast();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const [totalItems, setTotalItems] = useState(0);
+  const ITEMS_PER_PAGE = 8;
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [currentPage]);
 
   const getPosts = async () => {
     const response = await axios.get('/api/posts', {
       params: {
         compact: 'true',
+        page: currentPage,
+        limit: ITEMS_PER_PAGE,
       },
     });
     const data = await response.data;
     setPosts(data.posts);
+    setTotalItems(data.pagination.totalPosts);
     setLoading(false);
   };
 
@@ -78,6 +86,12 @@ const AdminPostListPage = () => {
           ))}
         </div>
       </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalItems={totalItems}
+        itemsPerPage={ITEMS_PER_PAGE}
+      />
 
       {showDeleteDialog && (
         <DeleteModal
