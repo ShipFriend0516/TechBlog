@@ -108,7 +108,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
                   href={portfolio.links?.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1 text-default rounded-md hover:bg-gray-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1 text-default hover:opacity-75 rounded-md  transition-colors"
                   aria-label="GitHub 저장소"
                 >
                   <FaGithub size={18} />
@@ -120,7 +120,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
                   href={portfolio.links?.deployUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1 text-default rounded-md hover:bg-emerald-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1 text-default hover:opacity-75 rounded-md transition-colors"
                   aria-label="배포 사이트"
                 >
                   <FaGlobe size={18} />
