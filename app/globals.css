@@ -190,21 +190,39 @@ article.post .post-body hr::before {
 .post-body aside p {
   margin: 0;
 }
-
-.dark .post-body p > code {
-  background-color: rgb(64, 71, 64);
+.dark .post-body p > code,
+.dark .post-body li > code,
+.dark .post-body strong > code,
+.post-body p > code,
+.post-body li > code,
+.post-body strong > code {
   padding: 0.2em;
   box-shadow: 0 2px 4px rgba(143, 143, 143, 0.2);
-  color: #f8d996;
-  font-weight: 300;
   font-family: 'Pretendard Variable';
 }
 
-.post-body p > code {
+.dark .post-body p > code,
+.dark .post-body li > code,
+.dark .post-body strong > code {
+  background-color: rgb(64, 71, 64);
+  color: #f8d996;
+}
+
+.post-body p > code,
+.post-body li > code,
+.post-body strong > code {
   background-color: rgb(228, 224, 217);
-  padding: 0.2em;
-  box-shadow: 0 2px 4px rgba(197, 197, 197, 0.2);
   color: #394239;
+}
+
+.dark .post-body strong > code,
+.post-body strong > code {
+  font-weight: bold;
+}
+
+.dark .post-body p > code,
+.dark .post-body li > code,
+.post-body p > code,
+.post-body li > code {
   font-weight: 300;
-  font-family: 'Pretendard Variable';
 }
