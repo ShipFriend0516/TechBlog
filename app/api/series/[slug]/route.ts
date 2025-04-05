@@ -19,7 +19,12 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(series);
+    return NextResponse.json(series, {
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+      },
+    });
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || '시리즈 조회에 실패했습니다.' },

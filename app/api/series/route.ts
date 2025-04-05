@@ -44,7 +44,12 @@ export async function GET(request: Request) {
     }
 
     const series = await query;
-    return NextResponse.json(series);
+    return NextResponse.json(series, {
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+      },
+    });
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || '시리즈 목록을 불러오는데 실패했습니다.' },

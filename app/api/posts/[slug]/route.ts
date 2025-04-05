@@ -20,7 +20,15 @@ export async function GET(
       );
     }
 
-    return Response.json({ success: true, post });
+    return Response.json(
+      { success: true, post },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+        },
+      }
+    );
   } catch (error) {
     console.error(error);
     return Response.json(

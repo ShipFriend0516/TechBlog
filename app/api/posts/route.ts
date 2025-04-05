@@ -46,7 +46,15 @@ export async function GET(req: Request) {
 
     const posts = await q.sort({ date: -1 }).limit(10);
 
-    return Response.json({ success: true, posts: posts });
+    return Response.json(
+      { success: true, posts: posts },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+        },
+      }
+    );
   } catch (error) {
     console.error(error);
     return Response.json(
