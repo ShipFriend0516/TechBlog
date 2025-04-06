@@ -41,25 +41,29 @@ const PostMetadataForm = (props: PostMetadataFormProps) => (
       onChange={props.onSubTitleChange}
       value={props.subTitle}
     />
-    <div className={'flex items-center gap-2  w-full mb-4'}>
-      <label className={'inline-flex items-center text-nowrap flex-grow gap-2'}>
-        <span className={'font-bold'}>시리즈</span>
-        {props.seriesLoading ? (
-          <div>loading...</div>
-        ) : (
-          <Select
-            options={props.series.map(props.callbackfn)}
-            setValue={props.defaultSeries}
-            defaultValue={
-              props.seriesId
-                ? props.seriesId
-                : props.series.length > 0
-                  ? props.series[0]._id
-                  : ''
-            }
-          />
-        )}
-      </label>
+    <div className={'flex items-center w-full gap-2  mb-4'}>
+      <div className={'w-1/2'}>
+        <label
+          className={'inline-flex items-center text-nowrap flex-grow gap-2 '}
+        >
+          <span className={'font-bold'}>시리즈</span>
+          {props.seriesLoading ? (
+            <div>loading...</div>
+          ) : (
+            <Select
+              options={props.series.map(props.callbackfn)}
+              setValue={props.defaultSeries}
+              defaultValue={
+                props.seriesId
+                  ? props.seriesId
+                  : props.series.length > 0
+                    ? props.series[0]._id
+                    : ''
+              }
+            />
+          )}
+        </label>
+      </div>
       <button
         onClick={props.onClickNewSeries}
         className={
