@@ -6,9 +6,14 @@ import { ChangeEvent, useState } from 'react';
 
 interface UploadImageContainerProps {
   onClick: (link: string) => void;
+  uploadedImages: string[];
+  setUploadedImages: (images: string[]) => void;
 }
-const UploadImageContainer = ({ onClick }: UploadImageContainerProps) => {
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+const UploadImageContainer = ({
+  onClick,
+  uploadedImages,
+  setUploadedImages,
+}: UploadImageContainerProps) => {
   const uploadToBlob = async (event: ChangeEvent) => {
     try {
       event.preventDefault();

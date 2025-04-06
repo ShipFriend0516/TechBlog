@@ -1,7 +1,7 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
@@ -11,15 +11,12 @@ import { useBlockNavigate } from '@/app/hooks/useBlockNavigate';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
 import { validatePost } from '@/app/lib/utils/validate/validate';
-import Select from '@/app/entities/common/Select';
 import { Series } from '@/app/types/Series';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
-import { FaPlus } from 'react-icons/fa6';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 import useDraft from '@/app/hooks/post/useDraft';
-import { CgMoveRight } from 'react-icons/cg';
 import PostMetadataForm from '@/app/entities/post/write/PostMetadataForm';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
@@ -41,7 +38,20 @@ const BlogForm = () => {
   const router = useRouter();
   const NICKNAME = '개발자 서정우';
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
-  const { draft, updateDraft, clearDraft } = useDraft();
+  // 임시저장 상태
+  const { draft, draftImages, updateDraft, clearDraft } = useDraft();
+  // 이미지 상태
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+
+  const postBody: PostBody = {
+    title,
+    subTitle,
+    author: NICKNAME,
+    content: content || '',
+    profileImage,
+    thumbnailImage,
+    seriesId: seriesId || '',
+  };
 
   useBlockNavigate({ title, content: content || '' });
 
@@ -54,16 +64,6 @@ const BlogForm = () => {
       getPostDetail();
     }
   }, [slug]);
-
-  const postBody: PostBody = {
-    title,
-    subTitle,
-    author: NICKNAME,
-    content: content || '',
-    profileImage,
-    thumbnailImage,
-    seriesId: seriesId || '',
-  };
 
   // 시리즈
   const getSeries = async () => {
@@ -106,7 +106,7 @@ const BlogForm = () => {
 
   // 임시저장 관련 함수
   const saveToDraft = () => {
-    const { success } = updateDraft(postBody);
+    const { success } = updateDraft(postBody, uploadedImages);
     if (success) {
       toast.success('임시 저장되었습니다.');
     } else {
@@ -122,8 +122,16 @@ const BlogForm = () => {
         setContent(content);
         setSubTitle(subTitle || '');
         setSeriesId(seriesId);
+        setUploadedImages(draftImages || []);
       }
+    } else {
+      toast.error('임시 저장된 글이 없습니다.');
     }
+  };
+
+  const clearDraftInStore = () => {
+    clearDraft();
+    toast.success('임시 저장이 삭제되었습니다.');
   };
 
   const submitHandler = (post: PostBody) => {
@@ -185,6 +193,7 @@ const BlogForm = () => {
         seriesId={seriesId}
         onClickNewSeries={() => setCreateSeriesOpen(true)}
         onClickOverwrite={overwriteDraft}
+        clearDraft={clearDraftInStore}
       />
       <Overlay
         overlayOpen={createSeriesOpen}
@@ -201,7 +210,11 @@ const BlogForm = () => {
         height={500}
         visibleDragbar={false}
       />
-      <UploadImageContainer onClick={handleLinkCopy} />
+      <UploadImageContainer
+        uploadedImages={uploadedImages}
+        setUploadedImages={setUploadedImages}
+        onClick={handleLinkCopy}
+      />
       {errors && (
         <div className={'mt-2'}>
           {errors.slice(0, 3).map((error, index) => (

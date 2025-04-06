@@ -3,6 +3,7 @@ import Select from '@/app/entities/common/Select';
 import { FaPlus } from 'react-icons/fa6';
 import { CgMoveRight } from 'react-icons/cg';
 import { ChangeEvent } from 'react';
+import { FaTrash } from 'react-icons/fa';
 
 interface PostMetadataFormProps {
   onTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -21,6 +22,7 @@ interface PostMetadataFormProps {
   seriesId: string | undefined;
   onClickNewSeries: () => void;
   onClickOverwrite: () => void;
+  clearDraft: () => void;
 }
 
 const PostMetadataForm = (props: PostMetadataFormProps) => (
@@ -69,15 +71,23 @@ const PostMetadataForm = (props: PostMetadataFormProps) => (
       <button
         onClick={props.onClickOverwrite}
         className={
-          'inline-flex items-center   bg-neutral-200 text-black p-2 rounded-md text-sm'
+          'inline-flex items-center gap-2  bg-neutral-200 text-black p-2 rounded-md text-sm'
         }
       >
         임시저장본
-        <CgMoveRight size={24} />
+        <CgMoveRight />
       </button>
-      <div></div>
+
+      <button
+        onClick={props.clearDraft}
+        className={
+          'inline-flex items-center gap-2  bg-pink-200 text-black p-2 rounded-md text-sm'
+        }
+      >
+        임시저장 삭제
+        <FaTrash />
+      </button>
     </div>
   </>
 );
-
 export default PostMetadataForm;
