@@ -16,7 +16,12 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const getPosts = async () => {
-    const response = await axios.get('/api/posts');
+    const response = await axios.get('/api/posts', {
+      params: {
+        compact: 'true',
+        limit: 3,
+      },
+    });
     const data = await response.data;
     setPosts(data.posts);
     setLoading(false);
@@ -115,7 +120,7 @@ export default function Home() {
       {/* Featured projects */}
       <section className="grid gap-6">
         <h2 className="text-2xl font-semibold">Featured Projects</h2>
-        <div className={'grid grid-cols-2 gap-6'}>
+        <div className={'grid grid-cols-1 md:grid-cols-2 gap-6'}>
           {projects.map((project) => {
             return <PortfolioPreview key={project.title} project={project} />;
           })}

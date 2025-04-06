@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Project } from '@/app/types/Portfolio';
+import { FaGithub, FaGlobe } from 'react-icons/fa';
 
 interface PortfolioPreviewProps {
   project: Project;
@@ -19,7 +20,7 @@ const PortfolioPreview = ({
 
   return (
     <div
-      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden transition  duration-300 hover:shadow-lg"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -47,8 +48,8 @@ const PortfolioPreview = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <button className="bg-neutral-500 hover:bg-neutral-600 text-white px-4 py-2 rounded-md transition-colors">
-                    배포 링크
+                  <button className="inline-flex items-center gap-1  h-full  bg-neutral-500 hover:bg-neutral-600 text-white px-4 py-2 rounded-md transition-colors">
+                    배포 <FaGlobe />
                   </button>
                 </Link>
               )}
@@ -58,8 +59,8 @@ const PortfolioPreview = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md transition-colors">
-                    GitHub
+                  <button className="inline-flex items-center gap-1  h-full bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md transition-colors">
+                    <FaGithub />
                   </button>
                 </Link>
               )}{' '}
