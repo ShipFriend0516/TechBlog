@@ -7,12 +7,14 @@ interface PostWriteButtonsProps {
   postBody: PostBody;
   submitLoading: boolean;
   submitHandler: (postBody: PostBody) => void;
+  saveToDraft: () => void;
 }
 const PostWriteButtons = ({
   slug,
   submitLoading,
   submitHandler,
   postBody,
+  saveToDraft,
 }: PostWriteButtonsProps) => {
   const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
   return (
@@ -23,7 +25,10 @@ const PostWriteButtons = ({
       >
         <button>나가기</button>
       </Link>
-      <button className={buttonStyle + 'bg-blue-500 hover:bg-blue-700 '}>
+      <button
+        onClick={saveToDraft}
+        className={buttonStyle + 'bg-blue-500 hover:bg-blue-700 '}
+      >
         임시 저장
       </button>
       <button

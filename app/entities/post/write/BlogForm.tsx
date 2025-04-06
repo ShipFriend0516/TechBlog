@@ -18,6 +18,9 @@ import { FaPlus } from 'react-icons/fa6';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
+import useDraft from '@/app/hooks/post/useDraft';
+import { CgMoveRight } from 'react-icons/cg';
+import PostMetadataForm from '@/app/entities/post/write/PostMetadataForm';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -38,6 +41,7 @@ const BlogForm = () => {
   const router = useRouter();
   const NICKNAME = '개발자 서정우';
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
+  const { draft, updateDraft, clearDraft } = useDraft();
 
   useBlockNavigate({ title, content: content || '' });
 
@@ -100,6 +104,28 @@ const BlogForm = () => {
     }
   };
 
+  // 임시저장 관련 함수
+  const saveToDraft = () => {
+    const { success } = updateDraft(postBody);
+    if (success) {
+      toast.success('임시 저장되었습니다.');
+    } else {
+      toast.error('임시 저장 실패');
+    }
+  };
+
+  const overwriteDraft = () => {
+    if (draft !== null) {
+      if (confirm('임시 저장된 글이 있습니다. 덮어쓰시겠습니까?')) {
+        const { title, content, subTitle, seriesId } = draft;
+        setTitle(title || '');
+        setContent(content);
+        setSubTitle(subTitle || '');
+        setSeriesId(seriesId);
+      }
+    }
+  };
+
   const submitHandler = (post: PostBody) => {
     try {
       setSubmitLoading(true);
@@ -117,6 +143,7 @@ const BlogForm = () => {
       } else {
         postBlog(post);
       }
+      clearDraft();
     } catch (e) {
       console.error('글 발행 중 오류 발생', e);
       setSubmitLoading(false);
@@ -143,53 +170,22 @@ const BlogForm = () => {
 
   return (
     <div className={'px-16'}>
-      <input
-        type="text"
-        placeholder="제목"
-        className="w-full p-2 border border-gray-300 rounded mb-4 text-black font-bold"
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
+      <PostMetadataForm
+        onTitleChange={(e) => setTitle(e.target.value)}
+        title={title}
+        onSubTitleChange={(e) => setSubTitle(e.target.value)}
+        subTitle={subTitle}
+        seriesLoading={seriesLoading}
+        series={seriesList}
+        callbackfn={(s) => ({
+          value: s._id,
+          label: s.title,
+        })}
+        defaultSeries={setSeriesId}
+        seriesId={seriesId}
+        onClickNewSeries={() => setCreateSeriesOpen(true)}
+        onClickOverwrite={overwriteDraft}
       />
-      <input
-        type="text"
-        placeholder="소제목"
-        className="w-full p-2 border border-gray-300 rounded mb-4 text-black"
-        onChange={(e) => setSubTitle(e.target.value)}
-        value={subTitle}
-      />
-      <div className={'flex items-center gap-2  w-2/3 mb-4'}>
-        <label
-          className={'inline-flex items-center text-nowrap flex-grow gap-2'}
-        >
-          <span className={'font-bold'}>시리즈</span>
-          {seriesLoading ? (
-            <div>loading...</div>
-          ) : (
-            <Select
-              options={seriesList.map((s) => ({
-                value: s._id,
-                label: s.title,
-              }))}
-              setValue={setSeriesId}
-              defaultValue={
-                seriesId
-                  ? seriesId
-                  : seriesList.length > 0
-                    ? seriesList[0]._id
-                    : ''
-              }
-            />
-          )}
-        </label>
-        <button
-          onClick={() => setCreateSeriesOpen(true)}
-          className={
-            'inline-flex items-center gap-2 bg-green-200 text-black p-2 px-4 rounded-md hover:bg-green-300'
-          }
-        >
-          새로운 시리즈 <FaPlus />
-        </button>
-      </div>
       <Overlay
         overlayOpen={createSeriesOpen}
         setOverlayOpen={setCreateSeriesOpen}
@@ -220,6 +216,7 @@ const BlogForm = () => {
         postBody={postBody}
         submitHandler={submitHandler}
         submitLoading={submitLoading}
+        saveToDraft={saveToDraft}
       />
     </div>
   );
