@@ -20,7 +20,7 @@ const PortfolioPreview = ({
 
   return (
     <div
-      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden transition  duration-300 hover:shadow-lg"
+      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden   hover:shadow-lg"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
