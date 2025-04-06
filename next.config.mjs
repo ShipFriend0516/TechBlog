@@ -16,6 +16,7 @@ const nextConfig = {
   env: {
     DB_URI: process.env.DB_URI,
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;
