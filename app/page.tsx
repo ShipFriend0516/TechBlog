@@ -96,7 +96,7 @@ export default function Home() {
             height={400}
             src={profile}
             alt="About image"
-            className="object-cover w-full h-full bg-gray-500"
+            className="hover:rotate-180 transition duration-[60000ms] object-cover w-full h-full bg-gray-500"
           />
         </div>
         <div className="grid gap-4">

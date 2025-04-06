@@ -9,6 +9,7 @@ import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
 import { FaShareAlt } from 'react-icons/fa';
 import PostShareSection from '@/app/entities/post/detail/PostShareSection';
+import Skeleton from '@/app/entities/common/Skeleton';
 
 async function getPostDetail(slug: string) {
   await dbConnect();
