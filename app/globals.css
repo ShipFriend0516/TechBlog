@@ -196,8 +196,8 @@ article.post .post-body hr::before {
 .post-body p > code,
 .post-body li > code,
 .post-body strong > code {
-  padding: 0.2em;
-  box-shadow: 0 2px 4px rgba(143, 143, 143, 0.2);
+  padding: 0.15em;
+  box-shadow: 0 0px 2px rgba(143, 143, 143, 0.7);
   font-family: 'Pretendard Variable';
 }
 
