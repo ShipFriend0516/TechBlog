@@ -1,11 +1,10 @@
 // app/api/posts/latest/route.ts
-import { NextRequest, NextResponse } from 'next/server';
 import Post from '@/app/models/Post';
 import dbConnect from '@/app/lib/dbConnect';
 
 export const dynamic = 'force-dynamic'; // 항상 최신 데이터를 가져오기 위한 설정
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const limit = 1;
 
@@ -20,7 +19,12 @@ export async function GET(request: NextRequest) {
     ).at(0);
 
     if (!latestPost || latestPost.length === 0) {
-      return generateEmptyBadgeSVG();
+      return new Response(generateEmptyBadgeSVG(), {
+        headers: {
+          'Content-Type': 'image/svg+xml',
+          'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+        },
+      });
     }
 
     // 제목과 부제목 길이 제한
