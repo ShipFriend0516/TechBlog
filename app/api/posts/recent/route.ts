@@ -11,12 +11,10 @@ export async function GET() {
     // DB 연결
     await dbConnect();
 
-    const latestPost = (
-      await Post.find({})
-        .select('title subTitle slug date')
-        .sort({ date: -1 })
-        .limit(limit)
-    ).at(0);
+    const latestPost = await Post.findOne({})
+      .select('title subTitle slug date')
+      .sort({ date: -1 })
+      .limit(limit);
 
     if (!latestPost || latestPost.length === 0) {
       return new Response(generateEmptyBadgeSVG(), {
@@ -71,7 +69,6 @@ function formatDate(timestamp: number): string {
     day: 'numeric',
   });
 }
-
 // 메인 배지 SVG 생성 함수
 function generateBadgeSVG(
   title: string,
@@ -82,18 +79,29 @@ function generateBadgeSVG(
   const width = 400;
   const height = subTitle ? 110 : 80; // 부제목 유무에 따라 높이 조정
 
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+  // 투명 배경으로 SVG 시작
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" fill="none">
+    <!-- 투명 배경 설정 -->
+    <defs>
+      <clipPath id="roundedRect">
+        <rect width="${width}" height="${height}" rx="10" ry="10"/>
+      </clipPath>
+    </defs>
+    
     <!-- 배경 및 테두리 -->
-    <rect width="${width}" height="${height}" fill="white" stroke="black" stroke-width="2" rx="10" ry="10"/>
+    <g clip-path="url(#roundedRect)">
+      <rect width="${width}" height="${height}" fill="white"/>
+    </g>
+    <rect width="${width}" height="${height}" fill="none" stroke="black" stroke-width="0.5" rx="10" ry="10"/>
     
     <!-- 배지 제목 영역 -->
-    <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="black">최신 글 | ShipFriend Tech Blog</text>
+    <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="black">최신 글 | ShipFriend Tech Blog</text>
     
     <!-- 구분선 -->
-    <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="#000" stroke-width="0.2"/>
+    <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="#ddd" stroke-width="1"/>
     
     <!-- 포스트 제목 -->
-    <text x="20" y="65" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#333">${escapeXML(title)}</text>`;
+    <text x="20" y="65" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#333">${escapeXML(title)}</text>`;
 
   if (subTitle) {
     // 부제목이 있는 경우
@@ -114,15 +122,25 @@ function generateBadgeSVG(
 
   return svg;
 }
+
 // 빈 배지 생성 함수
 function generateEmptyBadgeSVG(): string {
   const width = 400;
   const height = 80;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <rect width="${width}" height="${height}" fill="white" stroke="black" stroke-width="2" rx="10" ry="10"/>
-    <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="black">최신 블로그 포스트</text>
-    <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="#ddd" stroke-width="0.5"/>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" fill="none">
+    <defs>
+      <clipPath id="roundedRect">
+        <rect width="${width}" height="${height}" rx="10" ry="10"/>
+      </clipPath>
+    </defs>
+    
+    <g clip-path="url(#roundedRect)">
+      <rect width="${width}" height="${height}" fill="white"/>
+    </g>
+    <rect width="${width}" height="${height}" fill="none" stroke="black" stroke-width="2" rx="10" ry="10"/>
+    <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="black">최신 글 | ShipFriend Tech Blog</text>
+    <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="#ddd" stroke-width="1"/>
     <text x="${width / 2}" y="${height / 2 + 10}" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#666" text-anchor="middle">아직 작성된 포스트가 없습니다</text>
   </svg>`;
 }
@@ -132,10 +150,19 @@ function generateErrorBadgeSVG(): string {
   const width = 400;
   const height = 80;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <rect width="${width}" height="${height}" fill="white" stroke="black" stroke-width="2" rx="10" ry="10"/>
-    <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="black">최신 글</text>
-    <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="#ddd" stroke-width="0.5"/>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" fill="none">
+    <defs>
+      <clipPath id="roundedRect">
+        <rect width="${width}" height="${height}" rx="10" ry="10"/>
+      </clipPath>
+    </defs>
+    
+    <g clip-path="url(#roundedRect)">
+      <rect width="${width}" height="${height}" fill="white"/>
+    </g>
+    <rect width="${width}" height="${height}" fill="none" stroke="black" stroke-width="2" rx="10" ry="10"/>
+    <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="black">최신 글 | ShipFriend Tech Blog</text>
+    <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="#ddd" stroke-width="1"/>
     <text x="${width / 2}" y="${height / 2 + 10}" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#d32f2f" text-anchor="middle">포스트 정보를 불러오는 중 오류가 발생했습니다</text>
   </svg>`;
 }
