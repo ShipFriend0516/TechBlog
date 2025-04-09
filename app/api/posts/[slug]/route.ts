@@ -25,7 +25,7 @@ export async function GET(
       {
         status: 200,
         headers: {
-          'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+          'Cache-Control': 'public, max-age=60 ',
         },
       }
     );
