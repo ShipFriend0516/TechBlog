@@ -6,15 +6,20 @@ import { Metadata } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
-import PostTOC from '@/app/entities/post/detail/PostTOC';
-import { FaShareAlt } from 'react-icons/fa';
-import PostShareSection from '@/app/entities/post/detail/PostShareSection';
-import Skeleton from '@/app/entities/common/Skeleton';
+import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 
 async function getPostDetail(slug: string) {
   await dbConnect();
 
-  const post = await Post.findOne({ slug: decodeURIComponent(slug) }).lean();
+  const post = await Post.findOneAndUpdate(
+    { slug: decodeURIComponent(slug) },
+    {
+      $inc: { viewCount: 1 },
+    },
+    {
+      new: true,
+    }
+  ).lean();
 
   if (!post) {
     throw new Error('Post not found');
@@ -52,7 +57,6 @@ export const generateMetadata = async ({
 
 const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
   const { post } = await getPostDetail(params.slug);
-  console.log(params.slug);
   return (
     <>
       <PostJSONLd post={post} />
@@ -68,7 +72,7 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
           />
           <PostBody loading={false} content={post?.content || ''} />
         </article>
-        <PostShareSection />
+        <PostActionSection viewCount={post.viewCount} />
         <Comments />
       </section>
     </>

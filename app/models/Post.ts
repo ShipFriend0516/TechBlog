@@ -51,6 +51,11 @@ const postSchema = new Schema(
       ref: 'Series',
       required: false,
     },
+    viewCount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     tags: {
       type: [String],
       required: false,
