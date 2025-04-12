@@ -12,6 +12,22 @@ const nextConfig = {
         hostname: '*',
       },
     ],
+  }, // 빌드 시 RSS 피드를 생성하는 스크립트 실행
+  async rewrites() {
+    return [
+      {
+        source: '/rss.xml',
+        destination: '/api/rss',
+      },
+      {
+        source: '/atom.xml',
+        destination: '/api/rss',
+      },
+      {
+        source: '/feed.json',
+        destination: '/api/rss',
+      },
+    ];
   },
   env: {
     DB_URI: process.env.DB_URI,
