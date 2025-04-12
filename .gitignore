@@ -42,3 +42,7 @@ next-env.d.ts
 dist
 
 
+# RSS 피드 파일
+public/rss.xml
+public/atom.xml
+public/feed.json
