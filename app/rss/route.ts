@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     // XML 응답 반환
     return new NextResponse(fileContent, {
       headers: {
-        'Content-Type': 'application/xml',
+        'Content-Type': 'application/rss+xml',
         'Cache-Control': 'public, max-age=3600, s-maxage=86400',
       },
     });
