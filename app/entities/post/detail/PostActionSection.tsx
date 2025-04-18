@@ -54,7 +54,6 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
       );
 
       setViewCount(response.data.viewCount);
-      console.log(response);
     } catch (error) {
       console.error('조회수 증가 오류:', error);
     }
@@ -77,7 +76,6 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
         },
       });
 
-      console.log(response);
       const { isLiked, likeCount } = response.data;
       setLikeCount(likeCount);
       setIsLiked(isLiked);
@@ -157,7 +155,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
           ) : (
             <FaRegHeart />
           )}
-          <span>{likeCount}</span>
+          <span>{likeCount || 0}</span>
         </button>
         <button
           title={'클립보드에 글 링크 복사하기'}

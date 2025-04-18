@@ -1,4 +1,4 @@
-import Like from '@/app/models/View';
+import Like from '@/app/models/Like';
 import { NextRequest } from 'next/server';
 
 export const POST = async (request: Request) => {
@@ -78,7 +78,7 @@ export const GET = async (request: NextRequest) => {
 
   return Response.json(
     {
-      isLiked: isLiked,
+      isLiked: !!isLiked,
       likeCount: likeCount,
     },
     { status: 200 }
