@@ -4,6 +4,7 @@ import { MdIosShare } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import useFingerprint from '@/app/hooks/useFingerprint';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import axios from 'axios';
 
 interface PostActionSectionProps {
@@ -24,6 +25,13 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
     await navigator.clipboard.writeText(url);
     toast.success('링크가 복사되었습니다.');
   };
+
+  // Effect
+
+  useEffect(() => {
+    handleViewCount();
+    getLikeCountAndIsLiked();
+  }, [postId, fingerprint]);
 
   // View
 
@@ -54,7 +62,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
 
   // Like
 
-  const getLikeCount = async () => {
+  const getLikeCountAndIsLiked = async () => {
     try {
       if (!postId || !fingerprint) {
         return;
@@ -70,6 +78,9 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
       });
 
       console.log(response);
+      const { isLiked, likeCount } = response.data;
+      setLikeCount(likeCount);
+      setIsLiked(isLiked);
     } catch (error) {
       console.error('좋아요 수 가져오기 오류:', error);
     }
@@ -93,7 +104,10 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
         }
       );
 
-      console.log(response);
+      if (response.status === 200) {
+        setLikeCount((prev) => (prev || 0) + 1);
+        setIsLiked(true);
+      }
     } catch (error) {
       console.error('좋아요 증가 오류:', error);
     }
@@ -113,16 +127,15 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
           'X-Fingerprint': fingerprint,
         },
       });
-
+      if (response.status === 200) {
+        setLikeCount((prev) => (prev || 0) - 1);
+        setIsLiked(false);
+      }
       console.log(response);
     } catch (error) {
       console.error('좋아요 취소 오류:', error);
     }
   };
-
-  useEffect(() => {
-    handleViewCount();
-  }, [postId, fingerprint]);
 
   return (
     <section
@@ -130,28 +143,35 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
         'flex justify-between items-center w-full max-w-3xl mx-auto border-t border-neutral-200 px-4 py-4'
       }
     >
-      <div className={'left-tools'}>
+      <div className={'left-tools inline-flex items-center gap-2'}>
         <button
           title={'좋아요'}
           aria-label={'좋아요'}
-          onClick={() => handleLike()}
+          onClick={isLiked ? handleUnlike : handleLike}
           className={
-            ' inline-flex items-center gap-2 rounded-md  p-1 hover:bg-neutral-100 border-neutral-200'
+            ' inline-flex items-center gap-2 rounded-md  p-1 px-2 hover:bg-neutral-100 border-neutral-200'
           }
-        />
+        >
+          {isLiked ? (
+            <FaHeart className={'animate-heartBeat'} />
+          ) : (
+            <FaRegHeart />
+          )}
+          <span>{likeCount}</span>
+        </button>
         <button
           title={'클립보드에 글 링크 복사하기'}
           aria-label={'공유하기'}
           onClick={() => sharePost()}
           className={
-            ' inline-flex items-center gap-2 rounded-md  p-1 hover:bg-neutral-100 border-neutral-200'
+            ' inline-flex items-center gap-2 rounded-md p-1 px-2  hover:bg-neutral-100 border-neutral-200'
           }
         >
           <MdIosShare size={20} />
         </button>
       </div>
 
-      <div className={'right-tools'}>
+      <div className={'right-tools inline-flex items-center gap-2'}>
         <div
           title={'조회수'}
           aria-label={'조회수'}
