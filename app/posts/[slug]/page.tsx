@@ -72,7 +72,7 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
           />
           <PostBody loading={false} content={post?.content || ''} />
         </article>
-        <PostActionSection viewCount={post.viewCount} />
+        <PostActionSection postId={post?._id} />
         <Comments />
       </section>
     </>

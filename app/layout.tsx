@@ -6,7 +6,6 @@ import React from 'react';
 import NavBar from '@/app/entities/common/NavBar';
 import ToastProvider from '@/app/entities/common/Toast/ToastProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: 'ShipFriend TechBlog',
@@ -68,17 +67,17 @@ const pretendard = localFont({
 });
 
 const preventFOUC = `
-              (function() {
-                const savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme;
-                const isDark = savedTheme === 'dark';
-                if (isDark) {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-                document.documentElement.style.backgroundColor = isDark ? '#1e201e' : '#ffffff';
-              })();
-            `;
+(function() {
+  const savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme;
+  const isDark = savedTheme === 'dark';
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+  document.documentElement.style.backgroundColor = isDark ? '#1e201e' : '#ffffff';
+})();
+`;
 
 export default function RootLayout({
   children,
