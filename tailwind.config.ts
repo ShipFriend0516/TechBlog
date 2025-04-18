@@ -23,6 +23,20 @@ const config: Config = {
         sans: ['var(--font-pretendard)', 'sans-serif'],
       },
       keyframes: {
+        heartBeat: {
+          '0%': { transform: 'scale(1)' },
+          '15%': { transform: 'scale(1.25)' },
+          '30%': { transform: 'scale(0.95)' },
+          '45%': { transform: 'scale(1.15)' },
+          '60%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        heartPing: {
+          '75%, 100%': {
+            transform: 'scale(1.5)',
+            opacity: '0',
+          },
+        },
         slideUp: {
           '0%': {
             transform: 'translateY(100%)',
@@ -71,6 +85,8 @@ const config: Config = {
         popUp: 'popUp 0.5s ease-out',
         float: 'float 10s ease-in-out infinite',
         slideUp: 'slideUp 0.5s ease-out',
+        heartBeat: 'heartBeat 0.7s cubic-bezier(0.17, 0.89, 0.32, 1.49)',
+        heartPing: 'heartPing 0.8s cubic-bezier(0, 0, 0.2, 1)',
       },
     },
   },
