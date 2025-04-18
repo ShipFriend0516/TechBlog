@@ -11,15 +11,9 @@ import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 async function getPostDetail(slug: string) {
   await dbConnect();
 
-  const post = await Post.findOneAndUpdate(
-    { slug: decodeURIComponent(slug) },
-    {
-      $inc: { viewCount: 1 },
-    },
-    {
-      new: true,
-    }
-  ).lean();
+  const post = await Post.findOne({
+    slug: decodeURIComponent(slug),
+  }).lean();
 
   if (!post) {
     throw new Error('Post not found');
