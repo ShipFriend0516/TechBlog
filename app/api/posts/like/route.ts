@@ -1,5 +1,6 @@
 import Like from '@/app/models/Like';
 import { NextRequest } from 'next/server';
+import dbConnect from '@/app/lib/dbConnect';
 
 export const POST = async (request: Request) => {
   const { postId } = await request.json();
@@ -11,6 +12,7 @@ export const POST = async (request: Request) => {
   if (!fingerprint) {
     return new Response('Fingerprint가 필요합니다.', { status: 400 });
   }
+  await dbConnect();
 
   const existingLike = await Like.findOne({ postId, fingerprint });
   if (existingLike) {
@@ -39,6 +41,7 @@ export const DELETE = async (request: Request) => {
   if (!fingerprint) {
     return new Response('Fingerprint가 필요합니다.', { status: 400 });
   }
+  await dbConnect();
 
   const existingLike = await Like.findOne({ postId, fingerprint });
   if (!existingLike) {
@@ -61,6 +64,8 @@ export const GET = async (request: NextRequest) => {
   if (!postId) {
     return new Response('postId가 필요합니다.', { status: 400 });
   }
+  await dbConnect();
+
   const likeCount = (await Like.countDocuments({ postId })) || 0;
 
   if (!fingerprint) {

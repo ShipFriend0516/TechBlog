@@ -1,5 +1,6 @@
 import View from '@/app/models/View';
 import { NextRequest } from 'next/server';
+import dbConnect from '@/app/lib/dbConnect';
 
 export const POST = async (request: Request) => {
   const { postId } = await request.json();
@@ -11,6 +12,8 @@ export const POST = async (request: Request) => {
   if (!fingerprint) {
     return new Response('Fingerprint가 필요합니다.', { status: 400 });
   }
+
+  await dbConnect();
 
   const existingLike = await View.findOne({ postId, fingerprint });
   if (existingLike) {
@@ -52,6 +55,7 @@ export const GET = async (request: NextRequest) => {
     if (!fingerprint) {
       return new Response('Fingerprint가 필요합니다.', { status: 400 });
     }
+    await dbConnect();
 
     const viewCount = (await View.countDocuments({ postId })) || 0;
 
