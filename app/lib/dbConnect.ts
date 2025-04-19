@@ -45,7 +45,6 @@ async function dbConnect(uri?: string): Promise<Mongoose> {
     const opts = {
       bufferCommands: true,
       maxPoolSize: 15,
-      keepAlive: true,
       serverSelectionTimeoutMS: 10000,
     };
 
