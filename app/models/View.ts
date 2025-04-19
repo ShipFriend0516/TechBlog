@@ -19,6 +19,7 @@ const viewSchema = new Schema(
   { timestamps: true }
 );
 
+viewSchema.index({ postId: 1 });
 viewSchema.index({ postId: 1, fingerprint: 1 }, { unique: true });
 
 const View = models.View || model('View', viewSchema);

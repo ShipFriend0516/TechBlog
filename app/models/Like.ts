@@ -19,6 +19,7 @@ const likeSchema = new Schema(
   { timestamps: true }
 );
 
+likeSchema.index({ postId: 1 });
 likeSchema.index({ postId: 1, fingerprint: 1 }, { unique: true });
 
 const Like = models.Like || model('Like', likeSchema);
