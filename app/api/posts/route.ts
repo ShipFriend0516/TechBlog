@@ -16,6 +16,7 @@ export async function GET(req: Request) {
     const query = searchParams.get('query') || '';
     const seriesSlug = searchParams.get('series') || '';
     const isCompact = searchParams.get('compact') === 'true';
+    // const sortBy: 'date' | 'view' | string = searchParams.get('sort') || 'date';
 
     // 페이지네이션 파라미터
     const page = parseInt(searchParams.get('page') || '1');
@@ -61,6 +62,9 @@ export async function GET(req: Request) {
     }
 
     // 페이지네이션 적용
+    // if (sortBy === 'view') {
+    // }
+
     const posts = await q.sort({ date: -1 }).skip(skip).limit(validLimit);
 
     return Response.json(
