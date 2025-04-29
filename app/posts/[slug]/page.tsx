@@ -8,6 +8,16 @@ import Post from '@/app/models/Post';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 
+// 정적 생성할 경로 지정
+export async function generateStaticParams() {
+  await dbConnect();
+  const posts = await Post.find({}, 'slug').lean();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
 async function getPostDetail(slug: string) {
   await dbConnect();
 
