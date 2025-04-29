@@ -1,6 +1,7 @@
 // app/api/posts/latest/route.ts
 import Post from '@/app/models/Post';
 import dbConnect from '@/app/lib/dbConnect';
+import { formatDate } from '@/app/lib/utils/format';
 
 export const dynamic = 'force-dynamic'; // 항상 최신 데이터를 가져오기 위한 설정
 
@@ -58,16 +59,6 @@ export async function GET() {
 function limitTextLength(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength - 3) + '...';
-}
-
-// 날짜 포맷팅 함수
-function formatDate(timestamp: number): string {
-  const date = new Date(timestamp);
-  return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
 }
 
 // 딥그린 색상 상수 정의
