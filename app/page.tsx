@@ -9,7 +9,11 @@ import axios from 'axios';
 import Link from 'next/link';
 import Skeleton from '@/app/entities/common/Skeleton';
 import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
-import { Project } from '@/app/types/Portfolio';
+import {
+  githubLink,
+  linkedinLink,
+  projects,
+} from '@/app/lib/constants/landingPageData';
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>();
@@ -30,30 +34,6 @@ export default function Home() {
   useEffect(() => {
     getPosts();
   }, []);
-
-  const linkedinLink =
-    'https://www.linkedin.com/in/%EC%A0%95%EC%9A%B0-%EC%84%9C-9a0b79312/';
-  const githubLink = 'https://github.com/ShipFriend0516';
-
-  const projects: Project[] = [
-    {
-      title: 'PREVIEW',
-      description: 'WebRTC 기반 화상 면접 스터디 플랫폼',
-      image: '/images/logo/preview-logo.png',
-      tags: ['React', 'WebRTC', 'Fullstack'],
-      demoUrl: 'https://boostcamp-preview.kro.kr/',
-      githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
-    },
-    {
-      title: 'Primitive',
-      description: '프로그래밍 동아리 PRIMITIVE 홍보 및 프로젝트 공유 플랫폼',
-      image: '/images/logo/primitive-logo.webp',
-      tags: ['React', 'TypeScript', 'Firebase'],
-      demoUrl: 'https://primitive.kr',
-      githubUrl: 'https://github.com/ShipFriend0516/Primitive',
-      slug: 'primitive',
-    },
-  ];
 
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-8">
