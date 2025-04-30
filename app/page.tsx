@@ -115,15 +115,18 @@ export default function Home() {
             <>
               <div className={'flex flex-col gap-2'}>
                 <Skeleton className={'w-full h-48'} />
-                <Skeleton className={'w-full h-10'} />
+                <Skeleton className={'w-full h-6'} />
+                <Skeleton className={'w-3/4 h-4'} />
               </div>
               <div className={'flex flex-col gap-2'}>
                 <Skeleton className={'w-full h-48'} />
-                <Skeleton className={'w-full h-10'} />
+                <Skeleton className={'w-full h-6'} />
+                <Skeleton className={'w-3/4 h-4'} />
               </div>
               <div className={'flex flex-col gap-2'}>
                 <Skeleton className={'w-full h-48'} />
-                <Skeleton className={'w-full h-10'} />
+                <Skeleton className={'w-full h-6'} />
+                <Skeleton className={'w-3/4 h-4'} />
               </div>
             </>
           ) : (
@@ -152,7 +155,7 @@ export default function Home() {
           )}
         </div>
       </section>
-      {/*     더보기 버튼*/}
+      {/* 더보기 버튼*/}
       <section className={'w-full flex justify-center'}>
         <Link
           href={'/posts'}
