@@ -1,15 +1,75 @@
+'use client';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import { FaArrowDown, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const PostTOC = ({ postContent }: { postContent: string }) => {
+  const [activeId, setActiveId] = useState('');
+  const [isTOCVisible, setIsTOCVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isFolded, setIsFolded] = useState(false);
+  const [tocPosition, setTocPosition] = useState(0);
+  const postBodyRef = useRef<HTMLDivElement>(null);
+
   const parseHeadings = (content: string) => {
     const headings = content.match(/#{1,6} .+/g);
 
-    return (headings ?? []).map((heading: string) => ({
-      id: heading.replace(/#/g, '').trim(),
-      type: heading.lastIndexOf('#') + 1,
-      title: heading.replace(/#/g, '').trim(),
-    }));
+    return (headings ?? []).map((heading: string) => {
+      const title = heading.replace(/#/g, '').trim();
+      const id = title
+        .toLowerCase()
+        .replaceAll('.', '')
+        .replaceAll(/[^a-zA-Z0-9가-힣]/g, '-')
+        .replaceAll(/-+/g, '-')
+        .replaceAll(/^-|-$/g, '');
+
+      return {
+        id,
+        type: heading.lastIndexOf('#') + 1,
+        title,
+      };
+    });
   };
+
+  useEffect(() => {
+    const headings = parseHeadings(postContent);
+
+    // 포스트 본문 요소 찾기
+    const postBody = document.querySelector('.post-body');
+    const postRect = postBody?.getBoundingClientRect();
+
+    const handleScroll = () => {
+      // 스크롤 상태 업데이트
+      setIsScrolled(window.scrollY > 150);
+
+      // TOC 위치 계산
+      if (postBody) {
+        const rect = postBody.getBoundingClientRect();
+        // 본문이 뷰포트 내에 있을 때만 TOC 표시
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          // 본문의 오른쪽 가장자리를 기준으로 TOC 위치 설정
+          // top 위치는 스크롤 위치에 따라 조정 (최소 40px 유지)
+          const newTop = Math.max(40, 150 - rect.top);
+          setTocPosition(newTop);
+        }
+      }
+
+      // 활성 헤딩 찾기
+      const scrollPosition = window.scrollY + 150;
+      for (let i = headings.length - 1; i >= 0; i--) {
+        const element = document.getElementById(headings[i].id);
+        if (element && element.offsetTop <= scrollPosition) {
+          setActiveId(headings[i].id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // 초기 로드 시 실행
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [postContent]);
 
   const renderEmoji = (type: number) => {
     switch (type) {
@@ -24,50 +84,105 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
     }
   };
 
+  const headings = parseHeadings(postContent);
+
+  if (headings.length === 0) return null;
+
   return (
-    <div className="fixed post-toc hidden 2xl:block w-[300px] top-40 right-20 ml-16  transition-all  text-sm bg-gray-100/80 rounded-md p-4 text-black z-[2]">
-      <h4 className={'text-xl font-bold mb-2'}>📌 Table of Contents</h4>
-      <ul className={'list-none'}>
-        {parseHeadings(postContent).map((heading) => {
-          const href =
-            `#${heading.id
-              .toLowerCase()
-              .replaceAll('.', '')
-              .replaceAll(/[^a-zA-Z0-9가-힣]/g, '-')
-              .replaceAll(/-+/g, '-')
-              .replaceAll(/^-|-$/g, '')}` || '';
-          return (
-            <li
-              key={heading.id}
-              style={{ marginLeft: `${(heading.type - 1) * 16}px` }}
-              className={`${heading.type === 1 ? 'font-bold mb-1' : ''} `}
-            >
-              <Link
-                scroll={true}
-                className={
-                  'p-1  transition-all hover:bg-green-50 rounded-md  overflow-x-hidden scroll-smooth '
-                }
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector(href)?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                  });
-                }}
-                href={`#${heading.id
-                  .toLowerCase()
-                  .replaceAll('.', '')
-                  .replaceAll(/[^a-zA-Z0-9가-힣]/g, '-')
-                  .replaceAll(/-+/g, '-')
-                  .replaceAll(/^-|-$/g, '')}`}
+    <>
+      {/* 모바일용 토글 버튼 */}
+      <button
+        className="fixed bottom-4 right-4 md:hidden bg-green-500 text-white p-3 rounded-full shadow-lg z-10"
+        onClick={() => setIsTOCVisible(!isTOCVisible)}
+        aria-label="목차 열기/닫기"
+      >
+        {isTOCVisible ? '✕' : '📑'}
+      </button>
+
+      <div
+        className={`
+          post-toc text-sm
+          transition-all duration-300
+          ${isScrolled ? 'bg-gray-100/95 shadow-md' : 'bg-gray-100/80'}
+          rounded-md p-4 text-black z-[2]
+          
+          // 모바일 스타일
+          fixed bottom-0 left-0 right-0 max-h-[50vh] md:max-h-none
+          overflow-y-auto
+          transform ${isTOCVisible ? 'translate-y-0' : 'translate-y-full'}
+          md:transform-none
+          
+          // 데스크탑 스타일 - fixed 대신 absolute 사용
+          md:hidden 2xl:block
+          2xl:absolute 2xl:w-[300px] 2xl:top-[100px] 2xl:left-auto
+          2xl:right-[-350px] 2xl:transform-none 2xl:h-fit
+        `}
+        style={{
+          // 데스크탑에서 스크롤에 따라 위치 조정
+          top: `${tocPosition}px`,
+        }}
+      >
+        <div className={'w-full flex justify-center'}>
+          <button
+            onClick={() => setIsFolded(!isFolded)}
+            className={'py-2 px-8 rounded-md hover:bg-neutral-200'}
+          >
+            <FaChevronUp className={`${!isFolded ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+        <h4
+          className={`text-xl font-bold mb-2 ${isFolded ? 'hidden' : 'block'}`}
+        >
+          📌 Table of Contents
+        </h4>
+        <ul
+          className={`list-none transition-all duration-300 overflow-hidden ${
+            isFolded ? 'hidden' : 'block'
+          }`}
+        >
+          {headings.map((heading) => {
+            const isActive = heading.id === activeId;
+            return (
+              <li
+                key={heading.id}
+                style={{ marginLeft: `${(heading.type - 1) * 16}px` }}
+                className={`${heading.type === 1 ? 'font-bold mb-1' : ''}`}
               >
-                {renderEmoji(heading.type) + ' ' + heading.title}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+                <Link
+                  scroll={false}
+                  className={`
+                    p-1 block transition-all 
+                    ${
+                      isActive
+                        ? 'bg-green-200 text-green-800'
+                        : 'hover:bg-green-50'
+                    } 
+                    rounded-md overflow-hidden whitespace-nowrap text-ellipsis
+                  `}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById(heading.id)?.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'center',
+                    });
+                    // 모바일에서는 클릭 후 TOC 닫기
+                    if (window.innerWidth < 768) {
+                      setIsTOCVisible(false);
+                    }
+                  }}
+                  href={`#${heading.id}`}
+                >
+                  <span className={'text-lg leading-3'}>
+                    {renderEmoji(heading.type)}
+                  </span>
+                  {heading.title}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </>
   );
 };
 

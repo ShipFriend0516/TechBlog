@@ -7,6 +7,7 @@ import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
+import PostTOC from '@/app/entities/post/detail/PostTOC';
 
 // 정적 생성할 경로 지정
 export async function generateStaticParams() {
@@ -76,6 +77,7 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
           />
           <PostBody loading={false} content={post?.content || ''} />
         </article>
+
         <PostActionSection postId={post?._id} />
         <Comments />
       </section>

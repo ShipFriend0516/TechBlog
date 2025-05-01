@@ -53,9 +53,9 @@ const PostBody = ({ content, loading }: Props) => {
               }
             }}
           />
-          <PostTOC postContent={content || ''} />
         </>
       )}
+      <PostTOC postContent={content || ''} />
     </div>
   );
 };
