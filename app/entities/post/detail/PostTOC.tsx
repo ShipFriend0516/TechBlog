@@ -96,7 +96,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
         onClick={() => setIsTOCVisible(!isTOCVisible)}
         aria-label="목차 열기/닫기"
       >
-        {isTOCVisible ? '✕' : '📑'}
+        {isTOCVisible ? '  ✕  ' : 'TOC'}
       </button>
 
       <div
