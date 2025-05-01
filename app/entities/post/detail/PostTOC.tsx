@@ -74,13 +74,13 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
   const renderEmoji = (type: number) => {
     switch (type) {
       case 1:
-        return '🌲';
+        return '🌲 ';
       case 2:
-        return '🪓';
+        return '🪓 ';
       case 3:
-        return '🪵';
+        return '🪵 ';
       default:
-        return '🪵';
+        return '🪵 ';
     }
   };
 
@@ -106,13 +106,11 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
           ${isScrolled ? 'bg-gray-100/95 shadow-md' : 'bg-gray-100/80'}
           rounded-md p-4 text-black z-[2]
           
-          // 모바일 스타일
           fixed bottom-0 left-0 right-0 max-h-[50vh] md:max-h-none
           overflow-y-auto
           transform ${isTOCVisible ? 'translate-y-0' : 'translate-y-full'}
           md:transform-none
           
-          // 데스크탑 스타일 - fixed 대신 absolute 사용
           md:hidden 2xl:block
           2xl:absolute 2xl:w-[300px] 2xl:top-[100px] 2xl:left-auto
           2xl:right-[-350px] 2xl:transform-none 2xl:h-fit
