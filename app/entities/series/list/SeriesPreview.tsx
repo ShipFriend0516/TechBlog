@@ -9,11 +9,15 @@ interface SeriesPreviewProps {
 }
 
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
+  const darkmodeStyle = `dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800 `;
+  const lightmodeStyle = `bg-white border-slate-200`;
+
   return (
     <Link
+      title={item.title}
       href={`/posts?series=${item.slug}`}
       key={item.slug}
-      className="cursor-pointer group bg-white  rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden border border-slate-200"
+      className={`cursor-pointer group  rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden border ${lightmodeStyle} ${darkmodeStyle} `}
     >
       <div className="relative aspect-video w-full overflow-hidden">
         {item.thumbnailImage ? (
@@ -33,7 +37,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
       </div>
 
       <div className="p-5">
-        <h3 className="text-black text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+        <h3 className="text-default text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
           {item.title}
         </h3>
 
@@ -48,7 +52,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
           </span>
         </div>
 
-        <p className="text-sm text-slate-600 line-clamp-3">
+        <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-3">
           {item.description || 'No description available'}
         </p>
       </div>
