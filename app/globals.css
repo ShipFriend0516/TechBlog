@@ -196,9 +196,9 @@ article.post .post-body hr::before {
 .post-body p > code,
 .post-body li > code,
 .post-body strong > code {
-  padding: 0.15em;
-  box-shadow: 0 0px 2px rgba(143, 143, 143, 0.7);
-  font-family: 'Pretendard Variable';
+  margin-right: 0.1em;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  padding: 0.2em 0.4em;
 }
 
 .dark .post-body p > code,
@@ -211,8 +211,8 @@ article.post .post-body hr::before {
 .post-body p > code,
 .post-body li > code,
 .post-body strong > code {
-  background-color: rgb(228, 224, 217);
-  color: #394239;
+  background-color: #efefef;
+  color: #006400; /* 딥그린 색상 */
 }
 
 .dark .post-body strong > code,
