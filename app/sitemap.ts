@@ -8,8 +8,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 1,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/posts`,
@@ -21,19 +21,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   if (!process.env.DB_URI) {
     console.error('Database URI is not defined');
-
     return staticPages;
   }
 
   await dbConnect(process.env.DB_URI);
   const posts = await Post.find({}).sort({ date: -1 });
 
-  const postUrls = posts.map((post) => ({
-    url: `${baseUrl}/posts/${post.slug}`,
-    lastModified: new Date(post.updatedAt || post.date),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }));
+  const now = new Date();
+  const threeMonthsAgo = new Date(now.setMonth(now.getMonth() - 3));
+  const oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
+
+  const postUrls = posts.map((post) => {
+    const postDate = new Date(post.updatedAt || post.date);
+    let priority = 0.7; // 기본값 (오래된 포스트)
+    let changeFrequency: 'weekly' | 'monthly' | 'yearly' = 'yearly';
+
+    if (post.seriesId) {
+      priority = Math.max(priority, 0.8);
+    }
+
+    if (postDate >= threeMonthsAgo) {
+      priority = 0.9;
+      changeFrequency = 'weekly';
+    } else if (postDate >= oneYearAgo) {
+      priority = Math.max(priority, 0.75);
+      changeFrequency = 'monthly';
+    }
+
+    return {
+      url: `${baseUrl}/posts/${post.slug}`,
+      lastModified: postDate,
+      changeFrequency,
+      priority,
+    };
+  });
 
   return [...staticPages, ...postUrls];
 }
