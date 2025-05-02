@@ -9,7 +9,7 @@ import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
 
-// 정적 생성할 경로 지정
+// 정적 생성할 경로 지정 - SSG
 export async function generateStaticParams() {
   await dbConnect();
   const posts = await Post.find({}, 'slug').lean();
@@ -18,6 +18,9 @@ export async function generateStaticParams() {
     slug: post.slug,
   }));
 }
+
+// ISR 활성화하기
+export const revalidate = 60; // 60초마다 재검증
 
 async function getPostDetail(slug: string) {
   await dbConnect();
