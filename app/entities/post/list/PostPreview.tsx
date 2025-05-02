@@ -25,7 +25,7 @@ const PostPreview = ({
     <Link href={`/posts/${slug}`} className={'block mx-auto group  '}>
       <div
         className={
-          'w-full h-full post-preview p-px  bg-gray-100 text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl dark:shadow-gray-200/40 hover:shadow-gray-200/80 overflow-hidden'
+          'w-full h-full post-preview p-px  bg-white  text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl dark:shadow-neutral-200/40 hover:shadow-neutral-200/80 overflow-hidden'
         }
       >
         <div
