@@ -70,7 +70,9 @@ const PostHeader = ({
       )}
       <div className="relative h-full z-20 bg-gray-400/40">
         <h1
-          className={'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl z-10'}
+          className={
+            'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl z-10 px-2'
+          }
         >
           {displayTitle}
           {!isTypingComplete && (
