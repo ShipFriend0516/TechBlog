@@ -160,6 +160,11 @@ export default function Home() {
             ))
           )}
         </div>
+        {error && (
+          <div className="text-red-300">
+            데이터 로드 중 오류가 발생했습니다: {error.message}
+          </div>
+        )}
       </section>
       {/* 더보기 버튼*/}
       <section className={'w-full flex justify-center'}>
