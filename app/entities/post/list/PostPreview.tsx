@@ -20,13 +20,13 @@ const PostPreview = ({
   tags,
 }: Omit<Post, 'content'>) => {
   const [isLoading, setIsLoading] = useState(true);
+  const lightmodeStyle = `bg-white text-black hover:shadow-neutral-200/80 `;
+  const darkmodeStyle = `dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800 dark:shadow-neutral-800/40 dark:hover:shadow-neutral-800/80`;
 
   return (
     <Link href={`/posts/${slug}`} className={'block mx-auto group  '}>
       <div
-        className={
-          'w-full h-full post-preview p-px  bg-white  text-black rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl dark:shadow-neutral-200/40 hover:shadow-neutral-200/80 overflow-hidden'
-        }
+        className={`w-full h-full post-preview p-px   rounded-md transition-all duration-500 shadow-lg  hover:-translate-y-2 hover:shadow-xl  overflow-hidden ${lightmodeStyle} ${darkmodeStyle}`}
       >
         <div
           className={
