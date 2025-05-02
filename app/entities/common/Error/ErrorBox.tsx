@@ -8,7 +8,9 @@ const ErrorBox = ({ error }: ErrorBoxProps) => {
   if (!error) return null;
 
   return (
-    <div className="text-red-300">⚠️ 데이터 로드 중 오류가 발생했습니다.</div>
+    <div className="text-red-300 text-sm">
+      ⚠️ 데이터 로드 중 오류가 발생했습니다.
+    </div>
   );
 };
 
