@@ -16,6 +16,7 @@ import useFingerprint from '@/app/hooks/useFingerprint';
 import useToast from '@/app/hooks/useToast';
 import useDataFetch from '@/app/hooks/useDataFetch';
 import { Post } from '@/app/types/Post';
+import ErrorBox from '@/app/entities/common/Error/ErrorBox';
 
 export default function Home() {
   const { fingerprint } = useFingerprint();
@@ -160,11 +161,7 @@ export default function Home() {
             ))
           )}
         </div>
-        {error && (
-          <div className="text-red-300">
-            데이터 로드 중 오류가 발생했습니다: {error.message}
-          </div>
-        )}
+        <ErrorBox error={error} />
       </section>
       {/* 더보기 버튼*/}
       <section className={'w-full flex justify-center'}>
