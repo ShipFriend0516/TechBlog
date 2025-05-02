@@ -4,8 +4,6 @@ import profileBackground from '@/app/public/plane2.jpg';
 import profile from '@/app/public/profile.jpg';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-import { Post } from '@/app/types/Post';
-import axios from 'axios';
 import Link from 'next/link';
 import Skeleton from '@/app/entities/common/Skeleton';
 import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
@@ -16,27 +14,26 @@ import {
 } from '@/app/lib/constants/landingPageData';
 import useFingerprint from '@/app/hooks/useFingerprint';
 import useToast from '@/app/hooks/useToast';
+import useDataFetch from '@/app/hooks/useDataFetch';
+import { Post } from '@/app/types/Post';
 
 export default function Home() {
-  const [posts, setPosts] = useState<Post[]>();
-  const [loading, setLoading] = useState(true);
   const { fingerprint } = useFingerprint();
   const toast = useToast();
-  const getPosts = async () => {
-    const response = await axios.get('/api/posts', {
+
+  const fetchConfig = {
+    method: 'GET' as const,
+    url: '/api/posts',
+    config: {
       params: {
         compact: 'true',
         limit: 3,
       },
-    });
-    const data = await response.data;
-    setPosts(data.posts);
-    setLoading(false);
+    },
   };
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+  const { data, loading, error } = useDataFetch<{ posts: Post[] }>(fetchConfig);
+  const posts = data?.posts || [];
 
   useEffect(() => {
     if (fingerprint) {
