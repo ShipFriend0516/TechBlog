@@ -1,13 +1,11 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { FaArrowDown, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const PostTOC = ({ postContent }: { postContent: string }) => {
   const [activeId, setActiveId] = useState('');
   const [isTOCVisible, setIsTOCVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isFolded, setIsFolded] = useState(false);
   const [tocPosition, setTocPosition] = useState(0);
   const postBodyRef = useRef<HTMLDivElement>(null);
 
@@ -120,23 +118,9 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
           top: `${tocPosition}px`,
         }}
       >
-        <div className={'w-full flex justify-center'}>
-          <button
-            onClick={() => setIsFolded(!isFolded)}
-            className={'py-2 px-8 rounded-md hover:bg-neutral-200'}
-          >
-            <FaChevronUp className={`${!isFolded ? 'rotate-180' : ''}`} />
-          </button>
-        </div>
-        <h4
-          className={`text-xl font-bold mb-2 ${isFolded ? 'hidden' : 'block'}`}
-        >
-          📌 Table of Contents
-        </h4>
+        <h4 className={`text-xl font-bold mb-2  `}>📌 Table of Contents</h4>
         <ul
-          className={`list-none transition-all duration-300 overflow-hidden ${
-            isFolded ? 'hidden' : 'block'
-          }`}
+          className={`list-none transition-all duration-300 overflow-hidden  `}
         >
           {headings.map((heading) => {
             const isActive = heading.id === activeId;
