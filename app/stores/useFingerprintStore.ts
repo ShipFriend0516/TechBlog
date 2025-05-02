@@ -6,7 +6,7 @@ interface FingerprintState {
   fingerprint: string;
   isLoading: boolean;
   error: string | null;
-  initialize: () => Promise<void>;
+  initialize: () => Promise<boolean>;
 }
 
 const useFingerprintStore = create(
@@ -18,7 +18,7 @@ const useFingerprintStore = create(
       initialize: async () => {
         if (get().fingerprint) {
           set({ isLoading: false });
-          return;
+          return false;
         }
 
         try {
@@ -30,12 +30,14 @@ const useFingerprintStore = create(
             fingerprint: visitorId,
             isLoading: false,
           });
+          return true;
         } catch (error) {
           set({
             error: error instanceof Error ? error.message : '알 수 없는 오류',
             isLoading: false,
           });
           console.error('Fingerprint 생성 오류:', error);
+          return false;
         }
       },
     }),

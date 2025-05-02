@@ -14,11 +14,14 @@ import {
   linkedinLink,
   projects,
 } from '@/app/lib/constants/landingPageData';
+import useFingerprint from '@/app/hooks/useFingerprint';
+import useToast from '@/app/hooks/useToast';
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>();
   const [loading, setLoading] = useState(true);
-
+  const { fingerprint } = useFingerprint();
+  const toast = useToast();
   const getPosts = async () => {
     const response = await axios.get('/api/posts', {
       params: {
@@ -34,6 +37,12 @@ export default function Home() {
   useEffect(() => {
     getPosts();
   }, []);
+
+  useEffect(() => {
+    if (fingerprint) {
+      toast.success('다시 오신 것을 환영합니다!');
+    }
+  }, [fingerprint]);
 
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-8">
