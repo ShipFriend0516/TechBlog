@@ -11,6 +11,28 @@ interface Props {
 
 const PostBody = ({ content, loading }: Props) => {
   const { theme } = useTheme();
+
+  const asideStyleRewrite = (node: any) => {
+    if (node.type === 'element' && node.tagName === 'aside') {
+      for (const child of [...node.children]) {
+        if (node.children[0] === child && child.type === 'text') {
+          node.children[0] = {
+            type: 'element',
+            tagName: 'span',
+            properties: {
+              className: 'aside-emoji',
+            },
+            children: [
+              {
+                type: 'text',
+                value: child.value!,
+              },
+            ],
+          };
+        }
+      }
+    }
+  };
   return (
     <div
       className={'max-w-full post-body px-4 py-16 min-h-[500px] relative    '}
@@ -32,25 +54,7 @@ const PostBody = ({ content, loading }: Props) => {
               'data-color-mode': theme,
             }}
             rehypeRewrite={(node) => {
-              if (node.type === 'element' && node.tagName === 'aside') {
-                for (const child of [...node.children]) {
-                  if (node.children[0] === child && child.type === 'text') {
-                    node.children[0] = {
-                      type: 'element',
-                      tagName: 'span',
-                      properties: {
-                        className: 'aside-emoji',
-                      },
-                      children: [
-                        {
-                          type: 'text',
-                          value: child.value!,
-                        },
-                      ],
-                    };
-                  }
-                }
-              }
+              asideStyleRewrite(node);
             }}
           />
         </>
