@@ -1,13 +1,14 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { FaBookBible, FaX } from 'react-icons/fa6';
 
 const PostTOC = ({ postContent }: { postContent: string }) => {
   const [activeId, setActiveId] = useState('');
   const [isTOCVisible, setIsTOCVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [tocPosition, setTocPosition] = useState(0);
-  const postBodyRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const parseHeadings = (content: string) => {
     const headings = content.match(/#{1,6} .+/g);
@@ -34,7 +35,12 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
 
     // 포스트 본문 요소 찾기
     const postBody = document.querySelector('.post-body');
-    const postRect = postBody?.getBoundingClientRect();
+
+    // 모바일 체크
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
     const handleScroll = () => {
       // 스크롤 상태 업데이트
@@ -64,6 +70,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
     handleScroll(); // 초기 로드 시 실행
 
     return () => window.removeEventListener('scroll', handleScroll);
@@ -90,11 +97,11 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
     <>
       {/* 모바일용 토글 버튼 */}
       <button
-        className="fixed bottom-4 right-4 md:hidden bg-green-500 text-white p-3 rounded-full shadow-lg z-10"
+        className="fixed bottom-4 right-4 md:hidden bg-green-500 text-white p-4 rounded-full shadow-lg z-10"
         onClick={() => setIsTOCVisible(!isTOCVisible)}
         aria-label="목차 열기/닫기"
       >
-        {isTOCVisible ? '  ✕  ' : 'TOC'}
+        {isTOCVisible ? <FaX /> : <FaBookBible />}
       </button>
 
       <div
@@ -114,8 +121,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
           2xl:right-[-350px] 2xl:transform-none 2xl:h-fit
         `}
         style={{
-          // 데스크탑에서 스크롤에 따라 위치 조정
-          top: `${tocPosition}px`,
+          top: !isMobile ? `${tocPosition}px` : 'auto',
         }}
       >
         <h4 className={`text-xl font-bold mb-2  `}>📌 Table of Contents</h4>
