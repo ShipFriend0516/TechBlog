@@ -34,7 +34,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postUrls = posts.map((post) => {
     const postDate = new Date(post.updatedAt || post.date);
     let priority = 0.7; // 기본값 (오래된 포스트)
-    let changeFrequency: 'weekly' | 'monthly' | 'yearly' = 'yearly';
 
     if (post.seriesId) {
       priority = Math.max(priority, 0.8);
@@ -42,16 +41,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     if (postDate >= threeMonthsAgo) {
       priority = 0.9;
-      changeFrequency = 'weekly';
     } else if (postDate >= oneYearAgo) {
       priority = Math.max(priority, 0.75);
-      changeFrequency = 'monthly';
     }
 
     return {
       url: `${baseUrl}/posts/${post.slug}`,
       lastModified: postDate,
-      changeFrequency,
       priority,
     };
   });
