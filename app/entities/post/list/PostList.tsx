@@ -3,6 +3,7 @@ import PostPreview from '@/app/entities/post/list/PostPreview';
 import profile from '@/app/public/profile.jpg';
 import NotFound from '@/app/entities/common/Animation/NotFound';
 import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
+import PostsGridSkeleton from '@/app/entities/common/Skeleton/PostsGridSkeleton';
 
 const PostList = (props: {
   query: string;
@@ -17,7 +18,8 @@ const PostList = (props: {
       }
     >
       {props.loading ? (
-        <SVGLoadingSpinner message={'발행된 글을 불러오는 중...'} />
+        // <SVGLoadingSpinner message={'발행된 글을 불러오는 중...'} />
+        <PostsGridSkeleton gridCount={12} />
       ) : props.posts && props.posts.length > 0 ? (
         props.posts.map(
           (post) =>
