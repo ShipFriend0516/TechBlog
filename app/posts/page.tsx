@@ -1,17 +1,22 @@
 'use client';
-import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Post } from '@/app/types/Post';
 import PostList from '@/app/entities/post/list/PostList';
 import SearchSection from '@/app/entities/post/list/SearchSection';
-import { debounce } from 'lodash';
 import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Pagination from '@/app/entities/common/Pagination';
+import useDataFetch, {
+  useDataFetchConfig,
+} from '@/app/hooks/common/useDataFetch';
+import useDebounce from '@/app/hooks/optimize/useDebounce';
+import ErrorBox from '../entities/common/Error/ErrorBox';
+
+interface PaginationData {
+  totalPosts: number;
+}
 
 const BlogList = () => {
-  const [posts, setPosts] = useState<Post[]>();
-  const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const addLatestQuery = useSearchQueryStore((state) => state.addSearchQuery);
   const router = useRouter();
@@ -20,40 +25,49 @@ const BlogList = () => {
   const currentPage = Number(searchParams.get('page')) || 1;
   const [totalPosts, setTotalPosts] = useState(0);
   const ITEMS_PER_PAGE = 12;
-
-  const getPosts = async (query?: string, seriesSlug?: string | null) => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`/api/posts`, {
+  const debouncedQuery = useDebounce(query, 300);
+  const config = useMemo((): useDataFetchConfig => {
+    return {
+      url: `/api/postsda`,
+      method: 'GET' as const,
+      config: {
         params: {
-          query: query ? query : null,
-          series: seriesSlug,
+          query: debouncedQuery ? debouncedQuery.trim() : null,
+          series: seriesSlugParam,
           compact: 'true',
           page: Number(searchParams.get('page')) || 1,
         },
-      });
-      const data = await response.data;
-      setPosts(data.posts);
-      setTotalPosts(data.pagination.totalPosts);
-      if (query) addLatestQuery(query);
-      setLoading(false);
-    } catch (e) {
-      console.error('Error fetching posts:', e);
-    } finally {
-      setLoading(false);
-    }
-  };
+      },
+      onBeforeFetch: () => {
+        if (debouncedQuery) {
+          addLatestQuery(debouncedQuery.trim());
+        }
+      },
+      onSuccess: (data: { posts: Post[]; pagination: PaginationData }) => {
+        setTotalPosts(data?.pagination.totalPosts);
+      },
+    };
+  }, [debouncedQuery, seriesSlugParam, currentPage]);
+
+  const { data, loading, error } = useDataFetch<{
+    posts: Post[];
+    pagination: PaginationData;
+  }>(config);
+
+  const posts = data?.posts || [];
+
+  useEffect(() => {
+    router.push(`/posts?page=${currentPage}`);
+  }, [currentPage]);
+
+  if (error) {
+    console.error('Error fetching posts:', error);
+  }
 
   const resetSearchCondition = () => {
     setQuery('');
     router.push('/posts');
   };
-
-  const debouncedGetPosts = useCallback(debounce(getPosts, 300), [currentPage]);
-
-  useEffect(() => {
-    debouncedGetPosts(query, seriesSlugParam);
-  }, [query, seriesSlugParam, currentPage]);
 
   return (
     <section>
@@ -70,6 +84,7 @@ const BlogList = () => {
         posts={posts}
         resetSearchCondition={resetSearchCondition}
       />
+      <ErrorBox error={error} />
       <Pagination
         totalItems={totalPosts}
         itemsPerPage={ITEMS_PER_PAGE}

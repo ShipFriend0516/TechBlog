@@ -14,7 +14,7 @@ import {
 } from '@/app/lib/constants/landingPageData';
 import useFingerprint from '@/app/hooks/useFingerprint';
 import useToast from '@/app/hooks/useToast';
-import useDataFetch from '@/app/hooks/useDataFetch';
+import useDataFetch from '@/app/hooks/common/useDataFetch';
 import { Post } from '@/app/types/Post';
 import ErrorBox from '@/app/entities/common/Error/ErrorBox';
 
