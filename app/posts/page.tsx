@@ -28,7 +28,7 @@ const BlogList = () => {
   const debouncedQuery = useDebounce(query, 300);
   const config = useMemo((): useDataFetchConfig => {
     return {
-      url: `/api/postsda`,
+      url: `/api/posts`,
       method: 'GET' as const,
       config: {
         params: {
