@@ -10,6 +10,7 @@ export interface useDataFetchConfig<T = any> {
   onError?: (error: any) => void;
   onLoading?: () => void;
   onBeforeFetch?: () => void;
+  dependencies?: any[];
 }
 
 const useDataFetch = <T = never>({
@@ -21,6 +22,7 @@ const useDataFetch = <T = never>({
   onSuccess,
   onError,
   onBeforeFetch,
+  dependencies = [],
 }: useDataFetchConfig<T>) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AxiosError | Error | null>(null);
@@ -64,7 +66,7 @@ const useDataFetch = <T = never>({
         console.error('Unknown Error:', e);
       }
     }
-  }, [url, method, body, config, onSuccess, onError, onLoading]);
+  }, [url, ...dependencies]);
 
   useEffect(() => {
     fetchData();

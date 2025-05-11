@@ -46,6 +46,7 @@ const BlogList = () => {
       onSuccess: (data: { posts: Post[]; pagination: PaginationData }) => {
         setTotalPosts(data?.pagination.totalPosts);
       },
+      dependencies: [debouncedQuery, seriesSlugParam, currentPage],
     };
   }, [debouncedQuery, seriesSlugParam, currentPage]);
 
