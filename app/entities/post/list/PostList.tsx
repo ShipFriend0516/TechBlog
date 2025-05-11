@@ -18,7 +18,6 @@ const PostList = (props: {
       }
     >
       {props.loading ? (
-        // <SVGLoadingSpinner message={'발행된 글을 불러오는 중...'} />
         <PostsGridSkeleton gridCount={12} />
       ) : props.posts && props.posts.length > 0 ? (
         props.posts.map(
