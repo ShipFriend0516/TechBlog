@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Skeleton from '@/app/entities/common/Skeleton';
+import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import useTheme from '@/app/hooks/useTheme';
 import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 

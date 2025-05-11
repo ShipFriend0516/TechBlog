@@ -5,7 +5,7 @@ import profile from '@/app/public/profile.jpg';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Skeleton from '@/app/entities/common/Skeleton';
+import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
 import {
   githubLink,
