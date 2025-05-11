@@ -9,6 +9,7 @@ export interface useDataFetchConfig<T = any> {
   onSuccess?: (data: T) => void;
   onError?: (error: any) => void;
   onLoading?: () => void;
+  onBeforeFetch?: () => void;
 }
 
 const useDataFetch = <T = never>({
@@ -19,6 +20,7 @@ const useDataFetch = <T = never>({
   onLoading,
   onSuccess,
   onError,
+  onBeforeFetch,
 }: useDataFetchConfig<T>) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AxiosError | Error | null>(null);
@@ -35,6 +37,9 @@ const useDataFetch = <T = never>({
     try {
       setLoading(true);
       setError(null);
+      if (onBeforeFetch) {
+        onBeforeFetch();
+      }
 
       const response = await axios(axiosConfig);
       const data = response.data;

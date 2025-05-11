@@ -7,7 +7,7 @@ import { PostBody } from '@/app/types/Post';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import axios from 'axios';
 import useToast from '@/app/hooks/useToast';
-import { useBlockNavigate } from '@/app/hooks/useBlockNavigate';
+import { useBlockNavigate } from '@/app/hooks/common/useBlockNavigate';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
 import { validatePost } from '@/app/lib/utils/validate/validate';
