@@ -30,7 +30,7 @@ const Overlay = ({
         ref={overlayRef}
         className="fixed inset-0 bg-black bg-opacity-50 z-50"
       >
-        <div className="animate-popUp  container bg-overlay bg-opacity-90 text-overlay rounded-lg mx-auto mt-[24%] max-w-2xl">
+        <div className="animate-popUp  container bg-opacity-90 text-overlay rounded-lg mx-auto mt-[24%] max-w-2xl">
           {children}
         </div>
       </div>
