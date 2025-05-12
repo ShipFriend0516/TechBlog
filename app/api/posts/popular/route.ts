@@ -27,8 +27,6 @@ export const GET = async () => {
       })
     );
 
-    console.table(posts);
-
     return Response.json({ posts: posts }, { status: 200 });
   } catch (error) {
     console.error('인기 글 id를 조회 중 실패', error);
