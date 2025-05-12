@@ -53,6 +53,7 @@ const BlogForm = () => {
     profileImage,
     thumbnailImage,
     seriesId: seriesId || '',
+    tags: tags,
   };
 
   useBlockNavigate({ title, content: content || '' });

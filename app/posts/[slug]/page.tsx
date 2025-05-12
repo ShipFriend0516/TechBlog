@@ -78,7 +78,11 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
             timeToRead={post?.timeToRead || 0}
             backgroundThumbnail={post?.thumbnailImage || example2}
           />
-          <PostBody loading={false} content={post?.content || ''} />
+          <PostBody
+            loading={false}
+            tags={post?.tags || []}
+            content={post?.content || ''}
+          />
         </article>
 
         <PostActionSection postId={post?._id} />

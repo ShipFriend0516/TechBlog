@@ -114,6 +114,7 @@ export async function POST(req: Request) {
       profileImage,
       thumbnailImage,
       seriesId,
+      tags,
     } = await req.json();
 
     if (!title || !content || !author || !content) {
@@ -133,6 +134,7 @@ export async function POST(req: Request) {
       profileImage,
       thumbnailImage: thumbnailImage || getThumbnailInMarkdown(content),
       seriesId: seriesId || null,
+      tags: tags || [],
     };
 
     const newPost = await Post.create(post);
