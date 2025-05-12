@@ -15,7 +15,7 @@ const Select = <T extends string>({
   return (
     <select
       key={defaultValue}
-      className="w-full p-2 border text-black border-gray-300 rounded-md"
+      className="block py-1.5 px-2 w-full text-sm text-weak bg-transparent border-0 border-b border-gray-300 appearance-none dark:text-gray-400   focus:outline-none focus:ring-0 focus:border-gray-200 peer  "
       defaultValue={defaultValue}
       onChange={(e) => setValue(e.target.value as T)}
     >
