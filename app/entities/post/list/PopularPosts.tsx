@@ -54,7 +54,7 @@ const PopularPosts = ({ limit = 5 }: { limit?: number }) => {
 
   return (
     <div className="popular-posts">
-      <h2 className="text-2xl font-bold mb-6">인기 게시물</h2>
+      <h2 className="text-2xl font-bold mb-6 text-black">인기 게시물</h2>
       <div className="space-y-6">
         {posts.map((post, index) => (
           <div key={post._id} className="flex items-center gap-4 border-b pb-4">
@@ -76,7 +76,7 @@ const PopularPosts = ({ limit = 5 }: { limit?: number }) => {
 
             <div className="flex-grow">
               <Link href={`/posts/${post.slug}`} className="block">
-                <h3 className="text-lg font-semibold hover:text-blue-600 transition-colors">
+                <h3 className="text-black text-lg font-semibold hover:text-green-600 transition-colors">
                   {post.title}
                 </h3>
               </Link>
