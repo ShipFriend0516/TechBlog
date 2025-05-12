@@ -34,6 +34,8 @@ const BlogForm = () => {
   const [seriesId, setSeriesId] = useState<string>();
   const [seriesLoading, setSeriesLoading] = useState(true);
   const [errors, setErrors] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+
   const toast = useToast();
   const router = useRouter();
   const NICKNAME = '개발자 서정우';
@@ -194,6 +196,8 @@ const BlogForm = () => {
         onClickNewSeries={() => setCreateSeriesOpen(true)}
         onClickOverwrite={overwriteDraft}
         clearDraft={clearDraftInStore}
+        tags={tags}
+        setTags={setTags}
       />
       <Overlay
         overlayOpen={createSeriesOpen}
