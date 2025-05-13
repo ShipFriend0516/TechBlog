@@ -169,6 +169,7 @@ const BlogForm = () => {
       setSubTitle(data.post.subTitle);
       setContent(data.post.content);
       setSeriesId(data.post.seriesId || '');
+      setTags(data.post.tags || []);
     } catch (e) {
       console.error('글 조회 중 오류 발생', e);
     }

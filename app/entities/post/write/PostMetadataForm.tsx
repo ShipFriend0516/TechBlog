@@ -38,6 +38,7 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
         setTagInput('');
         return;
       }
+      if (e.nativeEvent.isComposing) return;
       props.setTags([...(props.tags || []), tagInput]);
       setTagInput('');
     } else if (e.key === 'Backspace' && tagInput === '') {
