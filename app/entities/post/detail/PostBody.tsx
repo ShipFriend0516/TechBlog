@@ -18,7 +18,7 @@ const TagBox = ({ tags }: TagBoxProps) => {
   return (
     tags &&
     tags.length > 0 && (
-      <div className={'-mt-4 mb-2'}>
+      <div className={'-mt-4 mb-4'}>
         {tags.map((tag, index) => (
           <span
             key={index}
