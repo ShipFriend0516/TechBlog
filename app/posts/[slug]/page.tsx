@@ -84,7 +84,6 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
             content={post?.content || ''}
           />
         </article>
-
         <PostActionSection postId={post?._id} />
         <Comments />
       </section>

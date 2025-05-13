@@ -138,7 +138,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
   return (
     <section
       className={
-        'flex justify-between items-center w-full max-w-3xl mx-auto border-t border-neutral-200 px-4 py-4'
+        'relative flex  justify-between items-center border-t border-neutral-200 w-full max-w-3xl px-4 py-4 mx-auto'
       }
     >
       <div className={'left-tools inline-flex items-center gap-2'}>
