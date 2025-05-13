@@ -10,6 +10,28 @@ interface Props {
   loading?: boolean;
 }
 
+interface TagBoxProps {
+  tags: string[];
+}
+
+const TagBox = ({ tags }: TagBoxProps) => {
+  return (
+    tags &&
+    tags.length > 0 && (
+      <div className={'-mt-4 mb-2'}>
+        {tags.map((tag, index) => (
+          <span
+            key={index}
+            className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold mr-1"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    )
+  );
+};
+
 const PostBody = ({ content, tags, loading }: Props) => {
   const { theme } = useTheme();
 
@@ -36,7 +58,9 @@ const PostBody = ({ content, tags, loading }: Props) => {
   };
   return (
     <div
-      className={'max-w-full post-body px-4 py-16 min-h-[500px] relative    '}
+      className={
+        'max-w-full post-body px-4 py-8 lg:py-16 min-h-[500px] relative    '
+      }
     >
       {loading ? (
         <div className={'w-1/3 mx-auto'}>
@@ -44,18 +68,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
         </div>
       ) : (
         <>
-          {tags && tags.length > 0 && (
-            <div className={'-mt-4 mb-2'}>
-              {tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold mr-1"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+          <TagBox tags={tags || []} />
           <MDEditor.Markdown
             style={{
               backgroundColor: 'var(--background)',
