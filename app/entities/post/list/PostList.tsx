@@ -44,7 +44,9 @@ const PostList = (props: {
           />
           <button
             onClick={props.resetSearchCondition}
-            className={'bg-black hover:bg-gray-600 px-4 py-1 rounded mx-auto'}
+            className={
+              'bg-neutral-500 text-white hover:bg-gray-600 px-4 py-1 rounded mx-auto'
+            }
           >
             검색 초기화하기
           </button>
