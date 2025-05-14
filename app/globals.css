@@ -179,6 +179,7 @@ article.post .post-body hr::before {
   display: flex;
   align-items: center;
   color: black;
+  margin-bottom: 16px;
 }
 
 .post-body aside .aside-emoji {
