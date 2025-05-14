@@ -7,7 +7,8 @@ import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
-import PostTOC from '@/app/entities/post/detail/PostTOC';
+
+import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
 
 // 정적 생성할 경로 지정 - SSG
 export async function generateStaticParams() {
@@ -85,6 +86,11 @@ const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
           />
         </article>
         <PostActionSection postId={post?._id} />
+        <PostRecommendation
+          tags={post?.tags}
+          currentPostId={post?._id}
+          seriesId={post?.seriesId}
+        />
         <Comments />
       </section>
     </>

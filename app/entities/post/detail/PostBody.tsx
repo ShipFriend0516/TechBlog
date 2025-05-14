@@ -3,34 +3,13 @@ import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import MDEditor from '@uiw/react-md-editor';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
 import useTheme from '@/app/hooks/useTheme';
+import TagBox from '@/app/entities/post/tags/TagBox';
 
 interface Props {
   content: string;
   tags?: string[];
   loading?: boolean;
 }
-
-interface TagBoxProps {
-  tags: string[];
-}
-
-const TagBox = ({ tags }: TagBoxProps) => {
-  return (
-    tags &&
-    tags.length > 0 && (
-      <div className={'-mt-4 mb-4'}>
-        {tags.map((tag, index) => (
-          <span
-            key={index}
-            className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold mr-1"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    )
-  );
-};
 
 const PostBody = ({ content, tags, loading }: Props) => {
   const { theme } = useTheme();
@@ -68,7 +47,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
         </div>
       ) : (
         <>
-          <TagBox tags={tags || []} />
+          <TagBox className={'-mt-4 mb-4'} tags={tags || []} />
           <MDEditor.Markdown
             style={{
               backgroundColor: 'var(--background)',
