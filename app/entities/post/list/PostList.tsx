@@ -2,7 +2,6 @@ import { Post } from '@/app/types/Post';
 import PostPreview from '@/app/entities/post/list/PostPreview';
 import profile from '@/app/public/profile.jpg';
 import NotFound from '@/app/entities/common/Animation/NotFound';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 import PostsGridSkeleton from '@/app/entities/common/Skeleton/PostsGridSkeleton';
 
 const PostList = (props: {
