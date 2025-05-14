@@ -63,7 +63,7 @@ export const generateMetadata = async ({
   };
 };
 
-const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
+const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
   const { post } = await getPostDetail(params.slug);
   return (
     <>
@@ -91,4 +91,4 @@ const PortfolioBlogUI = async ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default PortfolioBlogUI;
+export default BlogDetailPage;
