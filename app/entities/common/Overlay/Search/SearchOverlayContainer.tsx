@@ -13,7 +13,7 @@ const SearchOverlayContainer = (props: {
   };
 
   return (
-    <div className=" px-5 p-4">
+    <div className="bg-overlay rounded-lg px-5 p-4">
       <div className="flex mb-4">
         <div className={'flex flex-grow items-center space-x-4 relative'}>
           <FaSearch size={20} className="text-gray-400" />
