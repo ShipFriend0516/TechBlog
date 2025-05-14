@@ -1,10 +1,16 @@
 # TechBlog
-
-![TechBlog Banner](https://via.placeholder.com/800x200?text=TechBlog)
+ 
 
 ## 프로젝트 개요
 
 NextJS를 기반으로 한 개인 기술 블로그와 포트폴리오 웹 애플리케이션입니다. 테크 관련 게시물을 작성하고 개인 프로젝트를 전시하는 공간으로 활용하는 프로젝트
+
+### 블로그 기능
+![image](https://github.com/user-attachments/assets/240cc1a5-5ad6-4921-bbef-ee1cd76fa379)
+
+### 블로그 작성 기능
+![image](https://github.com/user-attachments/assets/4bb0c223-cfa2-4414-9a47-59883820d08b)
+
 
 ## 기술 스택
 
