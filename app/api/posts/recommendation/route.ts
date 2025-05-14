@@ -2,6 +2,7 @@ import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import View from '@/app/models/View';
 import Like from '@/app/models/Like';
+
 export const GET = async (request: Request) => {
   await dbConnect();
   const { searchParams } = new URL(request.url);
@@ -10,6 +11,8 @@ export const GET = async (request: Request) => {
 
   const tags = searchParams.getAll('tags');
 
+  const SELECTED_FIELDS = 'title slug thumbnailImage date timeToRead tags';
+
   if (seriesId) {
     const seriesPosts = await Post.find({
       seriesId: seriesId,
@@ -17,7 +20,7 @@ export const GET = async (request: Request) => {
     })
       .sort({ date: -1 })
       .limit(3)
-      .select('title slug thumbnailImage date timeToRead tags');
+      .select(SELECTED_FIELDS);
 
     // 시리즈 내 포스트가 충분하면 바로 반환
     if (seriesPosts.length >= 3) {
@@ -36,14 +39,14 @@ export const GET = async (request: Request) => {
           })
             .sort({ date: -1 })
             .limit(remainingCount)
-            .select('title slug thumbnailImage date timeToRead')
+            .select(SELECTED_FIELDS)
         : await Post.find({
             _id: { $ne: currentPostId },
             seriesId: { $ne: seriesId },
           })
             .sort({ date: -1 })
             .limit(remainingCount)
-            .select('title slug thumbnailImage date timeToRead');
+            .select(SELECTED_FIELDS);
 
     return Response.json({
       posts: [...seriesPosts, ...recommendedPosts],
@@ -119,7 +122,7 @@ export const GET = async (request: Request) => {
     const recommendedPosts = await Post.find(query)
       .sort({ date: -1 })
       .limit(10)
-      .select('title slug thumbnailImage date timeToRead');
+      .select(SELECTED_FIELDS);
 
     // 인기도 계산을 위해 조회수와 좋아요 정보 가져오기
     const postsWithStats = await Promise.all(
