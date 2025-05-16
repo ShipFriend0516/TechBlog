@@ -30,16 +30,16 @@ const PostRecommendationListItem: FC<PostRecommendationListItemProps> = ({
   });
 
   return (
-    <li className="w-full mb-4 mx-auto">
+    <li className="w-full mb-4 mx-auto ">
       <Link href={`/posts/${slug}`} className="block" title={title}>
-        <div className="flex items-center bg-white dark:bg-neutral-800  shadow-sm hover:shadow-md transition-shadow duration-200 border-b border-neutral-400 dark:border-white dark:shadow-gray-600 ">
-          <div className="relative w-32 h-24 mr-4  rounded-tr-none rounded-br-none overflow-hidden flex-shrink-0">
+        <div className="relative flex items-center bg-white dark:bg-neutral-800  shadow-sm hover:shadow-md transition-shadow duration-200  border-neutral-400    border-l-4 border-l-emerald-700  overflow-hidden">
+          <div className="relative w-0 md:w-32 h-24 mr-4  rounded-tr-none rounded-br-none overflow-hidden flex-shrink-0">
             {thumbnailImage ? (
               <Image
                 src={thumbnailImage}
                 alt={title}
                 fill
-                className="object-cover"
+                className="hidden md:block object-cover"
                 loading={'lazy'}
               />
             ) : (
@@ -51,10 +51,10 @@ const PostRecommendationListItem: FC<PostRecommendationListItemProps> = ({
             )}
           </div>
           <div className="flex-1 p-1">
-            <h3 className="  text-gray-800 dark:text-white line-clamp-2 mb-2">
+            <h3 className=" text-sm  text-nowrap text-gray-800 dark:text-white line-clamp-2 mb-2">
               {title}
             </h3>
-            <div className="font-light flex items-center text-sm text-weak">
+            <div className="font-light flex items-center text-xs md:text-sm text-weak">
               <span className="mr-3">{formattedDate}</span>
               <span className="flex items-center">
                 <svg
@@ -73,7 +73,7 @@ const PostRecommendationListItem: FC<PostRecommendationListItemProps> = ({
                 </svg>
                 {timeToRead}분
               </span>
-              <TagBox className={'ml-4'} tags={tags} />
+              <TagBox className={'hidden lg:block ml-4'} tags={tags} />
             </div>
           </div>
         </div>

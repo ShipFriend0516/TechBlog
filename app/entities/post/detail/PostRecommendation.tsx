@@ -48,7 +48,7 @@ const PostRecommendation = ({
   console.log(data);
 
   return (
-    <div className={'max-w-3xl mx-auto mt-4'}>
+    <div className={'max-w-3xl mx-auto mt-4 px-2'}>
       <div className={'inline-flex items-center gap-2 text-xl font-bold mb-2'}>
         <FaBookmark />
         추천 글
