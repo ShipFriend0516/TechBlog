@@ -12,6 +12,7 @@ export const projects: Project[] = [
     tags: ['React', 'WebRTC', 'Fullstack'],
     demoUrl: 'https://boostcamp-preview.kro.kr/',
     githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
+    slug: 'preview',
   },
   {
     title: 'Primitive',
