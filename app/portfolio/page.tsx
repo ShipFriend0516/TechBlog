@@ -13,11 +13,13 @@ const PortfolioPage = () => {
 
   return (
     <section
-      className={'w-full h-full flex flex-col justify-center items-center'}
+      className={
+        'w-full h-full max-w-3xl mx-auto flex flex-col justify-center items-center'
+      }
     >
       <h1 className={'text-4xl text-center font-bold mt-8 mb-4'}>포트폴리오</h1>
       <p className={'text-sm mb-4'}>참여한 프로젝트 모아보기</p>
-      <div className={'max-w-3xl '}>
+      <div className={'w-full'}>
         <Carousel slides={slides} />
       </div>
     </section>
