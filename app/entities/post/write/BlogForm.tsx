@@ -35,6 +35,7 @@ const BlogForm = () => {
   const [seriesLoading, setSeriesLoading] = useState(true);
   const [errors, setErrors] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const toast = useToast();
   const router = useRouter();
@@ -54,6 +55,7 @@ const BlogForm = () => {
     thumbnailImage,
     seriesId: seriesId || '',
     tags: tags,
+    isPrivate: isPrivate,
   };
 
   useBlockNavigate({ title, content: content || '' });
@@ -120,12 +122,13 @@ const BlogForm = () => {
   const overwriteDraft = () => {
     if (draft !== null) {
       if (confirm('임시 저장된 글이 있습니다. 덮어쓰시겠습니까?')) {
-        const { title, content, subTitle, seriesId } = draft;
+        const { title, content, subTitle, seriesId, isPrivate } = draft;
         setTitle(title || '');
         setContent(content);
         setSubTitle(subTitle || '');
         setSeriesId(seriesId);
         setUploadedImages(draftImages || []);
+        setIsPrivate(isPrivate || false);
       }
     } else {
       toast.error('임시 저장된 글이 없습니다.');
@@ -170,6 +173,7 @@ const BlogForm = () => {
       setContent(data.post.content);
       setSeriesId(data.post.seriesId || '');
       setTags(data.post.tags || []);
+      setIsPrivate(data.post.isPrivate || false);
     } catch (e) {
       console.error('글 조회 중 오류 발생', e);
     }
@@ -200,6 +204,8 @@ const BlogForm = () => {
         clearDraft={clearDraftInStore}
         tags={tags}
         setTags={setTags}
+        isPrivate={isPrivate}
+        onPrivateChange={(isPrivate) => setIsPrivate(isPrivate)}
       />
       <Overlay
         overlayOpen={createSeriesOpen}

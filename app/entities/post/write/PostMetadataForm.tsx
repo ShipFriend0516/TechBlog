@@ -25,13 +25,18 @@ interface PostMetadataFormProps {
   onClickNewSeries: () => void;
   onClickOverwrite: () => void;
   clearDraft: () => void;
+  // 새로 추가된 props
+  isPrivate: boolean;
+  onPrivateChange: (isPrivate: boolean) => void;
 }
 
 const PostMetadataForm = (props: PostMetadataFormProps) => {
   const [tagInput, setTagInput] = useState<string>('');
+
   const handleTagInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
   };
+
   const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && tagInput.trim() !== '') {
       if (props.tags.includes(tagInput)) {
@@ -44,6 +49,10 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
     } else if (e.key === 'Backspace' && tagInput === '') {
       props.setTags(props.tags.slice(0, -1));
     }
+  };
+
+  const handlePublicChange = (e: ChangeEvent<HTMLInputElement>) => {
+    props.onPrivateChange(e.target.checked);
   };
 
   return (
@@ -105,10 +114,8 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
       </div>
 
       <div className={'flex items-center w-full gap-2  mb-4'}>
-        <div className={'w-1/2'}>
-          <label
-            className={'inline-flex items-center text-nowrap flex-grow gap-2 '}
-          >
+        <div className={'w-1/2 flex justify-start items-center gap-6'}>
+          <label className={'inline-flex items-center text-nowrap  gap-2 '}>
             <span className={'font-bold'}>시&nbsp;&nbsp;리&nbsp;&nbsp;즈</span>
             {props.seriesLoading ? (
               <div>loading...</div>
@@ -126,7 +133,26 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
               />
             )}
           </label>
+          {/* 공개/비공개 체크박스 추가 */}
+          <div className={'flex items-center gap-2'}>
+            <label
+              className={
+                'inline-flex items-center text-nowrap gap-2 cursor-pointer'
+              }
+            >
+              <span className={'font-bold text-default'}>
+                비&nbsp;&nbsp;&nbsp;&nbsp;공&nbsp;&nbsp;&nbsp;&nbsp;개
+              </span>
+              <input
+                type="checkbox"
+                checked={props.isPrivate}
+                onChange={handlePublicChange}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+            </label>
+          </div>
         </div>
+
         <button
           onClick={props.onClickNewSeries}
           className="flex items-center gap-2 py-1 px-2 bg-slate-100 text-green-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-gray-200 dark:bg-gray-800 dark:text-green-200 dark:border-gray-700"
