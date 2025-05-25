@@ -4,7 +4,7 @@ import { Post } from '@/app/types/Post';
 interface GetPostDetailResponse {
   post: Post;
 }
-const URL = process.env.NEXT_PUBLIC_URL;
+const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
 export const getPostDetail = async (
   slug: string
