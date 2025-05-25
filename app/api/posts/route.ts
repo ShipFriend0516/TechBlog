@@ -16,6 +16,8 @@ export async function GET(req: Request) {
     const query = searchParams.get('query') || '';
     const seriesSlug = searchParams.get('series') || '';
     const isCompact = searchParams.get('compact') === 'true';
+    const isCanViewPrivate = searchParams.get('private') === 'true';
+
     // const sortBy: 'date' | 'view' | string = searchParams.get('sort') || 'date';
 
     // 페이지네이션 파라미터
@@ -40,7 +42,7 @@ export async function GET(req: Request) {
         { content: { $regex: query, $options: 'i' } },
         { subTitle: { $regex: query, $options: 'i' } },
       ],
-      $and: [],
+      $and: [...(isCanViewPrivate ? [] : [{ isPublic: true }])],
     };
 
     if (seriesId) {
@@ -60,10 +62,6 @@ export async function GET(req: Request) {
         'slug title _id subTitle author date tags thumbnailImage seriesId timeToRead createdAt updatedAt'
       );
     }
-
-    // 페이지네이션 적용
-    // if (sortBy === 'view') {
-    // }
 
     const posts = await q.sort({ date: -1 }).skip(skip).limit(validLimit);
 
@@ -115,6 +113,7 @@ export async function POST(req: Request) {
       thumbnailImage,
       seriesId,
       tags,
+      isPrivate,
     } = await req.json();
 
     if (!title || !content || !author || !content) {
@@ -135,6 +134,7 @@ export async function POST(req: Request) {
       thumbnailImage: thumbnailImage || getThumbnailInMarkdown(content),
       seriesId: seriesId || null,
       tags: tags || [],
+      isPrivate: isPrivate || false,
     };
 
     const newPost = await Post.create(post);
