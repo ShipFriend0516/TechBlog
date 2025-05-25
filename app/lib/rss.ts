@@ -29,7 +29,7 @@ export async function generateRssFeed(posts: any[]) {
       title: post.title,
       id: `${site_url}/posts/${post.slug}`,
       link: `${site_url}/posts/${post.slug}`,
-      description: post.excerpt,
+      description: post.subTitle,
       content: post.content,
       author: [
         {
