@@ -32,6 +32,7 @@ const AdminPostListPage = () => {
         compact: 'true',
         page: currentPage,
         limit: ITEMS_PER_PAGE,
+        private: 'true',
       },
     });
     const data = await response.data;
