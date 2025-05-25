@@ -15,6 +15,7 @@ interface Post {
   updatedAt?: number;
   seriesId?: string;
   tags?: string[];
+  isPrivate?: boolean;
 }
 type PostBody = Omit<Post, '_id' | 'slug' | 'date' | 'timeToRead' | 'comment'>;
 

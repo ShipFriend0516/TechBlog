@@ -56,6 +56,11 @@ const postSchema = new Schema(
       required: false,
       default: [],
     },
+    isPrivate: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true, // createdAt, updatedAt 자동 생성
