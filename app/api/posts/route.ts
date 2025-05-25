@@ -42,7 +42,15 @@ export async function GET(req: Request) {
         { content: { $regex: query, $options: 'i' } },
         { subTitle: { $regex: query, $options: 'i' } },
       ],
-      $and: [...(isCanViewPrivate ? [] : [{ isPublic: true }])],
+      $and: [
+        ...(isCanViewPrivate
+          ? []
+          : [
+              {
+                $or: [{ isPrivate: false }, { isPrivate: { $exists: false } }],
+              },
+            ]),
+      ],
     };
 
     if (seriesId) {
