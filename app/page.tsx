@@ -43,7 +43,7 @@ export default function Home() {
   }, [fingerprint]);
 
   return (
-    <main className="w-full max-w-4xl mx-auto grid gap-16 p-8">
+    <main className="w-full max-w-4xl mx-auto grid gap-16 p-4 md:p-8">
       {/* Hero Section */}
       <section className="grid gap-6">
         <div className="relative h-64 w-full overflow-hidden rounded-lg">
