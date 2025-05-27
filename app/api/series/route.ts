@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import Series from '@/app/models/Series';
 import { createPostSlug } from '@/app/lib/utils/post';
+import { getServerSession } from 'next-auth';
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession();
+
+    if (!session) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     await dbConnect();
     const body = await request.json();
     if (!body.title) {
