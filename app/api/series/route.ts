@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import Series from '@/app/models/Series';
 import { createPostSlug } from '@/app/lib/utils/post';
+import { getServerSession } from 'next-auth';
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession();
+
+    if (!session) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     await dbConnect();
     const body = await request.json();
     if (!body.title) {
@@ -47,7 +54,7 @@ export async function GET(request: Request) {
     return NextResponse.json(series, {
       status: 200,
       headers: {
-        'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+        'Cache-Control': 'public, max-age=60, s-maxage=60',
       },
     });
   } catch (error: any) {

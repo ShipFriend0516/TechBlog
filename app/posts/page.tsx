@@ -58,8 +58,10 @@ const BlogList = () => {
   const posts = data?.posts || [];
 
   useEffect(() => {
-    router.push(`/posts?page=${currentPage}`);
-  }, [currentPage]);
+    router.push(
+      `/posts?page=${currentPage}${seriesSlugParam ? `&series=${seriesSlugParam}` : ''}${query ? `&query=${query}` : ''}`
+    );
+  }, [currentPage, seriesSlugParam, query]);
 
   if (error) {
     console.error('Error fetching posts:', error);
