@@ -34,6 +34,12 @@ const SeriesDetailPage = ({ params }: SeriesDetailPageProps) => {
   };
 
   const { data: series, loading, error } = useDataFetch(getSeriesDetailConfig);
+  const posts =
+    loading || !series?.posts
+      ? []
+      : orderOption === 'latest'
+        ? series.posts?.toReversed()
+        : series.posts;
 
   const SeriesDetailHeader = () => {
     return (
@@ -82,10 +88,7 @@ const SeriesDetailPage = ({ params }: SeriesDetailPageProps) => {
         <hr className={'my-2'} />
         <ul className={'drop-shadow-sm rounded-lg '}>
           {series.posts && series.posts.length > 0 ? (
-            (orderOption === 'oldest'
-              ? series.posts
-              : series.posts.reverse()
-            ).map((post: Post) => (
+            posts.map((post: Post) => (
               <SeriesPostListItem
                 key={post._id}
                 slug={post.slug}
