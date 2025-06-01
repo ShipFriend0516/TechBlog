@@ -15,7 +15,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
   return (
     <Link
       title={item.title}
-      href={`/posts?series=${item.slug}`}
+      href={`/series/${item.slug}`}
       key={item.slug}
       className={`cursor-pointer group  rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden border ${lightmodeStyle} ${darkmodeStyle} `}
     >
