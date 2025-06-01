@@ -59,10 +59,10 @@ const SeriesDetailPage = ({ params }: SeriesDetailPageProps) => {
         )}
         <div
           className={
-            'absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral-800 to-transparent bg-opacity-90 pt-24 px-6 pb-6'
+            'absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral-700 to-transparent bg-opacity-90 pt-12 px-6 pb-6'
           }
         >
-          <h1 className={'text-2xl text-white font-bold'}>{series.title}</h1>
+          <h1 className={'text-3xl text-white font-bold'}>{series.title}</h1>
           <p className={'text-white mt-2'}>{series.description}</p>
         </div>
       </div>
@@ -72,9 +72,12 @@ const SeriesDetailPage = ({ params }: SeriesDetailPageProps) => {
     return (
       <div className={'mt-3'}>
         <div className={'flex items-center justify-between'}>
-          <h2 className={'inline-flex items-center gap-1 text-lg '}>
+          <h2 className={'inline-flex items-center gap-1 md:text-lg '}>
             <BiBook />
-            시리즈 내 포스트 ({series.posts ? series.posts.length : 0})
+            시리즈 내 포스트
+            <span className={'text-weak'}>
+              ({series.posts ? series.posts.length : 0})
+            </span>
           </h2>
           <div className={'inline-flex items-center gap-1'}>
             <FaChevronDown />
@@ -118,7 +121,7 @@ const SeriesDetailPage = ({ params }: SeriesDetailPageProps) => {
       {series && (
         <div
           className={
-            'relative flex flex-col justify-center gap-2 max-w-5xl mx-auto p-10 animate-popUp  rounded-lg'
+            'relative flex flex-col justify-center gap-2 max-w-5xl mx-auto p-4 animate-popUp  rounded-lg'
           }
         >
           <Link
