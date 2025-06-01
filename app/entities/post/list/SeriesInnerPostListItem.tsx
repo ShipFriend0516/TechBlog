@@ -3,6 +3,7 @@ import Link from 'next/link';
 import TagBox from '@/app/entities/post/tags/TagBox';
 import Image from 'next/image';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
+import { FaEyeSlash } from 'react-icons/fa';
 
 interface SeriesPostListItemProps {
   slug: string;
@@ -13,6 +14,7 @@ interface SeriesPostListItemProps {
   date: number;
   timeToRead: number;
   tags: string[];
+  isPrivate?: boolean;
 }
 
 const SeriesPostListItem = ({
@@ -24,6 +26,7 @@ const SeriesPostListItem = ({
   date,
   timeToRead,
   tags,
+  isPrivate,
 }: SeriesPostListItemProps) => {
   const formattedDate = new Date(date).toLocaleDateString('ko-KR', {
     year: 'numeric',
@@ -36,10 +39,11 @@ const SeriesPostListItem = ({
   return (
     <li className="relative w-full border-b mx-auto h-48 group  hover:scale-105 z-0 hover:z-50 transition-transform duration-300 ">
       <Link href={`/posts/${slug}`} className="block h-full" title={title}>
-        <div className="relative flex items-center bg-white hover:bg-neutral-100/80 dark:bg-neutral-800  shadow-sm hover:shadow-md transition-shadow duration-200  border-neutral-400    overflow-hidden  h-full">
-          <div className="flex-1  w-2/3 h-full p-6">
-            <h3 className="text-xl font-semibold text-nowrap text-gray-800 dark:text-white line-clamp-2 ">
+        <div className="relative flex items-center bg-white hover:bg-neutral-100/80 dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow duration-200  border-neutral-400 overflow-hidden h-full">
+          <div className="flex-1 w-2/3 h-full p-6">
+            <h3 className="inline-flex items-center gap-2 text-xl font-semibold text-nowrap text-gray-800 dark:text-white line-clamp-2 ">
               {title}
+              {isPrivate && <FaEyeSlash />}
             </h3>
             <h4 className={'font-light text-neutral-800 dark:text-neutral-400'}>
               {subTitle}

@@ -96,6 +96,7 @@ const SeriesDetailPage = ({ params }: SeriesDetailPageProps) => {
                 date={post.date}
                 timeToRead={post.timeToRead}
                 tags={post.tags || []}
+                isPrivate={post.isPrivate}
               />
             ))
           ) : (
