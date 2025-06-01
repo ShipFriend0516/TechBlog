@@ -22,7 +22,7 @@ export async function GET(
     return NextResponse.json(series, {
       status: 200,
       headers: {
-        'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+        'Cache-Control': 'public, max-age=60, s-maxage=60',
       },
     });
   } catch (error: any) {
