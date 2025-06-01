@@ -1,4 +1,6 @@
 import mongoose, { Mongoose } from 'mongoose';
+import '@/app/models/Post';
+import '@/app/models/Series';
 
 declare global {
   // eslint-disable-next-line no-var

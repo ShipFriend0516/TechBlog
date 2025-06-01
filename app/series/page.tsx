@@ -4,8 +4,6 @@ import { FaBookOpen } from 'react-icons/fa';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import { Series } from '@/app/types/Series';
 import SeriesPreview from '@/app/entities/series/list/SeriesPreview';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
-import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import SeriesPreviewSkeleton from '@/app/entities/common/Skeleton/SeriesPreviewSkeleton';
 
 const SeriesListPage = () => {

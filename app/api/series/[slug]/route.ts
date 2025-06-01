@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import Series from '@/app/models/Series';
-import Post from '@/app/models/Post';
 
 export async function GET(
   request: Request,
@@ -9,6 +8,7 @@ export async function GET(
 ) {
   try {
     await dbConnect();
+
     const series = await Series.findOne({ slug: params.slug }).populate({
       path: 'posts',
       options: { sort: { date: 1 } },
