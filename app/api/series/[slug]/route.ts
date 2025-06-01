@@ -9,9 +9,10 @@ export async function GET(
 ) {
   try {
     await dbConnect();
-    const series = await Series.findOne({ slug: params.slug }).populate(
-      'posts'
-    );
+    const series = await Series.findOne({ slug: params.slug }).populate({
+      path: 'posts',
+      options: { sort: { date: 1 } },
+    });
 
     if (!series) {
       return NextResponse.json(
