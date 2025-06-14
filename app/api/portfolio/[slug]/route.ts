@@ -1,16 +1,11 @@
 import { portfolioData } from '@/app/api/portfolio/data';
-import { NextRequest } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function GET({ params }: { params: { slug: string } }) {
   try {
-    const { searchParams } = new URL(request.url);
-    const slug = searchParams.get('slug')?.toLowerCase();
+    const slug = params.slug?.toLowerCase();
 
     if (!slug) {
-      return Response.json(
-        { error: 'slug 파라미터가 필요합니다' },
-        { status: 400 }
-      );
+      return Response.json({ error: 'slug가 필요합니다' }, { status: 400 });
     }
 
     const portfolio = portfolioData[slug as keyof typeof portfolioData];
@@ -30,4 +25,10 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+export async function generateStaticParams() {
+  return Object.keys(portfolioData).map((slug) => ({
+    slug: slug,
+  }));
 }
