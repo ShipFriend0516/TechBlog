@@ -1,10 +1,18 @@
 import { portfolioData } from '@/app/api/portfolio/data';
+import { NextRequest } from 'next/server';
 
-// 포트폴리오 데이터 - 이력서 기반으로 실제 프로젝트 정보 반영
-
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const slug = request.url.split('?slug=').pop()?.toLowerCase();
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug')?.toLowerCase();
+
+    if (!slug) {
+      return Response.json(
+        { error: 'slug 파라미터가 필요합니다' },
+        { status: 400 }
+      );
+    }
+
     const portfolio = portfolioData[slug as keyof typeof portfolioData];
 
     if (!portfolio) {
