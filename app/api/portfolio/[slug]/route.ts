@@ -1,6 +1,9 @@
 import { portfolioData } from '@/app/api/portfolio/data';
 
-export async function GET({ params }: { params: { slug: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
   try {
     const slug = params.slug?.toLowerCase();
 
