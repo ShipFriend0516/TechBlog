@@ -1,3 +1,4 @@
+'use client';
 import { Project } from '@/app/types/Portfolio';
 import React, { useState } from 'react';
 import PortfolioStone from '@/app/entities/portfolio/PortfolioStone';
