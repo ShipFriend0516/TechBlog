@@ -1,10 +1,11 @@
 'use client';
 import { Project } from '@/app/types/Portfolio';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PortfolioStone from '@/app/entities/portfolio/PortfolioStone';
 
 const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(1024); // 기본값 설정
 
   const pastelColors = [
     'bg-emerald-200',
@@ -14,6 +15,32 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
     'bg-teal-200',
     'bg-rose-200',
   ];
+
+  // 클라이언트 사이드에서만 window 크기 감지
+  useEffect(() => {
+    // 초기 window 크기 설정
+    const updateWindowWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // 마운트 시 초기 크기 설정
+    updateWindowWidth();
+
+    // 리사이즈 이벤트 리스너 추가
+    window.addEventListener('resize', updateWindowWidth);
+
+    // 클린업
+    return () => {
+      window.removeEventListener('resize', updateWindowWidth);
+    };
+  }, []);
+
+  // 반응형 열 개수 계산 함수
+  const getColumns = (width: number) => {
+    if (width >= 1024) return 3; // lg
+    if (width >= 768) return 2; // md
+    return 1; // sm
+  };
 
   return (
     <div className="min-h-full p-8">
@@ -28,8 +55,7 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-6">
           {projects.map((project, index) => {
             // 현재 카드의 위치 계산 (행, 열)
-            const cols =
-              window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+            const cols = getColumns(windowWidth);
             const row = Math.floor(index / cols);
             const col = index % cols;
 
