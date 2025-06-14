@@ -19,10 +19,16 @@ export interface PortfolioItem {
   year: string;
   category: string;
   features?: string[];
-  challenges?: string[];
+  challenges?: Challenge[];
   duration?: string;
   links?: {
     githubUrl?: string; // GitHub 저장소 URL (선택적)
     deployUrl?: string; // 배포 URL (선택적)
   };
+}
+
+export interface Challenge {
+  title: string;
+  description: string;
+  url?: string;
 }

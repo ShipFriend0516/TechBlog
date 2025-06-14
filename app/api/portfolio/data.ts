@@ -20,9 +20,24 @@ const shipfriend: PortfolioItem = {
     'Vercel Blobs를 활용한 이미지 저장 및 관리',
   ],
   challenges: [
-    '검색엔진 최적화를 위해 정적 메타데이터와 동적 메타데이터를 적절히 구성하는 방법 학습',
-    '다크모드 전환 시 발생하는 깜빡임(FOUC) 문제를 인라인 스크립트로 해결하는 과정에서 Next.js의 동작 방식 이해',
-    'Vercel Edge Functions와 Server Components의 차이점을 이해하고 적절한 사용 사례 파악',
+    {
+      title: 'Next.js Server Components와 클라이언트 컴포넌트의 차이점 이해',
+      description:
+        'Next.js의 Server Components와 클라이언트 컴포넌트의 차이점을 이해하고, 각각의 장단점을 고려하여 적절한 컴포넌트를 선택하는 과정에서 성능 최적화 경험을 쌓음.',
+      url: '/posts/%EB%82%B4%EA%B0%80-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-seo-%EC%B5%9C%EC%A0%81%ED%99%94',
+    },
+    {
+      title: 'Lighthouse 성능 지표 분석 및 개선',
+      description:
+        'Lighthouse 성능 지표를 분석하여 CLS와 LCP를 개선하는 과정에서 웹 성능 최적화 기법을 적용함.',
+      url: 'http://localhost:3000/posts/%EB%B8%94%EB%A1%9C%EA%B7%B8-cls-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94%ED%95%98%EA%B8%B0',
+    },
+    {
+      title: '다크모드 전환 시 FOUC 문제 해결',
+      description:
+        '다크모드 전환 시 발생하는 깜빡임(FOUC) 문제를 인라인 스크립트를 활용하여 해결함. 이 과정에서 Next.js의 동작 방식과 클라이언트 사이드 렌더링의 이해도를 높임.',
+      url: 'http://localhost:3000/posts/%EB%8B%A4%ED%81%AC%EB%AA%A8%EB%93%9C-fouc-%EA%B9%9C%EB%B9%A1%EC%9E%84-%ED%98%84%EC%83%81-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0',
+    },
   ],
   mainImage: '/plane.png',
   images: [
@@ -60,10 +75,21 @@ const preview: PortfolioItem = {
     'Intersection Observer API를 활용한 스크롤 애니메이션',
   ],
   challenges: [
-    'WebRTC ICE Candidate 교환 문제 발견 및 해결 과정에서 webrtc-internals 도구 활용',
-    '백엔드 개발자와의 페어 프로그래밍을 통한 시그널링 서버 코드 수정',
-    'forwardRef로 전달받는 ref 객체의 재생성으로 인한 불필요한 리렌더링 문제 해결',
-    'GitHub Project를 활용한 애자일 스프린트 경험',
+    {
+      title: 'WebRTC ICE Candidate 교환 문제 발견 및 해결',
+      description:
+        'WebRTC의 ICE Candidate 교환 과정에서 발생한 연결 문제를 해결하기 위해 webrtc-internals 도구를 활용하여 ICE Candidate 상태를 분석하고, 시그널링 서버 코드를 수정하여 안정적인 연결을 구현했습니다.',
+    },
+    {
+      title: '백엔드 개발자와의 협업',
+      description:
+        '백엔드 개발자와의 페어 프로그래밍을 통해 시그널링 서버 코드를 수정하고, WebRTC 연결 과정에서 발생하는 다양한 이슈를 해결했습니다.',
+    },
+    {
+      title: 'forwardRef로 전달받는 ref 객체의 재생성 문제 해결',
+      description:
+        'forwardRef로 전달받는 ref 객체가 매번 재생성되어 불필요한 리렌더링이 발생하는 문제를 해결하여 성능을 최적화했습니다.',
+    },
   ],
   mainImage: '/images/projects/preview/main.webp',
   images: [
@@ -101,10 +127,21 @@ const primitive: PortfolioItem = {
     '프로젝트 리스트 페이지 무한 스크롤 구현',
   ],
   challenges: [
-    'Firebase 회원가입 메서드의 자동 로그인 문제 해결',
-    'TypeScript 마이그레이션 시 타입 정의와 인터페이스 설계',
-    'Vite 마이그레이션을 통한 개발 환경 최적화',
-    'Recoil을 활용한 전역 상태 관리 설계',
+    {
+      title: 'TypeScript 마이그레이션 과정에서의 타입 정의 및 오류 해결',
+      description:
+        'JavaScript에서 TypeScript로 마이그레이션하면서 발생한 타입 정의 문제와 컴파일 오류를 해결하는 과정에서 TypeScript에 대한 이해도를 높였습니다.',
+    },
+    {
+      title: 'Vite로의 마이그레이션 과정에서의 빌드 성능 최적화',
+      description:
+        'Webpack에서 Vite로 마이그레이션하면서 빌드 성능을 50% 이상 향상시키고, HMR(Hot Module Replacement) 기능을 통해 개발 경험을 개선했습니다.',
+    },
+    {
+      title: 'Recoil을 활용한 전역 상태 관리 설계',
+      description:
+        'Recoil을 사용하여 전역 상태 관리를 구현하고, 컴포넌트 간의 상태 공유를 효율적으로 처리했습니다.',
+    },
   ],
   mainImage: '/images/projects/primitive/project-list.webp',
   images: [
@@ -136,10 +173,11 @@ const storyhelper: PortfolioItem = {
     '사용자 설정에 따른 키워드 분석 및 SEO 점수 제공',
   ],
   challenges: [
-    'Chrome Extension API의 다양한 기능 이해 및 활용',
-    'Manifest V3로의 마이그레이션 과정에서 발생한 호환성 문제 해결',
-    '사용자 경험을 고려한 UI/UX 디자인 개선',
-    'SEO 점수 계산 알고리즘 최적화',
+    {
+      title: 'Chrome Extension API의 다양한 기능 이해 및 활용',
+      description:
+        'Chrome Extension API를 활용하여 웹 페이지의 DOM을 조작하고, 글 작성 중 SEO 체크리스트를 제공하는 기능을 구현했습니다.',
+    },
   ],
   mainImage: '/images/projects/storyhelper/main.webp',
   images: ['/images/projects/storyhelper/main.webp'],

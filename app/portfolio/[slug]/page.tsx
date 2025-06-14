@@ -5,8 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaGithub, FaGlobe } from 'react-icons/fa';
 import NotFound from '@/app/not-found';
-import { PortfolioItem } from '@/app/types/Portfolio';
+import { Challenge, PortfolioItem } from '@/app/types/Portfolio';
 import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
+import { FaLink } from 'react-icons/fa6';
 
 interface PortfolioDetailPageProps {
   params: {
@@ -159,74 +160,157 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           </div>
         </div>
 
-        <div className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">프로젝트 개요</h2>
-          <p className="whitespace-pre-line text-weak leading-relaxed">
-            {portfolio.description}
-          </p>
-        </div>
+        <ProjectOverview description={portfolio.description} />
 
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">프로젝트 스크린샷</h2>
-            <div className="flex gap-2">
-              <button
-                onClick={handlePreviousImage}
-                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors "
-                aria-label="이전 썸네일"
-              >
-                <IoMdArrowDropleft size={18} />
-              </button>
-              <button
-                onClick={handleNextImage}
-                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                aria-label="다음 썸네일"
-              >
-                <IoMdArrowDropright size={18} />
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {portfolio.images.map((image, index) => (
-              <div
-                key={index}
-                className={`relative h-24 bg-gray-100 rounded cursor-pointer overflow-hidden transition-all ${currentImageIndex === index ? 'ring-2 ring-emerald-500 ring-offset-2' : 'hover:opacity-80'}`}
-                onClick={() => selectThumbnail(index)}
-              >
-                <Image
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6 bg-gray-50 rounded-lg text-neutral-600">
-          <div>
-            <h3 className="text-sm font-semibold mb-1 text-neutral-800">
-              프로젝트 유형
-            </h3>
-            <p className="font-medium">{portfolio.category}</p>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-1 text-neutral-800">
-              완료 연도
-            </h3>
-            <p className="font-medium">{portfolio.year}</p>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold mb-1 text-neutral-800">
-              사용 기술
-            </h3>
-            <p className="font-medium">{portfolio.technologies.join(', ')}</p>
-          </div>
-        </div>
+        <ProjectScreenshots
+          images={portfolio.images}
+          currentImageIndex={currentImageIndex}
+          selectThumbnail={selectThumbnail}
+          handleNextImage={handleNextImage}
+          handlePreviousImage={handlePreviousImage}
+        />
+        <ProjectChallenges challenges={portfolio.challenges || []} />
+        <ProjectSummary
+          year={portfolio.year}
+          category={portfolio.category}
+          technologies={portfolio.technologies}
+        />
       </main>
     </section>
+  );
+};
+
+const ProjectOverview = ({ description }: { description: string }) => {
+  return (
+    <div className="mb-12">
+      <h2 className="text-2xl font-semibold mb-4">프로젝트 개요</h2>
+      <p className="whitespace-pre-line text-weak leading-relaxed">
+        {description}
+      </p>
+    </div>
+  );
+};
+
+interface ProjectScreenshotsProps {
+  handlePreviousImage: () => void;
+  handleNextImage: () => void;
+  images: string[];
+  currentImageIndex: number;
+  selectThumbnail: (index: number) => void;
+}
+
+const ProjectScreenshots = ({
+  handlePreviousImage,
+  handleNextImage,
+  images,
+  currentImageIndex,
+  selectThumbnail,
+}: ProjectScreenshotsProps) => {
+  return (
+    <div className="mb-8">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-semibold">프로젝트 스크린샷</h2>
+        <div className="flex gap-2">
+          <button
+            onClick={handlePreviousImage}
+            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors "
+            aria-label="이전 썸네일"
+          >
+            <IoMdArrowDropleft size={18} />
+          </button>
+          <button
+            onClick={handleNextImage}
+            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+            aria-label="다음 썸네일"
+          >
+            <IoMdArrowDropright size={18} />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={`relative h-24 bg-gray-100 rounded cursor-pointer overflow-hidden transition-all ${currentImageIndex === index ? 'ring-2 ring-emerald-500 ring-offset-2' : 'hover:opacity-80'}`}
+            onClick={() => selectThumbnail(index)}
+          >
+            <Image
+              src={image}
+              alt={`Thumbnail ${index + 1}`}
+              fill
+              className="object-cover"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+interface ProjectSummaryProps {
+  category: string;
+  year: string;
+  technologies: string[];
+}
+
+const ProjectSummary = ({
+  category,
+  year,
+  technologies,
+}: ProjectSummaryProps) => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6 bg-gray-50 rounded-lg text-neutral-600">
+      <div>
+        <h3 className="text-sm font-semibold mb-1 text-neutral-800">
+          프로젝트 유형
+        </h3>
+        <p className="font-medium">{category}</p>
+      </div>
+      <div>
+        <h3 className="text-sm font-semibold mb-1 text-neutral-800">
+          완료 연도
+        </h3>
+        <p className="font-medium">{year}</p>
+      </div>
+      <div>
+        <h3 className="text-sm font-semibold mb-1 text-neutral-800">
+          사용 기술
+        </h3>
+        <p className="font-medium">{technologies.join(', ')}</p>
+      </div>
+    </div>
+  );
+};
+
+interface ProjectChallengesProps {
+  challenges: Challenge[];
+}
+
+const ProjectChallenges = ({ challenges }: ProjectChallengesProps) => {
+  return (
+    <div className="mb-8">
+      <h2 className="text-2xl font-semibold">프로젝트 문제해결</h2>
+      <p className="text-weak leading-relaxed">
+        이 섹션에서는 프로젝트 진행 중 발생한 문제와 해결 방법을 공유합니다.
+      </p>
+      {challenges.map((problem, index) => (
+        <div key={index} className="mt-6">
+          {problem.url ? (
+            <Link
+              href={problem.url || '#'}
+              className={`${problem.url && 'text-blue-400 hover:text-blue-500'} flex items-center gap-2`}
+            >
+              <h3 className="text-lg font-semibold">{problem.title}</h3>
+              {problem.url && <FaLink />}
+            </Link>
+          ) : (
+            <h3 className="text-lg font-semibold">{problem.title}</h3>
+          )}
+          <p className="text-weak">{problem.description}</p>
+        </div>
+      ))}
+    </div>
   );
 };
 
