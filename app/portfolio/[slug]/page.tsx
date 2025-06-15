@@ -35,9 +35,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
   const getPortfolioDetail = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/portfolio`, {
-        params: { slug: params.slug },
-      });
+      const response = await axios.get(`/api/portfolio/${params.slug}`);
       const data = await response.data;
       setPortfolio(data);
     } catch (error) {
