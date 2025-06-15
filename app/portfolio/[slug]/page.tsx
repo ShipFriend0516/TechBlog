@@ -36,19 +36,15 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
     getPortfolioDetailConfig
   );
 
-  if (!portfolio) {
-    return <NotFound />;
-  }
-
   const handlePreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? portfolio.images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? portfolio!.images.length - 1 : prevIndex - 1
     );
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === portfolio.images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === portfolio!.images.length - 1 ? 0 : prevIndex + 1
     );
   };
 
@@ -64,7 +60,10 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
     );
   }
 
-  if (!loading && portfolio.title === '') {
+  if (!loading && !portfolio) {
+    return <NotFound />;
+  }
+  if (!portfolio) {
     return <NotFound />;
   }
 
@@ -124,7 +123,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
           </div>
         </div>
 
-        <div className="w-full h-[500px] relative mb-8 bg-gray-100 rounded-lg overflow-hidden">
+        <div className="w-full min-h-[500px] h-[500px] relative mb-8 bg-gray-100 rounded-lg overflow-hidden">
           {portfolio.images.length > 0 && (
             <Image
               src={portfolio.images[currentImageIndex]}
