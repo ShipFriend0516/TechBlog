@@ -49,6 +49,7 @@ const ProjectScreenshots = ({
               src={image}
               alt={`Thumbnail ${index + 1}`}
               fill
+              loading={'lazy'}
               className="object-cover"
             />
           </div>

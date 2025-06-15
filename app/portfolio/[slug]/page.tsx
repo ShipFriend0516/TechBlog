@@ -130,6 +130,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
               src={portfolio.images[currentImageIndex]}
               alt={`${portfolio.title} screenshot ${currentImageIndex + 1}`}
               fill
+              loading={'eager'}
               className="object-contain"
             />
           )}
