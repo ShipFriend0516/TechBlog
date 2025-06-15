@@ -74,14 +74,15 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
             // 호버된 카드 기준으로 이동 방향 계산
             let translateX = 0;
             let translateY = 0;
+            let scale = 1;
 
             if (hoveredIndex !== null && !isHovered && isAdjacent) {
               const deltaRow = row - hoveredRow;
               const deltaCol = col - hoveredCol;
 
-              // 대각선 및 직선 방향으로 밀어내기
               translateX = deltaCol * 12;
               translateY = deltaRow * 12;
+              scale = 0.95;
             }
 
             return (
@@ -94,6 +95,7 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
                 pastelColors={pastelColors}
                 translateX={translateX}
                 translateY={translateY}
+                scale={scale}
               />
             );
           })}

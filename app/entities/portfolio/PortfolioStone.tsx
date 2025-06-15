@@ -12,6 +12,7 @@ interface PortfolioStoneProps {
   isHovered: boolean;
   translateX: number;
   translateY: number;
+  scale?: number;
 }
 const PortfolioStone = ({
   project,
@@ -21,6 +22,7 @@ const PortfolioStone = ({
   index,
   translateY,
   translateX,
+  scale,
 }: PortfolioStoneProps) => {
   return (
     <div
@@ -36,7 +38,7 @@ const PortfolioStone = ({
                   ${isHovered ? 'shadow-2xl z-10 relative' : 'shadow-lg'}
                 `}
       style={{
-        transform: `translate(${translateX}px, ${translateY}px) ${isHovered ? 'scale(1.15)' : 'scale(1)'}`,
+        transform: `translate(${translateX}px, ${translateY}px) ${isHovered ? 'scale(1.15)' : 'scale(1)'} ${scale ? `scale(${scale})` : ''}`,
       }}
       onMouseEnter={() => setHoveredIndex(index)}
       onMouseLeave={() => setHoveredIndex(null)}
