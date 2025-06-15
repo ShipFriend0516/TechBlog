@@ -1,6 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaGithub, FaGlobe } from 'react-icons/fa';
@@ -8,6 +7,9 @@ import NotFound from '@/app/not-found';
 import { Challenge, PortfolioItem } from '@/app/types/Portfolio';
 import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
 import { FaLink } from 'react-icons/fa6';
+import useDataFetch, {
+  useDataFetchConfig,
+} from '@/app/hooks/common/useDataFetch';
 
 interface PortfolioDetailPageProps {
   params: {
@@ -16,34 +18,24 @@ interface PortfolioDetailPageProps {
 }
 
 const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
-  const [portfolio, setPortfolio] = useState<PortfolioItem>({
-    title: '',
-    description: '',
-    technologies: [],
-    mainImage: '',
-    images: [],
-    year: '',
-    category: '',
-  });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getPortfolioDetail();
-  }, [params.slug]);
-
-  const getPortfolioDetail = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`/api/portfolio/${params.slug}`);
-      const data = await response.data;
-      setPortfolio(data);
-    } catch (error) {
+  const getPortfolioDetailConfig: useDataFetchConfig = {
+    url: `/api/portfolio/${params.slug}`,
+    method: 'get',
+    onError: (error) => {
       console.error('Error fetching portfolio details:', error);
-    } finally {
-      setLoading(false);
-    }
+    },
+    dependencies: [params.slug],
   };
+
+  const { data: portfolio, loading } = useDataFetch<PortfolioItem>(
+    getPortfolioDetailConfig
+  );
+
+  if (!portfolio) {
+    return <NotFound />;
+  }
 
   const handlePreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
