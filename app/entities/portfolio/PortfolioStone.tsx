@@ -49,7 +49,7 @@ const PortfolioStone = ({
               height={400}
               src={project.image}
               alt={`${project.title} 프로젝트 이미지`}
-              className={`w-full aspect-video object-cover transition-transform duration-500`}
+              className={`h-full aspect-video object-cover transition-transform duration-500`}
             />
           ) : (
             <span className="text-4xl font-bold text-white/80">
@@ -67,7 +67,7 @@ const PortfolioStone = ({
         </div>
       </div>
 
-      <div className="p-4 md:p-6 bg-white/90 backdrop-blur-sm">
+      <div className="p-4 md:p-6 h-full bg-white/90 backdrop-blur-sm">
         <h3 className="text-lg md:text-xl font-bold mb-2 text-gray-800 line-clamp-1">
           {project.title}
         </h3>
