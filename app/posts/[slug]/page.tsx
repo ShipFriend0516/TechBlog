@@ -1,6 +1,5 @@
 import PostHeader from '@/app/entities/post/detail/PostHeader';
 import PostBody from '@/app/entities/post/detail/PostBody';
-import example2 from '/images/placeholder/thumbnail_example2.webp';
 import Comments from '@/app/entities/comment/Comments';
 import { Metadata } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
@@ -9,6 +8,8 @@ import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 
 import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
+
+const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
 
 // 정적 생성할 경로 지정 - SSG
 export async function generateStaticParams() {
@@ -49,7 +50,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: post.title,
       description: post.subTitle || post.content.substring(0, 160),
-      images: [post.thumbnailImage || example2],
+      images: [post.thumbnailImage || defaultThumbnail],
       type: 'article',
       publishedTime: new Date(post.createdAt).toISOString(),
       authors: [post.author],
@@ -77,7 +78,7 @@ const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
             author={post?.author || ''}
             date={post?.date || 0}
             timeToRead={post?.timeToRead || 0}
-            backgroundThumbnail={post?.thumbnailImage || example2}
+            backgroundThumbnail={post?.thumbnailImage || defaultThumbnail}
           />
           <PostBody
             loading={false}
