@@ -64,7 +64,8 @@ const PostHeader = ({
             alt={`${title} Thumbnail`}
             loading={'eager'}
             priority={true}
-            placeholder={'empty'}
+            placeholder={'blur'}
+            blurDataURL={'/thumbnail_example2.webp'}
           />
         </div>
       )}

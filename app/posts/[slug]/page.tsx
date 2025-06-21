@@ -1,6 +1,6 @@
 import PostHeader from '@/app/entities/post/detail/PostHeader';
 import PostBody from '@/app/entities/post/detail/PostBody';
-import example2 from '@/app/public/thumbnail_example2.webp';
+import example2 from '/images/placeholder/thumbnail_example2.webp';
 import Comments from '@/app/entities/comment/Comments';
 import { Metadata } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
