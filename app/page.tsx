@@ -3,7 +3,7 @@ import Image from 'next/image';
 import profileBackground from '@/app/public/plane2.jpg';
 import profile from '@/app/public/profile.jpg';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
@@ -49,6 +49,7 @@ export default function Home() {
         <div className="relative h-64 w-full overflow-hidden rounded-lg">
           <Image
             src={profileBackground}
+            priority={true}
             width={'1024'}
             height={'720'}
             alt="Hero image"
@@ -81,6 +82,7 @@ export default function Home() {
           <Image
             width={500}
             height={400}
+            priority={true}
             src={profile}
             alt="About image"
             className="hover:rotate-180 transition duration-[60000ms] object-cover w-full h-full bg-gray-500"
