@@ -10,8 +10,10 @@ declare global {
 
 const MONGODB_URI = process.env.DB_URI;
 
-if (!MONGODB_URI && process.env.NODE_ENV !== 'production') {
-  throw new Error('MongoDB URI가 없습니다. 환경변수를 설정해주세요.');
+if (!MONGODB_URI) {
+  throw new Error(
+    `MongoDB URI가 없습니다. 환경변수를 설정해주세요. NODE_ENV: ${process.env.NODE_ENV}`
+  );
 }
 
 interface CachedConnection {
