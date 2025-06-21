@@ -1,10 +1,16 @@
 import { portfolioData } from '@/app/api/portfolio/data';
 
-// 포트폴리오 데이터 - 이력서 기반으로 실제 프로젝트 정보 반영
-
-export async function GET(request: Request) {
+export async function GET(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
   try {
-    const slug = request.url.split('?slug=').pop()?.toLowerCase();
+    const slug = params.slug?.toLowerCase();
+
+    if (!slug) {
+      return Response.json({ error: 'slug가 필요합니다' }, { status: 400 });
+    }
+
     const portfolio = portfolioData[slug as keyof typeof portfolioData];
 
     if (!portfolio) {
@@ -22,4 +28,10 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
+}
+
+export async function generateStaticParams() {
+  return Object.keys(portfolioData).map((slug) => ({
+    slug: slug,
+  }));
 }

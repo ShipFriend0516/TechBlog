@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // 프로젝트 루트 기준 public 폴더 내 rss.xml 파일 경로
     const filePath = path.join(process.cwd(), 'public', 'rss.xml');
