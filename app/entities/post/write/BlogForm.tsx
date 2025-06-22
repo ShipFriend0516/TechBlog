@@ -122,13 +122,14 @@ const BlogForm = () => {
   const overwriteDraft = () => {
     if (draft !== null) {
       if (confirm('임시 저장된 글이 있습니다. 덮어쓰시겠습니까?')) {
-        const { title, content, subTitle, seriesId, isPrivate } = draft;
+        const { title, content, subTitle, seriesId, isPrivate, tags } = draft;
         setTitle(title || '');
         setContent(content);
         setSubTitle(subTitle || '');
         setSeriesId(seriesId);
         setUploadedImages(draftImages || []);
         setIsPrivate(isPrivate || false);
+        setTags(tags || []);
       }
     } else {
       toast.error('임시 저장된 글이 없습니다.');
