@@ -17,10 +17,12 @@ const Profile = ({ profileThumbnail, username }: Props) => {
       >
         {profileThumbnail && (
           <Image
+            className={'w-8 h-8'}
             src={profileThumbnail}
             alt={'프로필 사진'}
             width={50}
             height={50}
+            placeholder={'empty'}
           />
         )}
       </div>
