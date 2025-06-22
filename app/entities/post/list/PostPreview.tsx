@@ -53,8 +53,8 @@ const PostPreview = ({
         <div className={'h-1/2 flex flex-col justify-between gap-4 p-4'}>
           <div className={''}>
             <h2 className={'font-bold text-lg line-clamp-2'}>{title}</h2>
-            <p className={'overflow-hidden text-nowrap w-full'}>
-              {subTitle ? subTitle.slice(0, 40) + '...' : ''}
+            <p className={'line-clamp-1 w-full text-weak'}>
+              {subTitle ? subTitle.slice(0, 40) + '' : ''}
             </p>
           </div>
           <div
