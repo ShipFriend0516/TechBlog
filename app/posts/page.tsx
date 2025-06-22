@@ -11,6 +11,7 @@ import useDataFetch, {
 } from '@/app/hooks/common/useDataFetch';
 import useDebounce from '@/app/hooks/optimize/useDebounce';
 import ErrorBox from '../entities/common/Error/ErrorBox';
+import useURLSync from '@/app/hooks/common/useURLSync';
 
 interface PaginationData {
   totalPosts: number;
@@ -57,11 +58,14 @@ const BlogList = () => {
 
   const posts = data?.posts || [];
 
-  useEffect(() => {
-    router.push(
-      `/posts?page=${currentPage}${seriesSlugParam ? `&series=${seriesSlugParam}` : ''}${query ? `&query=${query}` : ''}`
-    );
-  }, [currentPage, seriesSlugParam, query]);
+  useURLSync({
+    baseURL: 'posts',
+    params: {
+      page: currentPage,
+      series: seriesSlugParam,
+      query: query,
+    },
+  });
 
   if (error) {
     console.error('Error fetching posts:', error);
