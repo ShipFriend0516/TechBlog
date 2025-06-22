@@ -66,6 +66,8 @@ const PostHeader = ({
             priority={true}
             placeholder={'blur'}
             blurDataURL={'/images/placeholder/thumbnail_example2.webp'}
+            quality={30}
+            fetchPriority={'high'}
           />
         </div>
       )}
