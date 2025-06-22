@@ -3,9 +3,8 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import useToast from '@/app/hooks/useToast';
 import { useBlockNavigate } from '@/app/hooks/common/useBlockNavigate';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
@@ -92,15 +91,7 @@ const BlogForm = () => {
         setUploadedImages={setUploadedImages}
         onClick={handleLinkCopy}
       />
-      {errors && (
-        <div className={'mt-2'}>
-          {errors.slice(0, 3).map((error, index) => (
-            <p key={index} className={'text-sm text-red-500'}>
-              {error}
-            </p>
-          ))}
-        </div>
-      )}
+      <ErrorBox errors={errors} />
       <PostWriteButtons
         slug={slug}
         postBody={postBody}
@@ -108,6 +99,20 @@ const BlogForm = () => {
         submitLoading={submitLoading}
         saveToDraft={saveToDraft}
       />
+    </div>
+  );
+};
+
+const ErrorBox = ({ errors }: { errors: string[] | null }) => {
+  if (!errors) return null;
+
+  return (
+    <div className={'mt-2'}>
+      {errors.slice(0, 3).map((error, index) => (
+        <p key={index} className={'text-sm text-red-500'}>
+          {error}
+        </p>
+      ))}
     </div>
   );
 };
