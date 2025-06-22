@@ -2,12 +2,12 @@
 import UploadedImage from '@/app/entities/post/write/UploadedImage';
 import { FaImage } from 'react-icons/fa';
 import { upload } from '@vercel/blob/client';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
 interface UploadImageContainerProps {
   onClick: (link: string) => void;
   uploadedImages: string[];
-  setUploadedImages: (images: string[]) => void;
+  setUploadedImages: Dispatch<SetStateAction<string[]>>;
 }
 const UploadImageContainer = ({
   onClick,
@@ -22,16 +22,28 @@ const UploadImageContainer = ({
         throw new Error('이미지가 선택되지 않았습니다.');
       }
 
-      const file = target.files[0];
+      const files = target.files;
 
-      const timestamp = new Date().getTime();
-      const pathname = `/images/${timestamp}-${file.name}`;
-      const newBlob = await upload(pathname, file, {
-        access: 'public',
-        handleUploadUrl: '/api/upload',
-      });
+      if (files.length === 0) {
+        throw new Error('업로드할 파일이 없습니다.');
+      }
 
-      setUploadedImages([...uploadedImages, newBlob.url]);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.type.startsWith('image/')) {
+          throw new Error('이미지 파일만 업로드할 수 있습니다.');
+        }
+
+        const timestamp = new Date().getTime();
+        const pathname = `/images/${timestamp}-${file.name}`;
+        const newBlob = await upload(pathname, file, {
+          access: 'public',
+          handleUploadUrl: '/api/upload',
+        });
+
+        setUploadedImages((prev) => [...prev, newBlob.url]);
+      }
+
       return;
     } catch (error) {
       console.error('업로드 실패:', error);
