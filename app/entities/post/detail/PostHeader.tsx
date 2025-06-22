@@ -65,7 +65,7 @@ const PostHeader = ({
             loading={'eager'}
             priority={true}
             placeholder={'blur'}
-            blurDataURL={'/thumbnail_example2.webp'}
+            blurDataURL={'/images/placeholder/thumbnail_example2.webp'}
           />
         </div>
       )}
