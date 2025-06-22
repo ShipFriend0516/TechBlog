@@ -1,32 +1,32 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Post } from '@/app/types/Post';
 import PostList from '@/app/entities/post/list/PostList';
 import SearchSection from '@/app/entities/post/list/SearchSection';
-import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Pagination from '@/app/entities/common/Pagination';
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
-import useDebounce from '@/app/hooks/optimize/useDebounce';
 import ErrorBox from '../entities/common/Error/ErrorBox';
 import useURLSync from '@/app/hooks/common/useURLSync';
+import usePostSearch from '@/app/hooks/post/usePostSearch';
 
 interface PaginationData {
   totalPosts: number;
 }
 
 const BlogList = () => {
-  const [query, setQuery] = useState('');
-  const addLatestQuery = useSearchQueryStore((state) => state.addSearchQuery);
+  const { query, debouncedQuery, setQuery, addLatestQuery } = usePostSearch();
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const seriesSlugParam = searchParams.get('series');
   const currentPage = Number(searchParams.get('page')) || 1;
+
   const [totalPosts, setTotalPosts] = useState(0);
   const ITEMS_PER_PAGE = 12;
-  const debouncedQuery = useDebounce(query, 300);
+
   const config = useMemo((): useDataFetchConfig => {
     return {
       url: `/api/posts`,
