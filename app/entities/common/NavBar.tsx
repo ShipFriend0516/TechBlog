@@ -42,7 +42,7 @@ const NavBar = () => {
         </div>
         <ul
           className={
-            'inline-flex max-w-5xl w-full justify-end gap-3 items-center'
+            'inline-flex max-w-5xl flex-grow justify-end gap-3 items-center'
           }
         >
           <li>
