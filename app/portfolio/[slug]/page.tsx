@@ -1,8 +1,7 @@
 'use client';
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaArrowLeft, FaGithub, FaGlobe } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 import NotFound from '@/app/not-found';
 import { PortfolioItem } from '@/app/types/Portfolio';
 import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
@@ -13,6 +12,8 @@ import ProjectOverview from '@/app/entities/portfolio/detail/ProjectOverview';
 import ProjectScreenshots from '@/app/entities/portfolio/detail/ProjectScreenshots';
 import ProjectChallenges from '@/app/entities/portfolio/detail/ProjectChallenges';
 import ProjectSummary from '@/app/entities/portfolio/detail/ProjectSummary';
+import useCarousel from '@/app/hooks/common/useCarousel';
+import ProjectLinks from '@/app/entities/portfolio/detail/ProjectLinks';
 
 interface PortfolioDetailPageProps {
   params: {
@@ -21,8 +22,6 @@ interface PortfolioDetailPageProps {
 }
 
 const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
   const getPortfolioDetailConfig: useDataFetchConfig = {
     url: `/api/portfolio/${params.slug}`,
     method: 'get',
@@ -36,21 +35,12 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
     getPortfolioDetailConfig
   );
 
-  const handlePreviousImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? portfolio!.images.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === portfolio!.images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const selectThumbnail = (index: number) => {
-    setCurrentImageIndex(index);
-  };
+  const {
+    currentImageIndex,
+    handlePreviousImage,
+    handleNextImage,
+    selectThumbnail,
+  } = useCarousel({ itemsLength: portfolio?.images.length || 0 });
 
   if (loading) {
     return (
@@ -81,46 +71,7 @@ const PortfolioDetailPage = ({ params }: PortfolioDetailPageProps) => {
               <span className={'hidden lg:inline'}>목록으로 돌아가기</span>
             </Link>
           </div>
-          {/* 기술 스택 태그 및 링크 버튼 */}
-          <div className="flex flex-wrap justify-between items-center">
-            <div className="flex flex-wrap gap-3 text-gray-600">
-              {portfolio.technologies.map((tech, index) => (
-                <span
-                  key={index}
-                  className="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            {/* GitHub 및 배포 링크 버튼 */}
-            <div className="flex gap-3 mt-3 sm:mt-0">
-              {portfolio.links?.githubUrl && (
-                <a
-                  href={portfolio.links?.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1 text-default hover:opacity-75 rounded-md  transition-colors"
-                  aria-label="GitHub 저장소"
-                >
-                  <FaGithub size={18} />
-                </a>
-              )}
-
-              {portfolio.links?.deployUrl && (
-                <a
-                  href={portfolio.links?.deployUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1 text-default hover:opacity-75 rounded-md transition-colors"
-                  aria-label="배포 사이트"
-                >
-                  <FaGlobe size={18} />
-                </a>
-              )}
-            </div>
-          </div>
+          <ProjectLinks portfolio={portfolio} />
         </div>
 
         <div className="w-full min-h-[500px] h-[500px] relative mb-8 bg-gray-100 rounded-lg overflow-hidden">
