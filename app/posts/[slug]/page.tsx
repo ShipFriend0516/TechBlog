@@ -1,13 +1,11 @@
-import PostHeader from '@/app/entities/post/detail/PostHeader';
-import PostBody from '@/app/entities/post/detail/PostBody';
 import Comments from '@/app/entities/comment/Comments';
 import { Metadata } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
-
 import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
+import PostDetail from '@/app/entities/post/detail/PostDetail';
 
 const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
 
@@ -71,21 +69,7 @@ const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
     <>
       <PostJSONLd post={post} />
       <section className="bg-transparent w-full flex-grow">
-        <article className="post">
-          <PostHeader
-            title={post?.title || ''}
-            subTitle={post?.subTitle || ''}
-            author={post?.author || ''}
-            date={post?.date || 0}
-            timeToRead={post?.timeToRead || 0}
-            backgroundThumbnail={post?.thumbnailImage || defaultThumbnail}
-          />
-          <PostBody
-            loading={false}
-            tags={post?.tags || []}
-            content={post?.content || ''}
-          />
-        </article>
+        <PostDetail post={post} />
         <PostActionSection postId={post?._id} />
         <PostRecommendation
           tags={post?.tags}
