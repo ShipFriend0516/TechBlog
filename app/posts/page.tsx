@@ -11,6 +11,7 @@ import useDataFetch, {
 import ErrorBox from '../entities/common/Error/ErrorBox';
 import useURLSync from '@/app/hooks/common/useURLSync';
 import usePostSearch from '@/app/hooks/post/usePostSearch';
+import useToast from '@/app/hooks/useToast';
 
 interface PaginationData {
   totalPosts: number;
@@ -19,6 +20,7 @@ interface PaginationData {
 const BlogList = () => {
   const { query, debouncedQuery, setQuery, addLatestQuery } = usePostSearch();
 
+  const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const seriesSlugParam = searchParams.get('series');
@@ -69,6 +71,7 @@ const BlogList = () => {
 
   if (error) {
     console.error('Error fetching posts:', error);
+    toast.error('서버에 오류가 발생해 글을 불러올 수 없습니다.');
   }
 
   const resetSearchCondition = () => {
