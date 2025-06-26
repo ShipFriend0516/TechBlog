@@ -46,7 +46,7 @@ const PostPreview = ({
             height={300}
             className={`object-cover bg-cover w-full h-full transition duration-300 ${
               isLoading ? 'opacity-0' : 'opacity-100'
-            } group-hover:scale-105 transition duration-200`}
+            }   transition duration-200`}
             onLoad={() => setIsLoading(false)}
           />
         </div>
