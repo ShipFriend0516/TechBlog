@@ -19,9 +19,9 @@ const PostPreviewSkeleton = () => {
   return (
     <div className="block mx-auto">
       <div
-        className={`w-full h-full post-preview p-px rounded-md transition-all duration-500 shadow-lg overflow-hidden ${lightStyle} ${darkStyle}`}
+        className={`w-full h-full post-preview p-px rounded-2xl transition-all duration-500 shadow-lg overflow-hidden ${lightStyle} ${darkStyle}`}
       >
-        <div className="image-container rounded-t-md overflow-hidden h-1/2 flex justify-center relative">
+        <div className="image-container rounded-t-2xl overflow-hidden h-1/2 flex justify-center relative">
           <Skeleton
             useCustomBackground
             className="w-full h-full !rounded-none bg-gray-200 dark:bg-neutral-800"
