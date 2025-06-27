@@ -14,10 +14,16 @@ const CreateSeriesOverlayContainer = ({
   series,
   handleCloseOverlay,
 }: CreateSeriesOverlayContainerProps) => {
-  const [seriesTitle, setSeriesTitle] = useState<string>('');
-  const [seriesDescription, setSeriesDescription] = useState<string>('');
-  const [seriesThumbnail, setSeriesThumbnail] = useState<string>('');
   const isEditMode = !!series;
+  const [seriesTitle, setSeriesTitle] = useState<string>(
+    isEditMode ? series?.title || '' : ''
+  );
+  const [seriesDescription, setSeriesDescription] = useState<string>(
+    isEditMode ? series?.description : ''
+  );
+  const [seriesThumbnail, setSeriesThumbnail] = useState<string>(
+    isEditMode ? series?.thumbnailImage || '' : ''
+  );
   const toast = useToast();
 
   const postSeries = async () => {
@@ -43,11 +49,14 @@ const CreateSeriesOverlayContainer = ({
   const editSeries = async () => {
     try {
       if (isEditMode) {
-        await updateSeries(series.slug, {
+        const result = await updateSeries(series.slug, {
           title: seriesTitle,
           description: seriesDescription,
           thumbnailImage: seriesThumbnail,
         });
+        if (result._id) {
+          toast.success('시리즈가 성공적으로 수정되었습니다.');
+        }
       }
     } catch (e) {
       toast.error('시리즈 수정 중 오류가 발생했습니다.');
@@ -80,7 +89,7 @@ const CreateSeriesOverlayContainer = ({
             placeholder="시리즈의 이름"
             className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-black"
             onChange={(e) => setSeriesTitle(e.target.value)}
-            value={isEditMode ? series?.title : seriesTitle || ''}
+            value={seriesTitle || ''}
           />
         </div>
 
@@ -92,7 +101,7 @@ const CreateSeriesOverlayContainer = ({
             placeholder="시리즈의 설명"
             className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-black min-h-[100px] resize-y"
             onChange={(e) => setSeriesDescription(e.target.value)}
-            value={isEditMode ? series?.description : seriesDescription || ''}
+            value={seriesDescription || ''}
           />
         </div>
 
@@ -105,7 +114,7 @@ const CreateSeriesOverlayContainer = ({
             placeholder="시리즈의 썸네일 링크"
             className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-black"
             onChange={(e) => setSeriesThumbnail(e.target.value)}
-            value={isEditMode ? series?.thumbnailImage : seriesThumbnail || ''}
+            value={seriesThumbnail || ''}
           />
         </div>
       </div>
