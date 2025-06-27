@@ -19,8 +19,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
         .toLowerCase()
         .replaceAll('.', '')
         .replaceAll(/[^a-zA-Z0-9가-힣]/g, '-')
-        .replaceAll(/-+/g, '-')
-        .replaceAll(/^-|-$/g, '');
+        .replaceAll(/-+/g, '-');
 
       return {
         id,
