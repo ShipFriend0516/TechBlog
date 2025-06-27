@@ -108,8 +108,8 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
         className={`
           post-toc text-sm
           transition-all duration-300
-          ${isScrolled ? 'bg-gray-100/95 shadow-md' : 'bg-gray-100/80'}
-          rounded-md p-4 text-black z-[2]
+          ${isScrolled ? 'bg-gray-100/95 dark:bg-neutral-700/95 shadow-md' : 'bg-gray-100/80 dark:bg-neutral-700/80'}
+          rounded-md p-4 text-black dark:text-white z-[2]
           
           fixed bottom-0 left-0 right-0 max-h-[50vh] md:max-h-none
           overflow-y-auto
@@ -143,7 +143,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
                     ${
                       isActive
                         ? 'bg-green-200 text-green-800'
-                        : 'hover:bg-green-50'
+                        : 'hover:bg-green-50 dark:hover:bg-green-800 dark:hover:text-white'
                     } 
                     rounded-md overflow-hidden whitespace-nowrap text-ellipsis
                   `}
