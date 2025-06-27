@@ -12,6 +12,7 @@ import GithubLogin from '@/app/entities/common/Button/GithubLogin';
 import BubbleBackground from '@/app/entities/common/Background/BubbleBackground';
 import { useEffect } from 'react';
 import useToast from '@/app/hooks/useToast';
+import { FaBuffer } from 'react-icons/fa6';
 
 const AdminDashboard = () => {
   const { data: session } = useSession();
@@ -66,6 +67,13 @@ const AdminDashboard = () => {
       description: '블로그 통계를 확인합니다.',
       bgColor: 'bg-purple-950/20', // 짙은 보라색의 투명도 적용
       link: '/admin/analytics',
+    },
+    {
+      title: '시리즈 관리',
+      icon: <FaBuffer />,
+      description: '블로그 시리즈를 관리합니다.',
+      bgColor: 'bg-emerald-950/20', // 짙은 보라색의 투명도 적용
+      link: '/admin/series',
     },
     {
       title: '댓글 확인 및 관리',
