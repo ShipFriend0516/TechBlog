@@ -6,11 +6,13 @@ import React from 'react';
 interface AdminSeriesListItemProps {
   series: Series;
   handleUpdateSeries: (series: Series) => void;
+  handleDeleteClick: (slug: string) => void;
 }
 
 const AdminSeriesListItem = ({
   series,
   handleUpdateSeries,
+  handleDeleteClick,
 }: AdminSeriesListItemProps) => {
   return (
     <li
@@ -60,7 +62,10 @@ const AdminSeriesListItem = ({
           >
             시리즈 수정
           </button>
-          <button className={'bg-red-200 rounded-2xl cursor-pointer px-4'}>
+          <button
+            onClick={() => handleDeleteClick(series.slug)}
+            className={'bg-red-200 rounded-2xl cursor-pointer px-4'}
+          >
             시리즈 삭제
           </button>
         </ul>

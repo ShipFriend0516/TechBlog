@@ -6,11 +6,13 @@ interface AdminSeriesListProps {
   seriesList: Series[] | null | undefined;
   loading: boolean;
   handleUpdateSeries: (series: Series) => void;
+  handleDeleteClick: (slug: string) => void;
 }
 const AdminSeriesList = ({
   loading,
   seriesList,
   handleUpdateSeries,
+  handleDeleteClick,
 }: AdminSeriesListProps) => {
   if (loading) {
     return <p className={'text-lg text-gray-500'}>로딩 중...</p>;
@@ -26,6 +28,7 @@ const AdminSeriesList = ({
           key={index}
           series={series}
           handleUpdateSeries={handleUpdateSeries}
+          handleDeleteClick={handleDeleteClick}
         />
       ))}
     </ul>
