@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import Series from '@/app/models/Series';
 import '@/app/models/Post';
+import { getServerSession } from 'next-auth';
 
 export async function GET(
   request: Request,
@@ -41,6 +42,12 @@ export async function PUT(
   { params }: { params: { slug: string } }
 ) {
   try {
+    const session = await getServerSession();
+
+    if (!session) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     await dbConnect();
     const body = await request.json();
 
@@ -77,6 +84,12 @@ export async function DELETE(
   { params }: { params: { slug: string } }
 ) {
   try {
+    const session = await getServerSession();
+
+    if (!session) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     await dbConnect();
     const deletedSeries = await Series.findOneAndDelete({ slug: params.slug });
 
