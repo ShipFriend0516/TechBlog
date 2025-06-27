@@ -34,7 +34,7 @@ const AdminSeriesListItem = ({
           </div>
         )}
       </div>
-      <div className="p-5 flex flex-col">
+      <div className="p-5 flex flex-col w-full">
         <h3 className="text-default text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
           {series.title}
         </h3>
