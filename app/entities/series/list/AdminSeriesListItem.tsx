@@ -3,7 +3,15 @@ import Image from 'next/image';
 import { FaBookOpen, FaCalendar } from 'react-icons/fa';
 import React from 'react';
 
-const AdminSeriesListItem = ({ series }: { series: Series }) => {
+interface AdminSeriesListItemProps {
+  series: Series;
+  handleUpdateSeries: (series: Series) => void;
+}
+
+const AdminSeriesListItem = ({
+  series,
+  handleUpdateSeries,
+}: AdminSeriesListItemProps) => {
   return (
     <li
       className={
@@ -46,7 +54,10 @@ const AdminSeriesListItem = ({ series }: { series: Series }) => {
           {series.description || 'No description available'}
         </p>
         <ul className={'flex flex-grow items-end gap-2 w-full  justify-start '}>
-          <button className={'bg-green-200 rounded-2xl cursor-pointer px-4'}>
+          <button
+            onClick={() => handleUpdateSeries(series)}
+            className={'bg-green-200 rounded-2xl cursor-pointer px-4'}
+          >
             시리즈 수정
           </button>
           <button className={'bg-red-200 rounded-2xl cursor-pointer px-4'}>

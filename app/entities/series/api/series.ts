@@ -31,8 +31,6 @@ export const updateSeries = async (
     title: string;
     description: string;
     thumbnailImage: string;
-    order: string[];
-    posts: string[];
   }
 ) => {
   const response = await axios.put(`/api/series/${slug}`, data);
