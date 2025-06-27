@@ -64,7 +64,10 @@ const AdminSeriesListItem = ({
           </button>
           <button
             onClick={() => handleDeleteClick(series.slug)}
-            className={'bg-red-200 rounded-2xl cursor-pointer px-4'}
+            disabled={true}
+            className={
+              'disabled:bg-neutral-200 disabled:cursor-not-allowed bg-red-200 rounded-2xl cursor-pointer px-4'
+            }
           >
             시리즈 삭제
           </button>
