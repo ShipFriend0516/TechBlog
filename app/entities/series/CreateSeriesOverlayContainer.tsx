@@ -1,17 +1,29 @@
 import { ChangeEvent, useState } from 'react';
-import { createSeries } from '@/app/entities/series/api/series';
+import { createSeries, updateSeries } from '@/app/entities/series/api/series';
 import useToast from '@/app/hooks/useToast';
+import { Series } from '@/app/types/Series';
 
 interface CreateSeriesOverlayContainerProps {
   setCreateSeriesOpen: (open: boolean) => void;
+  series?: Series;
+  handleCloseOverlay?: () => void;
 }
 
 const CreateSeriesOverlayContainer = ({
   setCreateSeriesOpen,
+  series,
+  handleCloseOverlay,
 }: CreateSeriesOverlayContainerProps) => {
-  const [seriesTitle, setSeriesTitle] = useState<string>('');
-  const [seriesDescription, setSeriesDescription] = useState<string>('');
-  const [seriesThumbnail, setSeriesThumbnail] = useState<string>('');
+  const isEditMode = !!series;
+  const [seriesTitle, setSeriesTitle] = useState<string>(
+    isEditMode ? series?.title || '' : ''
+  );
+  const [seriesDescription, setSeriesDescription] = useState<string>(
+    isEditMode ? series?.description : ''
+  );
+  const [seriesThumbnail, setSeriesThumbnail] = useState<string>(
+    isEditMode ? series?.thumbnailImage || '' : ''
+  );
   const toast = useToast();
 
   const postSeries = async () => {
@@ -34,10 +46,34 @@ const CreateSeriesOverlayContainer = ({
     }
   };
 
+  const editSeries = async () => {
+    try {
+      if (isEditMode) {
+        const result = await updateSeries(series.slug, {
+          title: seriesTitle,
+          description: seriesDescription,
+          thumbnailImage: seriesThumbnail,
+        });
+        if (result._id) {
+          toast.success('시리즈가 성공적으로 수정되었습니다.');
+        }
+      }
+    } catch (e) {
+      toast.error('시리즈 수정 중 오류가 발생했습니다.');
+      console.error('시리즈 수정 중 오류 발생', e);
+    } finally {
+      if (handleCloseOverlay) {
+        handleCloseOverlay();
+      } else {
+        setCreateSeriesOpen(false);
+      }
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-        새로운 시리즈 만들기
+        {isEditMode ? '시리즈 수정하기' : '새로운 시리즈 만들기'}
       </h2>
       <p className="text-gray-600 text-sm mb-6 text-center">
         새로운 시리즈를 생성합니다. 제목은 필수로 작성해야합니다.
@@ -91,10 +127,10 @@ const CreateSeriesOverlayContainer = ({
           취소
         </button>
         <button
-          onClick={postSeries}
+          onClick={isEditMode ? editSeries : postSeries}
           className="flex-1 py-2.5 px-4 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition font-medium"
         >
-          생성
+          {isEditMode ? '수정' : '생성'}
         </button>
       </div>
     </div>

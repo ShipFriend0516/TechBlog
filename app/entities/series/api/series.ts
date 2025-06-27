@@ -31,10 +31,13 @@ export const updateSeries = async (
     title: string;
     description: string;
     thumbnailImage: string;
-    order: string[];
-    posts: string[];
   }
 ) => {
   const response = await axios.put(`/api/series/${slug}`, data);
+  return response.data;
+};
+
+export const deleteSeries = async (slug: string) => {
+  const response = await axios.delete(`/api/series/${slug}`);
   return response.data;
 };
