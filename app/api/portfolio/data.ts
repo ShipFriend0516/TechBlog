@@ -89,6 +89,7 @@ const preview: PortfolioItem = {
       title: 'forwardRef로 전달받는 ref 객체의 재생성 문제 해결',
       description:
         'forwardRef로 전달받는 ref 객체가 매번 재생성되어 불필요한 리렌더링이 발생하는 문제를 해결하여 성능을 최적화했습니다.',
+      url: '/posts/webrtc-공감-기능-개발하기',
     },
   ],
   mainImage: '/images/projects/preview/main.webp',
