@@ -10,7 +10,6 @@ export const projects: Project[] = [
     description: 'WebRTC 기반 화상 면접 스터디 플랫폼',
     image: '/images/logo/preview-logo.png',
     tags: ['React', 'WebRTC', 'Fullstack'],
-    demoUrl: 'https://boostcamp-preview.kro.kr/',
     githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
     slug: 'preview',
   },

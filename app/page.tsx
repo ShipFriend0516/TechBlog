@@ -44,7 +44,6 @@ export default function Home() {
 
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-4 md:p-8">
-      {/* Hero Section */}
       <section className="grid gap-6">
         <div className="relative h-64 w-full overflow-hidden rounded-lg">
           <Image
@@ -76,7 +75,6 @@ export default function Home() {
         </p>
       </section>
 
-      {/* About Section */}
       <section className="grid md:grid-cols-2 gap-8 items-center">
         <div className="relative h-64 overflow-hidden rounded-lg">
           <Image
@@ -106,7 +104,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured projects */}
       <section className="grid gap-6">
         <h2 className="text-2xl font-semibold">Featured Projects</h2>
         <div className={'grid grid-cols-1 md:grid-cols-2 gap-6'}>
@@ -116,7 +113,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Latest Articles */}
       <section className="grid gap-6">
         <h2 className="text-2xl font-semibold">Latest Articles</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -165,7 +161,6 @@ export default function Home() {
         </div>
         <ErrorBox error={error} />
       </section>
-      {/* 더보기 버튼*/}
       <section className={'w-full flex justify-center'}>
         <Link
           href={'/posts'}
