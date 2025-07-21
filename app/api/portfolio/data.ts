@@ -30,13 +30,13 @@ const shipfriend: PortfolioItem = {
       title: 'Lighthouse 성능 지표 분석 및 개선',
       description:
         'Lighthouse 성능 지표를 분석하여 CLS와 LCP를 개선하는 과정에서 웹 성능 최적화 기법을 적용함.',
-      url: 'http://localhost:3000/posts/%EB%B8%94%EB%A1%9C%EA%B7%B8-cls-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94%ED%95%98%EA%B8%B0',
+      url: '/posts/%EB%B8%94%EB%A1%9C%EA%B7%B8-cls-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94%ED%95%98%EA%B8%B0',
     },
     {
       title: '다크모드 전환 시 FOUC 문제 해결',
       description:
         '다크모드 전환 시 발생하는 깜빡임(FOUC) 문제를 인라인 스크립트를 활용하여 해결함. 이 과정에서 Next.js의 동작 방식과 클라이언트 사이드 렌더링의 이해도를 높임.',
-      url: 'http://localhost:3000/posts/%EB%8B%A4%ED%81%AC%EB%AA%A8%EB%93%9C-fouc-%EA%B9%9C%EB%B9%A1%EC%9E%84-%ED%98%84%EC%83%81-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0',
+      url: '/posts/%EB%8B%A4%ED%81%AC%EB%AA%A8%EB%93%9C-fouc-%EA%B9%9C%EB%B9%A1%EC%9E%84-%ED%98%84%EC%83%81-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0',
     },
   ],
   mainImage: '/plane.png',
