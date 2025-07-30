@@ -35,6 +35,156 @@ const PostBody = ({ content, tags, loading }: Props) => {
       }
     }
   };
+
+  const renderOpenGraph = (node: any, index?: number, parent?: Element) => {
+    if (node.type === 'element' && node.tagName === 'p' && node.children) {
+      const aTag = node.children.find(
+        (node: any) => node.type === 'element' && node.tagName === 'a'
+      );
+      if (!aTag) return;
+
+      const href = aTag.properties?.href;
+      if (href && href.startsWith('/')) {
+        const opengraph: Element = {
+          type: 'element',
+          tagName: 'a',
+          properties: {
+            className: 'open-graph',
+            href: href,
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'img',
+              properties: {
+                src: `${href}`,
+                alt: 'Open Graph Image',
+                className: 'og-image',
+              },
+              children: [],
+            },
+            {
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                className: 'og-container',
+              },
+              children: [
+                {
+                  type: 'element',
+                  tagName: 'h4',
+                  properties: {
+                    className: 'og-title',
+                  },
+                  children: [
+                    {
+                      type: 'text',
+                      value: decodeURIComponent(
+                        href.split('/').pop()
+                      ).replaceAll('-', ' '),
+                    },
+                  ],
+                },
+                {
+                  type: 'element',
+                  tagName: 'span',
+                  properties: {
+                    className: 'og-content',
+                  },
+                  children: [
+                    {
+                      type: 'text',
+                      value: decodeURIComponent(
+                        href.split('/').pop()
+                      ).replaceAll('-', ' '),
+                    },
+                  ],
+                },
+                {
+                  type: 'element',
+                  tagName: 'span',
+                  properties: {
+                    className: 'og-domain',
+                  },
+                  children: [
+                    {
+                      type: 'text',
+                      value: '',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+        // 부모가 존재하고 children 배열이 있는 경우
+        if (parent && parent.children && Array.isArray(parent.children)) {
+          // 현재 a 태그 다음 위치에 div 삽입 s
+          parent.children.splice(index + 1, 0, opengraph);
+        } else return;
+      }
+    }
+  };
+
+  const renderYoutubeEmbed = (node: any, index?: number, parent?: Element) => {
+    if (node.type === 'element' && node.tagName === 'p' && node.children) {
+      const aTag = node.children.find(
+        (node: any) => node.type === 'element' && node.tagName === 'a'
+      );
+      if (!aTag) return;
+
+      const href = aTag.properties?.href;
+      const isYoutubeLink =
+        href &&
+        (href.startsWith('https://www.youtube.com/watch') ||
+          href.startsWith('https://youtu.be/'));
+
+      if (isYoutubeLink) {
+        const urlType = href.startsWith('https://www.youtube.com/watch')
+          ? 'watch'
+          : 'be';
+
+        const videoId =
+          urlType === 'watch'
+            ? new URL(href).searchParams.get('v')
+            : href.split('/').pop();
+
+        if (videoId) {
+          const youtubeEmbed = createYoutubeIframe(videoId, 736, 414);
+          // 부모가 존재하고 children 배열이 있는 경우
+          if (
+            index &&
+            parent &&
+            parent.children &&
+            Array.isArray(parent.children)
+          ) {
+            parent.children.splice(index + 1, 0, youtubeEmbed);
+          } else return;
+        }
+      }
+    }
+  };
+
+  const createYoutubeIframe = (
+    videoId: string,
+    width: number,
+    height: number
+  ) => {
+    return {
+      type: 'element',
+      tagName: 'iframe',
+      properties: {
+        src: `https://www.youtube.com/embed/${videoId}`,
+        width: width.toString(),
+        height: height.toString(),
+        frameBorder: '0',
+        allowFullScreen: true,
+        className: 'youtube-embed',
+      },
+      children: [],
+    };
+  };
+
   return (
     <div
       className={
@@ -58,8 +208,14 @@ const PostBody = ({ content, tags, loading }: Props) => {
             wrapperElement={{
               'data-color-mode': theme,
             }}
-            rehypeRewrite={(node) => {
+            rehypeRewrite={(node, index?, parent?) => {
               asideStyleRewrite(node);
+              renderOpenGraph(node, index || 0, parent as Element | undefined);
+              renderYoutubeEmbed(
+                node,
+                index || 0,
+                parent as Element | undefined
+              );
             }}
           />
         </>

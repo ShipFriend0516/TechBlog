@@ -173,6 +173,47 @@ article.post .post-body hr::before {
     0 -2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+.post-body .open-graph {
+  display: flex;
+  height: 120px;
+  background-color: #ededed;
+  overflow: hidden;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 8px;
+  margin-bottom: 0.5em;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: var(--text-default);
+}
+
+.post-body .open-graph img.og-image {
+  flex-grow: 1;
+  border-radius: 0;
+  margin: 0;
+  padding: 0.25em;
+  background-color: white;
+}
+
+.open-graph .og-container {
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5em;
+  gap: 4px;
+}
+
+.post-body .youtube-embed {
+  position: relative;
+  margin: 1em auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 1em;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
 .post-body aside {
   background-color: rgba(231, 241, 231);
   border-radius: 4px;
@@ -193,6 +234,7 @@ article.post .post-body hr::before {
 .post-body aside p {
   margin: 0;
 }
+
 .dark .post-body p > code,
 .dark .post-body li > code,
 .dark .post-body strong > code,
