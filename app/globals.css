@@ -167,6 +167,10 @@ article.post .post-body hr::before {
   content: '';
 }
 
+article.post .post-body pre {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
 .shadow-top {
   box-shadow:
     0 -4px 6px -1px rgba(0, 0, 0, 0.1),
