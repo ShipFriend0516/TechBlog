@@ -45,80 +45,14 @@ const PostBody = ({ content, tags, loading }: Props) => {
 
       const href = aTag.properties?.href;
       if (href && href.startsWith('/')) {
-        const opengraph: Element = {
-          type: 'element',
-          tagName: 'a',
-          properties: {
-            className: 'open-graph',
-            href: href,
-          },
-          children: [
-            {
-              type: 'element',
-              tagName: 'img',
-              properties: {
-                src: `${href}`,
-                alt: 'Open Graph Image',
-                className: 'og-image',
-              },
-              children: [],
-            },
-            {
-              type: 'element',
-              tagName: 'div',
-              properties: {
-                className: 'og-container',
-              },
-              children: [
-                {
-                  type: 'element',
-                  tagName: 'h4',
-                  properties: {
-                    className: 'og-title',
-                  },
-                  children: [
-                    {
-                      type: 'text',
-                      value: decodeURIComponent(
-                        href.split('/').pop()
-                      ).replaceAll('-', ' '),
-                    },
-                  ],
-                },
-                {
-                  type: 'element',
-                  tagName: 'span',
-                  properties: {
-                    className: 'og-content',
-                  },
-                  children: [
-                    {
-                      type: 'text',
-                      value: decodeURIComponent(
-                        href.split('/').pop()
-                      ).replaceAll('-', ' '),
-                    },
-                  ],
-                },
-                {
-                  type: 'element',
-                  tagName: 'span',
-                  properties: {
-                    className: 'og-domain',
-                  },
-                  children: [
-                    {
-                      type: 'text',
-                      value: '',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        };
         // 부모가 존재하고 children 배열이 있는 경우
-        if (parent && parent.children && Array.isArray(parent.children)) {
+        const opengraph = createOpenGraph(href);
+        if (
+          index &&
+          parent &&
+          parent.children &&
+          Array.isArray(parent.children)
+        ) {
           // 현재 a 태그 다음 위치에 div 삽입 s
           parent.children.splice(index + 1, 0, opengraph);
         } else return;
@@ -182,6 +116,83 @@ const PostBody = ({ content, tags, loading }: Props) => {
         className: 'youtube-embed',
       },
       children: [],
+    };
+  };
+
+  const createOpenGraph = (href: string) => {
+    return {
+      type: 'element',
+      tagName: 'a',
+      properties: {
+        className: 'open-graph',
+        href: href,
+      },
+      children: [
+        {
+          type: 'element',
+          tagName: 'img',
+          properties: {
+            src: `${href}`,
+            alt: 'Open Graph Image',
+            className: 'og-image',
+          },
+          children: [],
+        },
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: 'og-container',
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'h4',
+              properties: {
+                className: 'og-title',
+              },
+              children: [
+                {
+                  type: 'text',
+                  value: decodeURIComponent(href.split('/').pop()!).replaceAll(
+                    '-',
+                    ' '
+                  ),
+                },
+              ],
+            },
+            {
+              type: 'element',
+              tagName: 'span',
+              properties: {
+                className: 'og-content',
+              },
+              children: [
+                {
+                  type: 'text',
+                  value: decodeURIComponent(href.split('/').pop()!).replaceAll(
+                    '-',
+                    ' '
+                  ),
+                },
+              ],
+            },
+            {
+              type: 'element',
+              tagName: 'span',
+              properties: {
+                className: 'og-domain',
+              },
+              children: [
+                {
+                  type: 'text',
+                  value: '',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
   };
 
