@@ -48,7 +48,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
         // 부모가 존재하고 children 배열이 있는 경우
         const opengraph = createOpenGraph(href);
         if (
-          index &&
+          index !== undefined &&
           parent &&
           parent.children &&
           Array.isArray(parent.children)
@@ -168,13 +168,13 @@ const PostBody = ({ content, tags, loading }: Props) => {
                 className: 'og-content',
               },
               children: [
-                {
-                  type: 'text',
-                  value: decodeURIComponent(href.split('/').pop()!).replaceAll(
-                    '-',
-                    ' '
-                  ),
-                },
+                // {
+                //   type: 'text',
+                //   value: decodeURIComponent(href.split('/').pop()!).replaceAll(
+                //     '-',
+                //     ' '
+                //   ),
+                // },
               ],
             },
             {
@@ -221,7 +221,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
             }}
             rehypeRewrite={(node, index?, parent?) => {
               asideStyleRewrite(node);
-              renderOpenGraph(node, index || 0, parent as Element | undefined);
+              // renderOpenGraph(node, index || 0, parent as Element | undefined);
               renderYoutubeEmbed(
                 node,
                 index || 0,
