@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Profile from '@/app/entities/common/Profile';
-import profile from '@/app/public/profile.jpg';
 import { FaBook } from 'react-icons/fa';
 
 interface Props {
@@ -95,7 +94,10 @@ const PostHeader = ({
           }`}
         >
           <div className={'items-center post-author flex'}>
-            <Profile profileThumbnail={profile} username={author} />
+            <Profile
+              profileThumbnail={'/images/profile/profile.jpg'}
+              username={author}
+            />
           </div>
           <span className={'post-date'}>
             {new Date(date).toLocaleDateString('ko-KR')}

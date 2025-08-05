@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import profileBackground from '@/app/public/plane2.jpg';
-import profile from '@/app/public/profile.jpg';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useEffect } from 'react';
 import Link from 'next/link';
@@ -81,7 +80,7 @@ export default function Home() {
             width={500}
             height={400}
             priority={true}
-            src={profile}
+            src={'/images/profile/profile.jpg'}
             alt="About image"
             className="hover:rotate-180 transition duration-[60000ms] object-cover w-full h-full bg-gray-500"
           />
@@ -146,7 +145,10 @@ export default function Home() {
                   <Image
                     width={500}
                     height={400}
-                    src={post.thumbnailImage || profile}
+                    src={
+                      post.thumbnailImage ||
+                      '/images/placeholder/thumbnail_example2.webp'
+                    }
                     alt={`Article ${post.title}`}
                     className="object-cover bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform group-hover:scale-105 bg-gray-500 "
                   />

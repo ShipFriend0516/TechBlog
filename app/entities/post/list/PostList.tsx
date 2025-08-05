@@ -1,6 +1,5 @@
 import { Post } from '@/app/types/Post';
 import PostPreview from '@/app/entities/post/list/PostPreview';
-import profile from '@/app/public/profile.jpg';
 import NotFound from '@/app/entities/common/Animation/NotFound';
 import PostsGridSkeleton from '@/app/entities/common/Skeleton/PostsGridSkeleton';
 
@@ -31,7 +30,7 @@ const PostList = (props: {
                   author={post.author}
                   date={post.date}
                   timeToRead={post.timeToRead}
-                  profileImage={profile}
+                  profileImage={'/images/profile/profile.jpg'}
                   thumbnailImage={post.thumbnailImage}
                 />
               </li>
