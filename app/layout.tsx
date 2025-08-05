@@ -13,6 +13,40 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  keywords: [
+    'ShipFriend',
+    'TechBlog',
+    '개발 블로그',
+    '프론트엔드 개발',
+    '웹 개발',
+    'JavaScript',
+    'React',
+    'Next.js',
+    'TypeScript',
+  ],
+  openGraph: {
+    title: 'ShipFriend TechBlog',
+    description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
+    url:
+      process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.vercel.app',
+    siteName: 'ShipFriend TechBlog',
+    images: [
+      {
+        url: '/images/profile/profile.jpg',
+        width: 512,
+        height: 512,
+        alt: 'ShipFriend TechBlog Open Graph Image',
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  other: {
+    'application-name': 'Shipfriend Tech Blog',
+    author: 'ShipFriend',
+    'og:type': 'article',
+    'article:tag': 'technology,programming,web development',
+  },
 };
 
 const pretendard = localFont({
