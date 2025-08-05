@@ -89,6 +89,10 @@ article.post .post-body img {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
+article.post .post-body .zoomBox img {
+  border-radius: 0;
+}
+
 article.post h3 {
   font-size: 1.25rem;
   font-weight: bold;

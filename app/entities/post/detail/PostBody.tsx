@@ -4,6 +4,11 @@ import MDEditor from '@uiw/react-md-editor';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
 import useTheme from '@/app/hooks/useTheme';
 import TagBox from '@/app/entities/post/tags/TagBox';
+import { useEffect, useState } from 'react';
+import Overlay from '@/app/entities/common/Overlay/Overlay';
+import Image from 'next/image';
+import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
+import useOverlay from '@/app/hooks/common/useOverlay';
 
 interface Props {
   content: string;
@@ -13,6 +18,8 @@ interface Props {
 
 const PostBody = ({ content, tags, loading }: Props) => {
   const { theme } = useTheme();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
 
   const asideStyleRewrite = (node: any) => {
     if (node.type === 'element' && node.tagName === 'aside') {
@@ -196,6 +203,18 @@ const PostBody = ({ content, tags, loading }: Props) => {
     };
   };
 
+  const addImageClickHandler = (node: any) => {
+    if (node.type === 'element' && node.tagName === 'img') {
+      const imageUrl = node.properties.src;
+      if (imageUrl) {
+        node.properties.onClick = () => {
+          setSelectedImage(imageUrl);
+          setOpenImageBox(true);
+        };
+      }
+    }
+  };
+
   return (
     <div
       className={
@@ -208,6 +227,13 @@ const PostBody = ({ content, tags, loading }: Props) => {
         </div>
       ) : (
         <>
+          <Overlay overlayOpen={openImageBox} setOverlayOpen={setOpenImageBox}>
+            <ImageZoomOverlayContainer
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+              setOpenImageBox={setOpenImageBox}
+            />
+          </Overlay>
           <TagBox className={'-mt-4 mb-4'} tags={tags || []} />
           <MDEditor.Markdown
             style={{
@@ -227,6 +253,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
                 index || 0,
                 parent as Element | undefined
               );
+              addImageClickHandler(node);
             }}
           />
         </>
