@@ -4,9 +4,8 @@ import MDEditor from '@uiw/react-md-editor';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
 import useTheme from '@/app/hooks/useTheme';
 import TagBox from '@/app/entities/post/tags/TagBox';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
-import Image from 'next/image';
 import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
 import useOverlay from '@/app/hooks/common/useOverlay';
 
