@@ -68,7 +68,7 @@ const pretendard = localFont({
 
 const preventFOUC = `
 (function() {
-  const savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme;
+  const savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme || 'light';
   const isDark = savedTheme === 'dark';
   if (isDark) {
     document.documentElement.classList.add('dark');
