@@ -16,10 +16,13 @@ import useToast from '@/app/hooks/useToast';
 import useDataFetch from '@/app/hooks/common/useDataFetch';
 import { Post } from '@/app/types/Post';
 import ErrorBox from '@/app/entities/common/Error/ErrorBox';
+import { useRouter } from 'next/navigation';
+import useShortcut from '@/app/hooks/common/useShortcut';
 
 export default function Home() {
   const { fingerprint } = useFingerprint();
   const toast = useToast();
+  const router = useRouter();
 
   const fetchConfig = {
     method: 'GET' as const,
@@ -40,6 +43,19 @@ export default function Home() {
       toast.success('다시 오신 것을 환영합니다!');
     }
   }, [fingerprint]);
+
+  const goToWritePage = () => {
+    toast.success('글쓰기 페이지로 이동합니다...');
+    router.push('/admin/write');
+  };
+
+  const goToPostsPage = () => {
+    toast.success('모든 글 목록 페이지로 이동합니다...');
+    router.push('/posts');
+  };
+
+  useShortcut(goToWritePage, ['Alt', 'N'], true);
+  useShortcut(goToPostsPage, ['Ctrl', ';'], true);
 
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-4 md:p-8">
