@@ -6,7 +6,7 @@ const useShortcut = (
   isGlobal: boolean
 ) => {
   useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: KeyboardEvent) => {
       const isPressed = keys?.every((key) => {
         if (key === 'Alt') {
           return e.altKey;
