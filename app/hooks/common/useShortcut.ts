@@ -26,9 +26,7 @@ const useShortcut = ({
         return e.key.toLowerCase() === key.toLowerCase();
       });
       if (isPressed) {
-        if (onShortcutAction) {
-          onShortcutAction();
-        }
+        onShortcutAction();
       }
     };
     // 고민
