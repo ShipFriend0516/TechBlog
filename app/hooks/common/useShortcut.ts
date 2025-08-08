@@ -31,18 +31,21 @@ const useShortcut = ({
         }
       }
     };
+    // 고민
+    // 다른 페이지로 먼저 접근하면 전역 이벤트가 설정되지 않는다.
+    // 생각나는 해결방법: layout.tsx 에서 useShortcut 훅을 사용하여 전역 이벤트를 설정한다.
+    // 이렇게 할 경우 어떤 페이지로 접근하든 전역 이벤트를 설정 할 수 있다.
 
-    if (window) {
-      document.addEventListener('keydown', handler);
-    }
     if (isGlobal) {
       window.addEventListener('keydown', handler);
+    } else if (window) {
+      document.addEventListener('keydown', handler);
     }
 
     return () => {
       document.removeEventListener('keydown', handler);
     };
-  }, [onShortcutAction, keys]);
+  }, [onShortcutAction, keys, isGlobal]);
 
   return;
 };
