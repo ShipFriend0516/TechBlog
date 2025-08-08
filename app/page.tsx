@@ -54,12 +54,8 @@ export default function Home() {
     router.push('/posts');
   };
 
-  useShortcut({ onShortcutAction: goToWritePage, keys: ['Alt', 'N'] });
-  useShortcut({
-    onShortcutAction: goToPostsPage,
-    keys: ['Ctrl', ';'],
-    isGlobal: true,
-  });
+  useShortcut(goToWritePage, ['Alt', 'N'], true);
+  useShortcut(goToPostsPage, ['Ctrl', ';'], true);
 
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-4 md:p-8">

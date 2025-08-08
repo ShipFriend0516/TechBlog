@@ -1,16 +1,10 @@
 import { useEffect } from 'react';
 
-interface useShortcutProps {
-  onShortcutAction: () => void;
-  keys: string[];
-  isGlobal?: boolean;
-}
-
-const useShortcut = ({
-  onShortcutAction,
-  keys,
-  isGlobal,
-}: useShortcutProps) => {
+const useShortcut = (
+  onShortcutAction: () => void,
+  keys: string[],
+  isGlobal: boolean
+) => {
   useEffect(() => {
     const handler = (e) => {
       const isPressed = keys?.every((key) => {
