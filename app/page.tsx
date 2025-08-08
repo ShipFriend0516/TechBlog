@@ -55,7 +55,11 @@ export default function Home() {
   };
 
   useShortcut({ onShortcutAction: goToWritePage, keys: ['Alt', 'N'] });
-  useShortcut({ onShortcutAction: goToPostsPage, keys: ['Ctrl', ';'] });
+  useShortcut({
+    onShortcutAction: goToPostsPage,
+    keys: ['Ctrl', ';'],
+    isGlobal: true,
+  });
 
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-4 md:p-8">

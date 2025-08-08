@@ -3,9 +3,14 @@ import { useEffect } from 'react';
 interface useShortcutProps {
   onShortcutAction: () => void;
   keys: string[];
+  isGlobal?: boolean;
 }
 
-const useShortcut = ({ onShortcutAction, keys }: useShortcutProps) => {
+const useShortcut = ({
+  onShortcutAction,
+  keys,
+  isGlobal,
+}: useShortcutProps) => {
   useEffect(() => {
     const handler = (e) => {
       const isPressed = keys?.every((key) => {
@@ -30,6 +35,10 @@ const useShortcut = ({ onShortcutAction, keys }: useShortcutProps) => {
     if (window) {
       document.addEventListener('keydown', handler);
     }
+    if (isGlobal) {
+      window.addEventListener('keydown', handler);
+    }
+
     return () => {
       document.removeEventListener('keydown', handler);
     };
