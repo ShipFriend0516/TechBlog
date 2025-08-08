@@ -49,7 +49,13 @@ export default function Home() {
     router.push('/admin/write');
   };
 
+  const goToPostsPage = () => {
+    toast.success('모든 글 목록 페이지로 이동합니다...');
+    router.push('/posts');
+  };
+
   useShortcut({ onShortcutAction: goToWritePage, keys: ['Alt', 'N'] });
+  useShortcut({ onShortcutAction: goToPostsPage, keys: ['Ctrl', ';'] });
 
   return (
     <main className="w-full max-w-4xl mx-auto grid gap-16 p-4 md:p-8">
