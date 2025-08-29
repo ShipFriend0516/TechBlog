@@ -14,7 +14,7 @@ const ImageZoomOverlayContainer = ({
   if (!selectedImage) return null;
 
   return (
-    <div className={'zoomBox p-4 bg-white'}>
+    <div className={'w-full zoomBox p-4 bg-white rounded-md shadow-lg'}>
       <button
         onClick={() => {
           setSelectedImage(null);
@@ -29,7 +29,7 @@ const ImageZoomOverlayContainer = ({
         alt={'확대된 이미지'}
         width={800}
         height={600}
-        className={'rounded-none !important max-w-full max-h-[80vh]'}
+        className={'rounded-none !important w-full h-auto mx-auto'}
       />
     </div>
   );
