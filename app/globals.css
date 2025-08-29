@@ -93,6 +93,10 @@ article.post .post-body div > div img {
   max-width: 50%;
 }
 
+article.post .post-body div > div.zoomBox img {
+  max-width: 100%;
+}
+
 article.post .post-body .zoomBox img {
   border-radius: 0;
 }

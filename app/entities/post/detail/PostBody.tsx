@@ -262,7 +262,11 @@ const PostBody = ({ content, tags, loading }: Props) => {
         </div>
       ) : (
         <>
-          <Overlay overlayOpen={openImageBox} setOverlayOpen={setOpenImageBox}>
+          <Overlay
+            overlayOpen={openImageBox}
+            setOverlayOpen={setOpenImageBox}
+            maxWidth={'5xl'}
+          >
             <ImageZoomOverlayContainer
               selectedImage={selectedImage}
               setSelectedImage={setSelectedImage}
