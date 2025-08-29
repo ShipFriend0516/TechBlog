@@ -82,7 +82,7 @@ article.post .post-body p:has(img) {
 }
 
 article.post .post-body img {
-  max-width: 80%;
+  max-width: 90%;
   height: auto;
   margin: 1em 0;
   border-radius: 1em;
