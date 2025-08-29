@@ -42,6 +42,42 @@ const PostBody = ({ content, tags, loading }: Props) => {
     }
   };
 
+  const addDescriptionUnderImage = (
+    node: any,
+    index?: number,
+    parent?: Element
+  ) => {
+    if (node.type === 'element' && node.tagName === 'img') {
+      const altText = node.properties.alt;
+      if (altText) {
+        const descriptionNode = {
+          type: 'element',
+          tagName: 'span',
+          properties: {
+            className: 'image-description',
+          },
+          children: [
+            {
+              type: 'text',
+              value: altText,
+            },
+          ],
+        };
+
+        if (
+          index !== undefined &&
+          parent &&
+          parent.children &&
+          Array.isArray(parent.children)
+        ) {
+          parent.children.splice(index + 1, 0, descriptionNode);
+        }
+      }
+    }
+
+    return null;
+  };
+
   const renderOpenGraph = (node: any, index?: number, parent?: Element) => {
     if (node.type === 'element' && node.tagName === 'p' && node.children) {
       const aTag = node.children.find(
@@ -253,6 +289,11 @@ const PostBody = ({ content, tags, loading }: Props) => {
                 parent as Element | undefined
               );
               addImageClickHandler(node);
+              addDescriptionUnderImage(
+                node,
+                index,
+                parent as Element | undefined
+              );
             }}
           />
         </>

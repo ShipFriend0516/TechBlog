@@ -82,7 +82,7 @@ article.post .post-body p:has(img) {
 }
 
 article.post .post-body img {
-  max-width: 100%;
+  max-width: 80%;
   height: auto;
   margin: 1em 0;
   border-radius: 1em;
@@ -173,6 +173,15 @@ article.post .post-body hr::before {
 
 article.post .post-body pre {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+article.post .image-description {
+  text-align: center;
+  font-size: 0.75em;
+  color: var(--text-weak);
+  margin-top: -0.5em;
+  margin-bottom: 1em;
+  display: block;
 }
 
 .shadow-top {
