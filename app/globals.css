@@ -89,6 +89,10 @@ article.post .post-body img {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
+article.post .post-body div > div img {
+  max-width: 50%;
+}
+
 article.post .post-body .zoomBox img {
   border-radius: 0;
 }
