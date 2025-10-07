@@ -11,9 +11,14 @@ interface Toast {
 const ToastProvider = () => {
   const { toasts, removeToast } = useToastStore();
 
+  const reversedToasts = toasts.toReversed();
   return (
-    <div className={'fixed z-50 flex flex-col gap-2 top-10 right-10'}>
-      {toasts.map((toast: Toast) => {
+    <div
+      className={
+        'fixed bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-4  z-50 w-[90%] max-w-md'
+      }
+    >
+      {reversedToasts.map((toast: Toast) => {
         return (
           <Toast
             key={toast.id}

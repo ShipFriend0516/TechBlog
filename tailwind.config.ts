@@ -39,11 +39,13 @@ const config: Config = {
         },
         slideUp: {
           '0%': {
-            transform: 'translateY(100%)',
+            transform: 'translateY(50%)',
+            width: '20%',
             opacity: '0',
           },
           '100%': {
             transform: 'translateY(0)',
+            width: '100%',
             opacity: '1',
           },
         },
