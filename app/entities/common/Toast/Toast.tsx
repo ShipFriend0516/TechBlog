@@ -19,7 +19,7 @@ const Toast = ({ message, type, removeToast }: ToastProps) => {
       onClick={() => removeToast()}
       className={`
           transform transition-all duration-300 ease-out animate-slideUp
-          bg-gray-200/90 text-black px-4 py-3 rounded-lg flex items-center gap-3 
+          bg-gray-200/90 text-black px-3 py-2 rounded-lg flex items-center gap-3 
           backdrop-blur-sm w-full max-w-md origin-center cursor-pointer 
           hover:bg-gray-300/90 hover:shadow-lg
         `}
