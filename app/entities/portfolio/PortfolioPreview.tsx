@@ -35,7 +35,7 @@ const PortfolioPreview = ({
 
   return (
     <div
-      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+      className="group bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow transition-all duration-300 border border-gray-200 dark:border-gray-700"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -50,7 +50,7 @@ const PortfolioPreview = ({
           src={project.image}
           alt={`${project.title} 프로젝트 이미지`}
           className={`w-full aspect-video object-cover transition-transform duration-500 ${
-            showOverlay ? 'scale-105' : 'scale-100'
+            showOverlay ? 'scale-110' : 'scale-100'
           }`}
         />
 
@@ -140,22 +140,22 @@ const PortfolioPreview = ({
         </div>
       </div>
 
-      <div className="p-4 md:p-6">
+      <div className="p-6 md:p-8">
         <Link href={project.slug ? `/portfolio/${project.slug}` : '#'}>
-          <h3 className="text-lg md:text-xl font-bold mb-2 hover:text-emerald-500 transition-colors line-clamp-2">
+          <h3 className="text-xl md:text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-400 transition-colors line-clamp-2">
             {project.title}
           </h3>
         </Link>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 md:mb-4 line-clamp-3">
+        <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-5 line-clamp-3 leading-relaxed">
           {project.description}
         </p>
 
         {!hideTags && project.tags && project.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 md:gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-4">
             {project.tags.map((tag, index) => (
               <span
                 key={index}
-                className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                className="text-xs px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded-full text-gray-700 dark:text-gray-300 whitespace-nowrap font-medium"
               >
                 {tag}
               </span>
@@ -164,7 +164,7 @@ const PortfolioPreview = ({
         )}
 
         {/* 모바일 하단 액션 버튼들 */}
-        <div className="flex md:hidden gap-2 mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex md:hidden gap-2 mt-5 pt-4 border-t border-gray-200 dark:border-gray-700">
           {project.demoUrl && (
             <Link
               href={project.demoUrl}
@@ -172,7 +172,7 @@ const PortfolioPreview = ({
               rel="noopener noreferrer"
               className="flex-1"
             >
-              <button className="inline-flex items-center justify-center gap-1 w-full bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-200 px-3 py-2 rounded-md transition-colors text-xs">
+              <button className="inline-flex items-center justify-center gap-1.5 w-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-3 py-2.5 rounded-lg transition-colors text-xs font-medium">
                 <FaGlobe size={12} />
                 배포
               </button>
@@ -185,7 +185,7 @@ const PortfolioPreview = ({
               rel="noopener noreferrer"
               className="flex-1"
             >
-              <button className="inline-flex items-center justify-center gap-1 w-full bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-200 px-3 py-2 rounded-md transition-colors text-xs">
+              <button className="inline-flex items-center justify-center gap-1.5 w-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-3 py-2.5 rounded-lg transition-colors text-xs font-medium">
                 <FaGithub size={12} />
                 코드
               </button>
@@ -197,7 +197,7 @@ const PortfolioPreview = ({
               rel="noopener noreferrer"
               className="flex-1"
             >
-              <button className="w-full bg-emerald-100 dark:bg-emerald-800 hover:bg-emerald-200 dark:hover:bg-emerald-700 text-emerald-700 dark:text-emerald-200 px-3 py-2 rounded-md transition-colors text-xs">
+              <button className="w-full bg-gray-800 dark:bg-gray-200 hover:bg-gray-700 dark:hover:bg-gray-300 text-gray-100 dark:text-gray-900 px-3 py-2.5 rounded-lg transition-colors text-xs font-medium">
                 자세히
               </button>
             </Link>
