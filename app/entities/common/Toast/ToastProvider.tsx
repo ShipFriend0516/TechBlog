@@ -11,7 +11,7 @@ interface Toast {
 const ToastProvider = () => {
   const { toasts, removeToast } = useToastStore();
 
-  const reversedToasts = toasts.toReversed();
+  const reversedToasts = [...toasts].reverse();
   return (
     <div
       className={

@@ -31,7 +31,7 @@ const SeriesDetailPage = ({ params }: SeriesDetailPageProps) => {
     loading || !series?.posts
       ? []
       : orderOption === 'latest'
-        ? series.posts?.toReversed()
+        ? [...series.posts].reverse()
         : series.posts;
 
   return (
