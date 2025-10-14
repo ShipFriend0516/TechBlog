@@ -61,7 +61,7 @@ export default function Home() {
   return (
     <main className="w-full max-w-6xl mx-auto grid gap-16 p-4 md:p-8">
       {/* Hero Section */}
-      <section className="grid gap-8">
+      <section className="grid gap-4">
         <div className="relative h-80 md:h-96 w-full overflow-hidden rounded-2xl shadow-2xl group">
           <Image
             src={profileBackground}
@@ -103,9 +103,13 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <p className="text-lg md:text-xl text-default max-w-3xl mx-auto text-center leading-relaxed">
-          안녕하세요, 서정우입니다. 사용자 경험과 깔끔한 코드 작성에 중점을 두고
-          있으며, 멈추지 않는 기술의 변화를 즐깁니다.
+
+        <p className="text-lg md:text-xl text-default max-w-3xl mx-auto text-center mt-4">
+          안녕하세요, 서정우입니다.
+        </p>
+        <p className="text-lg md:text-xl text-default max-w-3xl mx-auto text-center mb-4">
+          깔끔한 코드 작성에 중점을 두고, 확장성에 대해 고민하며 멈추지 않는
+          기술의 변화를 즐깁니다.
         </p>
       </section>
 
