@@ -1,33 +1,36 @@
 # TechBlog
- 
 
 ## 프로젝트 개요
 
 NextJS를 기반으로 한 개인 기술 블로그와 포트폴리오 웹 애플리케이션입니다. 테크 관련 게시물을 작성하고 개인 프로젝트를 전시하는 공간으로 활용하는 프로젝트
 
-### 블로그 
+### 블로그
+
 ![image](https://github.com/user-attachments/assets/240cc1a5-5ad6-4921-bbef-ee1cd76fa379)
 
-### 블로그 작성 
+### 블로그 작성
+
 ![image](https://github.com/user-attachments/assets/4bb0c223-cfa2-4414-9a47-59883820d08b)
 
-### 시리즈 
-![image](https://github.com/user-attachments/assets/25d14078-8734-44a4-8943-aa7a2f70951f)
+### 시리즈
 
+![image](https://github.com/user-attachments/assets/25d14078-8734-44a4-8943-aa7a2f70951f)
 
 ## 기술 스택
 
 ### Frontend
+
 - **Framework**: [Next.js](https://nextjs.org/) (App Router)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [TailwindCSS](https://tailwindcss.com/)
 - **State Management**: [Zustand](https://github.com/pmndrs/zustand)
-- **UI Components**: 
+- **UI Components**:
   - [React Icons](https://react-icons.github.io/react-icons/)
   - [React Lottie Player](https://github.com/LottieFiles/react-lottie-player)
 - **Markdown Editor**: [@uiw/react-md-editor](https://uiwjs.github.io/react-md-editor/)
 
 ### Backend
+
 - **Runtime**: [Node.js](https://nodejs.org/)
 - **Database**: [MongoDB](https://www.mongodb.com/) (with [Mongoose](https://mongoosejs.com/))
 - **Authentication**: [NextAuth.js](https://next-auth.js.org/)
@@ -35,8 +38,9 @@ NextJS를 기반으로 한 개인 기술 블로그와 포트폴리오 웹 애플
 - **HTTP Client**: [Axios](https://axios-http.com/)
 
 ### DevOps & Testing
+
 - **Testing Framework**: [Jest](https://jestjs.io/) with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- **Linting & Formatting**: 
+- **Linting & Formatting**:
   - [ESLint](https://eslint.org/)
   - [Prettier](https://prettier.io/)
 
@@ -62,4 +66,20 @@ TechBlog/
 │   └── types/            # TypeScript 타입 정의
 ├── .github/              # GitHub 워크플로우
 └── __test__/             # 테스트 파일
+```
+
+## 필요한 환경변수
+
+.env 파일에 필요한 환경변수는 다음과 같다.
+
+```text
+   1 GITHUB_ID=your_github_client_id
+   2 GITHUB_SECRET=your_github_client_secret
+   3 ADMIN_EMAIL=your_admin_email@example.com
+   4 NEXTAUTH_SECRET=your_nextauth_secret
+   5 NEXTAUTH_URL=http://localhost:3000
+   6 DB_URI=your_mongodb_connection_string
+   7 NEXT_PUBLIC_DEPLOYMENT_URL=https://your-deployment-url.com
+   8 NEXT_PUBLIC_URL=http://localhost:3000
+   9 BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
 ```
