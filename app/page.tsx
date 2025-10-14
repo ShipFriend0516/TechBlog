@@ -58,33 +58,44 @@ export default function Home() {
   useShortcut(goToPostsPage, ['Ctrl', ';'], true);
 
   return (
-    <main className="w-full max-w-4xl mx-auto grid gap-16 p-4 md:p-8">
-      <section className="grid gap-6">
-        <div className="relative h-64 w-full overflow-hidden rounded-lg">
+    <main className="w-full max-w-6xl mx-auto grid gap-16 p-4 md:p-8">
+      {/* Hero Section */}
+      <section className="grid gap-8">
+        <div className="relative h-80 md:h-96 w-full overflow-hidden rounded-2xl shadow-2xl group">
           <Image
             src={profileBackground}
             priority={true}
             width={'1024'}
             height={'720'}
             alt="Hero image"
-            className="object-cover bg-gray-100 w-full h-full"
+            className="object-cover bg-gray-100 w-full h-full transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-black/10"></div>
-          <div
-            className={
-              'absolute top-0 left-0 p-8 w-full h-full flex flex-col gap-2 text-white '
-            }
-          >
-            <h1 className="  text-4xl font-bold ">Frontend Developer</h1>
-            <p className={'text-xl '}>
-              <span className="text-sm font-bold">Jeongwoo Seo</span>
-            </p>
-            <div className={' flex flex-col justify-end flex-grow'}>
-              <div>React · NextJS · TypeScript</div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent"></div>
+          <div className="absolute top-0 left-0 p-8 md:p-12 w-full h-full flex flex-col gap-3 text-white">
+            <div className="space-y-2">
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight animate-slideUp">
+                Frontend Developer
+              </h1>
+              <p className="text-xl md:text-2xl font-light opacity-90">
+                Jeongwoo Seo
+              </p>
+            </div>
+            <div className="flex flex-col justify-end flex-grow">
+              <div className="flex flex-wrap gap-3 text-sm md:text-base font-medium">
+                <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+                  React
+                </span>
+                <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+                  NextJS
+                </span>
+                <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+                  TypeScript
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <p className="text-lg text-default max-w-2xl">
+        <p className="text-lg md:text-xl text-default max-w-3xl mx-auto text-center leading-relaxed">
           안녕하세요, 서정우입니다. 사용자 경험과 깔끔한 코드 작성에 중점을 두고
           있으며, 멈추지 않는 기술의 변화를 즐깁니다.
         </p>
