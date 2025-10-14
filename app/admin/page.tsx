@@ -13,6 +13,8 @@ import BubbleBackground from '@/app/entities/common/Background/BubbleBackground'
 import { useEffect } from 'react';
 import useToast from '@/app/hooks/useToast';
 import { FaBuffer } from 'react-icons/fa6';
+import RecentActivity from '@/app/entities/admin/dashboard/RecentActivity';
+import QuickStats from '@/app/entities/admin/dashboard/QuickStats';
 
 const AdminDashboard = () => {
   const { data: session } = useSession();
@@ -126,12 +128,8 @@ const AdminDashboard = () => {
       </div>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold mb-4">최근 활동</h3>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold mb-4">빠른 통계</h3>
-        </div>
+        <RecentActivity />
+        <QuickStats />
       </div>
     </div>
   );
