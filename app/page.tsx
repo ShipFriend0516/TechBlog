@@ -18,6 +18,7 @@ import { Post } from '@/app/types/Post';
 import ErrorBox from '@/app/entities/common/Error/ErrorBox';
 import { useRouter } from 'next/navigation';
 import useShortcut from '@/app/hooks/common/useShortcut';
+import DecryptedText from './entities/bits/DecryptedText';
 
 export default function Home() {
   const { fingerprint } = useFingerprint();
@@ -73,8 +74,15 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent"></div>
           <div className="absolute top-0 left-0 p-8 md:p-12 w-full h-full flex flex-col gap-3 text-white">
             <div className="space-y-2">
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight animate-slideUp">
-                Frontend Developer
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+                <DecryptedText
+                  text="Frontend Developer"
+                  speed={60}
+                  animateOn="view"
+                  revealDirection="start"
+                  sequential
+                  encryptedClassName="text-neutral-200/90"
+                />
               </h1>
               <p className="text-xl md:text-2xl font-light opacity-90">
                 Jeongwoo Seo
