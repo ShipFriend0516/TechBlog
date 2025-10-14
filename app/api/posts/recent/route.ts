@@ -76,18 +76,9 @@ function generateBadgeSVG(
 
   // 투명 배경으로 SVG 시작
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" fill="none">
-    <!-- 투명 배경 설정 -->
-    <defs>
-      <clipPath id="roundedRect">
-        <rect width="${width}" height="${height}" rx="10" ry="10"/>
-      </clipPath>
-    </defs>
-    
     <!-- 배경 및 테두리 -->
-    <g clip-path="url(#roundedRect)">
-      <rect width="${width}" height="${height}" fill="white"/>
-    </g>
-    <rect width="${width}" height="${height}" fill="none" stroke="${DEEP_GREEN}" stroke-width="1" rx="10" ry="10"/>
+    <rect width="${width}" height="${height}" fill="white"/>
+    <rect width="${width}" height="${height}" fill="none" stroke="${DEEP_GREEN}" stroke-width="1"/>
     
     <!-- 배지 제목 영역 - 딥그린 색상 적용 -->
     <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="${DEEP_GREEN}">최신 글 | ShipFriend Tech Blog</text>
@@ -124,16 +115,8 @@ function generateEmptyBadgeSVG(): string {
   const height = 80;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" fill="none">
-    <defs>
-      <clipPath id="roundedRect">
-        <rect width="${width}" height="${height}" rx="10" ry="10"/>
-      </clipPath>
-    </defs>
-    
-    <g clip-path="url(#roundedRect)">
-      <rect width="${width}" height="${height}" fill="white"/>
-    </g>
-    <rect width="${width}" height="${height}" fill="none" stroke="${DEEP_GREEN}" stroke-width="2" rx="10" ry="10"/>
+    <rect width="${width}" height="${height}" fill="white"/>
+    <rect width="${width}" height="${height}" fill="none" stroke="${DEEP_GREEN}" stroke-width="2"/>
     <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="${DEEP_GREEN}">최신 글 | ShipFriend Tech Blog</text>
     <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="${DEEP_GREEN}" stroke-width="1"/>
     <text x="${width / 2}" y="${height / 2 + 10}" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#666" text-anchor="middle">아직 작성된 포스트가 없습니다</text>
@@ -146,16 +129,8 @@ function generateErrorBadgeSVG(): string {
   const height = 80;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" fill="none">
-    <defs>
-      <clipPath id="roundedRect">
-        <rect width="${width}" height="${height}" rx="10" ry="10"/>
-      </clipPath>
-    </defs>
-    
-    <g clip-path="url(#roundedRect)">
-      <rect width="${width}" height="${height}" fill="white"/>
-    </g>
-    <rect width="${width}" height="${height}" fill="none" stroke="${DEEP_GREEN}" stroke-width="2" rx="10" ry="10"/>
+    <rect width="${width}" height="${height}" fill="white"/>
+    <rect width="${width}" height="${height}" fill="none" stroke="${DEEP_GREEN}" stroke-width="2"/>
     <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="${DEEP_GREEN}">최신 글 | ShipFriend Tech Blog</text>
     <line x1="20" y1="40" x2="${width - 20}" y2="40" stroke="${DEEP_GREEN}" stroke-width="1"/>
     <text x="${width / 2}" y="${height / 2 + 10}" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#d32f2f" text-anchor="middle">포스트 정보를 불러오는 중 오류가 발생했습니다</text>
