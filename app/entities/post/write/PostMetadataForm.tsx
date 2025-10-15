@@ -84,7 +84,7 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
 
       <div className={'flex justify-start items-center'}>
         <div className="flex flex-wrap mb-4 gap-1 items-center">
-          <span className="w-12 font-bold mr-3 flex-shrink text-nowrap flex-nowrap">
+          <span className="w-12 font-bold mr-4 flex-shrink text-nowrap flex-nowrap">
             태그 입력
           </span>
           {(props.tags || []).map((tag, index) => (
