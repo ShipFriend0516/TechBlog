@@ -31,6 +31,11 @@ const PostHeader = ({
 }: Props) => {
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
+  const handleEditClick = () => {
+    const editUrl = `/admin/write?slug=${slug}`;
+    window.open(editUrl, '_blank')?.focus();
+  };
+
   return (
     <div
       className={
@@ -98,12 +103,7 @@ const PostHeader = ({
             {timeToRead} min read
           </span>
           {isAdmin && (
-            <button
-              onClick={() => {
-                const editUrl = `/admin/write?slug=${slug}`;
-                window.open(editUrl, '_blank');
-              }}
-            >
+            <button onClick={handleEditClick}>
               <span className="underline">Edit</span>
             </button>
           )}
