@@ -50,6 +50,9 @@ const BlogForm = () => {
 
   return (
     <div className={'px-16'}>
+      <h1 className={'text-2xl text-center mb-4'}>
+        글 {slug ? '수정' : '작성'}
+      </h1>
       <PostMetadataForm
         onTitleChange={(e) => setTitle(e.target.value)}
         title={title}

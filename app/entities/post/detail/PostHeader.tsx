@@ -120,7 +120,7 @@ const PostHeader = ({
                 window.open(editUrl, '_blank');
               }}
             >
-              <span className="ml-2 underline">Edit</span>
+              <span className="underline">Edit</span>
             </button>
           )}
         </div>
