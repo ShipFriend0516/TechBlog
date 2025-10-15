@@ -118,7 +118,6 @@ export async function POST(req: Request) {
       author,
       content,
       profileImage,
-      thumbnailImage,
       seriesId,
       tags,
       isPrivate,
@@ -131,6 +130,15 @@ export async function POST(req: Request) {
       );
     }
 
+    let thumbnailOfPost = getThumbnailInMarkdown(content);
+    if (!thumbnailOfPost) {
+      const defaultSeriesThumbnail =
+        await Series.findById(seriesId).select('thumbnailImage');
+      thumbnailOfPost =
+        defaultSeriesThumbnail?.thumbnailImage ||
+        '/images/placeholder/thumbnail_example2.webp';
+    }
+
     const post = {
       slug: await generateUniqueSlug(title, Post),
       title,
@@ -139,7 +147,7 @@ export async function POST(req: Request) {
       content,
       timeToRead: Math.ceil(content.length / 500),
       profileImage,
-      thumbnailImage: thumbnailImage || getThumbnailInMarkdown(content),
+      thumbnailImage: thumbnailOfPost,
       seriesId: seriesId || null,
       tags: tags || [],
       isPrivate: isPrivate || false,
