@@ -11,6 +11,7 @@ import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOver
 import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 import PostMetadataForm from '@/app/entities/post/write/PostMetadataForm';
 import usePost from '@/app/hooks/post/usePost';
+import LoadingSpinner from '../../common/Loading/LoadingSpinner';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -98,10 +99,21 @@ const BlogForm = () => {
         saveToDraft={saveToDraft}
       />
       {isEditMode && uiState.seriesLoading && (
-        <div className="absolute top-0 left-0 w-screen h-screen bg-black/30 flex justify-center items-center">
-          <p>Loading series information...</p>
-        </div>
+        <LoadingBackdrop>
+          <div className="animate-slideUp w-[240px] h-[120px]  bg-white rounded-2xl flex flex-col gap-4 justify-center items-center">
+            <LoadingSpinner size={24} />
+            <p>수정할 글을 불러오고 있습니다.</p>
+          </div>
+        </LoadingBackdrop>
       )}
+    </div>
+  );
+};
+
+const LoadingBackdrop = ({ children }: { children?: React.ReactNode }) => {
+  return (
+    <div className="absolute top-0 left-0 w-screen h-screen bg-black/30 flex justify-center items-center backdrop-blur-[4px]">
+      {children}
     </div>
   );
 };
