@@ -6,6 +6,7 @@ import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
 import PostDetail from '@/app/entities/post/detail/PostDetail';
+import { getServerSession } from 'next-auth';
 
 const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
 
@@ -64,12 +65,13 @@ export const generateMetadata = async ({
 };
 
 const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
+  const session = await getServerSession();
   const { post } = await getPostDetail(params.slug);
   return (
     <>
       <PostJSONLd post={post} />
       <section className="bg-transparent w-full flex-grow">
-        <PostDetail post={post} />
+        <PostDetail post={post} isAdmin={!!session?.user} />
         <PostActionSection postId={post?._id} />
         <PostRecommendation
           tags={post?.tags}

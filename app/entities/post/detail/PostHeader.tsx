@@ -5,23 +5,28 @@ import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Profile from '@/app/entities/common/Profile';
 import { FaBook } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
 
 interface Props {
   title: string;
   subTitle: string;
+  slug: string;
   author: string;
   date: number;
   timeToRead: number;
   backgroundThumbnail?: StaticImport | string;
+  isAdmin?: boolean;
 }
 
 const PostHeader = ({
   title,
   subTitle,
+  slug,
   author,
   date,
   timeToRead,
   backgroundThumbnail,
+  isAdmin = false,
 }: Props) => {
   const [displayTitle, setDisplayTitle] = useState('');
   const [isTypingComplete, setIsTypingComplete] = useState(false);
@@ -108,6 +113,16 @@ const PostHeader = ({
             <FaBook />
             {timeToRead} min read
           </span>
+          {isAdmin && (
+            <button
+              onClick={() => {
+                const editUrl = `/admin/write?slug=${slug}`;
+                window.open(editUrl, '_blank');
+              }}
+            >
+              <span className="ml-2 underline">Edit</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
