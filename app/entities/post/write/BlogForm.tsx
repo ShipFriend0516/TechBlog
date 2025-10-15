@@ -11,29 +11,20 @@ import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOver
 import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 import PostMetadataForm from '@/app/entities/post/write/PostMetadataForm';
 import usePost from '@/app/hooks/post/usePost';
+import LoadingSpinner from '../../common/Loading/LoadingSpinner';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 const BlogForm = () => {
   const params = useSearchParams();
   const slug = params.get('slug');
+  const isEditMode = Boolean(slug);
 
   const {
-    title,
-    subTitle,
-    submitLoading,
-    seriesLoading,
-    seriesId,
+    formData,
+    setFormData,
+    uiState,
     seriesList,
-    content,
-    setTitle,
-    setSubTitle,
-    setContent,
-    setSeriesId,
-    setIsPrivate,
-    isPrivate,
-    tags,
-    setTags,
     uploadedImages,
     setUploadedImages,
     overwriteDraft,
@@ -41,35 +32,43 @@ const BlogForm = () => {
     clearDraftInStore,
     submitHandler,
     postBody,
-    errors,
     handleLinkCopy,
   } = usePost(slug || '');
 
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
-  useBlockNavigate({ title, content: content || '' });
+  useBlockNavigate({ title: formData.title, content: formData.content || '' });
 
   return (
     <div className={'px-16'}>
+      <h1 className={'text-2xl text-center mb-4'}>
+        글 {slug ? '수정' : '작성'}
+      </h1>
       <PostMetadataForm
-        onTitleChange={(e) => setTitle(e.target.value)}
-        title={title}
-        onSubTitleChange={(e) => setSubTitle(e.target.value)}
-        subTitle={subTitle}
-        seriesLoading={seriesLoading}
+        onTitleChange={(e) => setFormData({ title: e.target.value })}
+        title={formData.title}
+        onSubTitleChange={(e) => setFormData({ subTitle: e.target.value })}
+        subTitle={formData.subTitle}
+        seriesLoading={uiState.seriesLoading}
         series={seriesList}
         callbackfn={(s) => ({
           value: s._id,
           label: s.title,
         })}
-        defaultSeries={setSeriesId}
-        seriesId={seriesId}
+        defaultSeries={(value) => {
+          if (typeof value === 'function') {
+            setFormData({ seriesId: value(formData.seriesId) });
+          } else if (value !== undefined) {
+            setFormData({ seriesId: value });
+          }
+        }}
+        seriesId={formData.seriesId}
         onClickNewSeries={() => setCreateSeriesOpen(true)}
         onClickOverwrite={overwriteDraft}
         clearDraft={clearDraftInStore}
-        tags={tags}
-        setTags={setTags}
-        isPrivate={isPrivate}
-        onPrivateChange={(isPrivate) => setIsPrivate(isPrivate)}
+        tags={formData.tags}
+        setTags={(tags: string[]) => setFormData({ tags })}
+        isPrivate={formData.isPrivate}
+        onPrivateChange={(isPrivate: boolean) => setFormData({ isPrivate })}
       />
       <Overlay
         overlayOpen={createSeriesOpen}
@@ -81,8 +80,8 @@ const BlogForm = () => {
       </Overlay>
 
       <MDEditor
-        value={content}
-        onChange={setContent}
+        value={formData.content}
+        onChange={(value) => setFormData({ content: value })}
         height={500}
         visibleDragbar={false}
       />
@@ -91,14 +90,30 @@ const BlogForm = () => {
         setUploadedImages={setUploadedImages}
         onClick={handleLinkCopy}
       />
-      <ErrorBox errors={errors} />
+      <ErrorBox errors={uiState.errors} />
       <PostWriteButtons
         slug={slug}
         postBody={postBody}
         submitHandler={submitHandler}
-        submitLoading={submitLoading}
+        submitLoading={uiState.submitLoading}
         saveToDraft={saveToDraft}
       />
+      {isEditMode && uiState.seriesLoading && (
+        <LoadingBackdrop>
+          <div className="animate-slideUp w-[240px] h-[120px]  bg-white rounded-2xl flex flex-col gap-4 justify-center items-center">
+            <LoadingSpinner size={24} />
+            <p>수정할 글을 불러오고 있습니다.</p>
+          </div>
+        </LoadingBackdrop>
+      )}
+    </div>
+  );
+};
+
+const LoadingBackdrop = ({ children }: { children?: React.ReactNode }) => {
+  return (
+    <div className="absolute top-0 left-0 w-screen h-screen bg-black/30 flex justify-center items-center backdrop-blur-[4px]">
+      {children}
     </div>
   );
 };

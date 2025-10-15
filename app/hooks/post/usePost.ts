@@ -10,19 +10,40 @@ import { useRouter } from 'next/navigation';
 import useDraft from '@/app/hooks/post/useDraft';
 import { validatePost } from '@/app/lib/utils/validate/validate';
 
+interface FormData {
+  title: string;
+  subTitle: string;
+  content: string | undefined;
+  seriesId: string;
+  tags: string[];
+  isPrivate: boolean;
+}
+
+interface UIState {
+  submitLoading: boolean;
+  seriesLoading: boolean;
+  errors: string[];
+}
+
 const usePost = (slug = '') => {
-  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
-  const [title, setTitle] = useState('');
-  const [subTitle, setSubTitle] = useState('');
-  const [content, setContent] = useState<string | undefined>('');
+  const [formData, setFormData] = useState<FormData>({
+    title: '',
+    subTitle: '',
+    content: '',
+    seriesId: '',
+    tags: [],
+    isPrivate: false,
+  });
+
+  const [uiState, setUIState] = useState<UIState>({
+    submitLoading: false,
+    seriesLoading: true,
+    errors: [],
+  });
+
   const [profileImage, setProfileImage] = useState<string | StaticImport>();
   const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
   const [seriesList, setSeriesList] = useState<Series[]>([]);
-  const [seriesId, setSeriesId] = useState<string>();
-  const [seriesLoading, setSeriesLoading] = useState(true);
-  const [errors, setErrors] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
-  const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
   const NICKNAME = '개발자 서정우';
@@ -31,15 +52,15 @@ const usePost = (slug = '') => {
   const { draft, draftImages, updateDraft, clearDraft } = useDraft();
 
   const postBody: PostBody = {
-    title,
-    subTitle,
+    title: formData.title,
+    subTitle: formData.subTitle,
     author: NICKNAME,
-    content: content || '',
+    content: formData.content || '',
     profileImage,
     thumbnailImage,
-    seriesId: seriesId || '',
-    tags: tags,
-    isPrivate: isPrivate,
+    seriesId: formData.seriesId || '',
+    tags: formData.tags,
+    isPrivate: formData.isPrivate,
   };
 
   useEffect(() => {
@@ -57,8 +78,8 @@ const usePost = (slug = '') => {
     try {
       const data = await getAllSeriesData();
       setSeriesList(data);
-      setSeriesId(data[0]._id);
-      setSeriesLoading(false);
+      setFormData((prev) => ({ ...prev, seriesId: data[0]._id }));
+      setUIState((prev) => ({ ...prev, seriesLoading: false }));
     } catch (e) {
       console.error('시리즈 조회 중 오류 발생', e);
     }
@@ -105,13 +126,15 @@ const usePost = (slug = '') => {
     if (draft !== null) {
       if (confirm('임시 저장된 글이 있습니다. 덮어쓰시겠습니까?')) {
         const { title, content, subTitle, seriesId, isPrivate, tags } = draft;
-        setTitle(title || '');
-        setContent(content);
-        setSubTitle(subTitle || '');
-        setSeriesId(seriesId);
+        setFormData({
+          title: title || '',
+          subTitle: subTitle || '',
+          content: content,
+          seriesId: seriesId || '',
+          tags: tags || [],
+          isPrivate: isPrivate || false,
+        });
         setUploadedImages(draftImages || []);
-        setIsPrivate(isPrivate || false);
-        setTags(tags || []);
       }
     } else {
       toast.error('임시 저장된 글이 없습니다.');
@@ -125,13 +148,13 @@ const usePost = (slug = '') => {
 
   const submitHandler = (post: PostBody) => {
     try {
-      setSubmitLoading(true);
+      setUIState((prev) => ({ ...prev, submitLoading: true }));
       const { isValid, errors } = validatePost(post);
-      setErrors(errors);
+      setUIState((prev) => ({ ...prev, errors }));
       if (!isValid) {
         toast.error('유효성 검사 실패');
         console.error('유효성 검사 실패', errors);
-        setSubmitLoading(false);
+        setUIState((prev) => ({ ...prev, submitLoading: false }));
         return;
       }
 
@@ -143,7 +166,7 @@ const usePost = (slug = '') => {
       clearDraft();
     } catch (e) {
       console.error('글 발행 중 오류 발생', e);
-      setSubmitLoading(false);
+      setUIState((prev) => ({ ...prev, submitLoading: false }));
     }
   };
 
@@ -151,12 +174,14 @@ const usePost = (slug = '') => {
     try {
       const response = await axios.get(`/api/posts/${slug}`);
       const data = await response.data;
-      setTitle(data.post.title || '');
-      setSubTitle(data.post.subTitle);
-      setContent(data.post.content);
-      setSeriesId(data.post.seriesId || '');
-      setTags(data.post.tags || []);
-      setIsPrivate(data.post.isPrivate || false);
+      setFormData({
+        title: data.post.title || '',
+        subTitle: data.post.subTitle,
+        content: data.post.content,
+        seriesId: data.post.seriesId || '',
+        tags: data.post.tags || [],
+        isPrivate: data.post.isPrivate || false,
+      });
     } catch (e) {
       console.error('글 조회 중 오류 발생', e);
     }
@@ -167,31 +192,51 @@ const usePost = (slug = '') => {
     toast.success('이미지 링크가 복사되었습니다.');
   };
 
+  // Helper functions to update form data
+  const updateFormData = (updates: Partial<FormData>) => {
+    setFormData((prev) => ({ ...prev, ...updates }));
+  };
+
   return {
-    title,
-    subTitle,
-    content,
-    seriesId,
-    isPrivate,
-    tags,
-    submitLoading,
+    // Form data (individual values for backward compatibility)
+    title: formData.title,
+    subTitle: formData.subTitle,
+    content: formData.content,
+    seriesId: formData.seriesId,
+    isPrivate: formData.isPrivate,
+    tags: formData.tags,
+
+    // Form data object
+    formData,
+    setFormData: updateFormData,
+
+    // UI state
+    submitLoading: uiState.submitLoading,
+    seriesLoading: uiState.seriesLoading,
+    errors: uiState.errors,
+
+    uiState,
+    setUIState,
+    // Other state
     postBody,
-    seriesLoading,
     seriesList,
     uploadedImages,
     setUploadedImages,
-    setTitle,
-    setSubTitle,
-    setContent,
-    setSeriesId,
-    setIsPrivate,
-    setTags,
+
+    // Individual setters for backward compatibility
+    setTitle: (title: string) => updateFormData({ title }),
+    setSubTitle: (subTitle: string) => updateFormData({ subTitle }),
+    setContent: (content: string | undefined) => updateFormData({ content }),
+    setSeriesId: (seriesId: string) => updateFormData({ seriesId }),
+    setIsPrivate: (isPrivate: boolean) => updateFormData({ isPrivate }),
+    setTags: (tags: string[]) => updateFormData({ tags }),
+
+    // Methods
     overwriteDraft,
     saveToDraft,
     clearDraftInStore,
     submitHandler,
     handleLinkCopy,
-    errors,
   };
 };
 

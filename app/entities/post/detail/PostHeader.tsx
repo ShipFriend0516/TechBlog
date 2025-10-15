@@ -5,43 +5,36 @@ import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Profile from '@/app/entities/common/Profile';
 import { FaBook } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
+import TypingText from '../../common/Typography/TypingText';
 
 interface Props {
   title: string;
   subTitle: string;
+  slug: string;
   author: string;
   date: number;
   timeToRead: number;
   backgroundThumbnail?: StaticImport | string;
+  isAdmin?: boolean;
 }
 
 const PostHeader = ({
   title,
   subTitle,
+  slug,
   author,
   date,
   timeToRead,
   backgroundThumbnail,
+  isAdmin = false,
 }: Props) => {
-  const [displayTitle, setDisplayTitle] = useState('');
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
-  useEffect(() => {
-    if (!title) return;
-
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      if (currentIndex <= title.length) {
-        setDisplayTitle(title.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(interval);
-        setIsTypingComplete(true);
-      }
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [title]);
+  const handleEditClick = () => {
+    const editUrl = `/admin/write?slug=${slug}`;
+    window.open(editUrl, '_blank')?.focus();
+  };
 
   return (
     <div
@@ -76,10 +69,11 @@ const PostHeader = ({
             'font-bold mb-4 pt-10 md:pt-20 text-3xl md:text-5xl z-10 px-2 break-keep'
           }
         >
-          {displayTitle}
-          {!isTypingComplete && (
-            <span className="inline-block w-1 h-6 ml-1 bg-black animate-blink" />
-          )}
+          <TypingText
+            title={title}
+            delay={50}
+            onComplete={() => setIsTypingComplete(true)}
+          />
         </h1>
         <h2
           className={`md:text-2xl font-bold mb-4 transition-opacity duration-500 ${
@@ -108,6 +102,11 @@ const PostHeader = ({
             <FaBook />
             {timeToRead} min read
           </span>
+          {isAdmin && (
+            <button onClick={handleEditClick}>
+              <span className="underline">Edit</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
