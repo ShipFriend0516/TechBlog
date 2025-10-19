@@ -12,7 +12,7 @@ export async function GET() {
     // DB 연결
     await dbConnect();
 
-    const latestPost = await Post.findOne({})
+    const latestPost = await Post.findOne({ isPrivate: false })
       .select('title subTitle slug date')
       .sort({ date: -1 })
       .limit(limit);
