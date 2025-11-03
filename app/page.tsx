@@ -64,11 +64,12 @@ export default function Home() {
       <section className="grid gap-4">
         <div className="relative h-80 md:h-96 w-full overflow-hidden rounded-2xl shadow-2xl group">
           <Image
-            src={profileBackground}
+            src={'/images/profile/IMG_8091.JPG'}
             priority={true}
             width={'1024'}
             height={'720'}
             alt="Hero image"
+            loading={'eager'}
             className="object-cover bg-gray-100 w-full h-full transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent"></div>
