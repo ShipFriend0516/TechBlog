@@ -114,11 +114,11 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 p-8 md:p-12">
+      <section className="relative overflow-hidden rounded-2xl from-primary-caribbean to-gray-100 dark:from-primary-bangladesh dark:to-primary-dark p-8 md:p-12">
         <div className="grid md:grid-cols-[1fr,2fr] gap-8 md:gap-12 items-center">
           <div className="relative mx-auto md:mx-0">
             <div className="absolute -inset-1 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full blur opacity-20 animate-pulse"></div>
-            <div className="relative h-56 w-56 overflow-hidden rounded-full ring-4 ring-white dark:ring-gray-700 shadow-xl">
+            <div className="relative h-56 w-56 overflow-hidden rounded-full ring-4 ring-white dark:ring-gray-400 shadow-xl">
               <Image
                 width={500}
                 height={400}
@@ -225,7 +225,7 @@ export default function Home() {
               <Link
                 href={`/posts/${post.slug}`}
                 key={post._id}
-                className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-[1.02]"
+                className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100  dark:from-primary-rich rounded-2xl overflow-hidden shadow transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-[1.02]"
               >
                 <div className="relative h-52 overflow-hidden">
                   <Image

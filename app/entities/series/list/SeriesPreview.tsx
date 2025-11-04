@@ -9,7 +9,7 @@ interface SeriesPreviewProps {
 }
 
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
-  const darkmodeStyle = `dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800 `;
+  const darkmodeStyle = `dark:bg-primary-900 dark:text-neutral-200 dark:border-neutral-800 `;
   const lightmodeStyle = `bg-white border-slate-200`;
 
   return (
