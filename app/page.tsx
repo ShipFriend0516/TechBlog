@@ -64,7 +64,7 @@ export default function Home() {
       <section className="grid gap-4">
         <div className="relative h-80 md:h-96 w-full overflow-hidden rounded-2xl shadow-2xl group">
           <Image
-            src={'/images/profile/IMG_8091.JPG'}
+            src={'/images/profile/sky.JPG'}
             priority={true}
             width={'1024'}
             height={'720'}
