@@ -37,6 +37,10 @@ const BlogForm = () => {
 
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
   useBlockNavigate({ title: formData.title, content: formData.content || '' });
+  
+  const handleFieldChange = (field: string, value: string | boolean | string[]) => {
+    setFormData({ [field]: value });
+  }
 
   return (
     <div className={'px-16'}>
@@ -45,22 +49,12 @@ const BlogForm = () => {
       </h1>
       <PostMetadataForm
         formData={formData}
-        onTitleChange={(e) => setFormData({ title: e.target.value })}
-        onSubTitleChange={(e) => setFormData({ subTitle: e.target.value })}
+        onFieldChange={handleFieldChange}
         seriesLoading={uiState.seriesLoading}
         series={seriesList}
-        defaultSeries={(value) => {
-          if (typeof value === 'function') {
-            setFormData({ seriesId: value(formData.seriesId) });
-          } else if (value !== undefined) {
-            setFormData({ seriesId: value });
-          }
-        }}
         onClickNewSeries={() => setCreateSeriesOpen(true)}
         onClickOverwrite={overwriteDraft}
         clearDraft={clearDraftInStore}
-        setTags={(tags: string[]) => setFormData({ tags })}
-        onPrivateChange={(isPrivate: boolean) => setFormData({ isPrivate })}
       />
       <Overlay
         overlayOpen={createSeriesOpen}

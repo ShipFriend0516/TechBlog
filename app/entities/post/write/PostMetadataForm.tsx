@@ -6,21 +6,12 @@ import Select from '@/app/entities/common/Select';
 import { Series } from '@/app/types/Series';
 
 interface PostMetadataFormProps {
-  onTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSubTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFieldChange: (field: string, value: string | boolean | string[]) => void;
   seriesLoading: boolean;
   series: Series[];
-  setTags: (tags: string[]) => void;
-  defaultSeries: (
-    value:
-      | ((prevState: string | undefined) => string | undefined)
-      | string
-      | undefined
-  ) => void;
   onClickNewSeries: () => void;
   onClickOverwrite: () => void;
   clearDraft: () => void;
-  onPrivateChange: (isPrivate: boolean) => void;
   formData: {
     title: string;
     subTitle: string;
@@ -31,16 +22,12 @@ interface PostMetadataFormProps {
 }
 
 const PostMetadataForm = ({
-  onTitleChange,
-  onSubTitleChange,
+  onFieldChange,
   seriesLoading,
   series,
-  setTags,
-  defaultSeries,
   onClickNewSeries,
   onClickOverwrite,
   clearDraft,
-  onPrivateChange,
   formData,
 }: PostMetadataFormProps) => {
   const [tagInput, setTagInput] = useState<string>('');
@@ -67,15 +54,15 @@ const PostMetadataForm = ({
         return;
       }
       if (e.nativeEvent.isComposing) return;
-      setTags([...(tags || []), tagInput]);
+      onFieldChange('tags', [...(tags || []), tagInput]);
       setTagInput('');
     } else if (e.key === 'Backspace' && tagInput === '') {
-      setTags(tags.slice(0, -1));
+      onFieldChange('tags', tags.slice(0, -1));
     }
   };
 
   const handlePublicChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onPrivateChange(e.target.checked);
+    onFieldChange('isPrivate', e.target.checked);
   };
 
   return (
@@ -88,7 +75,7 @@ const PostMetadataForm = ({
           type="text"
           placeholder="제목"
           className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
-          onChange={onTitleChange}
+          onChange={(e) => onFieldChange('title', e.target.value)}
           value={title}
         />
       </div>
@@ -100,7 +87,7 @@ const PostMetadataForm = ({
           type="text"
           placeholder="소제목"
           className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
-          onChange={onSubTitleChange}
+          onChange={(e) => onFieldChange('subTitle', e.target.value)}
           value={subTitle}
         />
       </div>
@@ -115,7 +102,8 @@ const PostMetadataForm = ({
               key={index}
               className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold cursor-pointer hover:animate-blink duration-75"
               onClick={() => {
-                setTags(
+                onFieldChange(
+                  'tags',
                   tags.filter((_, i) => {
                     return i !== index;
                   })
@@ -145,7 +133,7 @@ const PostMetadataForm = ({
             ) : (
               <Select
                 options={selectOptions}
-                setValue={defaultSeries}
+                setValue={(value) => onFieldChange('seriesId', value)}
                 defaultValue={defaultSeriesId}
               />
             )}
