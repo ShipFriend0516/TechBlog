@@ -1,6 +1,5 @@
 'use client';
 import { useEffect } from 'react';
-import Link from 'next/link';
 import { projects } from '@/app/lib/constants/landingPageData';
 import useFingerprint from '@/app/hooks/useFingerprint';
 import useToast from '@/app/hooks/useToast';
@@ -12,6 +11,7 @@ import AboutMe from './entities/profile/AboutMe';
 import FeaturedProjects from './entities/profile/FeaturedProjects';
 import LatestArticles from './entities/profile/LatestArticles';
 import HeroBanner from './entities/profile/HeroBanner';
+import MoreExplore from './entities/profile/MoreExplore';
 
 export default function Home() {
   const { fingerprint } = useFingerprint();
@@ -57,16 +57,7 @@ export default function Home() {
       <AboutMe />
       <FeaturedProjects projects={projects} />
       <LatestArticles posts={posts} loading={loading} error={error} />
-      <section className={'w-full flex justify-center'}>
-        <Link
-          href={'/posts'}
-          className={
-            'px-4 py-1 bg-overlay text-overlay rounded-md hover:bg-opacity-70 hover:shadow-lg transition '
-          }
-        >
-          더 많은 글 보러가기
-        </Link>
-      </section>
+      <MoreExplore />
     </main>
   );
 }
