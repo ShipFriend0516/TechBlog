@@ -14,7 +14,7 @@ interface PostMetadataFormProps {
   series: Series[];
   tags: string[];
   setTags: (tags: string[]) => void;
-  callbackfn: (s: Series) => { label: string; value: string };
+  seriesMappingFn: (s: Series) => { label: string; value: string };
   defaultSeries: (
     value:
       | ((prevState: string | undefined) => string | undefined)
@@ -25,13 +25,36 @@ interface PostMetadataFormProps {
   onClickNewSeries: () => void;
   onClickOverwrite: () => void;
   clearDraft: () => void;
-  // 새로 추가된 props
   isPrivate: boolean;
   onPrivateChange: (isPrivate: boolean) => void;
 }
 
-const PostMetadataForm = (props: PostMetadataFormProps) => {
+const PostMetadataForm = ({
+  onTitleChange,
+  title,
+  onSubTitleChange,
+  subTitle,
+  seriesLoading,
+  series,
+  tags,
+  setTags,
+  seriesMappingFn,
+  defaultSeries,
+  seriesId,
+  onClickNewSeries,
+  onClickOverwrite,
+  clearDraft,
+  isPrivate,
+  onPrivateChange,
+}: PostMetadataFormProps) => {
   const [tagInput, setTagInput] = useState<string>('');
+
+  const selectOptions = series.map(seriesMappingFn);
+  const defaultSeriesId = seriesId
+    ? seriesId
+    : series.length > 0
+      ? series[0]._id
+      : '';
 
   const handleTagInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
@@ -39,20 +62,20 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
 
   const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && tagInput.trim() !== '') {
-      if (props.tags.includes(tagInput)) {
+      if (tags.includes(tagInput)) {
         setTagInput('');
         return;
       }
       if (e.nativeEvent.isComposing) return;
-      props.setTags([...(props.tags || []), tagInput]);
+      setTags([...(tags || []), tagInput]);
       setTagInput('');
     } else if (e.key === 'Backspace' && tagInput === '') {
-      props.setTags(props.tags.slice(0, -1));
+      setTags(tags.slice(0, -1));
     }
   };
 
   const handlePublicChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.onPrivateChange(e.target.checked);
+    onPrivateChange(e.target.checked);
   };
 
   return (
@@ -65,8 +88,8 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
           type="text"
           placeholder="제목"
           className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
-          onChange={props.onTitleChange}
-          value={props.title}
+          onChange={onTitleChange}
+          value={title}
         />
       </div>
       <div className="flex mb-4 gap-1 items-center">
@@ -77,8 +100,8 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
           type="text"
           placeholder="소제목"
           className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
-          onChange={props.onSubTitleChange}
-          value={props.subTitle}
+          onChange={onSubTitleChange}
+          value={subTitle}
         />
       </div>
 
@@ -87,13 +110,13 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
           <span className="w-12 font-bold mr-3 flex-shrink text-nowrap flex-nowrap">
             태그 입력
           </span>
-          {(props.tags || []).map((tag, index) => (
+          {(tags || []).map((tag, index) => (
             <span
               key={index}
               className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold cursor-pointer hover:animate-blink duration-75"
               onClick={() => {
-                props.setTags(
-                  props.tags.filter((_, i) => {
+                setTags(
+                  tags.filter((_, i) => {
                     return i !== index;
                   })
                 );
@@ -117,19 +140,13 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
         <div className={'w-1/2 flex justify-start items-center gap-6'}>
           <label className={'inline-flex items-center text-nowrap  gap-2 '}>
             <span className={'font-bold'}>시&nbsp;&nbsp;리&nbsp;&nbsp;즈</span>
-            {props.seriesLoading ? (
+            {seriesLoading ? (
               <div>loading...</div>
             ) : (
               <Select
-                options={props.series.map(props.callbackfn)}
-                setValue={props.defaultSeries}
-                defaultValue={
-                  props.seriesId
-                    ? props.seriesId
-                    : props.series.length > 0
-                      ? props.series[0]._id
-                      : ''
-                }
+                options={selectOptions}
+                setValue={defaultSeries}
+                defaultValue={defaultSeriesId}
               />
             )}
           </label>
@@ -145,7 +162,7 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
               </span>
               <input
                 type="checkbox"
-                checked={props.isPrivate}
+                checked={isPrivate}
                 onChange={handlePublicChange}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
@@ -154,13 +171,13 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
         </div>
 
         <button
-          onClick={props.onClickNewSeries}
+          onClick={onClickNewSeries}
           className="flex items-center gap-2 py-1 px-2 bg-slate-100 text-green-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-gray-200 dark:bg-gray-800 dark:text-green-200 dark:border-gray-700"
         >
           새로운 시리즈 <FaPlus />
         </button>
         <button
-          onClick={props.onClickOverwrite}
+          onClick={onClickOverwrite}
           className="flex items-center gap-2 py-1 px-2 bg-slate-100 text-blue-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-gray-200 dark:bg-gray-800 dark:text-blue-200 dark:border-gray-700"
         >
           임시저장본
@@ -168,7 +185,7 @@ const PostMetadataForm = (props: PostMetadataFormProps) => {
         </button>
 
         <button
-          onClick={props.clearDraft}
+          onClick={clearDraft}
           className="flex items-center gap-2 py-1 px-2 bg-slate-100 text-red-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-gray-200 dark:bg-gray-800 dark:text-red-200 dark:border-gray-700"
         >
           임시저장 삭제

@@ -50,7 +50,7 @@ const BlogForm = () => {
         subTitle={formData.subTitle}
         seriesLoading={uiState.seriesLoading}
         series={seriesList}
-        callbackfn={(s) => ({
+        seriesMappingFn={(s) => ({
           value: s._id,
           label: s.title,
         })}
