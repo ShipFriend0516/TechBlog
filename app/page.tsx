@@ -1,18 +1,13 @@
 'use client';
-import Image from 'next/image';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
-import PortfolioPreview from '@/app/entities/portfolio/PortfolioPreview';
 import { projects } from '@/app/lib/constants/landingPageData';
 import useFingerprint from '@/app/hooks/useFingerprint';
 import useToast from '@/app/hooks/useToast';
 import useDataFetch from '@/app/hooks/common/useDataFetch';
 import { Post } from '@/app/types/Post';
-import ErrorBox from '@/app/entities/common/Error/ErrorBox';
 import { useRouter } from 'next/navigation';
 import useShortcut from '@/app/hooks/common/useShortcut';
-import DecryptedText from './entities/bits/DecryptedText';
 import AboutMe from './entities/profile/AboutMe';
 import FeaturedProjects from './entities/profile/FeaturedProjects';
 import LatestArticles from './entities/profile/LatestArticles';
