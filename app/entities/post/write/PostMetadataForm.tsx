@@ -7,49 +7,49 @@ import { FaTrash } from 'react-icons/fa';
 
 interface PostMetadataFormProps {
   onTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  title: string;
   onSubTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  subTitle: string;
   seriesLoading: boolean;
   series: Series[];
-  tags: string[];
   setTags: (tags: string[]) => void;
-  seriesMappingFn: (s: Series) => { label: string; value: string };
   defaultSeries: (
     value:
       | ((prevState: string | undefined) => string | undefined)
       | string
       | undefined
   ) => void;
-  seriesId: string | undefined;
   onClickNewSeries: () => void;
   onClickOverwrite: () => void;
   clearDraft: () => void;
-  isPrivate: boolean;
   onPrivateChange: (isPrivate: boolean) => void;
+  formData: {
+    title: string;
+    subTitle: string;
+    seriesId?: string;
+    tags: string[];
+    isPrivate: boolean;
+  };
 }
 
 const PostMetadataForm = ({
   onTitleChange,
-  title,
   onSubTitleChange,
-  subTitle,
   seriesLoading,
   series,
-  tags,
   setTags,
-  seriesMappingFn,
   defaultSeries,
-  seriesId,
   onClickNewSeries,
   onClickOverwrite,
   clearDraft,
-  isPrivate,
   onPrivateChange,
+  formData,
 }: PostMetadataFormProps) => {
   const [tagInput, setTagInput] = useState<string>('');
 
-  const selectOptions = series.map(seriesMappingFn);
+  const { title, subTitle, seriesId, tags, isPrivate } = formData;
+  const selectOptions = series.map((s) => ({
+    value: s._id,
+    label: s.title,
+  }));
   const defaultSeriesId = seriesId
     ? seriesId
     : series.length > 0

@@ -44,16 +44,11 @@ const BlogForm = () => {
         글 {slug ? '수정' : '작성'}
       </h1>
       <PostMetadataForm
+        formData={formData}
         onTitleChange={(e) => setFormData({ title: e.target.value })}
-        title={formData.title}
         onSubTitleChange={(e) => setFormData({ subTitle: e.target.value })}
-        subTitle={formData.subTitle}
         seriesLoading={uiState.seriesLoading}
         series={seriesList}
-        seriesMappingFn={(s) => ({
-          value: s._id,
-          label: s.title,
-        })}
         defaultSeries={(value) => {
           if (typeof value === 'function') {
             setFormData({ seriesId: value(formData.seriesId) });
@@ -61,13 +56,10 @@ const BlogForm = () => {
             setFormData({ seriesId: value });
           }
         }}
-        seriesId={formData.seriesId}
         onClickNewSeries={() => setCreateSeriesOpen(true)}
         onClickOverwrite={overwriteDraft}
         clearDraft={clearDraftInStore}
-        tags={formData.tags}
         setTags={(tags: string[]) => setFormData({ tags })}
-        isPrivate={formData.isPrivate}
         onPrivateChange={(isPrivate: boolean) => setFormData({ isPrivate })}
       />
       <Overlay
