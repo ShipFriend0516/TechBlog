@@ -1,9 +1,9 @@
-import { Series } from '@/app/types/Series';
-import Select from '@/app/entities/common/Select';
-import { FaPlus } from 'react-icons/fa6';
-import { CgMoveRight } from 'react-icons/cg';
 import { ChangeEvent, useState } from 'react';
+import { CgMoveRight } from 'react-icons/cg';
 import { FaTrash } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa6';
+import Select from '@/app/entities/common/Select';
+import { Series } from '@/app/types/Series';
 
 interface PostMetadataFormProps {
   onTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;

@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import Profile from '@/app/entities/common/Profile';
+import Image from 'next/image';
+import { useState } from 'react';
 import { FaBook } from 'react-icons/fa';
-import { useSession } from 'next-auth/react';
+import Profile from '@/app/entities/common/Profile';
 import TypingText from '../../common/Typography/TypingText';
 
 interface Props {

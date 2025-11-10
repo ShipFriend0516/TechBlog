@@ -1,16 +1,16 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { projects } from '@/app/lib/constants/landingPageData';
+import useDataFetch from '@/app/hooks/common/useDataFetch';
+import useShortcut from '@/app/hooks/common/useShortcut';
 import useFingerprint from '@/app/hooks/useFingerprint';
 import useToast from '@/app/hooks/useToast';
-import useDataFetch from '@/app/hooks/common/useDataFetch';
+import { projects } from '@/app/lib/constants/landingPageData';
 import { Post } from '@/app/types/Post';
-import { useRouter } from 'next/navigation';
-import useShortcut from '@/app/hooks/common/useShortcut';
 import AboutMe from './entities/profile/AboutMe';
 import FeaturedProjects from './entities/profile/FeaturedProjects';
-import LatestArticles from './entities/profile/LatestArticles';
 import HeroBanner from './entities/profile/HeroBanner';
+import LatestArticles from './entities/profile/LatestArticles';
 import MoreExplore from './entities/profile/MoreExplore';
 
 export default function Home() {
