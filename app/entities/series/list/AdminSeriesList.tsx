@@ -1,6 +1,6 @@
-import { Series } from '@/app/types/Series';
 import React from 'react';
 import AdminSeriesListItem from '@/app/entities/series/list/AdminSeriesListItem';
+import { Series } from '@/app/types/Series';
 
 interface AdminSeriesListProps {
   seriesList: Series[] | null | undefined;

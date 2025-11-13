@@ -1,10 +1,10 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Profile from '@/app/entities/common/Profile';
-import IconButton from '@/app/entities/common/Button/IconButton';
-import useTheme from '@/app/hooks/useTheme';
 import { IoMoonSharp, IoSunnySharp } from 'react-icons/io5';
+import IconButton from '@/app/entities/common/Button/IconButton';
+import Profile from '@/app/entities/common/Profile';
+import useTheme from '@/app/hooks/useTheme';
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
   const { theme, toggleTheme } = useTheme();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import useDebounce from '@/app/hooks/optimize/useDebounce';
+import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 
 const usePostSearch = () => {
   const [query, setQuery] = useState('');

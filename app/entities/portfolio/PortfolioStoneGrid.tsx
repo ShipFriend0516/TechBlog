@@ -1,7 +1,7 @@
 'use client';
-import { Project } from '@/app/types/Portfolio';
 import React, { useState, useEffect } from 'react';
 import PortfolioStone from '@/app/entities/portfolio/PortfolioStone';
+import { Project } from '@/app/types/Portfolio';
 
 const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

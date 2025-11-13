@@ -1,5 +1,5 @@
-import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
 import Image from 'next/image';
+import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
 
 interface ProjectScreenshotsProps {
   handlePreviousImage: () => void;

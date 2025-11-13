@@ -1,12 +1,12 @@
-import Comments from '@/app/entities/comment/Comments';
 import { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
+import Comments from '@/app/entities/comment/Comments';
+import PostActionSection from '@/app/entities/post/detail/PostActionSection';
+import PostDetail from '@/app/entities/post/detail/PostDetail';
+import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
+import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
-import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
-import PostActionSection from '@/app/entities/post/detail/PostActionSection';
-import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
-import PostDetail from '@/app/entities/post/detail/PostDetail';
-import { getServerSession } from 'next-auth';
 
 const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
 

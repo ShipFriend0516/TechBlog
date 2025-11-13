@@ -1,8 +1,8 @@
-import { Project } from '@/app/types/Portfolio';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaGithub, FaGlobe } from 'react-icons/fa';
 import React from 'react';
+import { FaGithub, FaGlobe } from 'react-icons/fa';
+import { Project } from '@/app/types/Portfolio';
 
 interface PortfolioStoneProps {
   project: Project;

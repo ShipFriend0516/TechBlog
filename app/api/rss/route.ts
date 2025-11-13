@@ -1,6 +1,6 @@
-import { generateRssFeed } from '@/app/lib/rss';
 import { NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
+import { generateRssFeed } from '@/app/lib/rss';
 import Post from '@/app/models/Post';
 
 export async function GET() {

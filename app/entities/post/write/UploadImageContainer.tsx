@@ -1,8 +1,8 @@
 'use client';
-import UploadedImage from '@/app/entities/post/write/UploadedImage';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { FaImage } from 'react-icons/fa';
+import UploadedImage from '@/app/entities/post/write/UploadedImage';
 import { upload } from '@vercel/blob/client';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
 interface UploadImageContainerProps {
   onClick: (link: string) => void;

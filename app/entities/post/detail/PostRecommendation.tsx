@@ -1,12 +1,12 @@
 'use client';
+import { FaBookmark } from 'react-icons/fa';
+import ErrorBox from '@/app/entities/common/Error/ErrorBox';
+import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
+import PostRecommendationListItem from '@/app/entities/post/detail/PostRecommendationListItem';
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
 import { Post } from '@/app/types/Post';
-import PostRecommendationListItem from '@/app/entities/post/detail/PostRecommendationListItem';
-import ErrorBox from '@/app/entities/common/Error/ErrorBox';
-import { FaBookmark } from 'react-icons/fa';
-import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 interface PostRecommendationProps {
   tags: string[];
   currentPostId: string;

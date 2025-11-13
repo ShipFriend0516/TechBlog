@@ -1,6 +1,6 @@
 // middleware/errorHandler.ts
-import { createResponse } from '@/app/lib/api';
 import { NextRequest } from 'next/server';
+import { createResponse } from '@/app/lib/api';
 
 export const withErrorHandler =
   (handler: (req: NextRequest) => void) => async (req: NextRequest) => {

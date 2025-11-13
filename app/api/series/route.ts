@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/app/lib/dbConnect';
-import Series from '@/app/models/Series';
-import { createPostSlug } from '@/app/lib/utils/post';
 import { getServerSession } from 'next-auth';
+import dbConnect from '@/app/lib/dbConnect';
+import { createPostSlug } from '@/app/lib/utils/post';
+import Series from '@/app/models/Series';
 
 export async function POST(request: Request) {
   try {

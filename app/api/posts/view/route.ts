@@ -1,6 +1,6 @@
-import View from '@/app/models/View';
 import { NextRequest } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
+import View from '@/app/models/View';
 
 export const POST = async (request: Request) => {
   const { postId } = await request.json();

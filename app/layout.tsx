@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import Footer from '@/app/entities/common/Footer';
 import React from 'react';
+import Footer from '@/app/entities/common/Footer';
 import NavBar from '@/app/entities/common/NavBar';
 import ToastProvider from '@/app/entities/common/Toast/ToastProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';

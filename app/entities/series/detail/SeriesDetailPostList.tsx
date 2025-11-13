@@ -1,8 +1,8 @@
 import { BiBook } from 'react-icons/bi';
 import { FaChevronDown } from 'react-icons/fa';
 import Select from '@/app/entities/common/Select';
-import { Post } from '@/app/types/Post';
 import SeriesPostListItem from '@/app/entities/post/list/SeriesInnerPostListItem';
+import { Post } from '@/app/types/Post';
 import { Series } from '@/app/types/Series';
 
 interface SeriesDetailPostListProps {

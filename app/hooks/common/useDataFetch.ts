@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
 import axios, { AxiosError, AxiosRequestConfig, Method } from 'axios';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface useDataFetchConfig<T = any> {
   url: string;

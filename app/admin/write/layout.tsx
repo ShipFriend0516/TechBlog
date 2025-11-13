@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import BlogFormSkeleton from '@/app/entities/common/Skeleton/BlogFormSkeleton';
 
 interface LayoutProps {

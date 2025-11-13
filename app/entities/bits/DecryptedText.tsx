@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
 import { motion, HTMLMotionProps } from 'motion/react';
+import { useEffect, useState, useRef } from 'react';
 
 interface DecryptedTextProps extends HTMLMotionProps<'span'> {
   text: string;

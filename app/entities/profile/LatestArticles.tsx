@@ -1,9 +1,9 @@
-import { Post } from '@/app/types/Post';
-import Skeleton from '../common/Skeleton/Skeleton';
-import Link from 'next/link';
-import Image from 'next/image';
-import ErrorBox from '../common/Error/ErrorBox';
 import { AxiosError } from 'axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Post } from '@/app/types/Post';
+import ErrorBox from '../common/Error/ErrorBox';
+import Skeleton from '../common/Skeleton/Skeleton';
 
 interface LatestArticlesProps {
   posts: Post[];
@@ -72,7 +72,7 @@ const LatestArticleSkeleton = () => {
   return (
     <div
       className={
-        'flex flex-col gap-3 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700'
+        'flex flex-col gap-3 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-primary-rich  rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700'
       }
     >
       <Skeleton className={'w-full h-52 rounded-none'} />

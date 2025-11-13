@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Post } from '@/app/types/Post';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { formatDate } from '@/app/lib/utils/format';
+import { Post } from '@/app/types/Post';
 
 interface PostWithView extends Post {
   view: number;

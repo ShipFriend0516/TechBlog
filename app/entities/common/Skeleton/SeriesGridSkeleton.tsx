@@ -1,5 +1,5 @@
-import SeriesPreviewSkeleton from '@/app/entities/common/Skeleton/SeriesPreviewSkeleton';
 import React from 'react';
+import SeriesPreviewSkeleton from '@/app/entities/common/Skeleton/SeriesPreviewSkeleton';
 
 const SeriesGridSkeleton = () => {
   return (

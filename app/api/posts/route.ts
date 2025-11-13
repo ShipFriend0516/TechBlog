@@ -1,11 +1,11 @@
 // GET /api/posts - 모든 글 조회 (페이지네이션 지원)
 import { QuerySelector } from 'mongoose';
-import Series from '@/app/models/Series';
-import dbConnect from '@/app/lib/dbConnect';
-import Post from '@/app/models/Post';
 import { getServerSession } from 'next-auth';
-import { generateUniqueSlug } from '@/app/lib/utils/post';
+import dbConnect from '@/app/lib/dbConnect';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
+import { generateUniqueSlug } from '@/app/lib/utils/post';
+import Post from '@/app/models/Post';
+import Series from '@/app/models/Series';
 
 export async function GET(req: Request) {
   try {

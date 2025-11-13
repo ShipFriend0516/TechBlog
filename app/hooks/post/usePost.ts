@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import { Series } from '@/app/types/Series';
-import { PostBody } from '@/app/types/Post';
-import useToast from '@/app/hooks/useToast';
-import { getPostDetail } from '@/app/entities/post/api/postAPI';
-import { getAllSeriesData } from '@/app/entities/series/api/series';
 import axios from 'axios';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { getAllSeriesData } from '@/app/entities/series/api/series';
 import useDraft from '@/app/hooks/post/useDraft';
+import useToast from '@/app/hooks/useToast';
 import { validatePost } from '@/app/lib/utils/validate/validate';
+import { PostBody } from '@/app/types/Post';
+import { Series } from '@/app/types/Series';
 
 interface FormData {
   title: string;

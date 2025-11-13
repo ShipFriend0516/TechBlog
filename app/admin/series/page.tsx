@@ -1,14 +1,14 @@
 'use client';
-import { Series } from '@/app/types/Series';
+import { useState } from 'react';
+import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
+import Overlay from '@/app/entities/common/Overlay/Overlay';
+import { deleteSeries } from '@/app/entities/series/api/series';
+import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
+import AdminSeriesList from '@/app/entities/series/list/AdminSeriesList';
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
-import { useState } from 'react';
-import AdminSeriesList from '@/app/entities/series/list/AdminSeriesList';
-import Overlay from '@/app/entities/common/Overlay/Overlay';
-import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
-import { deleteSeries } from '@/app/entities/series/api/series';
-import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
+import { Series } from '@/app/types/Series';
 const AdminSeriesPage = () => {
   const [seriesList, setSeriesList] = useState<Series[] | null>(null);
   const getSeriesListConfig: useDataFetchConfig = {

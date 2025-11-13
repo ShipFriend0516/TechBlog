@@ -1,8 +1,8 @@
 // app/api/posts/[slug]/route.ts
-import dbConnect from '@/app/lib/dbConnect';
-import Post from '@/app/models/Post';
 import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/app/lib/dbConnect';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
+import Post from '@/app/models/Post';
 import Series from '@/app/models/Series';
 
 export async function GET(

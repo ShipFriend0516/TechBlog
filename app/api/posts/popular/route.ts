@@ -1,6 +1,6 @@
 import dbConnect from '@/app/lib/dbConnect';
-import View from '@/app/models/View';
 import Post from '@/app/models/Post';
+import View from '@/app/models/View';
 
 export const GET = async () => {
   await dbConnect();

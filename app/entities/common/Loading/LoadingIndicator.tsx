@@ -1,6 +1,6 @@
 'use client';
-import animation from '@/app/public/assets/loadingAnimation1.json';
 import dynamic from 'next/dynamic';
+import animation from '@/app/public/assets/loadingAnimation1.json';
 
 interface LoadingIndicatorProps {
   message?: string;
