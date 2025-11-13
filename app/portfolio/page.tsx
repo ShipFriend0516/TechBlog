@@ -1,5 +1,5 @@
-import { projects } from '@/app/portfolio/data';
 import PortfolioStoneGrid from '@/app/entities/portfolio/PortfolioStoneGrid';
+import { projects } from '@/app/portfolio/data';
 
 const PortfolioPage = () => {
   return (

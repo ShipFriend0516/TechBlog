@@ -1,13 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import example from '@/public/images/placeholder/thumbnail_example2.webp';
+import Link from 'next/link';
+import { useState } from 'react';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import Profile from '@/app/entities/common/Profile';
 import Timestamp from '@/app/entities/common/Timestamp';
 import { Post } from '@/app/types/Post';
-import { useState } from 'react';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import Link from 'next/link';
+import example from '@/public/images/placeholder/thumbnail_example2.webp';
 
 const PostPreview = ({
   slug,

@@ -1,6 +1,6 @@
-import { Feed } from 'feed';
 import fs from 'fs';
 import path from 'path';
+import { Feed } from 'feed';
 
 export async function generateRssFeed(posts: any[]) {
   const site_url = process.env.NEXTAUTH_URL || 'http://localhost:3000';

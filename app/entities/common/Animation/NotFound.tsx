@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import LottiePlayer from '@/app/entities/common/Animation/LottiePlayer';
 import NotFoundAnimation from '@/app/public/assets/notfound2.json';
-import Link from 'next/link';
 
 interface NotFoundProps {
   message?: string;

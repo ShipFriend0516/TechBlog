@@ -1,7 +1,6 @@
 'use client';
-import React, { Suspense } from 'react';
+import React from 'react';
 import SeriesList from '@/app/entities/series/list/SeriesList';
-import SeriesGridSkeleton from '@/app/entities/common/Skeleton/SeriesGridSkeleton';
 
 const SeriesListPage = () => {
   return (

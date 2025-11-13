@@ -1,7 +1,7 @@
 // GET /api/admin/posts/recent - 관리자용 최근 게시글 조회
-import Post from '@/app/models/Post';
-import dbConnect from '@/app/lib/dbConnect';
 import { getServerSession } from 'next-auth';
+import dbConnect from '@/app/lib/dbConnect';
+import Post from '@/app/models/Post';
 
 export const dynamic = 'force-dynamic';
 

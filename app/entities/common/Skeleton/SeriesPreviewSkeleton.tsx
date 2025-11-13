@@ -1,5 +1,5 @@
-import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import React from 'react';
+import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 
 const SeriesPreviewSkeleton = () => {
   const darkmodeStyle = `dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800`;

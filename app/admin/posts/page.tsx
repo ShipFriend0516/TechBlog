@@ -1,14 +1,14 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { Post } from '@/app/types/Post';
 import axios from 'axios';
-import PostListItem from '@/app/entities/post/list/PostListItem';
-import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
-import { deletePost } from '@/app/entities/post/api/postAPI';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
-import useToast from '@/app/hooks/useToast';
+import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import Pagination from '@/app/entities/common/Pagination';
+import { deletePost } from '@/app/entities/post/api/postAPI';
+import PostListItem from '@/app/entities/post/list/PostListItem';
+import useToast from '@/app/hooks/useToast';
+import { Post } from '@/app/types/Post';
 
 const AdminPostListPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);

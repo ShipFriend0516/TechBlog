@@ -2,8 +2,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Project } from '@/app/types/Portfolio';
 import { FaGithub, FaGlobe } from 'react-icons/fa';
+import { Project } from '@/app/types/Portfolio';
 
 interface PortfolioPreviewProps {
   project: Project;

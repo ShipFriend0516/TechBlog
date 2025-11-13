@@ -1,7 +1,7 @@
 import dbConnect from '@/app/lib/dbConnect';
+import Like from '@/app/models/Like';
 import Post from '@/app/models/Post';
 import View from '@/app/models/View';
-import Like from '@/app/models/Like';
 
 export const GET = async (request: Request) => {
   await dbConnect();

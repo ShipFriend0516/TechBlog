@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { FaBookOpen, FaCalendar } from 'react-icons/fa';
-import React from 'react';
-import { Series } from '@/app/types/Series';
 import Link from 'next/link';
+import React from 'react';
+import { FaBookOpen, FaCalendar } from 'react-icons/fa';
+import { Series } from '@/app/types/Series';
 
 interface SeriesPreviewProps {
   item: Series;

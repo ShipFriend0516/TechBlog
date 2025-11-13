@@ -1,6 +1,6 @@
-import Like from '@/app/models/Like';
 import { NextRequest } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
+import Like from '@/app/models/Like';
 
 export const POST = async (request: Request) => {
   const { postId } = await request.json();

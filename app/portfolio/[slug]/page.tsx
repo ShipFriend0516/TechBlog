@@ -2,18 +2,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
-import NotFound from '@/app/not-found';
-import { PortfolioItem } from '@/app/types/Portfolio';
 import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
+import ProjectChallenges from '@/app/entities/portfolio/detail/ProjectChallenges';
+import ProjectLinks from '@/app/entities/portfolio/detail/ProjectLinks';
+import ProjectOverview from '@/app/entities/portfolio/detail/ProjectOverview';
+import ProjectScreenshots from '@/app/entities/portfolio/detail/ProjectScreenshots';
+import ProjectSummary from '@/app/entities/portfolio/detail/ProjectSummary';
+import useCarousel from '@/app/hooks/common/useCarousel';
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
-import ProjectOverview from '@/app/entities/portfolio/detail/ProjectOverview';
-import ProjectScreenshots from '@/app/entities/portfolio/detail/ProjectScreenshots';
-import ProjectChallenges from '@/app/entities/portfolio/detail/ProjectChallenges';
-import ProjectSummary from '@/app/entities/portfolio/detail/ProjectSummary';
-import useCarousel from '@/app/hooks/common/useCarousel';
-import ProjectLinks from '@/app/entities/portfolio/detail/ProjectLinks';
+import NotFound from '@/app/not-found';
+import { PortfolioItem } from '@/app/types/Portfolio';
 
 interface PortfolioDetailPageProps {
   params: {

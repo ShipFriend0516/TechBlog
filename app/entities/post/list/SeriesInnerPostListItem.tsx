@@ -1,8 +1,8 @@
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import Link from 'next/link';
 import Image from 'next/image';
-import { MdOutlineImageNotSupported } from 'react-icons/md';
+import Link from 'next/link';
 import { FaEyeSlash } from 'react-icons/fa';
+import { MdOutlineImageNotSupported } from 'react-icons/md';
 
 interface SeriesPostListItemProps {
   slug: string;

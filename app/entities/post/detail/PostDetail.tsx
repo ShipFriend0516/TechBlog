@@ -1,6 +1,6 @@
-import { Post as PostType } from '@/app/types/Post';
-import PostHeader from '@/app/entities/post/detail/PostHeader';
 import PostBody from '@/app/entities/post/detail/PostBody';
+import PostHeader from '@/app/entities/post/detail/PostHeader';
+import { Post as PostType } from '@/app/types/Post';
 
 interface PostArticleProps {
   post: PostType;

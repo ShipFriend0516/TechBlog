@@ -1,9 +1,9 @@
-import SeriesPreview from '@/app/entities/series/list/SeriesPreview';
 import React, { useEffect, useState } from 'react';
-import { Series } from '@/app/types/Series';
 import { FaBookOpen } from 'react-icons/fa';
-import { getAllSeriesData } from '@/app/entities/series/api/series';
 import SeriesGridSkeleton from '@/app/entities/common/Skeleton/SeriesGridSkeleton';
+import { getAllSeriesData } from '@/app/entities/series/api/series';
+import SeriesPreview from '@/app/entities/series/list/SeriesPreview';
+import { Series } from '@/app/types/Series';
 
 const SeriesList = () => {
   const [series, setSeries] = useState<Series[]>([]);

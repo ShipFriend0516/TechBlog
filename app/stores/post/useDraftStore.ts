@@ -1,6 +1,6 @@
-import { Post } from '@/app/types/Post';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { Post } from '@/app/types/Post';
 
 interface DraftStoreState {
   draft: Partial<Post> | null;

@@ -1,5 +1,5 @@
-import notfoundAnimation from '@/app/public/assets/notfound.json';
 import LottiePlayer from '@/app/entities/common/Animation/LottiePlayer';
+import notfoundAnimation from '@/app/public/assets/notfound.json';
 const NotFound = () => {
   return (
     <div className={' relative mx-auto max-w-4xl'}>

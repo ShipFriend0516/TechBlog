@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import Post from '@/app/models/Post';
 import dbConnect from '@/app/lib/dbConnect';
+import Post from '@/app/models/Post';
 
 export const dynamic = 'force-dynamic'; // 캐싱 방지
 

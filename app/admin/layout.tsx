@@ -1,7 +1,7 @@
 'use client';
 import { SessionProvider } from 'next-auth/react';
-import ProtectedRoute from '@/app/entities/common/Layout/ProtectedRoute';
 import { Suspense } from 'react';
+import ProtectedRoute from '@/app/entities/common/Layout/ProtectedRoute';
 import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 
 interface AdminPageLayoutProps {

@@ -1,17 +1,17 @@
 'use client';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import { Post } from '@/app/types/Post';
+import Pagination from '@/app/entities/common/Pagination';
 import PostList from '@/app/entities/post/list/PostList';
 import SearchSection from '@/app/entities/post/list/SearchSection';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Pagination from '@/app/entities/common/Pagination';
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
-import ErrorBox from '../entities/common/Error/ErrorBox';
 import useURLSync from '@/app/hooks/common/useURLSync';
 import usePostSearch from '@/app/hooks/post/usePostSearch';
 import useToast from '@/app/hooks/useToast';
+import { Post } from '@/app/types/Post';
+import ErrorBox from '../entities/common/Error/ErrorBox';
 
 interface PaginationData {
   totalPosts: number;

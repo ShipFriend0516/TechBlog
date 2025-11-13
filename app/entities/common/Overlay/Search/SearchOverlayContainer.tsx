@@ -1,6 +1,6 @@
 import { FaSearch } from 'react-icons/fa';
-import Tag from '@/app/entities/common/Tag';
 import { FaX } from 'react-icons/fa6';
+import Tag from '@/app/entities/common/Tag';
 
 const SearchOverlayContainer = (props: {
   setQuery: (query: string) => void;

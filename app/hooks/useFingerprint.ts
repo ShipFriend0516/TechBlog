@@ -1,6 +1,6 @@
 'use client';
-import useFingerprintStore from '@/app/stores/useFingerprintStore';
 import { useEffect } from 'react';
+import useFingerprintStore from '@/app/stores/useFingerprintStore';
 
 const useFingerprint = () => {
   const { fingerprint, initialize, isLoading, error } = useFingerprintStore();

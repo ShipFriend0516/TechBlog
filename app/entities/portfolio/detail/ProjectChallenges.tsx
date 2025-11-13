@@ -1,6 +1,6 @@
-import { Challenge } from '@/app/types/Portfolio';
 import Link from 'next/link';
 import { FaLink } from 'react-icons/fa6';
+import { Challenge } from '@/app/types/Portfolio';
 
 interface ProjectChallengesProps {
   challenges: Challenge[];

@@ -1,11 +1,11 @@
 'use client';
-import useToast from '@/app/hooks/useToast';
-import { MdIosShare } from 'react-icons/md';
-import { IoEye } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
-import useFingerprint from '@/app/hooks/useFingerprint';
-import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { IoEye } from 'react-icons/io5';
+import { MdIosShare } from 'react-icons/md';
+import useFingerprint from '@/app/hooks/useFingerprint';
+import useToast from '@/app/hooks/useToast';
 
 interface PostActionSectionProps {
   postId?: string;

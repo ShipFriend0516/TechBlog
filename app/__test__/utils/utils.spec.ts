@@ -1,7 +1,7 @@
+import { Model } from 'mongoose';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 import { createPostSlug, generateUniqueSlug } from '@/app/lib/utils/post';
 import type { Post } from '@/app/types/Post';
-import { Model } from 'mongoose';
 describe('마크다운에서 이미지 경로 추출 함수 테스트', () => {
   it('마크다운에서 이미지 경로 추출', () => {
     const content = `

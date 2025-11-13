@@ -1,14 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { FaBook, FaSearch } from 'react-icons/fa';
 import { BiChevronDown } from 'react-icons/bi';
+import { FaBook, FaSearch } from 'react-icons/fa';
+import { RiRestartLine } from 'react-icons/ri';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import SearchOverlayContainer from '@/app/entities/common/Overlay/Search/SearchOverlayContainer';
-import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
-import { Series } from '@/app/types/Series';
-import { RiRestartLine } from 'react-icons/ri';
 import SeriesDropdownList from '@/app/entities/series/list/SeriesDropdownList';
+import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
+import { Series } from '@/app/types/Series';
 
 interface SearchSectionProps {
   query: string;

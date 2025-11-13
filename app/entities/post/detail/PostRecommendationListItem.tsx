@@ -1,9 +1,9 @@
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import { FC } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import TagBox from '@/app/entities/post/tags/TagBox';
+import Link from 'next/link';
+import { FC } from 'react';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
+import TagBox from '@/app/entities/post/tags/TagBox';
 
 interface PostRecommendationListItemProps {
   slug: string;

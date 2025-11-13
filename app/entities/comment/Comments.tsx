@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import useTheme from '@/app/hooks/useTheme';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 
 // 실제 댓글 렌더링을 담당하는 별도 컴포넌트
 const UtterancesComments = ({ theme }: { theme: string }) => {

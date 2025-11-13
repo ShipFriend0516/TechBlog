@@ -1,7 +1,7 @@
 // migration.js
+import mongoose from 'mongoose';
 import { generateUniqueSlug } from '@/app/lib/utils/post';
 import Post from '@/app/models/Post';
-import mongoose from 'mongoose';
 
 // MongoDB URI를 직접 입력하거나 환경변수에서 가져옵니다
 const MONGODB_URI = process.env.DB_URI || '여기에_mongodb_uri를_입력하세요';

@@ -1,7 +1,7 @@
 // app/api/posts/latest/route.ts
-import Post from '@/app/models/Post';
 import dbConnect from '@/app/lib/dbConnect';
 import { formatDate } from '@/app/lib/utils/format';
+import Post from '@/app/models/Post';
 
 export const dynamic = 'force-dynamic'; // 항상 최신 데이터를 가져오기 위한 설정
 

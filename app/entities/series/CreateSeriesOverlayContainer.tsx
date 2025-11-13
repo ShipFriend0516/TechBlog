@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { createSeries, updateSeries } from '@/app/entities/series/api/series';
 import useToast from '@/app/hooks/useToast';
 import { Series } from '@/app/types/Series';

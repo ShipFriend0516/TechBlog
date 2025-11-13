@@ -1,7 +1,7 @@
-import { Post } from '@/app/types/Post';
-import PostPreview from '@/app/entities/post/list/PostPreview';
 import NotFound from '@/app/entities/common/Animation/NotFound';
 import PostsGridSkeleton from '@/app/entities/common/Skeleton/PostsGridSkeleton';
+import PostPreview from '@/app/entities/post/list/PostPreview';
+import { Post } from '@/app/types/Post';
 
 const PostList = (props: {
   query: string;

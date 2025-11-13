@@ -1,5 +1,5 @@
-import { Series } from '@/app/types/Series';
 import SeriesDropdownItem from '@/app/entities/series/SeriesDropdownItem';
+import { Series } from '@/app/types/Series';
 
 interface SearchDropdownListProps {
   series: Series[] | null;

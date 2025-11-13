@@ -1,14 +1,14 @@
 'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
+import ErrorBox from '@/app/entities/common/Error/ErrorBox';
+import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
+import SeriesDetailHeader from '@/app/entities/series/detail/SeriesDetailHeader';
+import SeriesDetailPostList from '@/app/entities/series/detail/SeriesDetailPostList';
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
-import ErrorBox from '@/app/entities/common/Error/ErrorBox';
-import { FaArrowLeft } from 'react-icons/fa';
-import Link from 'next/link';
-import { useState } from 'react';
-import SeriesDetailHeader from '@/app/entities/series/detail/SeriesDetailHeader';
-import SeriesDetailPostList from '@/app/entities/series/detail/SeriesDetailPostList';
 
 interface SeriesDetailPageProps {
   params: {

@@ -1,9 +1,9 @@
-import { Post } from '@/app/types/Post';
-import Skeleton from '../common/Skeleton/Skeleton';
-import Link from 'next/link';
-import Image from 'next/image';
-import ErrorBox from '../common/Error/ErrorBox';
 import { AxiosError } from 'axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Post } from '@/app/types/Post';
+import ErrorBox from '../common/Error/ErrorBox';
+import Skeleton from '../common/Skeleton/Skeleton';
 
 interface LatestArticlesProps {
   posts: Post[];

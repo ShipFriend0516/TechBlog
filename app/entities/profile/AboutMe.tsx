@@ -1,5 +1,5 @@
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import Image from 'next/image';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { githubLink, linkedinLink } from '@/app/lib/constants/landingPageData';
 
 const AboutMe = () => {
