@@ -6,7 +6,7 @@ import Series from '@/app/models/Series';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const session = await getServerSession();
     if (!session) {

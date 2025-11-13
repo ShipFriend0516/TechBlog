@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
 import dbConnect from '@/app/lib/dbConnect';
 import Series from '@/app/models/Series';
 import '@/app/models/Post';
-import { getServerSession } from 'next-auth';
 
 export async function GET(
   request: Request,
