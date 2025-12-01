@@ -8,14 +8,22 @@ const AboutMe = () => {
       <div className="grid md:grid-cols-[1fr,2fr] gap-8 md:gap-12 items-center">
         <div className="relative mx-auto md:mx-0">
           <div className="absolute -inset-1 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full blur opacity-20 animate-pulse"></div>
-          <div className="relative h-56 w-56 overflow-hidden rounded-full ring-4 ring-white dark:ring-gray-400 shadow-xl">
+          <div className="relative h-56 w-56 overflow-hidden rounded-full ring-4 ring-white dark:ring-gray-400 shadow-xl group">
+            <Image
+              width={500}
+              height={400}
+              priority={true}
+              src={'/images/profile/darkDuck.png'}
+              alt="Background image"
+              className="object-cover w-full h-full bg-gray-500"
+            />
             <Image
               width={500}
               height={400}
               priority={true}
               src={'/images/profile/profile.jpg'}
               alt="About image"
-              className="hover:scale-110 transition duration-700 object-cover w-full h-full bg-gray-500"
+              className="absolute inset-0 object-cover w-full h-full bg-gray-500 transition-opacity duration-700 group-hover:opacity-0"
             />
           </div>
         </div>
