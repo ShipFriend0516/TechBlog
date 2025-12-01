@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
+import sharp from 'sharp';
+import { put } from '@vercel/blob';
 
 export async function POST(request: Request): Promise<NextResponse> {
   const session = await getServerSession();
@@ -9,47 +10,48 @@ export async function POST(request: Request): Promise<NextResponse> {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
-  const body = (await request.json()) as HandleUploadBody;
-
   try {
-    const jsonResponse = await handleUpload({
-      body,
-      request,
-      onBeforeGenerateToken: async (
-        pathname
-        /* clientPayload */
-      ) => {
-        return {
-          allowedContentTypes: ['image/*'],
-          tokenPayload: JSON.stringify({
-            // optional, sent to your server on upload completion
-            // you could pass a user id from auth, or a value from clientPayload
-          }),
-        };
-      },
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
-        // Get notified of client upload completion
-        // ⚠️ This will not work on `localhost` websites,
-        // Use ngrok or similar to get the full upload flow
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
 
-        console.log('blob upload completed', blob, tokenPayload);
+    if (!file) {
+      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+    }
 
-        try {
-          // Run any logic after the file upload completed
-          // const { userId } = JSON.parse(tokenPayload);
-          // await db.update({ avatar: blob.url, userId });
-          return;
-        } catch (error) {
-          throw new Error('Could not update user');
-        }
-      },
+    if (!file.type.startsWith('image/')) {
+      return NextResponse.json({ error: 'File must be an image' }, { status: 400 });
+    }
+
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const timestamp = Date.now();
+    const baseFilename = file.name.replace(/\.[^/.]+$/, '');
+    const pathname = `/images/${timestamp}-${baseFilename}.webp`;
+
+    // Convert to WebP with max 1920px width
+    const webpBuffer = await sharp(buffer)
+      .resize(1920, null, {
+        withoutEnlargement: true,
+        fit: 'inside',
+      })
+      .webp({ quality: 85 })
+      .toBuffer();
+
+    const blob = await put(pathname, webpBuffer, {
+      access: 'public',
+      contentType: 'image/webp',
     });
 
-    return NextResponse.json(jsonResponse);
+    return NextResponse.json({
+      success: true,
+      url: blob.url,
+    });
   } catch (error) {
+    console.error('Upload error:', error);
     return NextResponse.json(
       { error: (error as Error).message },
-      { status: 400 } // The webhook will retry 5 times waiting for a 200
+      { status: 500 }
     );
   }
 }

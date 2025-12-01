@@ -2,16 +2,22 @@ import Image from 'next/image';
 
 interface UploadedImageProps {
   onClick: (link: string) => void;
-  image: string;
+  imageUrl: string;
 }
 
-const UploadedImage = ({ onClick, image }: UploadedImageProps) => {
+const UploadedImage = ({ onClick, imageUrl }: UploadedImageProps) => {
+  const markdownSyntax = `![이미지](${imageUrl})`;
+
+  const handleClick = () => {
+    onClick(markdownSyntax);
+  };
+
   return (
     <li
       className={
         'relative rounded-md overflow-hidden max-w-[240px] w-full h-full aspect-video inline-block hover:opacity-80 cursor-pointer hover:shadow-lg group'
       }
-      onClick={() => onClick(image)}
+      onClick={handleClick}
     >
       <p
         className={
@@ -22,10 +28,10 @@ const UploadedImage = ({ onClick, image }: UploadedImageProps) => {
       </p>
       <Image
         className={'group object-cover'}
-        src={image}
+        src={imageUrl}
         alt={'이미지'}
         fill={true}
-        sizes={'400'}
+        sizes={'240px'}
       />
     </li>
   );

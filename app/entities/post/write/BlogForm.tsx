@@ -37,10 +37,13 @@ const BlogForm = () => {
 
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
   useBlockNavigate({ title: formData.title, content: formData.content || '' });
-  
-  const handleFieldChange = (field: string, value: string | boolean | string[]) => {
+
+  const handleFieldChange = (
+    field: string,
+    value: string | boolean | string[]
+  ) => {
     setFormData({ [field]: value });
-  }
+  };
 
   return (
     <div className={'px-16'}>

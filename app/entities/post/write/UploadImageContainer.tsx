@@ -2,7 +2,6 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { FaImage } from 'react-icons/fa';
 import UploadedImage from '@/app/entities/post/write/UploadedImage';
-import { upload } from '@vercel/blob/client';
 
 interface UploadImageContainerProps {
   onClick: (link: string) => void;
@@ -34,14 +33,24 @@ const UploadImageContainer = ({
           throw new Error('이미지 파일만 업로드할 수 있습니다.');
         }
 
-        const timestamp = new Date().getTime();
-        const pathname = `/images/${timestamp}-${file.name}`;
-        const newBlob = await upload(pathname, file, {
-          access: 'public',
-          handleUploadUrl: '/api/upload',
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
         });
 
-        setUploadedImages((prev) => [...prev, newBlob.url]);
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || '업로드 실패');
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.url) {
+          setUploadedImages((prev) => [...prev, data.url]);
+        }
       }
 
       return;
@@ -86,8 +95,8 @@ const UploadImageContainer = ({
           'w-full border px-4 py-4 bg-gray-100 whitespace-nowrap space-x-4 overflow-x-scroll gap-2 min-h-40'
         }
       >
-        {uploadedImages.map((image, index) => (
-          <UploadedImage key={index} onClick={onClick} image={image} />
+        {uploadedImages.map((imageUrl, index) => (
+          <UploadedImage key={index} onClick={onClick} imageUrl={imageUrl} />
         ))}
       </ul>
     </div>
