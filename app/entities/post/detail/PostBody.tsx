@@ -21,14 +21,20 @@ interface Props {
   loading?: boolean;
 }
 
+export interface SelectedImage {
+  src: string;
+  alt?: string;
+}
+
 const PostBody = ({ content, tags, loading }: Props) => {
   const { theme } = useTheme();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null);
+
   const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
 
   // 이미지 클릭 핸들러 생성
   const addImageClickHandler = createImageClickHandler(
-    setSelectedImage,
+    setSelectedImage, 
     setOpenImageBox
   );
 
@@ -48,6 +54,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
             overlayOpen={openImageBox}
             setOverlayOpen={setOpenImageBox}
             maxWidth={'5xl'}
+            animate={false}
           >
             <ImageZoomOverlayContainer
               selectedImage={selectedImage}

@@ -2,6 +2,8 @@
  * MDEditor rehypeRewrite에서 사용하는 유틸리티 함수들
  */
 
+import { SelectedImage } from "./PostBody";
+
 /**
  * aside 태그의 첫 번째 텍스트 노드를 emoji span으로 래핑
  */
@@ -245,7 +247,7 @@ export const createOpenGraph = (href: string) => {
  */
 export const createImageClickHandler =
   (
-    setSelectedImage: (url: string | null) => void,
+    setSelectedImage: (image: SelectedImage | null) => void,
     setOpenImageBox: (open: boolean) => void
   ) =>
   (node: any) => {
@@ -253,7 +255,7 @@ export const createImageClickHandler =
       const imageUrl = node.properties.src;
       if (imageUrl) {
         node.properties.onClick = () => {
-          setSelectedImage(imageUrl);
+          setSelectedImage({ src: imageUrl, alt: node.properties.alt || undefined });
           setOpenImageBox(true);
         };
       }

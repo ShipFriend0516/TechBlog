@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import { FaX } from 'react-icons/fa6';
+import { SelectedImage } from '@/app/entities/post/detail/PostBody';
 
 interface ImageZoomOverlayContainerProps {
-  selectedImage: string | null;
-  setSelectedImage: (image: string | null) => void;
+  selectedImage: SelectedImage | null;
+  setSelectedImage: (image: SelectedImage | null) => void;
   setOpenImageBox: (open: boolean) => void;
 }
 const ImageZoomOverlayContainer = ({
@@ -14,23 +14,22 @@ const ImageZoomOverlayContainer = ({
   if (!selectedImage) return null;
 
   return (
-    <div className={'w-full zoomBox p-4 bg-white rounded-md shadow-lg'}>
+    <div className={'w-full zoomBox p-2 rounded-2xl bg-black shadow-lg'}>
       <button
         onClick={() => {
           setSelectedImage(null);
           setOpenImageBox(false);
         }}
-        className={'text-black w-full flex justify-end'}
+        className={'text-white w-full flex justify-end p-2'}
       >
         <FaX />
       </button>
-      <Image
-        src={selectedImage}
-        alt={'확대된 이미지'}
-        width={800}
-        height={600}
+      <img
+        src={selectedImage.src}
+        alt={'확대된 이미지'} 
         className={'rounded-none !important w-full h-auto mx-auto'}
       />
+      {selectedImage.alt && <p className={'text-neutral-200 text-sm font-light text-center my-1'}>{selectedImage.alt}</p>}
     </div>
   );
 };
