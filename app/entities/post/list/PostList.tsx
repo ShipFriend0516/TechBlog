@@ -1,6 +1,9 @@
+'use client';
+
 import NotFound from '@/app/entities/common/Animation/NotFound';
 import PostsGridSkeleton from '@/app/entities/common/Skeleton/PostsGridSkeleton';
 import PostPreview from '@/app/entities/post/list/PostPreview';
+import useGridColumns from '@/app/hooks/common/useGridColumns';
 import { Post } from '@/app/types/Post';
 
 const PostList = (props: {
@@ -9,6 +12,8 @@ const PostList = (props: {
   posts: Post[] | undefined;
   resetSearchCondition: () => void;
 }) => {
+  const cols = useGridColumns();
+
   return (
     <ul
       className={
@@ -18,24 +23,37 @@ const PostList = (props: {
       {props.loading ? (
         <PostsGridSkeleton gridCount={12} />
       ) : props.posts && props.posts.length > 0 ? (
-        props.posts.map(
-          (post) =>
-            post._id && (
-              <li className={'block '} key={post._id}>
-                <PostPreview
-                  _id={post._id}
-                  slug={post.slug}
-                  title={post.title}
-                  subTitle={post.subTitle}
-                  author={post.author}
-                  date={post.date}
-                  timeToRead={post.timeToRead}
-                  profileImage={'/images/profile/profile.jpg'}
-                  thumbnailImage={post.thumbnailImage}
-                />
-              </li>
-            )
-        )
+        props.posts.map((post, index) => {
+          if (!post._id) return null;
+
+          const row = Math.floor(index / cols);
+          const col = index % cols;
+          const diagonalIndex = row + col;
+          const delay = diagonalIndex * 0.1;
+
+          return (
+            <li
+              className={'block opacity-0 translate-y-5 animate-popUp'}
+              key={post._id}
+              style={{
+                animationDelay: `${delay}s`,
+                animationFillMode: 'forwards',
+              }}
+            >
+              <PostPreview
+                _id={post._id}
+                slug={post.slug}
+                title={post.title}
+                subTitle={post.subTitle}
+                author={post.author}
+                date={post.date}
+                timeToRead={post.timeToRead}
+                profileImage={'/images/profile/profile.jpg'}
+                thumbnailImage={post.thumbnailImage}
+              />
+            </li>
+          );
+        })
       ) : (
         <div className={'flex flex-col gap-4 col-span-4'}>
           <NotFound
