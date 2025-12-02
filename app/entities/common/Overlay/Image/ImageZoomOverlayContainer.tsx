@@ -14,7 +14,7 @@ const ImageZoomOverlayContainer = ({
   if (!selectedImage) return null;
 
   return (
-    <div className={'w-full zoomBox p-2 rounded-2xl bg-black shadow-lg'}>
+    <div className={'w-full zoomBox p-2 rounded-2xl bg-black shadow-lg shadow-gray-200/20'}>
       <button
         onClick={() => {
           setSelectedImage(null);
