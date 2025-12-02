@@ -17,7 +17,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
       title={item.title}
       href={`/series/${item.slug}`}
       key={item.slug}
-      className="block cursor-pointer group rounded-lg active:bg-gray-800/20 "
+      className="block cursor-pointer group rounded-lg active:bg-gray-600/20 "
     >
       <div className={`min-h-[326px] shadow-sm hover:shadow-xl origin-bottom transition-all duration-300 hover:-translate-y-2 active:scale-95 overflow-hidden border rounded-lg ${lightmodeStyle} ${darkmodeStyle}`}>
         <div className="relative aspect-video w-full overflow-hidden">
