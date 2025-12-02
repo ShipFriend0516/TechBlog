@@ -9,17 +9,18 @@ interface SeriesPreviewProps {
 }
 
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
-  const darkmodeStyle = `dark:bg-primary-900 dark:text-neutral-200 dark:border-neutral-800 `;
-  const lightmodeStyle = `bg-white border-slate-200`;
+  const lightmodeStyle = `bg-white text-black hover:shadow-neutral-200/80`;
+  const darkmodeStyle = `dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800 dark:shadow-neutral-800/40 dark:hover:shadow-neutral-800/80`;
 
   return (
     <Link
       title={item.title}
       href={`/series/${item.slug}`}
       key={item.slug}
-      className={`cursor-pointer group  rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden border ${lightmodeStyle} ${darkmodeStyle} `}
+      className="block cursor-pointer group rounded-lg active:bg-gray-800/20 "
     >
-      <div className="relative aspect-video w-full overflow-hidden">
+      <div className={`min-h-[326px] shadow-sm hover:shadow-xl origin-bottom transition-all duration-300 hover:-translate-y-2 active:scale-95 overflow-hidden border rounded-lg ${lightmodeStyle} ${darkmodeStyle}`}>
+        <div className="relative aspect-video w-full overflow-hidden">
         {item.thumbnailImage ? (
           <Image
             width={400}
@@ -37,11 +38,11 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
       </div>
 
       <div className="p-5">
-        <h3 className="text-default text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+        <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
           {item.title}
         </h3>
 
-        <div className="flex items-center gap-2 text-sm text-slate-500 mb-3">
+        <div className="flex items-center gap-2 text-sm text-weak mb-3">
           <span className="flex items-center gap-1">
             <FaCalendar className="w-4 h-4" />
             {new Date(item.date).toLocaleDateString()}
@@ -52,9 +53,10 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
           </span>
         </div>
 
-        <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-3">
+        <p className="text-sm text-weak line-clamp-3">
           {item.description || 'No description available'}
         </p>
+      </div>
       </div>
     </Link>
   );

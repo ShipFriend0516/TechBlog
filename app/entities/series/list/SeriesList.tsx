@@ -1,13 +1,17 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { FaBookOpen } from 'react-icons/fa';
 import SeriesGridSkeleton from '@/app/entities/common/Skeleton/SeriesGridSkeleton';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import SeriesPreview from '@/app/entities/series/list/SeriesPreview';
+import useGridColumns from '@/app/hooks/common/useGridColumns';
 import { Series } from '@/app/types/Series';
 
 const SeriesList = () => {
   const [series, setSeries] = useState<Series[]>([]);
   const [loading, setLoading] = useState(true);
+  const cols = useGridColumns();
 
   const getSeries = async () => {
     const data = await getAllSeriesData();
@@ -23,11 +27,27 @@ const SeriesList = () => {
   if (!loading && series.length === 0) return <NoSeriesFound />;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {series.map((item) => (
-        <SeriesPreview item={item} key={item.slug} />
-      ))}
-    </div>
+    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {series.map((item, index) => {
+        const row = Math.floor(index / cols);
+        const col = index % cols;
+        const diagonalIndex = row + col;
+        const delay = diagonalIndex * 0.1;
+
+        return (
+          <li
+            key={item.slug}
+            className="opacity-0 translate-y-5 animate-popUp"
+            style={{
+              animationDelay: `${delay}s`,
+              animationFillMode: 'forwards',
+            }}
+          >
+            <SeriesPreview item={item} />
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 
