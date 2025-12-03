@@ -30,7 +30,7 @@ if (!cached) {
   };
 }
 
-async function dbConnect(uri?: string): Promise<Mongoose> {
+async function dbConnect(uri?: string, retries = 3): Promise<Mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
@@ -61,6 +61,13 @@ async function dbConnect(uri?: string): Promise<Mongoose> {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
+
+    if (retries > 0) {
+      console.log(`🔄 DB 연결 재시도 중... (남은 시도: ${retries})`);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return dbConnect(uri, retries - 1);
+    }
+
     throw e;
   }
 
