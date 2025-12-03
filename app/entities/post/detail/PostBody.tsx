@@ -13,7 +13,7 @@ import {
   addDescriptionUnderImage,
   renderYoutubeEmbed,
   createImageClickHandler,
-} from './rehypeUtils';
+} from '../../../lib/utils/rehypeUtils';
 
 interface Props {
   content: string;
@@ -28,13 +28,15 @@ export interface SelectedImage {
 
 const PostBody = ({ content, tags, loading }: Props) => {
   const { theme } = useTheme();
-  const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null);
+  const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(
+    null
+  );
 
   const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
 
   // 이미지 클릭 핸들러 생성
   const addImageClickHandler = createImageClickHandler(
-    setSelectedImage, 
+    setSelectedImage,
     setOpenImageBox
   );
 
