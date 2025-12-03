@@ -21,7 +21,7 @@ const UploadedImage = ({ onClick, imageUrl }: UploadedImageProps) => {
     >
       <p
         className={
-          ' z-10 absolute opacity-0 group-hover:opacity-100 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-xl font-bold text-black'
+          ' z-10 absolute opacity-0 group-hover:opacity-100 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-xl font-bold text-white dark:text-black bg-black/70 dark:bg-white/80 px-2 py-1 rounded backdrop-blur-sm'
         }
       >
         링크 복사

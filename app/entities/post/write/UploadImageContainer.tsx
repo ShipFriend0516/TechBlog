@@ -117,10 +117,12 @@ const UploadImageContainer = ({
   };
 
   return (
-    <div className={'w-full mt-4 '}>
+    <div className={'w-full mt-4'}>
       <div className={'flex justify-between my-1'}>
         <div>
-          <span className={'text-xl font-bold'}>업로드된 이미지</span>
+          <span className={'text-xl font-bold text-black dark:text-white'}>
+            업로드된 이미지
+          </span>
           {isUploading ? (
             <p
               className={'text-sm text-emerald-600 font-semibold animate-pulse'}
@@ -128,7 +130,7 @@ const UploadImageContainer = ({
               업로드 중... ({uploadProgress.current}/{uploadProgress.total})
             </p>
           ) : (
-            <p>클릭하여 링크 복사</p>
+            <p className={'text-gray-600 dark:text-gray-400'}>클릭하여 링크 복사</p>
           )}
         </div>
         <div
@@ -156,10 +158,10 @@ const UploadImageContainer = ({
       </div>
 
       <ul
-        className={`w-full border px-4 py-4 whitespace-nowrap space-x-4 overflow-x-scroll  gap-2 min-h-40 transition-colors ${
+        className={`w-full border border-gray-400 px-4 py-4 whitespace-nowrap space-x-4 overflow-x-scroll gap-2 min-h-40 transition-colors ${
           isDragging
             ? 'border-primary-bangladesh border-dashed border-2'
-            : 'bg-gray-100'
+            : 'bg-gray-100 dark:bg-gray-800'
         } ${isUploading ? 'opacity-70 pointer-events-none' : ''}`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -167,8 +169,10 @@ const UploadImageContainer = ({
         onDrop={handleDrop}
       >
         {uploadedImages.length === 0 && !isUploading && (
-          <div className="pointer-events-none text-sm text-neutral-400">
-            업로드된 이미지가 없습니다. 드래그&드랍으로 이미지를 추가하세요.
+          <div className="pointer-events-none text-sm text-gray-500 dark:text-gray-400">
+            {isDragging
+              ? '떨어뜨려!!'
+              : '업로드된 이미지가 없습니다. 드래그&드랍으로 이미지를 추가하세요.'}
           </div>
         )}
         {isUploading && uploadedImages.length === 0 && (
