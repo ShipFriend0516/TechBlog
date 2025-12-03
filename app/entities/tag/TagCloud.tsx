@@ -24,11 +24,34 @@ interface Particle {
 const TagCloud = ({ tags }: TagCloudProps) => {
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [radius, setRadius] = useState(250);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 화면 크기에 따른 반지름 설정
+  useEffect(() => {
+    const updateRadius = () => {
+      const width = window.innerWidth;
+      const mobile = width < 768;
+      setIsMobile(mobile);
+
+      if (mobile) {
+        setRadius(150);
+      } else if (width < 1024) {
+        setRadius(200);
+      } else {
+        setRadius(250);
+      }
+    };
+
+    updateRadius();
+    window.addEventListener('resize', updateRadius);
+    return () => window.removeEventListener('resize', updateRadius);
+  }, []);
 
   // 마법 가루 파티클 생성
   useEffect(() => {
-    const particleCount = 120;
-    const radius = 250;
+    // 모바일에서 파티클 수 감소
+    const particleCount = isMobile ? 60 : 120;
 
     const newParticles: Particle[] = Array.from(
       { length: particleCount },
@@ -82,7 +105,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
     }, 50);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [radius, isMobile]);
 
   // Fibonacci Sphere 알고리즘으로 3D 구형 좌표 계산
   const tagsWithPositions = useMemo(() => {
@@ -93,16 +116,6 @@ const TagCloud = ({ tags }: TagCloudProps) => {
       const phi = Math.acos(1 - (2 * (index + 0.5)) / total);
       const theta = 2 * Math.PI * index * goldenRatio;
 
-      // 반응형 반지름
-      const radius =
-        typeof window !== 'undefined'
-          ? window.innerWidth < 768
-            ? 150 // 모바일
-            : window.innerWidth < 1024
-              ? 200 // 태블릿
-              : 250 // 데스크톱
-          : 250;
-
       const x = radius * Math.sin(phi) * Math.cos(theta);
       const y = radius * Math.sin(phi) * Math.sin(theta);
       const z = radius * Math.cos(phi);
@@ -112,7 +125,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
         position: { x, y, z },
       };
     });
-  }, [tags]);
+  }, [tags, radius]);
 
   // Z축 기반 스타일 계산
   const getTagStyle = (tagWithPos: TagWithPosition, isHovered: boolean) => {
@@ -120,17 +133,20 @@ const TagCloud = ({ tags }: TagCloudProps) => {
     const { x, y, z } = position;
 
     // z값 정규화 (-radius ~ radius → 0 ~ 1)
-    const radius = 250;
     const normalized = (z + radius) / (radius * 2);
 
-    // 태그 빈도에 따른 기본 크기 조정 (추가)
+    // 태그 빈도에 따른 기본 크기 조정
     const countFactor = Math.log(count + 1) / Math.log(tags[0].count + 1);
     const baseSize = 0.7 + countFactor * 0.6; // 0.7 ~ 1.3
 
     const scale = (0.5 + normalized * 1.5) * baseSize;
     const opacity = 0.3 + normalized * 0.7;
     const blur = (1 - normalized) * 2;
-    const fontSize = (12 + normalized * 24) * baseSize * 0.7;
+
+    // 모바일에서 폰트 크기 조정
+    const baseFontSize = isMobile ? 10 : 12;
+    const maxFontSize = isMobile ? 18 : 24;
+    const fontSize = (baseFontSize + normalized * maxFontSize) * baseSize * 0.7;
 
     return {
       x,
@@ -148,7 +164,8 @@ const TagCloud = ({ tags }: TagCloudProps) => {
     targetPos: TagWithPosition,
     hoveredPos: TagWithPosition
   ) => {
-    if (!hoveredTag || hoveredTag !== hoveredPos.tag) {
+    // 모바일에서는 밀어내기 효과 비활성화
+    if (isMobile || !hoveredTag || hoveredTag !== hoveredPos.tag) {
       return { x: 0, y: 0 };
     }
 
@@ -171,10 +188,9 @@ const TagCloud = ({ tags }: TagCloudProps) => {
   const hoveredTagData = tagsWithPositions.find((t) => t.tag === hoveredTag);
 
   return (
-    <div className="relative w-full h-[600px] flex items-center justify-center overflow-hidden">
+    <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] flex items-center justify-center overflow-hidden">
       {/* 마법 가루 파티클 */}
       {particles.map((particle) => {
-        const radius = 250;
         const normalized = (particle.z + radius) / (radius * 2);
         const particleScale = 0.3 + normalized * 0.7;
         const particleOpacity = particle.opacity * normalized;
