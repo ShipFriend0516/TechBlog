@@ -24,6 +24,7 @@ const BlogList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const seriesSlugParam = searchParams.get('series');
+  const tagParam = searchParams.get('tag');
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const [totalPosts, setTotalPosts] = useState(0);
@@ -37,6 +38,7 @@ const BlogList = () => {
         params: {
           query: debouncedQuery ? debouncedQuery.trim() : null,
           series: seriesSlugParam,
+          tag: tagParam,
           compact: 'true',
           page: Number(searchParams.get('page')) || 1,
         },
@@ -49,9 +51,9 @@ const BlogList = () => {
       onSuccess: (data: { posts: Post[]; pagination: PaginationData }) => {
         setTotalPosts(data?.pagination.totalPosts);
       },
-      dependencies: [debouncedQuery, seriesSlugParam, currentPage],
+      dependencies: [debouncedQuery, seriesSlugParam, tagParam, currentPage],
     };
-  }, [debouncedQuery, seriesSlugParam, currentPage]);
+  }, [debouncedQuery, seriesSlugParam, tagParam, currentPage]);
 
   const { data, loading, error } = useDataFetch<{
     posts: Post[];
@@ -66,6 +68,7 @@ const BlogList = () => {
       page: currentPage,
       series: seriesSlugParam,
       query: query,
+      tag: tagParam,
     },
   });
 
@@ -87,6 +90,7 @@ const BlogList = () => {
         setQuery={setQuery}
         resetSearchCondition={resetSearchCondition}
         searchSeries={seriesSlugParam || ''}
+        searchTag={tagParam || ''}
       />
       <PostList
         query={query}

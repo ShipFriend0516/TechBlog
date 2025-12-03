@@ -15,6 +15,7 @@ export async function GET(req: Request) {
     // 기존 파라미터
     const query = searchParams.get('query') || '';
     const seriesSlug = searchParams.get('series') || '';
+    const tagParam = searchParams.get('tag') || '';
     const isCompact = searchParams.get('compact') === 'true';
     const isCanViewPrivate = searchParams.get('private') === 'true';
 
@@ -56,6 +57,13 @@ export async function GET(req: Request) {
     if (seriesId) {
       (searchConditions.$and as QuerySelector<string>[]).push({
         seriesId: seriesId._id,
+      } as QuerySelector<string>);
+    }
+
+    // 태그 필터
+    if (tagParam) {
+      (searchConditions.$and as QuerySelector<string>[]).push({
+        tags: tagParam,
       } as QuerySelector<string>);
     }
 
