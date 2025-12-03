@@ -53,6 +53,9 @@ const NavBar = () => {
             <Link href="/series">Series</Link>
           </li>
           <li>
+            <Link href="/tags">Tags</Link>
+          </li>
+          <li>
             <Link href="/portfolio">Portfolio</Link>
           </li>
           <li>

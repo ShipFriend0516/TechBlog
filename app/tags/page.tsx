@@ -31,13 +31,13 @@ const TagsPage = () => {
   }, []);
 
   return (
-    <section className="w-full p-4 max-w-5xl mx-auto">
-      <h1 className="text-4xl font-bold mt-4 text-center">태그</h1>
-      <p className="text-lg text-weak mb-8 text-center">
+    <section className="w-full p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
+      <h1 className="text-3xl sm:text-4xl font-bold mt-4 text-center">태그</h1>
+      <p className="text-base sm:text-lg text-weak mb-6 sm:mb-8 text-center">
         태그를 클릭하면 관련 글을 확인할 수 있습니다
       </p>
 
-      <div className="min-h-[600px] relative">
+      <div className="min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] relative">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <SVGLoadingSpinner />
