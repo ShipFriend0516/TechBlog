@@ -1,5 +1,11 @@
 'use client';
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  DragEvent,
+  SetStateAction,
+  useState,
+} from 'react';
 import { FaImage } from 'react-icons/fa';
 import UploadedImage from '@/app/entities/post/write/UploadedImage';
 
@@ -13,25 +19,29 @@ const UploadImageContainer = ({
   uploadedImages,
   setUploadedImages,
 }: UploadImageContainerProps) => {
-  const uploadToBlob = async (event: ChangeEvent) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({
+    current: 0,
+    total: 0,
+  });
+
+  const uploadFiles = async (files: FileList) => {
     try {
-      event.preventDefault();
-      const target = event.target as HTMLInputElement;
-      if (!target.files) {
-        throw new Error('이미지가 선택되지 않았습니다.');
-      }
-
-      const files = target.files;
-
       if (files.length === 0) {
         throw new Error('업로드할 파일이 없습니다.');
       }
+
+      setIsUploading(true);
+      setUploadProgress({ current: 0, total: files.length });
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (!file.type.startsWith('image/')) {
           throw new Error('이미지 파일만 업로드할 수 있습니다.');
         }
+
+        setUploadProgress({ current: i + 1, total: files.length });
 
         const formData = new FormData();
         formData.append('file', file);
@@ -57,6 +67,52 @@ const UploadImageContainer = ({
     } catch (error) {
       console.error('업로드 실패:', error);
       throw error;
+    } finally {
+      setIsUploading(false);
+      setUploadProgress({ current: 0, total: 0 });
+    }
+  };
+
+  const uploadToBlob = async (event: ChangeEvent) => {
+    try {
+      event.preventDefault();
+      const target = event.target as HTMLInputElement;
+      if (!target.files) {
+        throw new Error('이미지가 선택되지 않았습니다.');
+      }
+
+      await uploadFiles(target.files);
+    } catch (error) {
+      console.error('업로드 실패:', error);
+      throw error;
+    }
+  };
+
+  const handleDragEnter = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e: DragEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      await uploadFiles(files);
     }
   };
 
@@ -65,7 +121,15 @@ const UploadImageContainer = ({
       <div className={'flex justify-between my-1'}>
         <div>
           <span className={'text-xl font-bold'}>업로드된 이미지</span>
-          <p>클릭하여 링크 복사</p>
+          {isUploading ? (
+            <p
+              className={'text-sm text-emerald-600 font-semibold animate-pulse'}
+            >
+              업로드 중... ({uploadProgress.current}/{uploadProgress.total})
+            </p>
+          ) : (
+            <p>클릭하여 링크 복사</p>
+          )}
         </div>
         <div
           className={
@@ -86,15 +150,32 @@ const UploadImageContainer = ({
               'w-full h-full file:hidden text-transparent  px-2 hover:bg-emerald-600'
             }
             accept={'image/*'}
+            disabled={isUploading}
           ></input>
         </div>
       </div>
 
       <ul
-        className={
-          'w-full border px-4 py-4 bg-gray-100 whitespace-nowrap space-x-4 overflow-x-scroll gap-2 min-h-40'
-        }
+        className={`w-full border px-4 py-4 whitespace-nowrap space-x-4 overflow-x-scroll  gap-2 min-h-40 transition-colors ${
+          isDragging
+            ? 'border-primary-bangladesh border-dashed border-2'
+            : 'bg-gray-100'
+        } ${isUploading ? 'opacity-70 pointer-events-none' : ''}`}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
       >
+        {uploadedImages.length === 0 && !isUploading && (
+          <div className="pointer-events-none text-sm text-neutral-400">
+            업로드된 이미지가 없습니다. 드래그&드랍으로 이미지를 추가하세요.
+          </div>
+        )}
+        {isUploading && uploadedImages.length === 0 && (
+          <div className="pointer-events-none text-sm text-emerald-600 font-semibold">
+            이미지를 업로드하는 중입니다...
+          </div>
+        )}
         {uploadedImages.map((imageUrl, index) => (
           <UploadedImage key={index} onClick={onClick} imageUrl={imageUrl} />
         ))}
