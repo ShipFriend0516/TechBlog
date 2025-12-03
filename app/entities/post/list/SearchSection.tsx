@@ -15,6 +15,7 @@ interface SearchSectionProps {
   setQuery: (query: string) => void;
   resetSearchCondition: () => void;
   searchSeries: string;
+  searchTag?: string;
 }
 
 const SearchSection = ({
@@ -22,6 +23,7 @@ const SearchSection = ({
   setQuery,
   resetSearchCondition,
   searchSeries,
+  searchTag,
 }: SearchSectionProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
@@ -76,7 +78,7 @@ const SearchSection = ({
 
         {/* 검색 버튼 및 검색창 */}
         <div className={'flex items-center'}>
-          {(query || searchSeries) && (
+          {(query || searchSeries || searchTag) && (
             <div
               className={
                 'bg-neutral-600  rounded-lg px-2 text-sm py-0.5 text-white'
@@ -87,12 +89,17 @@ const SearchSection = ({
                   <b>{searchSeries} </b> 시리즈에서{' '}
                 </span>
               )}
+              {searchTag && (
+                <span>
+                  <b>#{searchTag}</b> 태그로{' '}
+                </span>
+              )}
               <span>
                 <b>{query ? query : '전체'}</b>로 검색 중...
               </span>
             </div>
           )}
-          {(query || searchSeries) && (
+          {(query || searchSeries || searchTag) && (
             <button
               onClick={resetSearchCondition}
               className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
