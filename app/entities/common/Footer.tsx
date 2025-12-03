@@ -80,6 +80,9 @@ const Footer = () => {
             <Link href={'/portfolio'}>Portfolio</Link>
           </div>
           <div>
+            <Link href={'/tags'}>Tags</Link>
+          </div>
+          <div>
             <Link href={'/admin'}>Admin</Link>
           </div>
         </div>
