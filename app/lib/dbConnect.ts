@@ -30,24 +30,46 @@ if (!cached) {
   };
 }
 
-async function dbConnect(uri?: string, retries = 3): Promise<Mongoose> {
-  if (cached.conn) {
-    return cached.conn;
-  }
+let isEventListenerRegistered = false;
+
+function registerEventListeners() {
+  if (isEventListenerRegistered) return;
 
   mongoose.connection.on('connected', () => {
     console.log('🎶 MongoDB와 연결 성공');
   });
 
   mongoose.connection.on('error', (error: Error) => {
-    console.error('👻 MongoDB 연결 실패!', error);
+    console.error('👻 MongoDB 연결 에러!', error);
   });
+
+  mongoose.connection.on('disconnected', () => {
+    console.warn('⚠️ MongoDB 연결 끊김');
+    cached.conn = null;
+  });
+
+  isEventListenerRegistered = true;
+}
+
+async function dbConnect(uri?: string, retries = 3): Promise<Mongoose> {
+  if (cached.conn && mongoose.connection.readyState === 1) {
+    return cached.conn;
+  }
+
+  if (mongoose.connection.readyState === 2) {
+    console.log('⏳ MongoDB 연결 중...');
+  }
+
+  registerEventListeners();
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: true,
-      maxPoolSize: 15,
-      serverSelectionTimeoutMS: 10000,
+      bufferCommands: false,
+      maxPoolSize: 10,
+      minPoolSize: 2,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      connectTimeoutMS: 10000,
     };
 
     cached.promise = mongoose
@@ -63,11 +85,15 @@ async function dbConnect(uri?: string, retries = 3): Promise<Mongoose> {
     cached.promise = null;
 
     if (retries > 0) {
-      console.log(`🔄 DB 연결 재시도 중... (남은 시도: ${retries})`);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const delay = Math.min(1000 * Math.pow(2, 3 - retries), 5000);
+      console.log(
+        `🔄 DB 연결 재시도 중... (남은 시도: ${retries}, ${delay}ms 후)`
+      );
+      await new Promise((resolve) => setTimeout(resolve, delay));
       return dbConnect(uri, retries - 1);
     }
 
+    console.error('❌ DB 연결 최종 실패:', e);
     throw e;
   }
 
