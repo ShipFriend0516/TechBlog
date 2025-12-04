@@ -176,7 +176,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
         return (
           <motion.div
             key={`particle-${particle.id}`}
-            className="absolute rounded-full pointer-events-none bg-primary-bangladesh dark:bg-primary-mountain"
+            className="absolute rounded-full pointer-events-none bg-slate-500 dark:bg-primary-mountain"
             style={{
               width: `${particle.size}px`,
               height: `${particle.size}px`,
@@ -232,9 +232,9 @@ const TagCloud = ({ tags }: TagCloudProps) => {
             <Link
               href={`/posts?page=1&tag=${encodeURIComponent(tagWithPos.tag)}`}
               className="font-bold text-primary-bangladesh hover:text-primary-mountain
-                         dark:text-primary-caribbean dark:hover:text-primary-mountain
-                         transition-colors duration-300 cursor-pointer
-                         whitespace-nowrap select-none"
+                        dark:text-primary-caribbean dark:hover:text-primary-mountain
+                        transition-colors duration-300 cursor-pointer
+                        whitespace-nowrap select-none"
               aria-label={`${tagWithPos.tag} 태그 (${tagWithPos.count}개 글)`}
             >
               #{tagWithPos.tag}
