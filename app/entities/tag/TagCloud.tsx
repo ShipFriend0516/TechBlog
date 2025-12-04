@@ -91,8 +91,8 @@ const TagCloud = ({ tags }: TagCloudProps) => {
     const baseSize = 0.7 + countFactor * 0.6; // 0.7 ~ 1.3
 
     const scale = (1 + normalized * 0.5) * baseSize;
-    const opacity = 0.3 + normalized * 0.7;
-    const blur = (1 - normalized) * 2;
+    const opacity = isHovered ? 1 : 0.3 + normalized * 0.7;
+    const blur = isHovered ? 0 : (1 - normalized) * 2;
 
     // 모바일에서 폰트 크기 조정
     const baseFontSize = isMobile ? 10 : 12;
@@ -106,7 +106,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
       opacity,
       filter: `blur(${blur}px)`,
       fontSize: `${fontSize}px`,
-      zIndex: Math.round(normalized * 100),
+      zIndex: isHovered ? 200 : Math.round(normalized * 100),
     };
   };
 
