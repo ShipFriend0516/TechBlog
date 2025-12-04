@@ -2,111 +2,18 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { TagData, TagWithPosition } from '@/app/types/Tag';
 
 interface TagCloudProps {
   tags: TagData[];
 }
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  z: number;
-  size: number;
-  speedX: number;
-  speedY: number;
-  speedZ: number;
-  opacity: number;
-}
-
 const TagCloud = ({ tags }: TagCloudProps) => {
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [radius, setRadius] = useState(250);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = window.innerWidth < 768;
 
-  // 화면 크기에 따른 반지름 설정
-  useEffect(() => {
-    const updateRadius = () => {
-      const width = window.innerWidth;
-      const mobile = width < 768;
-      setIsMobile(mobile);
-
-      if (mobile) {
-        setRadius(150);
-      } else if (width < 1024) {
-        setRadius(200);
-      } else {
-        setRadius(250);
-      }
-    };
-
-    updateRadius();
-    window.addEventListener('resize', updateRadius);
-    return () => window.removeEventListener('resize', updateRadius);
-  }, []);
-
-  // 마법 가루 파티클 생성
-  useEffect(() => {
-    // 모바일에서 파티클 수 감소
-    const particleCount = isMobile ? 60 : 120;
-
-    const newParticles: Particle[] = Array.from(
-      { length: particleCount },
-      (_, i) => {
-        // 랜덤 구형 좌표
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        const r = radius * (0.6 + Math.random() * 0.5);
-
-        return {
-          id: i,
-          x: r * Math.sin(phi) * Math.cos(theta),
-          y: r * Math.sin(phi) * Math.sin(theta),
-          z: r * Math.cos(phi),
-          size: 2 + Math.random() * 3,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
-          speedZ: (Math.random() - 0.5) * 0.5,
-          opacity: 0.3 + Math.random() * 0.4,
-        };
-      }
-    );
-
-    setParticles(newParticles);
-
-    // 파티클 애니메이션
-    const interval = setInterval(() => {
-      setParticles((prev) =>
-        prev.map((p) => {
-          let newX = p.x + p.speedX;
-          let newY = p.y + p.speedY;
-          let newZ = p.z + p.speedZ;
-
-          // 경계 체크 및 반사
-          const maxRadius = radius * 1.1;
-          const distance = Math.sqrt(newX ** 2 + newY ** 2 + newZ ** 2);
-          if (distance > maxRadius) {
-            newX = p.x - p.speedX;
-            newY = p.y - p.speedY;
-            newZ = p.z - p.speedZ;
-          }
-
-          return {
-            ...p,
-            x: newX,
-            y: newY,
-            z: newZ,
-          };
-        })
-      );
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [radius, isMobile]);
-
+  const radius = 200;
   // Fibonacci Sphere 알고리즘으로 3D 구형 좌표 계산
   const tagsWithPositions = useMemo(() => {
     const total = tags.length;
@@ -188,37 +95,9 @@ const TagCloud = ({ tags }: TagCloudProps) => {
   const hoveredTagData = tagsWithPositions.find((t) => t.tag === hoveredTag);
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] flex items-center justify-center overflow-hidden">
-      {/* 마법 가루 파티클 */}
-      {particles.map((particle) => {
-        const normalized = (particle.z + radius) / (radius * 2);
-        const particleScale = 0.3 + normalized * 0.7;
-        const particleOpacity = particle.opacity * normalized;
-
-        return (
-          <motion.div
-            key={`particle-${particle.id}`}
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              width: `${particle.size}px`,
-              height: `${particle.size}px`,
-              background: `radial-gradient(circle, rgba(0, 223, 129, ${particleOpacity}), rgba(44, 194, 149, 0))`,
-              boxShadow: `0 0 ${particle.size * 2}px rgba(0, 223, 129, ${particleOpacity * 0.5})`,
-              zIndex: Math.round(normalized * 50),
-            }}
-            animate={{
-              x: particle.x,
-              y: particle.y,
-              scale: particleScale,
-              opacity: particleOpacity,
-            }}
-            transition={{
-              duration: 0.05,
-              ease: 'linear',
-            }}
-          />
-        );
-      })}
+    <div className="relative w-full h-[600px] flex items-center justify-center overflow-hidden">
+      {/* 그라데이션 배경 */}
+      <div className="absolute inset-0 bg-gradient-radial from-primary-caribbean/10 via-transparent to-transparent dark:from-primary-mountain/10" />
 
       {/* 태그들 */}
       {tagsWithPositions.map((tagWithPos) => {
