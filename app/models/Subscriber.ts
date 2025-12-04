@@ -42,10 +42,6 @@ const subscriberSchema = new Schema(
   }
 );
 
-subscriberSchema.index({ email: 1 });
-subscriberSchema.index({ verificationToken: 1 });
-subscriberSchema.index({ unsubscribeToken: 1 });
-
 const Subscriber = models.Subscriber || model('Subscriber', subscriberSchema);
 
 export default Subscriber;
