@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { isRedirectError } from 'next/dist/client/components/redirect';
 import { NextRequest } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import Subscriber from '@/app/models/Subscriber';
@@ -37,6 +38,9 @@ export async function GET(req: NextRequest) {
 
     redirect('/subscribe/verified');
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
     console.error('Verify API error:', error);
     redirect('/subscribe/error?message=server_error');
   }

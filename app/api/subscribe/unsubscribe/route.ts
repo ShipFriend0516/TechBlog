@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { isRedirectError } from 'next/dist/client/components/redirect';
 import { NextRequest } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import { sendUnsubscribeConfirmation } from '@/app/lib/email/resend';
@@ -36,6 +37,9 @@ export async function GET(req: NextRequest) {
 
     redirect('/subscribe/unsubscribed');
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
     console.error('Unsubscribe API error:', error);
     redirect('/subscribe/error?message=server_error');
   }
