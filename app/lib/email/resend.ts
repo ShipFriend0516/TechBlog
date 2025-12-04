@@ -11,8 +11,8 @@ if (!process.env.RESEND_API_KEY) {
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'onboarding@resend.dev';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const FROM_EMAIL = process.env.EMAIL_FROM || '';
+const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
 export async function sendVerificationEmail(
   email: string,
@@ -20,7 +20,7 @@ export async function sendVerificationEmail(
   verificationToken: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const verifyUrl = `${BASE_URL}/subscribe/verify?token=${verificationToken}`;
+    const verifyUrl = `${BASE_URL}/api/subscribe/verify?token=${verificationToken}`;
     const html = getVerificationEmailHTML(nickname, verifyUrl);
 
     const { data, error } = await resend.emails.send({
@@ -61,7 +61,7 @@ export async function sendNewPostEmail(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const postUrl = `${BASE_URL}/posts/${post.slug}`;
-    const unsubscribeUrl = `${BASE_URL}/subscribe/unsubscribe?token=${subscriber.unsubscribeToken}`;
+    const unsubscribeUrl = `${BASE_URL}/api/subscribe/unsubscribe?token=${subscriber.unsubscribeToken}`;
 
     const html = getNewPostEmailHTML(
       subscriber.nickname,
