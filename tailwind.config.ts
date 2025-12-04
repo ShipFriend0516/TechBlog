@@ -161,6 +161,9 @@ const config: Config = {
         heartBeat: 'heartBeat 0.7s cubic-bezier(0.17, 0.89, 0.32, 1.49)',
         heartPing: 'heartPing 0.8s cubic-bezier(0, 0, 0.2, 1)',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
     },
   },
   plugins: [],
