@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
 import { isRedirectError } from 'next/dist/client/components/redirect';
+import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import Subscriber from '@/app/models/Subscriber';
