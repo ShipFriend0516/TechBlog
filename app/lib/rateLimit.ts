@@ -50,7 +50,7 @@ export function checkRateLimit(identifier: string): {
 
 function cleanupOldEntries() {
   const now = Date.now();
-  for (const [key, entry] of rateLimitMap.entries()) {
+  for (const [key, entry] of Array.from(rateLimitMap.entries())) {
     if (now > entry.resetTime) {
       rateLimitMap.delete(key);
     }
