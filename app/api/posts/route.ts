@@ -176,6 +176,21 @@ export async function POST(req: Request) {
       });
     }
 
+    // 새 글이 공개 글인 경우 구독자들에게 이메일 발송
+    if (!post.isPrivate) {
+      const { sendNewPostNotifications } = await import(
+        '@/app/lib/email/notifications'
+      );
+      sendNewPostNotifications({
+        title: newPost.title,
+        subTitle: newPost.subTitle,
+        slug: newPost.slug,
+        thumbnailImage: newPost.thumbnailImage,
+      }).catch((error) => {
+        console.error('Failed to send post notifications:', error);
+      });
+    }
+
     return Response.json(
       {
         success: true,
