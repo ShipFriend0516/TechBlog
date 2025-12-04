@@ -160,14 +160,14 @@ const TagCloud = ({ tags }: TagCloudProps) => {
 
   return (
     <div
-      className="relative w-full h-[600px] flex items-center justify-center overflow-hidden"
+      className="relative w-full h-[400px] md:h-[600px] flex items-center justify-center overflow-hidden"
       onMouseMove={handleMouseMove}
     >
       {/* 그라데이션 배경 */}
-      <div className="absolute rounded-full h-[600px] mx-auto aspect-square inset-0 bg-gradient-radial from-primary-caribbean/5 via-transparent to-transparent dark:from-primary-mountain/10 dark:via-transparent dark:to-transparent" />
+      <div className="absolute rounded-full h-[400px] md:h-[600px] mx-auto aspect-square inset-0 bg-gradient-radial from-primary-caribbean/5 via-transparent to-transparent dark:from-primary-mountain/10 dark:via-transparent dark:to-transparent" />
 
       {/* 입자들 */}
-      {particles.map((particle) => {
+      {!isMobile && particles.map((particle) => {
         const normalized = (particle.z + radius) / (radius * 2);
         const particleScale = 0.4 + normalized * 0.6;
         const particleOpacity = 0.2 + normalized * 0.3;
@@ -176,7 +176,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
         return (
           <motion.div
             key={`particle-${particle.id}`}
-            className="absolute rounded-full pointer-events-none bg-primary-bangladesh dark:bg-primary-mountain"
+            className="absolute rounded-full pointer-events-none bg-slate-500 dark:bg-primary-mountain"
             style={{
               width: `${particle.size}px`,
               height: `${particle.size}px`,
@@ -232,9 +232,9 @@ const TagCloud = ({ tags }: TagCloudProps) => {
             <Link
               href={`/posts?page=1&tag=${encodeURIComponent(tagWithPos.tag)}`}
               className="font-bold text-primary-bangladesh hover:text-primary-mountain
-                         dark:text-primary-caribbean dark:hover:text-primary-mountain
-                         transition-colors duration-300 cursor-pointer
-                         whitespace-nowrap select-none"
+                        dark:text-primary-caribbean dark:hover:text-primary-mountain
+                        transition-colors duration-300 cursor-pointer
+                        whitespace-nowrap select-none"
               aria-label={`${tagWithPos.tag} 태그 (${tagWithPos.count}개 글)`}
             >
               #{tagWithPos.tag}
