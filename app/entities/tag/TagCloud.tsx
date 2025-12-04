@@ -164,7 +164,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
       onMouseMove={handleMouseMove}
     >
       {/* 그라데이션 배경 */}
-      <div className="absolute inset-0 bg-gradient-radial from-primary-caribbean/10 via-transparent to-transparent dark:from-primary-mountain/10" />
+      <div className="absolute rounded-full h-[600px] mx-auto aspect-square inset-0 bg-gradient-radial from-primary-caribbean/5 via-transparent to-transparent dark:from-primary-mountain/10 dark:via-transparent dark:to-transparent" />
 
       {/* 입자들 */}
       {particles.map((particle) => {
