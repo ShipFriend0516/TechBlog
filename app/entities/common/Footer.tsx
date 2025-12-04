@@ -1,9 +1,63 @@
 'use client';
+import axios from 'axios';
 import Link from 'next/link';
+import { useState, FormEvent } from 'react';
 import useToast from '@/app/hooks/useToast';
 
 const Footer = () => {
   const toast = useToast();
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!nickname.trim() || !email.trim()) {
+      toast.error('닉네임과 이메일을 모두 입력해주세요.');
+      return;
+    }
+
+    if (nickname.trim().length < 2) {
+      toast.error('닉네임은 최소 2자 이상이어야 합니다.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error('유효한 이메일 주소를 입력해주세요.');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post('/api/subscribe', {
+        email: email.trim(),
+        nickname: nickname.trim(),
+      });
+
+      if (response.data.success) {
+        toast.success(
+          response.data.message || '인증 이메일이 발송되었습니다.'
+        );
+        setIsSubmitted(true);
+        setNickname('');
+        setEmail('');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(
+          error.response.data.error || '구독 신청에 실패했습니다.'
+        );
+      } else {
+        toast.error('구독 신청 중 오류가 발생했습니다.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <footer
@@ -40,33 +94,55 @@ const Footer = () => {
         </div>
         <div className={'footer-col'}>
           <b>Subscribe</b>
-          <form className={'flex flex-col gap-4'}>
-            <p className={'text-default'}>새 글을 구독해보세요</p>
-            <input
-              className={
-                'border-b bg-transparent px-4 py-1.5 inset-3 outline-black'
-              }
-              placeholder={'닉네임을 입력하세요'}
-            />
-            <input
-              className={
-                'border-b bg-transparent px-4 py-1.5 inset-3 outline-black'
-              }
-              placeholder={'구독할 이메일을 입력하세요'}
-            />
-            <button
-              className={
-                'rounded-md border bg-transparent py-3 w-1/2 border-black hover:shadow-lg hover:bg-white hover:text-black transition'
-              }
-              aria-label={'구독 버튼'}
-              onClick={(e) => {
-                e.preventDefault();
-                toast.error('새 글 구독은 아직 지원하지 않는 기능입니다.');
-              }}
-            >
-              Subscribe
-            </button>
-          </form>
+          {isSubmitted ? (
+            <div className={'flex flex-col gap-4'}>
+              <p className={'text-sm text-green-600 dark:text-green-400'}>
+                인증 이메일이 발송되었습니다!
+              </p>
+              <p className={'text-xs text-gray-600 dark:text-gray-400'}>
+                이메일을 확인하여 구독을 완료해주세요.
+              </p>
+              <button
+                onClick={() => setIsSubmitted(false)}
+                className={'text-sm text-gray-600 dark:text-gray-400 underline'}
+              >
+                다시 입력하기
+              </button>
+            </div>
+          ) : (
+            <form className={'flex flex-col gap-4'} onSubmit={handleSubmit}>
+              <p className={'text-default'}>새 글을 구독해보세요</p>
+              <input
+                className={
+                  'border-b bg-transparent px-4 py-1.5 inset-3 outline-black dark:outline-white'
+                }
+                placeholder={'닉네임을 입력하세요'}
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                disabled={isLoading}
+              />
+              <input
+                type="email"
+                className={
+                  'border-b bg-transparent px-4 py-1.5 inset-3 outline-black dark:outline-white'
+                }
+                placeholder={'구독할 이메일을 입력하세요'}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
+              />
+              <button
+                type="submit"
+                className={
+                  'rounded-md border bg-transparent py-3 w-1/2 border-black dark:border-white hover:shadow-lg hover:bg-white hover:text-black dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed'
+                }
+                aria-label={'구독 버튼'}
+                disabled={isLoading}
+              >
+                {isLoading ? '처리 중...' : 'Subscribe'}
+              </button>
+            </form>
+          )}
         </div>
         <div className={'footer-col'}>
           <b>Explore</b>
