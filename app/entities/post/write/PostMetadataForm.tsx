@@ -4,6 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
 import Select from '@/app/entities/common/Select';
 import { Series } from '@/app/types/Series';
+import AutoSyncToggle from './AutoSyncToggle';
 
 interface PostMetadataFormProps {
   onFieldChange: (field: string, value: string | boolean | string[]) => void;
@@ -12,6 +13,8 @@ interface PostMetadataFormProps {
   onClickNewSeries: () => void;
   onClickOverwrite: () => void;
   clearDraft: () => void;
+  autoSyncEnabled: boolean;
+  onToggleAutoSync: (enabled: boolean) => void;
   formData: {
     title: string;
     subTitle: string;
@@ -28,6 +31,8 @@ const PostMetadataForm = ({
   onClickNewSeries,
   onClickOverwrite,
   clearDraft,
+  autoSyncEnabled,
+  onToggleAutoSync,
   formData,
 }: PostMetadataFormProps) => {
   const [tagInput, setTagInput] = useState<string>('');
@@ -179,6 +184,10 @@ const PostMetadataForm = ({
           임시저장 삭제
           <FaTrash />
         </button>
+      </div>
+
+      <div className="mb-4">
+        <AutoSyncToggle enabled={autoSyncEnabled} onToggle={onToggleAutoSync} />
       </div>
     </>
   );

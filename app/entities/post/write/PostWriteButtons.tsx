@@ -8,6 +8,7 @@ interface PostWriteButtonsProps {
   submitLoading: boolean;
   submitHandler: (postBody: PostBody) => void;
   saveToDraft: () => void;
+  saveToCloud: () => void;
 }
 const PostWriteButtons = ({
   slug,
@@ -15,6 +16,7 @@ const PostWriteButtons = ({
   submitHandler,
   postBody,
   saveToDraft,
+  saveToCloud,
 }: PostWriteButtonsProps) => {
   const buttonStyle = `font-bold py-2 px-4 rounded mr-2 disabled:bg-opacity-75 `;
   return (
@@ -30,6 +32,12 @@ const PostWriteButtons = ({
         className={buttonStyle + 'bg-blue-500 hover:bg-blue-700 '}
       >
         임시 저장
+      </button>
+      <button
+        onClick={saveToCloud}
+        className={buttonStyle + 'bg-green-500 hover:bg-green-700 '}
+      >
+        클라우드에 저장
       </button>
       <button
         disabled={submitLoading}
