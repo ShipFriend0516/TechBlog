@@ -12,7 +12,7 @@ export async function GET(req: Request) {
 
     await dbConnect();
 
-    // 30일 이상 지난 임시저장본 자동 삭제
+    // 30일 이상 지난 임시저장본이 있다면 삭제
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     await CloudDraft.deleteMany({
       createdAt: { $lt: thirtyDaysAgo },
@@ -27,10 +27,7 @@ export async function GET(req: Request) {
     return Response.json({ success: true, drafts }, { status: 200 });
   } catch (error) {
     console.error('Cloud draft fetch error:', error);
-    return Response.json(
-      { error: 'Failed to fetch drafts' },
-      { status: 500 }
-    );
+    return Response.json({ error: 'Failed to fetch drafts' }, { status: 500 });
   }
 }
 
@@ -103,7 +100,7 @@ export async function POST(req: Request) {
           .sort({ createdAt: 1 })
           .lean();
 
-        if (oldestDraft) {
+        if (oldestDraft && !Array.isArray(oldestDraft)) {
           await CloudDraft.deleteOne({ _id: oldestDraft._id });
         }
       }
@@ -121,10 +118,7 @@ export async function POST(req: Request) {
         isPrivate,
       });
 
-      return Response.json(
-        { success: true, draft: newDraft },
-        { status: 201 }
-      );
+      return Response.json({ success: true, draft: newDraft }, { status: 201 });
     }
   } catch (error) {
     console.error('Cloud draft save error:', error);
