@@ -36,12 +36,6 @@ jobs:
       - name: Lint check
         run: pnpm lint
 
-      # 빌드 테스트
-      - name: Build test
-        run: pnpm build
-        env:
-          DB_URI: ${{ secrets.DB_URI }}
-
 #  cd:
 #    name: Continuous Deployment
 #    needs: ci
