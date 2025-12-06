@@ -5,6 +5,7 @@ interface DraftListOverlayProps {
   onLoadDraft: (draft: DraftListItem) => void;
   onDeleteDraft?: (draftId: string, source: 'local' | 'cloud') => void;
   mode: 'load' | 'delete';
+  currentDraftId?: string | null;
 }
 
 const DraftListOverlay = ({
@@ -12,6 +13,7 @@ const DraftListOverlay = ({
   onLoadDraft,
   onDeleteDraft,
   mode,
+  currentDraftId,
 }: DraftListOverlayProps) => {
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString('ko-KR', {
@@ -50,51 +52,68 @@ const DraftListOverlay = ({
         </p>
       ) : (
         <div className="space-y-3">
-          {drafts.map((draft) => (
-            <div
-              key={draft.id}
-              onClick={() => handleItemClick(draft)}
-              className={`
-                border rounded-lg p-4 transition-all
-                ${mode === 'load' ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700' : ''}
-                ${draft.source === 'local' ? 'border-blue-300' : 'border-green-300'}
-              `}
-            >
-              <div className="flex justify-between items-start">
-                <div className="flex-1">
-                  <h3 className="font-semibold text-default">
-                    {draft.title || '제목 없음'}
-                  </h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-gray-500">
-                      {formatDate(draft.date)}
-                    </span>
-                    <span
-                      className={`
-                        text-xs px-2 py-1 rounded
-                        ${
-                          draft.source === 'local'
-                            ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
-                            : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200'
-                        }
-                      `}
-                    >
-                      {draft.source === 'local' ? '로컬' : '클라우드'}
-                    </span>
-                  </div>
-                </div>
+          {drafts.map((draft) => {
+            const isCurrentDraft =
+              draft.source === 'cloud' && draft.id === currentDraftId;
 
-                {mode === 'delete' && onDeleteDraft && (
-                  <button
-                    onClick={(e) => handleDelete(draft, e)}
-                    className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-                  >
-                    삭제
-                  </button>
-                )}
+            return (
+              <div
+                key={draft.id}
+                onClick={() => !isCurrentDraft && handleItemClick(draft)}
+                className={`
+                  border rounded-lg p-4 transition-all
+                  ${draft.source === 'local' ? 'border-blue-300' : 'border-green-300'}
+                  ${isCurrentDraft
+                    ? 'opacity-50 cursor-not-allowed'
+                    : mode === 'load'
+                      ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700'
+                      : ''
+                  }
+                `}
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-default">
+                        {draft.title || '제목 없음'}
+                      </h3>
+                      {isCurrentDraft && (
+                        <span className="text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200 font-semibold">
+                          작성 중
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-gray-500">
+                        {formatDate(draft.date)}
+                      </span>
+                      <span
+                        className={`
+                          text-xs px-2 py-1 rounded
+                          ${
+                            draft.source === 'local'
+                              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
+                              : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200'
+                          }
+                        `}
+                      >
+                        {draft.source === 'local' ? '로컬' : '클라우드'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {mode === 'delete' && onDeleteDraft && (
+                    <button
+                      onClick={(e) => handleDelete(draft, e)}
+                      className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                    >
+                      삭제
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

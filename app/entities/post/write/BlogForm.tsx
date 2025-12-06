@@ -67,6 +67,7 @@ const BlogForm = () => {
     saveToCloud,
     deleteCloudDraft,
     toggleAutoSync,
+    getCurrentDraftId,
   } = useCloudDraft();
 
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
@@ -251,6 +252,7 @@ const BlogForm = () => {
             draftListMode === 'delete' ? handleDeleteDraft : undefined
           }
           mode={draftListMode}
+          currentDraftId={getCurrentDraftId()}
         />
       </Overlay>
 
