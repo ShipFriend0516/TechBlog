@@ -21,6 +21,7 @@ interface PostMetadataFormProps {
     seriesId?: string;
     tags: string[];
     isPrivate: boolean;
+    sendToSubscribers: boolean;
   };
 }
 
@@ -37,7 +38,8 @@ const PostMetadataForm = ({
 }: PostMetadataFormProps) => {
   const [tagInput, setTagInput] = useState<string>('');
 
-  const { title, subTitle, seriesId, tags, isPrivate } = formData;
+  const { title, subTitle, seriesId, tags, isPrivate, sendToSubscribers } =
+    formData;
   const selectOptions = series.map((s) => ({
     value: s._id,
     label: s.title,
@@ -67,7 +69,15 @@ const PostMetadataForm = ({
   };
 
   const handlePublicChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onFieldChange('isPrivate', e.target.checked);
+    const newIsPrivate = e.target.checked;
+    onFieldChange('isPrivate', newIsPrivate);
+    if (newIsPrivate) {
+      onFieldChange('sendToSubscribers', false);
+    }
+  };
+
+  const handleSendToSubscribersChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onFieldChange('sendToSubscribers', e.target.checked);
   };
 
   return (
@@ -158,6 +168,21 @@ const PostMetadataForm = ({
                 checked={isPrivate}
                 onChange={handlePublicChange}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+            </label>
+          </div>
+          {/* 구독자에게 발행 체크박스 */}
+          <div className={'flex items-center gap-2'}>
+            <label
+              className={`inline-flex items-center text-nowrap gap-2 cursor-pointer ${isPrivate ? 'opacity-50' : ''}`}
+            >
+              <span className={'font-bold text-default'}>구독자에게 발행</span>
+              <input
+                type="checkbox"
+                checked={sendToSubscribers}
+                onChange={handleSendToSubscribersChange}
+                disabled={isPrivate}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 disabled:opacity-50"
               />
             </label>
           </div>
