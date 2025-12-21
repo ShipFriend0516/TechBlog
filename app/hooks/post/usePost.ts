@@ -16,6 +16,7 @@ interface FormData {
   seriesId: string;
   tags: string[];
   isPrivate: boolean;
+  sendToSubscribers: boolean;
 }
 
 interface UIState {
@@ -32,6 +33,7 @@ const usePost = (slug = '') => {
     seriesId: '',
     tags: [],
     isPrivate: false,
+    sendToSubscribers: false,
   });
 
   const [uiState, setUIState] = useState<UIState>({
@@ -60,6 +62,7 @@ const usePost = (slug = '') => {
     seriesId: formData.seriesId || '',
     tags: formData.tags,
     isPrivate: formData.isPrivate,
+    sendToSubscribers: formData.sendToSubscribers,
   };
 
   useEffect(() => {
@@ -132,6 +135,7 @@ const usePost = (slug = '') => {
           seriesId: seriesId || '',
           tags: tags || [],
           isPrivate: isPrivate || false,
+          sendToSubscribers: false,
         });
         setUploadedImages(draftImages || []);
       }
@@ -180,6 +184,7 @@ const usePost = (slug = '') => {
         seriesId: data.post.seriesId || '',
         tags: data.post.tags || [],
         isPrivate: data.post.isPrivate || false,
+        sendToSubscribers: false,
       });
     } catch (e) {
       console.error('글 조회 중 오류 발생', e);

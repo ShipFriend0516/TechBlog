@@ -129,6 +129,7 @@ export async function POST(req: Request) {
       seriesId,
       tags,
       isPrivate,
+      sendToSubscribers,
     } = await req.json();
 
     if (!title || !content || !author || !content) {
@@ -176,8 +177,8 @@ export async function POST(req: Request) {
       });
     }
 
-    // 새 글이 공개 글인 경우 구독자들에게 이메일 발송
-    if (!post.isPrivate) {
+    // 공개 글이면서 구독자에게 발행 옵션이 활성화된 경우 이메일 발송
+    if (!post.isPrivate && sendToSubscribers) {
       const { sendNewPostNotifications } = await import(
         '@/app/lib/email/notifications'
       );
