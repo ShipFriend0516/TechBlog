@@ -7,6 +7,7 @@ interface Stats {
   totalSeries: number;
   publicPosts: number;
   privatePosts: number;
+  activeSubscribers: number;
 }
 
 const QuickStats = () => {
@@ -18,13 +19,27 @@ const QuickStats = () => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/admin/stats');
-        const data = await response.json();
 
-        if (data.success) {
-          setStats(data.stats);
+        // Fetch both stats in parallel
+        const [blogStatsRes, subscriberStatsRes] = await Promise.all([
+          fetch('/api/admin/stats'),
+          fetch('/api/admin/subscribers'),
+        ]);
+
+        if (!blogStatsRes.ok || !subscriberStatsRes.ok) {
+          throw new Error('통계 불러오기 실패');
+        }
+
+        const blogData = await blogStatsRes.json();
+        const subscriberData = await subscriberStatsRes.json();
+
+        if (blogData.success && subscriberData.success) {
+          setStats({
+            ...blogData.stats,
+            activeSubscribers: subscriberData.stats.activeSubscribers,
+          });
         } else {
-          setError(data.error || '통계를 불러올 수 없습니다.');
+          setError('통계를 불러올 수 없습니다.');
         }
       } catch (err) {
         setError('통계를 불러오는 중 오류가 발생했습니다.');
@@ -58,7 +73,7 @@ const QuickStats = () => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-semibold mb-4">빠른 통계</h3>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="text-sm text-gray-600 mb-1">전체 게시글</p>
           <p className="text-2xl font-bold text-blue-600">{stats.totalPosts}</p>
@@ -79,6 +94,12 @@ const QuickStats = () => {
           <p className="text-sm text-gray-600 mb-1">비공개 게시글</p>
           <p className="text-2xl font-bold text-orange-600">
             {stats.privatePosts}
+          </p>
+        </div>
+        <div className="bg-teal-50 p-4 rounded-lg">
+          <p className="text-sm text-gray-600 mb-1">활성 구독자</p>
+          <p className="text-2xl font-bold text-teal-600">
+            {stats.activeSubscribers}
           </p>
         </div>
       </div>
