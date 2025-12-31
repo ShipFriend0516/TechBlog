@@ -1,14 +1,18 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { FaTree } from 'react-icons/fa';
 import { FaBookBible, FaX } from 'react-icons/fa6';
+import { GiLog } from 'react-icons/gi';
+import { MdPushPin } from 'react-icons/md';
+import { PiAxeFill } from 'react-icons/pi';
 
 const PostTOC = ({ postContent }: { postContent: string }) => {
   const [activeId, setActiveId] = useState('');
   const [isTOCVisible, setIsTOCVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [tocPosition, setTocPosition] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   const parseHeadings = (content: string) => {
     const headings = content.match(/#{1,6} .+/g);
@@ -78,13 +82,13 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
   const renderEmoji = (type: number) => {
     switch (type) {
       case 1:
-        return '🌲 ';
+        return <FaTree />;
       case 2:
-        return '🪓 ';
+        return <PiAxeFill />;
       case 3:
-        return '🪵 ';
+        return <GiLog />;
       default:
-        return '🪵 ';
+        return <GiLog />;
     }
   };
 
@@ -96,7 +100,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
     <>
       {/* 모바일용 토글 버튼 */}
       <button
-        className="fixed bottom-4 right-4 md:hidden bg-green-500 text-white p-4 rounded-full shadow-lg z-10"
+        className="fixed bottom-4 right-4 md:hidden bg-primary-dark text-white p-4 rounded-full shadow-lg z-10"
         onClick={() => setIsTOCVisible(!isTOCVisible)}
         aria-label="목차 열기/닫기"
       >
@@ -105,9 +109,9 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
 
       <div
         className={`
-          post-toc text-sm
+          post-toc text-sm border dark:border-gray-100/30
           transition-all duration-300
-          ${isScrolled ? 'bg-gray-100/95 dark:bg-neutral-700/95 shadow-md' : 'bg-gray-100/80 dark:bg-neutral-700/80'}
+          ${isScrolled ? 'bg-gray-100/80 dark:bg-neutral-700/80 md:bg-gray-100/35 md:dark:bg-neutral-700/35 shadow-md' : 'bg-gray-100/80 dark:bg-neutral-700/80'}
           rounded-md p-4 text-black dark:text-white z-[2]
           
           fixed bottom-0 left-0 right-0 max-h-[50vh] md:max-h-none
@@ -123,7 +127,12 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
           top: !isMobile ? `${tocPosition}px` : 'auto',
         }}
       >
-        <h4 className={`text-xl font-bold mb-2  `}>📌 Table of Contents</h4>
+        <h4
+          className={`inline-flex items-center gap-1 text-lg font-bold mb-2  `}
+        >
+          <MdPushPin size={24} color="red" />
+          Table of Contents
+        </h4>
         <ul
           className={`list-none transition-all duration-300 overflow-hidden  `}
         >
@@ -132,21 +141,21 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
             return (
               <li
                 key={heading.id}
-                style={{ marginLeft: `${(heading.type - 1) * 16}px` }}
+                style={{ marginLeft: `${(heading.type - 1) * 12}px` }}
                 className={`${heading.type === 1 ? 'font-bold mb-1' : ''}`}
               >
                 <Link
                   scroll={false}
                   className={`
-                    p-1 block transition-all 
+                    p-1 flex gap-1 transition-all 
                     ${
                       isActive
-                        ? 'bg-green-200 text-green-800'
-                        : 'hover:bg-green-50 dark:hover:bg-green-800 dark:hover:text-white'
+                        ? 'border-l-4 rounded-none border-primary-bangladesh  text-primary-rich dark:text-primary-caribbean'
+                        : ' hover:border-b hover:rounded-none hover:text-green-800   dark:hover:text-white'
                     } 
-                    rounded-md overflow-hidden whitespace-nowrap text-ellipsis
+                    rounded-md overflow-hidden whitespace-nowrap text-ellipsis transition-transform hover:scale-105 duration-300 hover:z-30
                   `}
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.preventDefault();
                     document.getElementById(heading.id)?.scrollIntoView({
                       behavior: 'smooth',
