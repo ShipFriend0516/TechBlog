@@ -78,6 +78,7 @@ export function getNewPostEmailHTML(
         <p style="margin: 0 0 30px; color: #333333; font-size: 16px; line-height: 1.6;">
           안녕하세요, <strong>${nickname}</strong>님!
         </p>
+        <p>새 글이 발행되어 알려드립니다.</p>
         ${
           post.thumbnailImage
             ? `
