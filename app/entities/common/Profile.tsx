@@ -9,7 +9,7 @@ interface Props {
 
 const Profile = ({ profileThumbnail, username }: Props) => {
   return (
-    <div className={'flex items-center text-nowrap'}>
+    <div className={'flex items-center text-nowrap mr-2 sm:mr-0'}>
       <div
         className={
           'w-8 h-8 aspect-square rounded-full bg-gray-300 overflow-hidden'
