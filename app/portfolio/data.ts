@@ -23,7 +23,7 @@ export const projects: Project[] = [
     description: '개인 개발 블로그',
     image: '/images/logo/shipfriend-logo.webp',
     tags: ['Next.js', 'TypeScript', 'MongoDB'],
-    demoUrl: 'https://shipfriend.vercel.app/',
+    demoUrl: 'https://shipfriend.dev/',
     githubUrl: 'https://github.com/ShipFriend0516/TechBlog',
     slug: 'shipfriend',
   },

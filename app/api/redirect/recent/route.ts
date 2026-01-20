@@ -7,7 +7,10 @@ export const dynamic = 'force-dynamic'; // 캐싱 방지
 export async function GET() {
   try {
     await dbConnect();
-    const pageUrl = process.env.NEXTAUTH_URL;
+    const pageUrl =
+      process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
+      process.env.NEXTAUTH_URL ||
+      'https://shipfriend.dev';
 
     // 최신 글 1개 가져오기
     const latestPost = await Post.findOne({}).sort({ date: -1 }).select('slug');
@@ -23,6 +26,10 @@ export async function GET() {
     );
   } catch (error) {
     console.error('Error redirecting to latest post:', error);
-    return NextResponse.redirect(new URL(`${process.env.NEXTAUTH_URL}/posts`));
+    const pageUrl =
+      process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
+      process.env.NEXTAUTH_URL ||
+      'https://shipfriend.dev';
+    return NextResponse.redirect(new URL(`${pageUrl}/posts`));
   }
 }
