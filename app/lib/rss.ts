@@ -3,7 +3,7 @@ import path from 'path';
 import { Feed } from 'feed';
 
 export async function generateRssFeed(posts: any[]) {
-  const site_url = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const site_url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
   const feedOptions = {
     title: 'ShipFriend TechBlog',

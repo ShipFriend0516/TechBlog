@@ -1,8 +1,8 @@
 import { Resend } from 'resend';
 import {
-  getVerificationEmailHTML,
   getNewPostEmailHTML,
   getUnsubscribeEmailHTML,
+  getVerificationEmailHTML,
 } from './templates';
 
 if (!process.env.RESEND_API_KEY) {
@@ -12,7 +12,10 @@ if (!process.env.RESEND_API_KEY) {
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM_EMAIL = process.env.EMAIL_FROM || '';
-const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+const BASE_URL =
+  process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
+  process.env.NEXT_PUBLIC_URL ||
+  'https://shipfriend.dev';
 
 export async function sendVerificationEmail(
   email: string,

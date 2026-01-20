@@ -43,12 +43,17 @@ export const generateMetadata = async ({
   params: { slug: string };
 }): Promise<Metadata> => {
   const { post } = await getPostDetail(params.slug);
+  const baseUrl =
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
+  const postUrl = `${baseUrl}/posts/${post.slug}`;
+
   return {
     title: post.title,
     description: post.subTitle || post.content.substring(0, 160),
     openGraph: {
       title: post.title,
       description: post.subTitle || post.content.substring(0, 160),
+      url: postUrl,
       images: [post.thumbnailImage || defaultThumbnail],
       type: 'article',
       publishedTime: new Date(post.createdAt).toISOString(),

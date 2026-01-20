@@ -1,6 +1,11 @@
 import { Post } from '@/app/types/Post';
 
 const PostJSONLd = ({ post }: { post: Post }) => {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
+    process.env.NEXT_PUBLIC_URL ||
+    'https://shipfriend.dev';
+
   return (
     <script
       type="application/ld+json"
@@ -28,7 +33,7 @@ const PostJSONLd = ({ post }: { post: Post }) => {
             name: 'ShipFriend TechBlog',
             logo: {
               '@type': 'ImageObject',
-              url: `https://oraciondev.vercel.app/favicon.ico`,
+              url: `${baseUrl}/favicon.ico`,
             },
           },
         }),
