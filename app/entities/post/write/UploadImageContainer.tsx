@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { FaImage } from 'react-icons/fa';
 import UploadedImage from '@/app/entities/post/write/UploadedImage';
+import { uploadImageFile } from '@/app/lib/utils/imageUpload';
 
 interface UploadImageContainerProps {
   onClick: (link: string) => void;
@@ -43,24 +44,8 @@ const UploadImageContainer = ({
 
         setUploadProgress({ current: i + 1, total: files.length });
 
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error || '업로드 실패');
-        }
-
-        const data = await response.json();
-
-        if (data.success && data.url) {
-          setUploadedImages((prev) => [...prev, data.url]);
-        }
+        const url = await uploadImageFile(file);
+        setUploadedImages((prev) => [...prev, url]);
       }
 
       return;
@@ -130,7 +115,9 @@ const UploadImageContainer = ({
               업로드 중... ({uploadProgress.current}/{uploadProgress.total})
             </p>
           ) : (
-            <p className={'text-gray-600 dark:text-gray-400'}>클릭하여 링크 복사</p>
+            <p className={'text-gray-600 dark:text-gray-400'}>
+              클릭하여 링크 복사
+            </p>
           )}
         </div>
         <div
