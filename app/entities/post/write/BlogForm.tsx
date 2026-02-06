@@ -16,6 +16,7 @@ import useOverlay from '@/app/hooks/common/useOverlay';
 import useAutoSync from '@/app/hooks/post/useAutoSync';
 import useCloudDraft from '@/app/hooks/post/useCloudDraft';
 import useDraft from '@/app/hooks/post/useDraft';
+import { usePasteImageUpload } from '@/app/hooks/post/usePasteImageUpload';
 import usePost from '@/app/hooks/post/usePost';
 import useTheme from '@/app/hooks/useTheme';
 import useToast from '@/app/hooks/useToast';
@@ -77,6 +78,13 @@ const BlogForm = () => {
     null
   );
   const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
+
+  const { containerRef } = usePasteImageUpload({
+    content: formData.content || '',
+    setFormData,
+    setUploadedImages,
+    toast,
+  });
 
   // 클라우드 임시저장본 조회
   useEffect(() => {
@@ -269,29 +277,35 @@ const BlogForm = () => {
         />
       </Overlay>
 
-      <MDEditor
-        value={formData.content}
-        onChange={(value) => setFormData({ content: value })}
-        height={500}
-        minHeight={500}
-        visibleDragbar={false}
-        data-color-mode={theme}
-        previewOptions={{
-          wrapperElement: {
-            'data-color-mode': theme,
-          },
-          rehypeRewrite: (node, index?, parent?) => {
-            asideStyleRewrite(node);
-            renderYoutubeEmbed(node, index || 0, parent as Element | undefined);
-            addImageClickHandler(node);
-            addDescriptionUnderImage(
-              node,
-              index,
-              parent as Element | undefined
-            );
-          },
-        }}
-      />
+      <div ref={containerRef}>
+        <MDEditor
+          value={formData.content}
+          onChange={(value) => setFormData({ content: value })}
+          height={500}
+          minHeight={500}
+          visibleDragbar={false}
+          data-color-mode={theme}
+          previewOptions={{
+            wrapperElement: {
+              'data-color-mode': theme,
+            },
+            rehypeRewrite: (node, index?, parent?) => {
+              asideStyleRewrite(node);
+              renderYoutubeEmbed(
+                node,
+                index || 0,
+                parent as Element | undefined
+              );
+              addImageClickHandler(node);
+              addDescriptionUnderImage(
+                node,
+                index,
+                parent as Element | undefined
+              );
+            },
+          }}
+        />
+      </div>
       <UploadImageContainer
         uploadedImages={uploadedImages}
         setUploadedImages={setUploadedImages}
