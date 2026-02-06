@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   other: {
-    'application-name': 'Shipfriend Tech Blog',
+    'application-name': 'ShipFriend TechBlog 🌱',
     author: 'ShipFriend',
     'og:type': 'article',
     'article:tag': 'technology,programming,web development',
