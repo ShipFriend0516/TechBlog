@@ -14,6 +14,7 @@ const PostJSONLd = ({ post }: { post: Post }) => {
           '@context': 'https://schema.org',
           '@type': 'BlogPosting',
           headline: post.title,
+          name: 'ShipFriend TechBlog 🌱',
           alternativeHeadline: post.subTitle, // 서브타이틀용
           description: post.subTitle || post.content.substring(0, 160),
           articleBody: post.content, // 본문 전체
