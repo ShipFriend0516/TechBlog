@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 }
 
 // ISR 활성화하기
-export const revalidate = 60; // 60초마다 재검증
+export const revalidate = 300; // 300초(5분)마다 재검증
 
 async function getPostDetail(slug: string) {
   await dbConnect();
