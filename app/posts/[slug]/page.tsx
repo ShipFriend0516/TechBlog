@@ -60,7 +60,7 @@ export const generateMetadata = async ({
       authors: [post.author],
     },
     other: {
-      'application-name': 'Shipfriend Tech Blog',
+      'application-name': 'ShipFriend TechBlog',
       author: post.author,
       publish_date: new Date(post.date).toISOString(),
       'og:type': 'article',
