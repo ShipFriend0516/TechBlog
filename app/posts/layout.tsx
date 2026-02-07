@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
+import Loading from './[slug]/loading';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 const Layout = ({ children }: LayoutProps) => {
-  return <Suspense fallback={<SVGLoadingSpinner />}>{children}</Suspense>;
+  return <Suspense fallback={<Loading />}>{children}</Suspense>;
 };
 
 export default Layout;

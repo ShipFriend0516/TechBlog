@@ -66,10 +66,12 @@ async function dbConnect(uri?: string, retries = 3): Promise<Mongoose> {
     const opts = {
       bufferCommands: false,
       maxPoolSize: 10,
-      minPoolSize: 2,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
+      minPoolSize: 1,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 20000,
       connectTimeoutMS: 10000,
+      maxIdleTimeMS: 30000,
+      waitQueueTimeoutMS: 5000,
     };
 
     cached.promise = mongoose

@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 }
 
 // ISR 활성화하기
-export const revalidate = 60; // 60초마다 재검증
+export const revalidate = 300; // 300초(5분)마다 재검증
 
 async function getPostDetail(slug: string) {
   await dbConnect();
@@ -60,7 +60,7 @@ export const generateMetadata = async ({
       authors: [post.author],
     },
     other: {
-      'application-name': 'Shipfriend Tech Blog',
+      'application-name': 'ShipFriend TechBlog',
       author: post.author,
       publish_date: new Date(post.date).toISOString(),
       'og:type': 'article',
