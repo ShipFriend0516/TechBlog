@@ -1,5 +1,4 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import useDataFetch from '@/app/hooks/common/useDataFetch';
 import useFingerprint from '@/app/hooks/useFingerprint';
