@@ -52,7 +52,7 @@ export default function Home() {
   useShortcut(goToPostsPage, ['Ctrl', ';'], true);
 
   return (
-    <main className="w-full max-w-6xl mx-auto grid gap-16 p-4 md:p-8">
+    <main className="w-full max-w-5xl mx-auto grid gap-12 p-4 md:p-6">
       <HeroBanner />
       <AboutMe />
       <FeaturedProjects projects={projects} />
