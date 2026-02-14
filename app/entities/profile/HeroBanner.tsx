@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import DecryptedText from '../bits/DecryptedText';
 import { RiDoubleQuotesR } from 'react-icons/ri';
+import DecryptedText from '../bits/DecryptedText';
 
 const HeroBanner = () => {
   return (
