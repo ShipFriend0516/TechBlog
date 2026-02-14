@@ -5,6 +5,7 @@ import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 import PostDetail from '@/app/entities/post/detail/PostDetail';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
+import SubscribeToast from '@/app/entities/post/detail/SubscribeToast';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 
@@ -83,6 +84,7 @@ const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
           currentPostId={post?._id}
           seriesId={post?.seriesId}
         />
+        <SubscribeToast />
         <Comments />
       </section>
     </>
