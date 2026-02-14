@@ -16,7 +16,6 @@ import MoreExplore from './entities/profile/MoreExplore';
 export default function Home() {
   const { fingerprint } = useFingerprint();
   const toast = useToast();
-  const router = useRouter();
 
   const fetchConfig = {
     method: 'GET' as const,
