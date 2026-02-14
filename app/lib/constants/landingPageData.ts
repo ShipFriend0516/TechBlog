@@ -7,9 +7,10 @@ export const githubLink = 'https://github.com/ShipFriend0516';
 export const projects: Project[] = [
   {
     title: 'PREVIEW',
-    description: 'WebRTC 기반 화상 면접 스터디 플랫폼',
+    description:
+      '네이버 부스트캠프 9기 최종 프로젝트 WebRTC 기반 화상 면접 스터디 플랫폼',
     image: '/images/logo/preview-logo.png',
-    tags: ['React', 'WebRTC', 'Fullstack'],
+    tags: ['React', 'WebRTC'],
     githubUrl: 'https://github.com/boostcampwm-2024/web27-Preview',
     slug: 'preview',
   },
@@ -17,7 +18,7 @@ export const projects: Project[] = [
     title: 'ShipFriend TechBlog',
     description: '개발 관련 글을 작성하고 공유하는 기술 블로그 플랫폼',
     image: '/images/logo/shipfriend-logo.webp',
-    tags: ['Next.js', 'TypeScript', 'MongoDB'],
+    tags: ['Next.js', 'TypeScript', 'MongoDB', 'Fullstack'],
     demoUrl: 'https://shipfriend.dev',
     githubUrl: 'https://github.com/ShipFriend0516/TechBlog',
     slug: 'shipfriend',
