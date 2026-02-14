@@ -39,18 +39,14 @@ const Footer = () => {
       });
 
       if (response.data.success) {
-        toast.success(
-          response.data.message || '인증 이메일이 발송되었습니다.'
-        );
+        toast.success(response.data.message || '인증 이메일이 발송되었습니다.');
         setIsSubmitted(true);
         setNickname('');
         setEmail('');
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        toast.error(
-          error.response.data.error || '구독 신청에 실패했습니다.'
-        );
+        toast.error(error.response.data.error || '구독 신청에 실패했습니다.');
       } else {
         toast.error('구독 신청 중 오류가 발생했습니다.');
       }
@@ -71,8 +67,9 @@ const Footer = () => {
         <div className={'footer-col'}>
           <b>BLOG</b>
           <div className={'text-weak'}>
-            <p className={'text-left font-serif whitespace-pre-wrap'}>
-              a developer who never stops growing.
+            <p className={'text-left text-sm font-serif whitespace-pre-wrap'}>
+              개발과 기술에 대한 이야기를 공유하는 공간입니다. <br />
+              문제 해결과 성장의 기록을 만듭니다.
             </p>
             <p className={'text-left font-serif whitespace-pre-wrap'}></p>
           </div>

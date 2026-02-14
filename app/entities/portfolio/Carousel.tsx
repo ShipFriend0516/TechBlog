@@ -175,7 +175,7 @@ const Carousel = ({ slides }: CarouselProps) => {
                 ] as ReactElement,
                 {
                   hideTags: true,
-                  hoverEffect: false,
+
                 }
               )}
             </div>
@@ -197,7 +197,7 @@ const Carousel = ({ slides }: CarouselProps) => {
                 ] as ReactElement,
                 {
                   hideTags: true,
-                  hoverEffect: false,
+
                 }
               )}
             </div>

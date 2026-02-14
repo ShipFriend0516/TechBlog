@@ -1,9 +1,13 @@
 import { create } from "zustand";
 
+type ToastType = "success" | "error" | "info";
+
 interface Toast {
   id: number;
   message: string;
-  type: "success" | "error";
+  title?: string;
+  type: ToastType;
+  duration?: number;
 }
 
 interface ToastState {

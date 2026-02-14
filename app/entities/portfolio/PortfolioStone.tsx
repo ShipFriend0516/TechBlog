@@ -69,11 +69,11 @@ const PortfolioStone = ({
         </div>
       </div>
 
-      <div className="p-4 md:p-6 h-full bg-white/90 backdrop-blur-sm">
-        <h3 className="text-lg md:text-xl font-bold mb-2 text-gray-800 line-clamp-1">
+      <div className="p-4 md:p-6 h-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm">
+        <h3 className="text-lg md:text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 line-clamp-1">
           {project.title}
         </h3>
-        <p className="text-sm text-gray-600 mb-3 md:mb-4 line-clamp-2">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 md:mb-4 line-clamp-2">
           {project.description}
         </p>
 
@@ -82,7 +82,7 @@ const PortfolioStone = ({
             {project.tags.slice(0, 3).map((tag, tagIndex) => (
               <span
                 key={tagIndex}
-                className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700 whitespace-nowrap"
+                className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-700 dark:text-gray-300 whitespace-nowrap"
               >
                 {tag}
               </span>
@@ -94,7 +94,7 @@ const PortfolioStone = ({
           {project.demoUrl && (
             <Link
               href={project.demoUrl}
-              className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors text-xs"
+              className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGlobe size={12} />
               배포
@@ -103,7 +103,7 @@ const PortfolioStone = ({
           {project.githubUrl && (
             <Link
               href={project.githubUrl}
-              className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors text-xs"
+              className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGithub size={12} />
               코드
@@ -112,7 +112,7 @@ const PortfolioStone = ({
           {project.slug && (
             <Link
               href={`/portfolio/${project.slug}`}
-              className="flex-1 bg-emerald-100 text-center hover:bg-emerald-200 text-emerald-700 px-3 py-2 rounded-lg transition-colors text-xs"
+              className="flex-1 bg-emerald-100 dark:bg-emerald-800 text-center hover:bg-emerald-200 dark:hover:bg-emerald-700 text-emerald-700 dark:text-emerald-200 px-3 py-2 rounded-lg transition-colors text-xs"
             >
               자세히
             </Link>

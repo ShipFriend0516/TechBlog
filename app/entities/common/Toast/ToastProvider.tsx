@@ -5,7 +5,8 @@ import useToastStore from '@/app/stores/useToastStore';
 interface Toast {
   id: number;
   message: string;
-  type: 'success' | 'error';
+  title?: string;
+  type: 'success' | 'error' | 'info';
 }
 
 const ToastProvider = () => {
@@ -24,6 +25,7 @@ const ToastProvider = () => {
             key={toast.id}
             removeToast={() => removeToast(toast.id)}
             message={toast.message}
+            title={toast.title}
             type={toast.type}
           />
         );
