@@ -12,6 +12,22 @@ export const metadata: Metadata = {
   description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
   icons: {
     icon: '/favicon.ico',
+    apple: '/assets/apple-touch-icon.png',
+    shortcut: '/favicon-16.png',
+    other: [
+      {
+        rel: 'icon',
+        url: '/favicon-32.png',
+        sizes: '32x32',
+        type: 'image/png',
+      },
+      {
+        rel: 'icon',
+        url: '/favicon-16.png',
+        sizes: '16x16',
+        type: 'image/png',
+      },
+    ],
   },
   keywords: [
     'ShipFriend',
