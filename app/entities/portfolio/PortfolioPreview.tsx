@@ -15,13 +15,15 @@ const PortfolioPreview = ({ project, hideTags }: PortfolioPreviewProps) => {
     <div className="flex flex-col md:flex-row group bg-gradient-to-br from-gray-50 to-gray-100 dark:from-primary-rich rounded-2xl overflow-hidden shadow transition-all duration-300 border border-gray-200 dark:border-gray-700">
       {/* 이미지 영역 */}
       <div className="relative overflow-hidden w-full md:w-1/3 shrink-0">
-        <Image
-          width={500}
-          height={400}
-          src={project.image}
-          alt={`${project.title} 프로젝트 이미지`}
-          className="w-full h-48 md:h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        <Link href={project.slug ? `/portfolio/${project.slug}` : '#'}>
+          <Image
+            width={500}
+            height={400}
+            src={project.image}
+            alt={`${project.title} 프로젝트 이미지`}
+            className="w-full h-48 md:h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </Link>
       </div>
 
       {/* 정보 + 버튼 영역 */}
