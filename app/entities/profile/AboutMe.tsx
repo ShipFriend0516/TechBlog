@@ -4,11 +4,11 @@ import { githubLink, linkedinLink } from '@/app/lib/constants/landingPageData';
 
 const AboutMe = () => {
   return (
-    <section className="relative overflow-hidden rounded-2xl from-primary-caribbean to-gray-100 dark:from-primary-bangladesh dark:to-primary-dark p-6 md:p-10">
+    <section className="relative overflow-visible rounded-2xl from-primary-caribbean to-gray-100 dark:from-primary-bangladesh dark:to-primary-dark p-6 md:p-10">
       <div className="grid md:grid-cols-[1fr,2fr] gap-8 md:gap-12 items-center">
-        <div className="relative mx-auto md:mx-0">
+        <div className="relative mx-auto md:mx-0 group/duck">
           <div className="absolute -inset-1 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full blur opacity-20 animate-pulse"></div>
-          <div className="relative h-44 w-44 overflow-hidden rounded-full ring-4 ring-white dark:ring-gray-400 shadow-xl group">
+          <div className="relative h-44 w-44 overflow-hidden rounded-full ring-4 ring-white dark:ring-gray-400 shadow-xl">
             <Image
               width={500}
               height={400}
@@ -23,8 +23,14 @@ const AboutMe = () => {
               priority={true}
               src={'/images/profile/profile.jpg'}
               alt="About image"
-              className="absolute inset-0 object-cover w-full h-full bg-gray-500 transition-opacity duration-700 group-hover:opacity-0"
+              className="absolute inset-0 object-cover w-full h-full bg-gray-500 transition-opacity duration-700 group-hover/duck:opacity-0"
             />
+          </div>
+          <div className="absolute z-50 -top-16 left-1/2 -translate-x-1/2 opacity-0 group-hover/duck:opacity-100 transition-all duration-300 pointer-events-none scale-95 group-hover/duck:scale-100">
+            <div className=" bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-xs px-3 py-2 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-700">
+              저는 커피☕와 사진 📸을 좋아하는 개발자입니다~
+            </div>
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-3 bg-white dark:bg-gray-800 border-r border-b border-gray-200 dark:border-gray-700 rotate-45"></div>
           </div>
         </div>
         <div className="grid gap-6">
