@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from '@/app/types/Post';
 import ErrorBox from '../common/Error/ErrorBox';
+import SectionHeading from '../common/SectionHeading';
 import Skeleton from '../common/Skeleton/Skeleton';
 
 interface LatestArticlesProps {
@@ -18,12 +19,7 @@ const LatestArticles = ({
 }: LatestArticlesProps) => {
   return (
     <section className="grid gap-6">
-      <div className="space-y-2">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">
-          Latest Articles
-        </h2>
-        <div className="h-1 w-24 bg-gray-900 dark:bg-gray-100 rounded-full"></div>
-      </div>
+      <SectionHeading title="Latest Articles" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {loading ? (
           <>

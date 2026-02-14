@@ -8,6 +8,7 @@ import useToast from '@/app/hooks/useToast';
 import { projects } from '@/app/lib/constants/landingPageData';
 import { Post } from '@/app/types/Post';
 import AboutMe from './entities/profile/AboutMe';
+import Experience from './entities/profile/Experience';
 import FeaturedProjects from './entities/profile/FeaturedProjects';
 import HeroBanner from './entities/profile/HeroBanner';
 import LatestArticles from './entities/profile/LatestArticles';
@@ -55,6 +56,7 @@ export default function Home() {
     <main className="w-full max-w-5xl mx-auto grid gap-12 p-4 md:p-6">
       <HeroBanner />
       <AboutMe />
+      <Experience />
       <FeaturedProjects projects={projects} />
       <LatestArticles posts={posts} loading={loading} error={error} />
       <MoreExplore />
