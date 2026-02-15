@@ -28,7 +28,7 @@ const AboutMe = () => {
           </div>
           <div className="absolute z-50 -top-16 left-1/2 -translate-x-1/2 opacity-0 group-hover/duck:opacity-100 transition-all duration-300 pointer-events-none scale-95 group-hover/duck:scale-100">
             <div className=" bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-xs px-3 py-2 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-700">
-              저는 커피☕와 사진 📸을 좋아하는 개발자입니다~
+              <p>저는 커피☕와 사진 📸을 좋아하는 개발자입니다~</p>
             </div>
             <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-3 bg-white dark:bg-gray-800 border-r border-b border-gray-200 dark:border-gray-700 rotate-45"></div>
           </div>
