@@ -37,9 +37,9 @@ const HeroBanner = () => {
               <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
                 React
               </span>
-              <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+              {/* <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
                 NextJS
-              </span>
+              </span> */}
               <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
                 TypeScript
               </span>
@@ -56,8 +56,8 @@ const HeroBanner = () => {
             안녕하세요, 서정우입니다.
           </p>
           <p className="md:text-lg text-default w-full mx-auto text-left mb-4">
-            깔끔한 코드 작성에 중점을 두고, 확장성에 대해 고민하며 멈추지 않는
-            기술의 변화를 즐깁니다.
+            깔끔한 코드를 중점으로, 확장성에 대해 고민합니다. 기록의 중요성을
+            믿으며, 블로그를 통해 공유하려 합니다.
           </p>
         </div>
       </div>
