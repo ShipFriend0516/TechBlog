@@ -50,6 +50,7 @@ const AboutMe = () => {
               href={githubLink}
               target={'_blank'}
               className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-xl hover:scale-110 transition-all duration-300"
+              title="Github"
             >
               <FaGithub className="w-6 h-6 text-gray-700 dark:text-gray-300" />
             </a>
@@ -57,6 +58,7 @@ const AboutMe = () => {
               href={linkedinLink}
               target={'_blank'}
               className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-xl hover:scale-110 transition-all duration-300"
+              title="LinkedIn"
             >
               <FaLinkedin className="w-6 h-6 text-gray-700 dark:text-gray-300" />
             </a>
