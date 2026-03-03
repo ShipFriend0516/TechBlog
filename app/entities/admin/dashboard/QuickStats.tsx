@@ -84,7 +84,7 @@ const QuickStats = () => {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="py-4">
         <h3 className="text-xl font-semibold mb-4">블로그 통계</h3>
         <div className="text-gray-500">로딩 중...</div>
       </div>
@@ -93,7 +93,7 @@ const QuickStats = () => {
 
   if (error || !stats) {
     return (
-      <div className="p-6">
+      <div className="py-4">
         <h3 className="text-xl font-semibold mb-4">블로그 통계</h3>
         <div className="text-red-500">{error || '통계를 불러올 수 없습니다.'}</div>
       </div>
@@ -109,7 +109,7 @@ const QuickStats = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="py-4">
       <h3 className="text-xl font-semibold mb-6">블로그 통계</h3>
 
       {/* 조회수 강조 섹션 */}
