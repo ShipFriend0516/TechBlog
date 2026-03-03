@@ -85,8 +85,8 @@ const QuickStats = () => {
   if (loading) {
     return (
       <div className="py-4">
-        <h3 className="text-xl font-semibold mb-4">블로그 통계</h3>
-        <div className="text-gray-500">로딩 중...</div>
+        <h3 className="text-xl font-semibold mb-4 dark:text-white">블로그 통계</h3>
+        <div className="text-gray-500 dark:text-gray-400">로딩 중...</div>
       </div>
     );
   }
@@ -94,7 +94,7 @@ const QuickStats = () => {
   if (error || !stats) {
     return (
       <div className="py-4">
-        <h3 className="text-xl font-semibold mb-4">블로그 통계</h3>
+        <h3 className="text-xl font-semibold mb-4 dark:text-white">블로그 통계</h3>
         <div className="text-red-500">{error || '통계를 불러올 수 없습니다.'}</div>
       </div>
     );
@@ -110,19 +110,19 @@ const QuickStats = () => {
 
   return (
     <div className="py-4">
-      <h3 className="text-xl font-semibold mb-6">블로그 통계</h3>
+      <h3 className="text-xl font-semibold mb-6 dark:text-white">블로그 통계</h3>
 
       {/* 조회수 강조 섹션 */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="border border-gray-200 rounded-lg p-5">
-          <p className="text-sm text-gray-500 mb-2">전체 조회수</p>
-          <p className="text-5xl font-bold tracking-tight">
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">전체 조회수</p>
+          <p className="text-5xl font-bold tracking-tight dark:text-white">
             {totalViewsCount.toLocaleString()}
           </p>
         </div>
-        <div className="border border-gray-200 rounded-lg p-5">
-          <p className="text-sm text-gray-500 mb-2">오늘 조회수</p>
-          <p className="text-5xl font-bold tracking-tight">
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">오늘 조회수</p>
+          <p className="text-5xl font-bold tracking-tight dark:text-white">
             {todayViewsCount.toLocaleString()}
           </p>
         </div>
@@ -131,9 +131,9 @@ const QuickStats = () => {
       {/* 기타 통계 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {secondaryStats.map(({ label, value }) => (
-          <div key={label} className="border border-gray-200 rounded-lg p-4">
-            <p className="text-xs text-gray-400 mb-1">{label}</p>
-            <p className="text-2xl font-semibold">{value.toLocaleString()}</p>
+          <div key={label} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">{label}</p>
+            <p className="text-2xl font-semibold dark:text-white">{value.toLocaleString()}</p>
           </div>
         ))}
       </div>

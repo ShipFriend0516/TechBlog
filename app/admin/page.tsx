@@ -121,7 +121,7 @@ const AdminDashboard = () => {
         </button>
       </header>
 
-      <div className="mb-8 text-black">
+      <div className="mb-8">
         <QuickStats />
       </div>
 
@@ -131,20 +131,20 @@ const AdminDashboard = () => {
             key={index}
             href={item.link}
             prefetch={false}
-            className={`border border-gray-200 border-l-4 ${item.accent} rounded-lg p-6 hover:bg-gray-50 transition-all duration-200 hover:-translate-y-1`}
+            className={`border border-gray-200 dark:border-gray-700 border-l-4 ${item.accent} rounded-lg p-6 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 hover:-translate-y-1`}
           >
             <div className="flex items-center mb-3">
-              <div className="p-2 text-gray-600 rounded-lg">
+              <div className="p-2 text-gray-600 dark:text-gray-400 rounded-lg">
                 {item.icon}
               </div>
-              <h2 className="text-lg font-semibold ml-2">{item.title}</h2>
+              <h2 className="text-lg font-semibold ml-2 dark:text-gray-100">{item.title}</h2>
             </div>
-            <p className="text-sm text-gray-500">{item.description}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
           </Link>
         ))}
       </div>
 
-      <div className="mt-8 text-black">
+      <div className="mt-8">
         <RecentActivity />
       </div>
     </div>
