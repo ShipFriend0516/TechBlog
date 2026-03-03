@@ -84,9 +84,24 @@ const QuickStats = () => {
 
   if (loading) {
     return (
-      <div className="py-4">
-        <h3 className="text-xl font-semibold mb-4 dark:text-white">블로그 통계</h3>
-        <div className="text-gray-500 dark:text-gray-400">로딩 중...</div>
+      <div className="py-4 animate-pulse">
+        <div className="h-7 w-28 bg-gray-200 dark:bg-gray-700 rounded mb-6" />
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
+              <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded mb-3" />
+              <div className="h-12 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+              <div className="h-3 w-14 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
+              <div className="h-8 w-10 bg-gray-200 dark:bg-gray-700 rounded" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

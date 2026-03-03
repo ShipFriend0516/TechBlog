@@ -42,9 +42,19 @@ const RecentActivity = () => {
 
   if (loading) {
     return (
-      <div className="py-4">
-        <h3 className="text-xl font-semibold mb-4 dark:text-white">최근 활동</h3>
-        <div className="text-gray-500 dark:text-gray-400">로딩 중...</div>
+      <div className="py-4 animate-pulse">
+        <div className="h-7 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-6" />
+        <ul className="space-y-2">
+          {[...Array(5)].map((_, i) => (
+            <li
+              key={i}
+              className="flex items-center justify-between px-4 py-3 border border-gray-100 dark:border-gray-700 rounded-lg"
+            >
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded flex-1 mr-4" />
+              <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
