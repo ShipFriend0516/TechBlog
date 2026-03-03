@@ -1,6 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+function useCountUp(target: number, duration = 1200) {
+  const [count, setCount] = useState(0);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (target === 0) return;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [target, duration]);
+
+  return count;
+}
 
 interface Stats {
   totalPosts: number;
@@ -16,6 +42,9 @@ const QuickStats = () => {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const totalViewsCount = useCountUp(stats?.totalViews ?? 0);
+  const todayViewsCount = useCountUp(stats?.todayViews ?? 0);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -88,13 +117,13 @@ const QuickStats = () => {
         <div className="border border-gray-200 rounded-lg p-5">
           <p className="text-sm text-gray-500 mb-2">전체 조회수</p>
           <p className="text-5xl font-bold tracking-tight">
-            {stats.totalViews.toLocaleString()}
+            {totalViewsCount.toLocaleString()}
           </p>
         </div>
         <div className="border border-gray-200 rounded-lg p-5">
           <p className="text-sm text-gray-500 mb-2">오늘 조회수</p>
           <p className="text-5xl font-bold tracking-tight">
-            {stats.todayViews.toLocaleString()}
+            {todayViewsCount.toLocaleString()}
           </p>
         </div>
       </div>

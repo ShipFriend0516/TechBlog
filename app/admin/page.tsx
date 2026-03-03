@@ -45,49 +45,49 @@ const AdminDashboard = () => {
       title: '블로그 포스트 작성',
       icon: <RiFileTextLine />,
       description: '새로운 글을 작성합니다.',
-      bgColor: 'bg-blue-950/20', // 짙은 파란색의 투명도 적용
+      accent: 'border-l-brand-primary',
       link: '/admin/write',
     },
     {
       title: '프로젝트 관리',
       icon: <BiFolder />,
       description: '포트폴리오 프로젝트를 관리합니다.',
-      bgColor: 'bg-yellow-950/20', // 짙은 노란색의 투명도 적용
+      accent: 'border-l-semantic-info',
       link: '/admin/portfolio',
     },
     {
       title: '게시글 수정/삭제',
       icon: <HiBookOpen />,
       description: '기존 게시글을 관리합니다.',
-      bgColor: 'bg-green-950/20', // 짙은 초록색의 투명도 적용
+      accent: 'border-l-primary-bangladesh',
       link: '/admin/posts',
     },
     {
       title: '방문자 및 조회수 분석',
       icon: <FaChartBar />,
       description: '블로그 통계를 확인합니다.',
-      bgColor: 'bg-purple-950/20', // 짙은 보라색의 투명도 적용
+      accent: 'border-l-semantic-warning',
       link: '/admin/analytics',
     },
     {
       title: '시리즈 관리',
       icon: <FaBuffer />,
       description: '블로그 시리즈를 관리합니다.',
-      bgColor: 'bg-emerald-950/20', // 짙은 보라색의 투명도 적용
+      accent: 'border-l-brand-secondary',
       link: '/admin/series',
     },
     {
       title: '댓글 확인 및 관리',
       icon: <BiCommentDetail />,
       description: '댓글을 관리합니다.',
-      bgColor: 'bg-pink-950/20', // 짙은 분홍색의 투명도 적용
+      accent: 'border-l-semantic-error',
       link: '/admin/comments',
     },
     {
       title: '블로그 설정 관리',
       icon: <IoSettingsSharp />,
       description: '블로그 설정을 변경합니다.',
-      bgColor: 'bg-gray-800/20', // 짙은 회색의 투명도 적용
+      accent: 'border-l-primary-mountain',
       link: '/admin/settings',
     },
   ];
@@ -131,15 +131,15 @@ const AdminDashboard = () => {
             key={index}
             href={item.link}
             prefetch={false}
-            className={`${item.bgColor} p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
+            className={`border border-gray-200 border-l-4 ${item.accent} rounded-lg p-6 hover:bg-gray-50 transition-all duration-200 hover:-translate-y-1`}
           >
-            <div className="flex items-center mb-4">
-              <div className="p-2  border text-weak  rounded-lg shadow-sm">
+            <div className="flex items-center mb-3">
+              <div className="p-2 text-gray-600 rounded-lg">
                 {item.icon}
               </div>
-              <h2 className="text-xl font-semibold ml-3">{item.title}</h2>
+              <h2 className="text-lg font-semibold ml-2">{item.title}</h2>
             </div>
-            <p className="text-default">{item.description}</p>
+            <p className="text-sm text-gray-500">{item.description}</p>
           </Link>
         ))}
       </div>
