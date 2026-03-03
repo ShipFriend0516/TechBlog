@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BiFolder , BiCommentDetail } from 'react-icons/bi';
 import { FaChartBar } from 'react-icons/fa';
 import { FaBuffer } from 'react-icons/fa6';
@@ -18,8 +18,10 @@ import DecryptedText from '../entities/bits/DecryptedText';
 const AdminDashboard = () => {
   const { data: session } = useSession();
   const toast = useToast();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (session) {
       toast.success('관리자 페이지에 오신 것을 환영합니다.');
     }
@@ -45,49 +47,49 @@ const AdminDashboard = () => {
       title: '블로그 포스트 작성',
       icon: <RiFileTextLine />,
       description: '새로운 글을 작성합니다.',
-      bgColor: 'bg-blue-950/20', // 짙은 파란색의 투명도 적용
+      accent: 'border-l-brand-primary',
       link: '/admin/write',
     },
     {
       title: '프로젝트 관리',
       icon: <BiFolder />,
       description: '포트폴리오 프로젝트를 관리합니다.',
-      bgColor: 'bg-yellow-950/20', // 짙은 노란색의 투명도 적용
+      accent: 'border-l-semantic-info',
       link: '/admin/portfolio',
     },
     {
       title: '게시글 수정/삭제',
       icon: <HiBookOpen />,
       description: '기존 게시글을 관리합니다.',
-      bgColor: 'bg-green-950/20', // 짙은 초록색의 투명도 적용
+      accent: 'border-l-primary-bangladesh',
       link: '/admin/posts',
     },
     {
       title: '방문자 및 조회수 분석',
       icon: <FaChartBar />,
       description: '블로그 통계를 확인합니다.',
-      bgColor: 'bg-purple-950/20', // 짙은 보라색의 투명도 적용
+      accent: 'border-l-semantic-warning',
       link: '/admin/analytics',
     },
     {
       title: '시리즈 관리',
       icon: <FaBuffer />,
       description: '블로그 시리즈를 관리합니다.',
-      bgColor: 'bg-emerald-950/20', // 짙은 보라색의 투명도 적용
+      accent: 'border-l-brand-secondary',
       link: '/admin/series',
     },
     {
       title: '댓글 확인 및 관리',
       icon: <BiCommentDetail />,
       description: '댓글을 관리합니다.',
-      bgColor: 'bg-pink-950/20', // 짙은 분홍색의 투명도 적용
+      accent: 'border-l-semantic-error',
       link: '/admin/comments',
     },
     {
       title: '블로그 설정 관리',
       icon: <IoSettingsSharp />,
       description: '블로그 설정을 변경합니다.',
-      bgColor: 'bg-gray-800/20', // 짙은 회색의 투명도 적용
+      accent: 'border-l-primary-mountain',
       link: '/admin/settings',
     },
   ];
@@ -121,28 +123,48 @@ const AdminDashboard = () => {
         </button>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-        {dashboardItems.map((item, index) => (
-          <Link
-            key={index}
-            href={item.link}
-            prefetch={false}
-            className={`${item.bgColor} p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
-          >
-            <div className="flex items-center mb-4">
-              <div className="p-2  border text-weak  rounded-lg shadow-sm">
-                {item.icon}
-              </div>
-              <h2 className="text-xl font-semibold ml-3">{item.title}</h2>
-            </div>
-            <p className="text-default">{item.description}</p>
-          </Link>
-        ))}
+      <div className="mb-8">
+        <QuickStats />
       </div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
+      {!mounted ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+          {[...Array(7)].map((_, i) => (
+            <div
+              key={i}
+              className="border border-gray-200 dark:border-gray-700 border-l-4 border-l-gray-300 dark:border-l-gray-600 rounded-lg p-6"
+            >
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded" />
+                <div className="h-5 w-36 bg-gray-200 dark:bg-gray-700 rounded ml-2" />
+              </div>
+              <div className="h-4 w-44 bg-gray-200 dark:bg-gray-700 rounded" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {dashboardItems.map((item, index) => (
+            <Link
+              key={index}
+              href={item.link}
+              prefetch={false}
+              className={`border border-gray-200 dark:border-gray-700 border-l-4 ${item.accent} rounded-lg p-6 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 hover:-translate-y-1`}
+            >
+              <div className="flex items-center mb-3">
+                <div className="p-2 text-gray-600 dark:text-gray-400 rounded-lg">
+                  {item.icon}
+                </div>
+                <h2 className="text-lg font-semibold ml-2 dark:text-gray-100">{item.title}</h2>
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-8">
         <RecentActivity />
-        <QuickStats />
       </div>
     </div>
   );

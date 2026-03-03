@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 import Series from '@/app/models/Series';
+import View from '@/app/models/View';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,12 +19,17 @@ export async function GET() {
 
     await dbConnect();
 
-    const [totalPosts, totalSeries, publicPosts, privatePosts] =
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const [totalPosts, totalSeries, publicPosts, privatePosts, totalViews, todayViews] =
       await Promise.all([
         Post.countDocuments({}),
         Series.countDocuments({}),
         Post.countDocuments({ isPrivate: false }),
         Post.countDocuments({ isPrivate: true }),
+        View.countDocuments({}),
+        View.countDocuments({ createdAt: { $gte: todayStart } }),
       ]);
 
     return Response.json(
@@ -34,6 +40,8 @@ export async function GET() {
           totalSeries,
           publicPosts,
           privatePosts,
+          totalViews,
+          todayViews,
         },
       },
       {
