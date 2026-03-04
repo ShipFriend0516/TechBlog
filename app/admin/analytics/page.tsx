@@ -25,11 +25,13 @@ type TabKey = (typeof TABS)[number]['key'];
 
 function SkeletonList() {
   return (
-    <ul className="animate-pulse space-y-1">
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-pulse">
+      <div className="h-8 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+      <ul>
       {[...Array(20)].map((_, i) => (
         <li
           key={i}
-          className="px-3 py-2.5 border border-gray-100 dark:border-gray-700 rounded-lg flex items-center gap-3"
+          className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 flex items-center gap-3"
         >
           <div className="h-3.5 w-4 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
           <div className="h-3.5 flex-1 bg-gray-200 dark:bg-gray-700 rounded" />
@@ -39,7 +41,8 @@ function SkeletonList() {
           <div className="h-3.5 w-14 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
         </li>
       ))}
-    </ul>
+      </ul>
+    </div>
   );
 }
 
@@ -53,7 +56,7 @@ function PostListItem({
   viewsNode: React.ReactNode;
 }) {
   return (
-    <li className="px-3 py-2.5 border border-gray-100 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 flex items-center gap-3 min-w-0">
+    <li className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 flex items-center gap-3 min-w-0">
       <span className="text-xs text-gray-400 dark:text-gray-500 w-4 shrink-0 text-right">
         {rank}
       </span>
@@ -156,9 +159,9 @@ function AnalyticsContent() {
           {emptyMessage}
         </p>
       ) : (
-        <>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
           {/* 테이블 헤더 */}
-          <div className="flex items-center gap-3 px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-700 mb-1">
+          <div className="flex items-center gap-3 px-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-700">
             <span className="w-4 shrink-0" />
             <span className="flex-1">제목</span>
             <span className="w-20 shrink-0 text-center">시리즈</span>
@@ -166,7 +169,7 @@ function AnalyticsContent() {
             <span className="w-12 shrink-0 text-center">좋아요</span>
             <span className="w-20 shrink-0 text-right">조회수</span>
           </div>
-          <ul className="space-y-1">
+          <ul>
             {posts.map((post, i) => (
               <PostListItem
                 key={post.postId}
@@ -189,7 +192,7 @@ function AnalyticsContent() {
               />
             ))}
           </ul>
-        </>
+        </div>
       )}
     </div>
   );
