@@ -63,9 +63,9 @@ function PostListItem({
       >
         {post.title}
       </Link>
-      <div className="w-20 shrink-0 flex justify-center">
+      <div className=" shrink-0 flex justify-center">
         {post.seriesTitle ? (
-          <span className="text-xs px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary dark:bg-brand-secondary/10 dark:text-brand-secondary truncate max-w-full">
+          <span className="text-xs px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary dark:bg-brand-secondary/10 dark:text-brand-secondary whitespace-nowrap text-nowrap max-w-full">
             {post.seriesTitle}
           </span>
         ) : (
@@ -152,7 +152,9 @@ function AnalyticsContent() {
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : posts.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400 text-sm">{emptyMessage}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
+          {emptyMessage}
+        </p>
       ) : (
         <>
           {/* 테이블 헤더 */}
