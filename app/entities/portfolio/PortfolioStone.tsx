@@ -62,13 +62,20 @@ const PortfolioStone = ({
             </span>
           )}
 
-          <div
-            className={`
-                    absolute top-4 right-4 w-3 h-3 rounded-full bg-white/50
-                    transition-all duration-300
-                    ${isHovered ? 'scale-150 bg-green-300/80' : 'scale-100'}
-                  `}
-          />
+          {project.demoUrl ? (
+            <span className="absolute top-4 right-4 flex w-3 h-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full w-3 h-3 bg-green-400 shadow-[0_0_6px_2px_rgba(74,222,128,0.6)]" />
+            </span>
+          ) : (
+            <div
+              className={`
+                      absolute top-4 right-4 w-3 h-3 rounded-full bg-white/50
+                      transition-all duration-300
+                      ${isHovered ? 'scale-150' : 'scale-100'}
+                    `}
+            />
+          )}
         </div>
       </div>
 
