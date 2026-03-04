@@ -43,14 +43,12 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
   };
 
   return (
-    <div className="min-h-full p-8">
+    <div className="min-h-full px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl text-center font-bold mt-8 mb-4">포트폴리오</h1>
-        <p className="text-sm mb-8 text-center text-gray-600 dark:text-gray-400">
-          참여한 프로젝트 모아보기
-        </p>
         {!projects || projects.length === 0 ? (
-          <p className="text-center text-gray-500 dark:text-gray-400">프로젝트가 없습니다.</p>
+          <p className="text-center text-gray-500 dark:text-gray-400">
+            프로젝트가 없습니다.
+          </p>
         ) : null}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-6">
           {projects.map((project, index) => {

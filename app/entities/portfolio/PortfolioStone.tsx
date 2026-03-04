@@ -24,8 +24,11 @@ const PortfolioStone = ({
   translateX,
   scale,
 }: PortfolioStoneProps) => {
+  const portfolioDetailUrl = project.slug ? `/portfolio/${project.slug}` : null;
+
   return (
-    <div
+    <Link
+      href={portfolioDetailUrl || '#'}
       className={`
                   ${pastelColors[index % pastelColors.length]}
                   rounded-2xl 
@@ -119,7 +122,7 @@ const PortfolioStone = ({
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 export default PortfolioStone;
