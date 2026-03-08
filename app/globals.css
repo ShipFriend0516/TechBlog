@@ -362,3 +362,9 @@ article.post .post-body table thead tr:first-child th {
 article.post .post-body table tbody tr:last-child td {
   border-bottom: none;
 }
+
+/* rechart */
+
+.recharts-wrapper * {
+  outline: none !important;
+}
