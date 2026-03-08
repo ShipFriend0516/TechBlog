@@ -41,10 +41,18 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
         return;
       }
 
+      // 미들웨어가 저장한 쿠키 우선, 없으면 document.referrer 폴백
+      const cookieReferrer = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('x-page-referrer='))
+        ?.split('=')[1];
+      const referrer = cookieReferrer ? decodeURIComponent(cookieReferrer) : document.referrer;
+
       const response = await axios.post(
         '/api/posts/view',
         {
           postId,
+          referrer,
         },
         {
           headers: {
