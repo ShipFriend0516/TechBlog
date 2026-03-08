@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import DailyViewsChart from './RecentViewChart';
 
 function useCountUp(target: number, duration = 1200) {
   const [count, setCount] = useState(0);
@@ -38,8 +39,14 @@ interface Stats {
   todayViews: number;
 }
 
+interface DailyView {
+  date: string;
+  count: number;
+}
+
 const QuickStats = () => {
   const [stats, setStats] = useState<Stats | null>(null);
+  const [dailyViews, setDailyViews] = useState<DailyView[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,9 +58,10 @@ const QuickStats = () => {
       try {
         setLoading(true);
 
-        const [blogStatsRes, subscriberStatsRes] = await Promise.all([
+        const [blogStatsRes, subscriberStatsRes, dailyRes] = await Promise.all([
           fetch('/api/admin/stats'),
           fetch('/api/admin/subscribers'),
+          fetch('/api/admin/stats/daily'),
         ]);
 
         if (!blogStatsRes.ok || !subscriberStatsRes.ok) {
@@ -62,6 +70,7 @@ const QuickStats = () => {
 
         const blogData = await blogStatsRes.json();
         const subscriberData = await subscriberStatsRes.json();
+        const dailyData = dailyRes.ok ? await dailyRes.json() : null;
 
         if (blogData.success && subscriberData.success) {
           setStats({
@@ -70,6 +79,10 @@ const QuickStats = () => {
           });
         } else {
           setError('통계를 불러올 수 없습니다.');
+        }
+
+        if (dailyData?.success) {
+          setDailyViews(dailyData.daily);
         }
       } catch (err) {
         setError('통계를 불러오는 중 오류가 발생했습니다.');
@@ -88,7 +101,10 @@ const QuickStats = () => {
         <div className="h-7 w-28 bg-gray-200 dark:bg-gray-700 rounded mb-6" />
         <div className="grid grid-cols-2 gap-4 mb-6">
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
+            <div
+              key={i}
+              className="border border-gray-200 dark:border-gray-700 rounded-lg p-5"
+            >
               <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded mb-3" />
               <div className="h-12 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
             </div>
@@ -96,7 +112,10 @@ const QuickStats = () => {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div
+              key={i}
+              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+            >
               <div className="h-3 w-14 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
               <div className="h-8 w-10 bg-gray-200 dark:bg-gray-700 rounded" />
             </div>
@@ -109,8 +128,12 @@ const QuickStats = () => {
   if (error || !stats) {
     return (
       <div className="py-4">
-        <h3 className="text-xl font-semibold mb-4 dark:text-white">블로그 통계</h3>
-        <div className="text-red-500">{error || '통계를 불러올 수 없습니다.'}</div>
+        <h3 className="text-xl font-semibold mb-4 dark:text-white">
+          블로그 통계
+        </h3>
+        <div className="text-red-500">
+          {error || '통계를 불러올 수 없습니다.'}
+        </div>
       </div>
     );
   }
@@ -125,18 +148,24 @@ const QuickStats = () => {
 
   return (
     <div className="py-4">
-      <h3 className="text-xl font-semibold mb-6 dark:text-white">블로그 통계</h3>
+      <h3 className="text-xl font-semibold mb-6 dark:text-white">
+        블로그 통계
+      </h3>
 
       {/* 조회수 강조 섹션 */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">전체 조회수</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+            전체 조회수
+          </p>
           <p className="text-5xl font-bold tracking-tight dark:text-white">
             {totalViewsCount.toLocaleString()}
           </p>
         </div>
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">오늘 조회수</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+            오늘 조회수
+          </p>
           <p className="text-5xl font-bold tracking-tight dark:text-white">
             {todayViewsCount.toLocaleString()}
           </p>
@@ -146,12 +175,21 @@ const QuickStats = () => {
       {/* 기타 통계 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {secondaryStats.map(({ label, value }) => (
-          <div key={label} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-            <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">{label}</p>
-            <p className="text-2xl font-semibold dark:text-white">{value.toLocaleString()}</p>
+          <div
+            key={label}
+            className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+          >
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">
+              {label}
+            </p>
+            <p className="text-2xl font-semibold dark:text-white">
+              {value.toLocaleString()}
+            </p>
           </div>
         ))}
       </div>
+
+      <DailyViewsChart data={dailyViews} />
     </div>
   );
 };
