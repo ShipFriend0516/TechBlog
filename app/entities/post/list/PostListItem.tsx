@@ -1,7 +1,6 @@
 import { FaTrash } from 'react-icons/fa';
 import { FaPencil } from 'react-icons/fa6';
-import { Post } from '@/app/types/Post';
-
+import type { Post } from '@/app/types/Post';
 const PostListItem = (props: {
   post: Post;
   handleEdit: () => void;

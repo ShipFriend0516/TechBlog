@@ -1,9 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
-import { formatDate } from '@/app/lib/utils/format';
+import PostListItem from '@/app/entities/admin/analytics/PostListItem';
 
 interface PostItem {
   postId: string;
@@ -28,67 +27,25 @@ function SkeletonList() {
     <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-pulse">
       <div className="h-8 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
       <ul>
-      {[...Array(20)].map((_, i) => (
-        <li
-          key={i}
-          className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 flex items-center gap-3"
-        >
-          <div className="h-3.5 w-4 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-          <div className="h-3.5 flex-1 bg-gray-200 dark:bg-gray-700 rounded" />
-          <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-          <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-          <div className="h-3 w-10 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-          <div className="h-3.5 w-14 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-        </li>
-      ))}
+        {[...Array(20)].map((_, i) => (
+          <li
+            key={i}
+            className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 flex items-center gap-3"
+          >
+            <div className="h-3.5 w-4 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+            <div className="h-3.5 flex-1 bg-gray-200 dark:bg-gray-700 rounded" />
+            <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+            <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+            <div className="h-3 w-10 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+            <div className="h-3.5 w-14 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+          </li>
+        ))}
       </ul>
     </div>
   );
 }
 
-function PostListItem({
-  post,
-  rank,
-  viewsNode,
-}: {
-  post: PostItem;
-  rank: number;
-  viewsNode: React.ReactNode;
-}) {
-  return (
-    <li className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 flex items-center gap-3 min-w-0">
-      <span className="text-xs text-gray-400 dark:text-gray-500 w-4 shrink-0 text-right">
-        {rank}
-      </span>
-      <Link
-        href={`/posts/${post.slug}`}
-        className="flex-1 text-sm font-medium truncate dark:text-gray-200 hover:text-brand-primary dark:hover:text-brand-secondary transition-colors min-w-0"
-      >
-        {post.title}
-      </Link>
-      <div className=" shrink-0 flex justify-center">
-        {post.seriesTitle ? (
-          <span className="text-xs px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary dark:bg-brand-secondary/10 dark:text-brand-secondary whitespace-nowrap text-nowrap max-w-full">
-            {post.seriesTitle}
-          </span>
-        ) : (
-          <span className="text-xs text-gray-300 dark:text-gray-600">—</span>
-        )}
-      </div>
-      <span className="text-xs text-gray-400 dark:text-gray-500 w-24 shrink-0 text-center">
-        {formatDate(post.date)}
-      </span>
-      <span className="text-xs text-gray-400 dark:text-gray-500 w-12 shrink-0 text-center">
-        ♥ {post.likeCount.toLocaleString()}
-      </span>
-      <span className="text-sm font-semibold shrink-0 w-20 text-right dark:text-gray-200">
-        {viewsNode}
-      </span>
-    </li>
-  );
-}
-
-function AnalyticsContent() {
+const AnalyticsContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = (searchParams.get('tab') ?? 'all') as TabKey;
@@ -168,6 +125,7 @@ function AnalyticsContent() {
             <span className="w-24 shrink-0 text-center">작성일</span>
             <span className="w-12 shrink-0 text-center">좋아요</span>
             <span className="w-20 shrink-0 text-right">조회수</span>
+            <span className="w-4 shrink-0" />
           </div>
           <ul>
             {posts.map((post, i) => (
@@ -196,7 +154,7 @@ function AnalyticsContent() {
       )}
     </div>
   );
-}
+};
 
 export default function StatsPage() {
   return (

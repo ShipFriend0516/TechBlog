@@ -11,6 +11,10 @@ const viewSchema = new Schema(
       type: String,
       required: true,
     },
+    referrer: {
+      type: String,
+      default: '',
+    },
     timestamp: {
       type: Date,
       default: Date.now,

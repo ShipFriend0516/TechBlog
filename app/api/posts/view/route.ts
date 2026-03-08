@@ -3,7 +3,7 @@ import dbConnect from '@/app/lib/dbConnect';
 import View from '@/app/models/View';
 
 export const POST = async (request: Request) => {
-  const { postId } = await request.json();
+  const { postId, referrer } = await request.json();
   const fingerprint = request.headers.get('X-Fingerprint') || '';
 
   if (!postId) {
@@ -17,6 +17,9 @@ export const POST = async (request: Request) => {
 
   const existingLike = await View.findOne({ postId, fingerprint });
   if (existingLike) {
+    if (!existingLike.referrer && referrer) {
+      await View.updateOne({ _id: existingLike._id }, { referrer });
+    }
     const viewCount = await View.countDocuments({ postId });
     return Response.json(
       { message: '이미 조회한 유저입니다.', viewCount },
@@ -26,6 +29,7 @@ export const POST = async (request: Request) => {
     const result = await View.create({
       postId,
       fingerprint,
+      referrer: referrer || '',
     });
 
     const viewCount = await View.countDocuments({ postId });
