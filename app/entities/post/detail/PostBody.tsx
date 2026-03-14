@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
@@ -12,7 +12,11 @@ import {
   asideStyleRewrite,
   addDescriptionUnderImage,
   renderYoutubeEmbed,
+  renderOpenGraph,
   createImageClickHandler,
+  extractInternalLinks,
+  fetchOGData,
+  OGData,
 } from '../../../lib/utils/rehypeUtils';
 
 interface Props {
@@ -33,6 +37,18 @@ const PostBody = ({ content, tags, loading }: Props) => {
   );
 
   const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
+  const [ogDataMap, setOgDataMap] = useState<Record<string, OGData | null>>({});
+
+  useEffect(() => {
+    const links = extractInternalLinks(content);
+    if (links.length === 0) return;
+    Promise.all(
+      links.map(async (href) => {
+        const data = await fetchOGData(href);
+        return [href, data] as [string, OGData | null];
+      })
+    ).then((results) => setOgDataMap(Object.fromEntries(results)));
+  }, [content]);
 
   // 이미지 클릭 핸들러 생성
   const addImageClickHandler = createImageClickHandler(
@@ -77,7 +93,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
             }}
             rehypeRewrite={(node, index?, parent?) => {
               asideStyleRewrite(node);
-              // renderOpenGraph(node, index || 0, parent as Element | undefined);
+              renderOpenGraph(node, index, parent as Element | undefined, ogDataMap);
               renderYoutubeEmbed(
                 node,
                 index || 0,
