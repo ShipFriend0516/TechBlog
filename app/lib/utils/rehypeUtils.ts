@@ -223,7 +223,15 @@ export const renderOpenGraph = (
         parent.children &&
         Array.isArray(parent.children)
       ) {
-        parent.children.splice(index + 1, 0, ogCard);
+        // 링크 텍스트가 URL 자체인 경우(bare URL, [url](url)) → <p> 대체
+        // 커스텀 텍스트인 경우([text](url)) → <p> 유지 후 OG 카드 삽입
+        const linkText = aTag.children?.find((c: any) => c.type === 'text')?.value ?? '';
+        const isUrlOnlyLink = linkText === href;
+        if (isUrlOnlyLink) {
+          parent.children.splice(index, 1, ogCard);
+        } else {
+          parent.children.splice(index + 1, 0, ogCard);
+        }
       } else return;
     }
   }
@@ -330,7 +338,7 @@ export const createOpenGraph = (href: string, data: OGData) => {
       target: '_blank',
       rel: 'noopener noreferrer',
       className:
-        'border-border bg-card hover:border-primary/40 hover:bg-muted/50  flex overflow-hidden rounded-xl border transition-colors',
+        'border-border bg-card hover:border-primary/40 hover:bg-muted/50  flex overflow-hidden rounded-xl border transition-colors mb-4',
     },
     children: cardChildren,
   };
