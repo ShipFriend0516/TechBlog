@@ -225,7 +225,8 @@ export const renderOpenGraph = (
       ) {
         // 링크 텍스트가 URL 자체인 경우(bare URL, [url](url)) → <p> 대체
         // 커스텀 텍스트인 경우([text](url)) → <p> 유지 후 OG 카드 삽입
-        const linkText = aTag.children?.find((c: any) => c.type === 'text')?.value ?? '';
+        const linkText =
+          aTag.children?.find((c: any) => c.type === 'text')?.value ?? '';
         const isUrlOnlyLink = linkText === href;
         if (isUrlOnlyLink) {
           parent.children.splice(index, 1, ogCard);
@@ -312,8 +313,9 @@ export const createOpenGraph = (href: string, data: OGData) => {
       type: 'element',
       tagName: 'div',
       properties: {
-        className: 'relative hidden aspect-video shrink-0 sm:block',
-        style: 'width: 120px',
+        className:
+          'relative hidden aspect-video shrink-0 sm:block  rounded-r-xl !rounded-l-none',
+        style: 'width: 160px',
       },
       children: [
         {
@@ -322,7 +324,8 @@ export const createOpenGraph = (href: string, data: OGData) => {
           properties: {
             src: image,
             alt: title ?? '',
-            className: 'h-full !w-full object-cover !m-0 !p-0 !max-w-none',
+            className:
+              '!h-full !w-full object-cover !m-0 !p-0 !max-w-none !rounded-l-none',
           },
           children: [],
         },
@@ -338,7 +341,7 @@ export const createOpenGraph = (href: string, data: OGData) => {
       target: '_blank',
       rel: 'noopener noreferrer',
       className:
-        'border-border bg-card hover:border-primary/40 hover:bg-muted/50  flex overflow-hidden rounded-xl border transition-colors mb-4',
+        'border-border bg-white dark:bg-neutral-800 hover:border-white/90 hover:bg-neutral-800/10 flex overflow-hidden rounded-xl border transition-colors mb-4 h-[112px]',
     },
     children: cardChildren,
   };
