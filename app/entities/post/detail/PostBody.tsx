@@ -37,7 +37,11 @@ const PostBody = ({ content, tags, loading }: Props) => {
   );
 
   const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
-  const [ogDataMap, setOgDataMap] = useState<Record<string, OGData | null>>({});
+  const [ogDataMap, setOgDataMap] = useState<
+    Record<string, OGData | null | undefined>
+  >(() =>
+    Object.fromEntries(extractInternalLinks(content).map((href) => [href, undefined]))
+  );
 
   useEffect(() => {
     const links = extractInternalLinks(content);

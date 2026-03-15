@@ -202,7 +202,7 @@ export const renderOpenGraph = (
   node: any,
   index?: number,
   parent?: Element,
-  ogDataMap?: Record<string, OGData | null>
+  ogDataMap?: Record<string, OGData | null | undefined>
 ) => {
   if (node.type === 'element' && node.tagName === 'p' && node.children) {
     const aTag = node.children.find(
@@ -215,8 +215,18 @@ export const renderOpenGraph = (
       href && (href.startsWith('/') || href.startsWith('http'));
     if (isOGTarget && ogDataMap && href in ogDataMap) {
       const data = ogDataMap[href];
-      if (!data || (!data.title && !data.description)) return;
-      const ogCard = createOpenGraph(href, data);
+
+      // null = 에러 → 원본 링크 유지
+      if (data === null) return;
+
+      const card =
+        data === undefined
+          ? createOGSkeleton()
+          : !data.title && !data.description
+            ? null
+            : createOpenGraph(href, data);
+      if (!card) return;
+
       if (
         index !== undefined &&
         parent &&
@@ -224,18 +234,75 @@ export const renderOpenGraph = (
         Array.isArray(parent.children)
       ) {
         // 링크 텍스트가 URL 자체인 경우(bare URL, [url](url)) → <p> 대체
-        // 커스텀 텍스트인 경우([text](url)) → <p> 유지 후 OG 카드 삽입
+        // 커스텀 텍스트인 경우([text](url)) → <p> 유지 후 카드 삽입
         const linkText =
           aTag.children?.find((c: any) => c.type === 'text')?.value ?? '';
         const isUrlOnlyLink = linkText === href;
         if (isUrlOnlyLink) {
-          parent.children.splice(index, 1, ogCard);
+          parent.children.splice(index, 1, card);
         } else {
-          parent.children.splice(index + 1, 0, ogCard);
+          parent.children.splice(index + 1, 0, card);
         }
       } else return;
     }
   }
+};
+
+/**
+ * OG 카드 로딩 중 스켈레톤 노드 생성
+ */
+export const createOGSkeleton = () => {
+  const skeletonBox = (className: string) => ({
+    type: 'element',
+    tagName: 'div',
+    properties: {
+      className: `rounded bg-gray-200/80 dark:bg-neutral-700/80 duration-100 ${className}`,
+    },
+    children: [],
+  });
+
+  return {
+    type: 'element',
+    tagName: 'div',
+    properties: {
+      className:
+        'border-border bg-card flex overflow-hidden rounded-xl border mb-4 h-[112px] animate-pulse',
+    },
+    children: [
+      {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className:
+            'flex min-w-0 flex-1 flex-col justify-center gap-2 px-4',
+        },
+        children: [
+          {
+            type: 'element',
+            tagName: 'div',
+            properties: { className: 'flex items-center gap-1.5' },
+            children: [
+              skeletonBox('h-3.5 w-3.5'),
+              skeletonBox('h-3 w-24'),
+            ],
+          },
+          skeletonBox('h-4 w-3/4'),
+          skeletonBox('h-3 w-full'),
+          skeletonBox('h-3 w-2/3'),
+        ],
+      },
+      {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className:
+            'relative hidden shrink-0 sm:block rounded-r-xl bg-gray-200/80 dark:bg-neutral-700/80',
+          style: 'width: 160px',
+        },
+        children: [],
+      },
+    ],
+  };
 };
 
 /**
