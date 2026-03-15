@@ -1,7 +1,7 @@
 'use client';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
-import Image from 'next/image';
 
 interface OGData {
   url: string;
