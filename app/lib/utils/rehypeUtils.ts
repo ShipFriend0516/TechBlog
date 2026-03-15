@@ -138,7 +138,8 @@ export const createYoutubeIframe = (
 };
 
 /**
- * 내부 링크를 Open Graph 카드로 변환 (현재 비활성화)
+ * 링크를 감지하고 <ogcard> marker 노드로 변환
+ * 실제 렌더링은 PostBody의 components prop에서 OgLinkCard 컴포넌트가 담당
  */
 export const renderOpenGraph = (
   node: any,
@@ -152,92 +153,32 @@ export const renderOpenGraph = (
     if (!aTag) return;
 
     const href = aTag.properties?.href;
-    if (href && href.startsWith('/')) {
-      // 부모가 존재하고 children 배열이 있는 경우
-      const opengraph = createOpenGraph(href);
-      if (
-        index !== undefined &&
-        parent &&
-        parent.children &&
-        Array.isArray(parent.children)
-      ) {
-        // 현재 a 태그 다음 위치에 div 삽입
-        parent.children.splice(index + 1, 0, opengraph);
-      } else return;
+    if (!href || !(href.startsWith('/') || href.startsWith('http'))) return;
+
+    const ogNode = {
+      type: 'element',
+      tagName: 'ogcard',
+      properties: { href },
+      children: [],
+    };
+
+    if (
+      index !== undefined &&
+      parent?.children &&
+      Array.isArray(parent.children)
+    ) {
+      // 링크 텍스트가 URL 자체인 경우(bare URL, [url](url)) → <p> 대체
+      // 커스텀 텍스트인 경우([text](url)) → <p> 유지 후 카드 삽입
+      const linkText =
+        aTag.children?.find((c: any) => c.type === 'text')?.value ?? '';
+      const isUrlOnlyLink = linkText === href;
+      if (isUrlOnlyLink) {
+        parent.children.splice(index, 1, ogNode);
+      } else {
+        parent.children.splice(index + 1, 0, ogNode);
+      }
     }
   }
-};
-
-/**
- * Open Graph 카드 노드 생성
- */
-export const createOpenGraph = (href: string) => {
-  return {
-    type: 'element',
-    tagName: 'a',
-    properties: {
-      className: 'open-graph',
-      href: href,
-    },
-    children: [
-      {
-        type: 'element',
-        tagName: 'img',
-        properties: {
-          src: `${href}`,
-          alt: 'Open Graph Image',
-          className: 'og-image',
-        },
-        children: [],
-      },
-      {
-        type: 'element',
-        tagName: 'div',
-        properties: {
-          className: 'og-container',
-        },
-        children: [
-          {
-            type: 'element',
-            tagName: 'h4',
-            properties: {
-              className: 'og-title',
-            },
-            children: [
-              {
-                type: 'text',
-                value: decodeURIComponent(href.split('/').pop()!).replaceAll(
-                  '-',
-                  ' '
-                ),
-              },
-            ],
-          },
-          {
-            type: 'element',
-            tagName: 'span',
-            properties: {
-              className: 'og-content',
-            },
-            children: [],
-          },
-          {
-            type: 'element',
-            tagName: 'span',
-            properties: {
-              className: 'og-domain',
-            },
-            children: [
-              {
-                type: 'text',
-                value: '',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
 };
 
 /**
