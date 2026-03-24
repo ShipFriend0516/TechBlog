@@ -24,10 +24,18 @@ export async function GET(request: NextRequest) {
     }
 
     const postId = request.nextUrl.searchParams.get('postId');
+    const dateParam = request.nextUrl.searchParams.get('date');
 
     await dbConnect();
 
-    const query = postId ? { postId } : {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const query: Record<string, any> = postId ? { postId } : {};
+    if (dateParam) {
+      query.createdAt = {
+        $gte: new Date(`${dateParam}T00:00:00+09:00`),
+        $lte: new Date(`${dateParam}T23:59:59+09:00`),
+      };
+    }
     const views = await View.find(query, { referrer: 1 }).lean();
 
     const counts: Record<string, number> = {};
