@@ -24,13 +24,11 @@ export async function GET(request: NextRequest) {
     }
 
     const postId = request.nextUrl.searchParams.get('postId');
-    if (!postId) {
-      return Response.json({ success: false, error: 'postId가 필요합니다.' }, { status: 400 });
-    }
 
     await dbConnect();
 
-    const views = await View.find({ postId }, { referrer: 1 }).lean();
+    const query = postId ? { postId } : {};
+    const views = await View.find(query, { referrer: 1 }).lean();
 
     const counts: Record<string, number> = {};
     for (const v of views) {
