@@ -5,27 +5,21 @@
 import { SelectedImage } from '../../entities/post/detail/PostBody';
 
 /**
- * aside 태그의 첫 번째 텍스트 노드를 emoji span으로 래핑
+ * aside 태그를 callout 커스텀 컴포넌트 노드로 변환
+ * 첫 번째 텍스트 노드를 emoji prop으로 추출하고 나머지는 children으로 유지
  */
-export const asideStyleRewrite = (node: any) => {
+export const asideToCallout = (node: any) => {
   if (node.type === 'element' && node.tagName === 'aside') {
-    for (const child of [...node.children]) {
-      if (node.children[0] === child && child.type === 'text') {
-        node.children[0] = {
-          type: 'element',
-          tagName: 'span',
-          properties: {
-            className: 'aside-emoji',
-          },
-          children: [
-            {
-              type: 'text',
-              value: child.value!,
-            },
-          ],
-        };
-      }
+    const firstChild = node.children[0];
+    let emoji = '';
+
+    if (firstChild?.type === 'text') {
+      emoji = firstChild.value.trim();
+      node.children = node.children.slice(1);
     }
+
+    node.tagName = 'callout';
+    node.properties = { ...node.properties, emoji };
   }
 };
 

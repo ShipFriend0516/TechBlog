@@ -20,8 +20,9 @@ import { usePasteImageUpload } from '@/app/hooks/post/usePasteImageUpload';
 import usePost from '@/app/hooks/post/usePost';
 import useTheme from '@/app/hooks/useTheme';
 import useToast from '@/app/hooks/useToast';
+import Callout from '@/app/entities/post/detail/Callout';
 import {
-  asideStyleRewrite,
+  asideToCallout,
   addDescriptionUnderImage,
   renderYoutubeEmbed,
   createImageClickHandler,
@@ -289,8 +290,12 @@ const BlogForm = () => {
             wrapperElement: {
               'data-color-mode': theme,
             },
+            components: {
+              callout: ({ emoji, children }: { emoji?: string; children?: React.ReactNode }) =>
+                <Callout emoji={emoji}>{children}</Callout>,
+            } as any,
             rehypeRewrite: (node, index?, parent?) => {
-              asideStyleRewrite(node);
+              asideToCallout(node);
               renderYoutubeEmbed(
                 node,
                 index || 0,
