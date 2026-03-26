@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
+import Callout from '@/app/entities/post/detail/Callout';
 import DraftListOverlay from '@/app/entities/post/write/DraftListOverlay';
 import PostMetadataForm from '@/app/entities/post/write/PostMetadataForm';
 import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
@@ -20,7 +21,6 @@ import { usePasteImageUpload } from '@/app/hooks/post/usePasteImageUpload';
 import usePost from '@/app/hooks/post/usePost';
 import useTheme from '@/app/hooks/useTheme';
 import useToast from '@/app/hooks/useToast';
-import Callout from '@/app/entities/post/detail/Callout';
 import {
   asideToCallout,
   addDescriptionUnderImage,
