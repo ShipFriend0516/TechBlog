@@ -3,6 +3,7 @@ import { useState } from 'react';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
+import Callout from '@/app/entities/post/detail/Callout';
 import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
 import PostTOC from '@/app/entities/post/detail/PostTOC';
 import TagBox from '@/app/entities/post/tags/TagBox';
@@ -10,7 +11,7 @@ import useOverlay from '@/app/hooks/common/useOverlay';
 import useTheme from '@/app/hooks/useTheme';
 import MDEditor from '@uiw/react-md-editor';
 import {
-  asideStyleRewrite,
+  asideToCallout,
   addDescriptionUnderImage,
   renderYoutubeEmbed,
   renderOpenGraph,
@@ -79,9 +80,11 @@ const PostBody = ({ content, tags, loading }: Props) => {
             components={{
               ogcard: ({ href }: { href?: string }) =>
                 href ? <OgLinkCard href={href} /> : null,
+              callout: ({ emoji, children }: { emoji?: string; children?: React.ReactNode }) =>
+                <Callout emoji={emoji}>{children}</Callout>,
             } as any}
             rehypeRewrite={(node, index?, parent?) => {
-              asideStyleRewrite(node);
+              asideToCallout(node);
               renderOpenGraph(node, index, parent as Element | undefined);
               renderYoutubeEmbed(
                 node,
