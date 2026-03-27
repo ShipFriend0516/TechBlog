@@ -28,9 +28,21 @@ import {
   createImageClickHandler,
 } from '@/app/lib/utils/rehypeUtils';
 import { CloudDraft, DraftListItem, LocalDraft } from '@/app/types/Draft';
+import { commands, ICommand } from '@uiw/react-md-editor';
 import LoadingSpinner from '../../common/Loading/LoadingSpinner';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
+
+const calloutCommand: ICommand = {
+  name: 'callout',
+  keyCommand: 'callout',
+  buttonProps: { 'aria-label': 'Callout 삽입', title: 'Callout 삽입' },
+  icon: <span style={{ fontSize: '14px' }}>📢</span>,
+  execute: (state, api) => {
+    const selected = state.selectedText || '내용을 입력하세요';
+    api.replaceSelection(`<callout emoji="💡">${selected}</callout>`);
+  },
+};
 
 export interface SelectedImage {
   src: string;
@@ -282,6 +294,7 @@ const BlogForm = () => {
         <MDEditor
           value={formData.content}
           onChange={(value) => setFormData({ content: value })}
+          extraCommands={[calloutCommand, commands.divider, ...commands.getExtraCommands()]}
           height={500}
           minHeight={500}
           visibleDragbar={false}
