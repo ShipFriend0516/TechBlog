@@ -47,9 +47,17 @@ export async function PUT(
     const body = await req.json();
     const post = await Post.findOne({ slug: params.slug });
 
+    let thumbnailOfPost = getThumbnailInMarkdown(body.content);
+    if (!thumbnailOfPost) {
+      const seriesThumbnail = await Series.findById(body.seriesId).select('thumbnailImage');
+      thumbnailOfPost =
+        seriesThumbnail?.thumbnailImage ||
+        '/images/placeholder/thumbnail_example2.webp';
+    }
+
     const updatedPost = await Post.findOneAndUpdate(
       { slug: params.slug },
-      { ...body, thumbnailImage: getThumbnailInMarkdown(body.content) },
+      { ...body, thumbnailImage: thumbnailOfPost },
       {
         new: true,
         runValidators: true,
