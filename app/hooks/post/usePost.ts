@@ -80,7 +80,10 @@ const usePost = (slug = '') => {
     try {
       const data = await getAllSeriesData();
       setSeriesList(data);
-      setFormData((prev) => ({ ...prev, seriesId: data[0]._id }));
+      // 편집 모드(slug 존재)에서는 getPostDetail이 seriesId를 설정하므로 덮어쓰지 않음
+      if (!slug) {
+        setFormData((prev) => ({ ...prev, seriesId: data[0]._id }));
+      }
       setUIState((prev) => ({ ...prev, seriesLoading: false }));
     } catch (e) {
       console.error('시리즈 조회 중 오류 발생', e);

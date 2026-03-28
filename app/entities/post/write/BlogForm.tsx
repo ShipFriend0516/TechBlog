@@ -240,7 +240,7 @@ const BlogForm = () => {
   };
 
   return (
-    <div className={'px-4'}>
+    <div className={'px-2'}>
       <h1 className={'text-2xl text-center mb-4'}>
         글 {slug ? '수정' : '작성'}
       </h1>
@@ -294,7 +294,11 @@ const BlogForm = () => {
         <MDEditor
           value={formData.content}
           onChange={(value) => setFormData({ content: value })}
-          extraCommands={[calloutCommand, commands.divider, ...commands.getExtraCommands()]}
+          extraCommands={[
+            calloutCommand,
+            commands.divider,
+            ...commands.getExtraCommands(),
+          ]}
           height={500}
           minHeight={500}
           visibleDragbar={false}
@@ -304,8 +308,13 @@ const BlogForm = () => {
               'data-color-mode': theme,
             },
             components: {
-              callout: ({ emoji, children }: { emoji?: string; children?: React.ReactNode }) =>
-                <Callout emoji={emoji}>{children}</Callout>,
+              callout: ({
+                emoji,
+                children,
+              }: {
+                emoji?: string;
+                children?: React.ReactNode;
+              }) => <Callout emoji={emoji}>{children}</Callout>,
             } as any,
             rehypeRewrite: (node, index?, parent?) => {
               asideToCallout(node);
