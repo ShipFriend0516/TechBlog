@@ -46,6 +46,9 @@ dist
 public/rss.xml
 public/atom.xml
 public/feed.json
+
+# 빌드 시 생성되는 파일
+public/llms.txt
 .vscode/settings.json
 
 */agents
