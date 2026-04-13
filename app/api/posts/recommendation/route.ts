@@ -24,7 +24,10 @@ export const GET = async (request: Request) => {
 
     // 시리즈 내 포스트가 충분하면 바로 반환
     if (seriesPosts.length >= 3) {
-      return Response.json({ posts: seriesPosts });
+      return Response.json(
+        { posts: seriesPosts },
+        { headers: { 'Cache-Control': 'public, max-age=60, s-maxage=300' } }
+      );
     }
 
     const remainingCount = 3 - seriesPosts.length;
@@ -48,9 +51,10 @@ export const GET = async (request: Request) => {
             .limit(remainingCount)
             .select(SELECTED_FIELDS);
 
-    return Response.json({
-      posts: [...seriesPosts, ...recommendedPosts],
-    });
+    return Response.json(
+      { posts: [...seriesPosts, ...recommendedPosts] },
+      { headers: { 'Cache-Control': 'public, max-age=60, s-maxage=300' } }
+    );
   }
 
   const query =
@@ -116,7 +120,10 @@ export const GET = async (request: Request) => {
       .sort((a, b) => b.popularityScore - a.popularityScore)
       .slice(0, 3);
 
-    return Response.json({ posts: sortedPosts });
+    return Response.json(
+      { posts: sortedPosts },
+      { headers: { 'Cache-Control': 'public, max-age=60, s-maxage=300' } }
+    );
   } else {
     // 태그가 없는 경우 단순히 인기도로만 정렬
     const recommendedPosts = await Post.find(query)
@@ -150,6 +157,9 @@ export const GET = async (request: Request) => {
       .sort((a, b) => b.popularityScore - a.popularityScore)
       .slice(0, 3);
 
-    return Response.json({ posts: sortedPosts });
+    return Response.json(
+      { posts: sortedPosts },
+      { headers: { 'Cache-Control': 'public, max-age=60, s-maxage=300' } }
+    );
   }
 };

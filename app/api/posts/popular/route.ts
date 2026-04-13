@@ -27,7 +27,15 @@ export const GET = async () => {
       })
     );
 
-    return Response.json({ posts: posts }, { status: 200 });
+    return Response.json(
+      { posts: posts },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=600, s-maxage=3600',
+        },
+      }
+    );
   } catch (error) {
     console.error('인기 글 id를 조회 중 실패', error);
     return Response.json(

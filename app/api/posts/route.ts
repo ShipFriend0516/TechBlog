@@ -97,7 +97,7 @@ export async function GET(req: Request) {
       {
         status: 200,
         headers: {
-          'Cache-Control': 'public, max-age=60',
+          'Cache-Control': 'public, max-age=300, s-maxage=900',
         },
       }
     );
