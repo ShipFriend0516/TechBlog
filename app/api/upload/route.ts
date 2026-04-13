@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import sharp from 'sharp';
+import { isAdminSession } from '@/app/lib/authz';
 import { put } from '@vercel/blob';
 
 export async function POST(request: Request): Promise<NextResponse> {
   const session = await getServerSession();
 
-  if (!session) {
+  // 이미지 업로드는 관리자 전용
+  if (!isAdminSession(session)) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 

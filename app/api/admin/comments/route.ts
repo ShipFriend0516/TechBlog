@@ -1,5 +1,6 @@
 // GET /api/admin/comments - 관리자용 GitHub Issues 댓글 조회
 import { getServerSession } from 'next-auth';
+import { isAdminSession } from '@/app/lib/authz';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,9 +37,9 @@ interface GitHubComment {
 
 export async function GET() {
   try {
-    // 인증 확인
+    // 관리자 전용
     const session = await getServerSession();
-    if (!session) {
+    if (!isAdminSession(session)) {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }

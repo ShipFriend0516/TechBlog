@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth';
+import { isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import CloudDraft from '@/app/models/CloudDraft';
 
@@ -6,7 +7,8 @@ import CloudDraft from '@/app/models/CloudDraft';
 export async function GET(req: Request) {
   try {
     const session = await getServerSession();
-    if (!session?.user?.email) {
+    // 클라우드 드래프트는 관리자 전용 기능
+    if (!isAdminSession(session) || !session?.user?.email) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -35,7 +37,8 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession();
-    if (!session?.user?.email) {
+    // 관리자 전용
+    if (!isAdminSession(session) || !session?.user?.email) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -130,7 +133,8 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const session = await getServerSession();
-    if (!session?.user?.email) {
+    // 관리자 전용
+    if (!isAdminSession(session) || !session?.user?.email) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

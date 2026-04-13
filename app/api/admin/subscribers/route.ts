@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth';
+import { isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import Subscriber from '@/app/models/Subscriber';
 
@@ -7,7 +8,8 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const session = await getServerSession();
-    if (!session) {
+    // 관리자 전용
+    if (!isAdminSession(session)) {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }

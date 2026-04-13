@@ -9,8 +9,10 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
-      return user.email === process.env.ADMIN_EMAIL;
+    // 모든 GitHub 사용자 로그인 허용
+    // (관리자 권한 검사는 각 API 라우트에서 isAdminSession 으로 개별 처리)
+    async signIn() {
+      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

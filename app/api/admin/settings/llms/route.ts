@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth';
+import { isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import { generateLlmsTxt } from '@/app/lib/llmstxt';
 import Post from '@/app/models/Post';
@@ -6,7 +7,8 @@ import View from '@/app/models/View';
 
 export async function POST() {
   const session = await getServerSession();
-  if (!session) {
+  // 관리자 전용
+  if (!isAdminSession(session)) {
     return Response.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 
