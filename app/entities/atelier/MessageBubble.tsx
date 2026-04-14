@@ -103,7 +103,7 @@ const MessageBubble = ({
 
   // 버블 자체 스타일 — 소유자 여부에 따라 색을 분리
   const bubbleCls = isOwner
-    ? 'rounded-2xl rounded-tr-sm bg-brand-primary/80 backdrop-blur-sm text-white shadow-md'
+    ? 'rounded-2xl rounded-tr-sm bg-brand-primary/80 dark:bg-primary-rich backdrop-blur-sm text-white shadow-md'
     : 'rounded-2xl rounded-tl-sm bg-white/60 dark:bg-neutral-800/60 backdrop-blur-sm text-foreground border border-border shadow-sm';
 
   return (
@@ -151,7 +151,11 @@ const MessageBubble = ({
           ) : (
             <MarkdownPreview
               source={message.content}
-              style={{ background: 'transparent', color: 'inherit', fontSize: 'inherit' }}
+              style={{
+                background: 'transparent',
+                color: 'inherit',
+                fontSize: 'inherit',
+              }}
               wrapperElement={{ 'data-color-mode': isOwner ? 'dark' : 'light' }}
             />
           )}
@@ -210,14 +214,15 @@ const MessageBubble = ({
         />
       )}
 
-      {isDeleteModalOpen && createPortal(
-        <DeleteModal
-          message="메시지를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
-          onConfirm={handleConfirmDelete}
-          onCancel={() => setIsDeleteModalOpen(false)}
-        />,
-        document.body
-      )}
+      {isDeleteModalOpen &&
+        createPortal(
+          <DeleteModal
+            message="메시지를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+            onConfirm={handleConfirmDelete}
+            onCancel={() => setIsDeleteModalOpen(false)}
+          />,
+          document.body
+        )}
     </div>
   );
 };

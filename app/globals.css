@@ -60,10 +60,10 @@ body.atelier-page {
 .dark body.atelier-page {
   background: linear-gradient(
     135deg,
-    #1e201e 0%,
-    #0f2a12 40%,
-    #162b18 70%,
-    #1e201e 100%
+    #252825 0%,
+    #243029 40%,
+    #2b3a2e 70%,
+    #232623 100%
   );
   background-size: 300% 300%;
   animation: atelierBg 20s ease infinite;
