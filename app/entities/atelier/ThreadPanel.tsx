@@ -99,7 +99,23 @@ const ThreadPanel = ({
       </div>
 
       {isLoading ? (
-        <p className="text-xs text-weak">불러오는 중...</p>
+        <div className="flex flex-col gap-2">
+          {[
+            { mine: false, w: 'w-24' },
+            { mine: true,  w: 'w-32' },
+            { mine: false, w: 'w-20' },
+          ].map((item, i) => (
+            <div key={i} className={`flex flex-col gap-0.5 ${item.mine ? 'items-end' : 'items-start'}`}>
+              {!item.mine && (
+                <div className="flex items-center gap-1 ml-0.5">
+                  <div className="w-3 h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+                  <div className="w-10 h-2 rounded bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+                </div>
+              )}
+              <div className={`h-7 ${item.w} rounded-xl bg-neutral-200 dark:bg-neutral-700 animate-pulse`} />
+            </div>
+          ))}
+        </div>
       ) : replies.length === 0 ? (
         <p className="text-xs text-weak">아직 답글이 없어요</p>
       ) : (
