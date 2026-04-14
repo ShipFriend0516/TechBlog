@@ -127,7 +127,7 @@ const MessageBubble = ({
 
       {/* 버블 + 호버 액션 */}
       <div
-        className="max-w-[75%] relative group"
+        className="max-w-[75%] relative group pt-8 -mt-8"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -144,7 +144,7 @@ const MessageBubble = ({
         {/* 액션 바 — 삭제된 메시지에는 노출하지 않음 */}
         {!message.isDeleted && isActionsVisible && (
           <div
-            className={`absolute -top-7 ${isMine ? 'right-0' : 'left-0'} z-10`}
+            className={`absolute top-1 ${isMine ? 'right-0' : 'left-0'} z-10`}
           >
             <MessageActions
               message={message}

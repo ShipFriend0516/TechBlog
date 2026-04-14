@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import EmojiPicker from '@/app/entities/atelier/EmojiPicker';
 import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 
@@ -24,6 +25,14 @@ const MessageActions = ({
   onBlock,
 }: MessageActionsProps) => {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [pickerPos, setPickerPos] = useState({ top: 0, left: 0 });
+  const emojiButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isPickerOpen || !emojiButtonRef.current) return;
+    const rect = emojiButtonRef.current.getBoundingClientRect();
+    setPickerPos({ top: rect.top - 8, left: rect.left });
+  }, [isPickerOpen]);
 
   const handleToggleReact = () => {
     setIsPickerOpen((prev) => !prev);
@@ -54,14 +63,19 @@ const MessageActions = ({
   };
 
   return (
-    <div className="relative inline-flex items-center gap-1">
-      {isPickerOpen && (
-        <div className="absolute bottom-full mb-2 left-0 z-10">
+    <div className="relative inline-flex items-center gap-1 whitespace-nowrap bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md border border-border rounded-full px-2 py-1 shadow-sm">
+      {isPickerOpen && createPortal(
+        <div
+          className="fixed z-[100]"
+          style={{ top: pickerPos.top, left: pickerPos.left, transform: 'translateY(-100%)' }}
+        >
           <EmojiPicker onSelect={handleSelectEmoji} onClose={handleClosePicker} />
-        </div>
+        </div>,
+        document.body
       )}
 
       <button
+        ref={emojiButtonRef}
         type="button"
         onClick={handleToggleReact}
         className="text-xs text-weak hover:text-brand-primary transition-colors px-1.5 py-0.5 rounded"
