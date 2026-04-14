@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
 import Image from 'next/image';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import { useEffect, useState } from 'react';
 import MessageInput from '@/app/entities/atelier/MessageInput';
 import useAtelierAuthor from '@/app/hooks/atelier/useAtelierAuthor';
@@ -146,7 +147,7 @@ const ThreadPanel = ({
                   </span>
                 </div>
                 <div
-                  className={`max-w-[85%] rounded-xl px-3 py-1.5 text-xs whitespace-pre-wrap break-words ${
+                  className={`max-w-[85%] rounded-xl px-3 py-1.5 text-xs break-words ${
                     reply.role === 'owner'
                       ? 'bg-brand-primary/80 text-white'
                       : 'bg-white/80 dark:bg-neutral-800/80 border border-border text-foreground'
@@ -155,7 +156,11 @@ const ThreadPanel = ({
                   {reply.isDeleted ? (
                     <span className="italic text-weak">[삭제된 메시지]</span>
                   ) : (
-                    reply.content
+                    <MarkdownPreview
+                      source={reply.content}
+                      style={{ background: 'transparent', color: 'inherit', fontSize: 'inherit' }}
+                      wrapperElement={{ 'data-color-mode': reply.role === 'owner' ? 'dark' : 'light' }}
+                    />
                   )}
                 </div>
               </div>

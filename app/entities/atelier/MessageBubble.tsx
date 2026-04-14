@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import { PiEyeSlash } from 'react-icons/pi';
 import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import MessageActions from '@/app/entities/atelier/MessageActions';
@@ -143,12 +144,16 @@ const MessageBubble = ({
           />
         )}
         <div
-          className={`${bubbleCls} px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap break-words`}
+          className={`${bubbleCls} px-4 py-2.5 text-sm leading-relaxed break-words`}
         >
           {message.isDeleted ? (
             <span className="italic text-weak">[삭제된 메시지]</span>
           ) : (
-            message.content
+            <MarkdownPreview
+              source={message.content}
+              style={{ background: 'transparent', color: 'inherit', fontSize: 'inherit' }}
+              wrapperElement={{ 'data-color-mode': isOwner ? 'dark' : 'light' }}
+            />
           )}
         </div>
 
