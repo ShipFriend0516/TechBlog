@@ -36,6 +36,10 @@ body.atelier-page {
   height: 100dvh;
 }
 
+body.atelier-page main {
+  padding-bottom: 0;
+}
+
 /*noinspection CssUnusedSymbol*/
 @layer utilities {
   .text-balance {
