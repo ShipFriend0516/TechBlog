@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useState } from 'react';
+import { PiEyeSlash } from 'react-icons/pi';
 import MessageActions from '@/app/entities/atelier/MessageActions';
 import ReactionBar from '@/app/entities/atelier/ReactionBar';
 import ThreadPanel from '@/app/entities/atelier/ThreadPanel';
@@ -117,20 +118,22 @@ const MessageBubble = ({
               주인
             </span>
           )}
-          {isAdmin && !message.isPublic && (
-            <span className="text-[10px] text-weak border border-border rounded-full px-1">
-              비공개
-            </span>
-          )}
         </div>
       )}
 
-      {/* 버블 + 호버 액션 */}
+      {/* 버블 + 비공개 아이콘 + 호버 액션 */}
       <div
         className="max-w-[75%] relative group pt-8 -mt-8"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
+        {isAdmin && !message.isPublic && (
+          <PiEyeSlash
+            className={`absolute top-1/2 translate-y-1/2 text-weak ${isMine ? '-left-5' : '-right-5'}`}
+            size={14}
+            title="비공개"
+          />
+        )}
         <div
           className={`${bubbleCls} px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap break-words`}
         >
@@ -178,7 +181,9 @@ const MessageBubble = ({
         </button>
       )}
 
-      <span className="text-xs text-weak px-1">{formatTime(message.createdAt)}</span>
+      <span className="text-xs text-weak px-1">
+        {formatTime(message.createdAt)}
+      </span>
 
       {/* 스레드 패널 (인라인 확장) */}
       {isThreadOpen && (
