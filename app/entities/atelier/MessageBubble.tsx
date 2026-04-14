@@ -1,7 +1,9 @@
 'use client';
 import Image from 'next/image';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { PiEyeSlash } from 'react-icons/pi';
+import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import MessageActions from '@/app/entities/atelier/MessageActions';
 import ReactionBar from '@/app/entities/atelier/ReactionBar';
 import ThreadPanel from '@/app/entities/atelier/ThreadPanel';
@@ -50,6 +52,7 @@ const MessageBubble = ({
 }: MessageBubbleProps) => {
   const [isThreadOpen, setIsThreadOpen] = useState(false);
   const [isActionsVisible, setIsActionsVisible] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleMouseEnter = () => setIsActionsVisible(true);
   const handleMouseLeave = () => setIsActionsVisible(false);
@@ -63,6 +66,11 @@ const MessageBubble = ({
   };
 
   const handleDelete = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setIsDeleteModalOpen(false);
     onDelete(message._id);
   };
 
@@ -195,6 +203,15 @@ const MessageBubble = ({
           onClose={() => setIsThreadOpen(false)}
           onReplySent={() => onReplySent(message._id)}
         />
+      )}
+
+      {isDeleteModalOpen && createPortal(
+        <DeleteModal
+          message="메시지를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setIsDeleteModalOpen(false)}
+        />,
+        document.body
       )}
     </div>
   );
