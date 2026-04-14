@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { Cormorant_Garamond } from 'next/font/google';
 import { useState } from 'react';
 import ChatFeed from '@/app/entities/atelier/ChatFeed';
@@ -106,9 +107,17 @@ const AtelierPage = () => {
         {/* 헤더 */}
         <div className="mb-2">
           <h1
-            className={`${cormorant.className} text-6xl sm:text-7xl font-light italic tracking-wide`}
+            className={`${cormorant.className} text-6xl sm:text-7xl font-light italic tracking-wide relative inline-block`}
           >
             Atelier
+            <Image
+              src="/images/atelier/pen.png"
+              alt="pen"
+              width={1024}
+              height={1024}
+              priority
+              className="absolute -right-[100px]  top-1/3 -translate-y-2/4 rotate-[10deg] w-32 h-32 sm:w-[8.5rem] sm:h[8.5rem] -z-10 opacity-90"
+            />
           </h1>
           <p className="text-sm text-weak mt-1 tracking-widest uppercase">
             생각들을 던져두는 곳
