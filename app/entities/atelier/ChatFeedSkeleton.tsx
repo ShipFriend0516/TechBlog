@@ -48,7 +48,7 @@ const SkeletonBubble = ({
 };
 
 const ChatFeedSkeleton = () => (
-  <div className="flex flex-col gap-4 h-[560px] overflow-hidden border border-border rounded-2xl p-4">
+  <div className="flex flex-col gap-4 h-[70dvh] overflow-hidden border border-border rounded-2xl p-4">
     {SKELETON_ITEMS.map((item, i) => (
       <SkeletonBubble key={i} mine={item.mine} widths={item.widths} />
     ))}
