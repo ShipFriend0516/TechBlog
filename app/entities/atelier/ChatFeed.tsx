@@ -132,7 +132,7 @@ const ChatFeed = ({
   return (
     <div
       ref={containerRef}
-      className="flex flex-col gap-4 h-[70dvh] overflow-y-auto border border-border rounded-2xl p-4 scroll-smooth"
+      className="flex flex-col gap-4 h-full overflow-y-auto border border-border rounded-2xl p-4 scroll-smooth"
     >
       {/* 상단 sentinel — infinite scroll 트리거 */}
       <div ref={sentinelRef} className="h-1" />

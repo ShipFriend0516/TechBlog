@@ -124,12 +124,12 @@ const AtelierPage = () => {
         />
       </div> */}
 
-      <section className="w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-        <div className="flex flex-col gap-4 animate-atelierIn duration-1000">
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[calc(100dvh-4rem)] flex flex-col gap-4 py-4">
+        <div className="flex flex-col gap-4 flex-1 min-h-0 animate-atelierIn duration-1000">
           {/* 헤더 */}
-          <div className="mb-2">
+          <div className="shrink-0">
             <h1
-              className={`${cormorant.className} text-6xl sm:text-7xl font-light italic tracking-wide relative inline-block`}
+              className={`${cormorant.className} text-[clamp(2rem,8vw,3.5rem)] font-light italic tracking-wide relative inline-block`}
             >
               Atelier
               <Image
@@ -138,7 +138,7 @@ const AtelierPage = () => {
                 width={1024}
                 height={1024}
                 priority
-                className="absolute -right-[100px] top-1/3 -translate-y-2/4 rotate-[10deg] w-32 h-32 sm:w-[8.5rem] sm:h-[8.5rem] -z-10 opacity-90 dark:invert"
+                className="absolute -right-[clamp(3rem,8vw,6.5rem)] top-1/3 -translate-y-2/4 rotate-[10deg] w-[clamp(4rem,10vw,8rem)] h-[clamp(4rem,10vw,8rem)] -z-10 opacity-90 dark:invert"
               />
             </h1>
             <p className="text-sm text-weak mt-1 tracking-widest uppercase">
@@ -147,24 +147,28 @@ const AtelierPage = () => {
           </div>
 
           {/* 채팅 피드 */}
-          <ChatFeed
-            messages={messages}
-            isAdmin={author.isAdmin}
-            currentFingerprint={author.fingerprint}
-            currentGithubId={author.githubUser?.id ?? null}
-            hasMore={hasMore}
-            isLoadingOlder={isLoadingOlder}
-            isInitialLoading={isInitialLoading}
-            onLoadOlder={loadOlder}
-            onReact={handleReact}
-            onDelete={handleDelete}
-            onTogglePublic={handleTogglePublic}
-            onBlock={handleBlock}
-            onReplySent={handleReplySent}
-          />
+          <div className="flex-1 min-h-0">
+            <ChatFeed
+              messages={messages}
+              isAdmin={author.isAdmin}
+              currentFingerprint={author.fingerprint}
+              currentGithubId={author.githubUser?.id ?? null}
+              hasMore={hasMore}
+              isLoadingOlder={isLoadingOlder}
+              isInitialLoading={isInitialLoading}
+              onLoadOlder={loadOlder}
+              onReact={handleReact}
+              onDelete={handleDelete}
+              onTogglePublic={handleTogglePublic}
+              onBlock={handleBlock}
+              onReplySent={handleReplySent}
+            />
+          </div>
 
           {/* 입력 */}
-          <MessageInput onSend={handleSendRoot} placeholder={placeholder} />
+          <div className="shrink-0">
+            <MessageInput onSend={handleSendRoot} placeholder={placeholder} />
+          </div>
 
           {/* 닉네임 게이트 (익명 방문자 전용) */}
           {isGateOpen && (
