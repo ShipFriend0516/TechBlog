@@ -49,7 +49,7 @@ const ThreadPanel = ({
       }
     };
     fetchThread();
-  }, [parentId, toast]);
+  }, [parentId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSend = async (content: string) => {
     try {
