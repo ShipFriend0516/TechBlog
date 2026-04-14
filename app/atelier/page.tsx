@@ -109,7 +109,7 @@ const AtelierPage = () => {
             Atelier
           </h1>
           <p className="text-sm text-weak mt-1 tracking-widest uppercase">
-            날 것의 생각들을 던져두는 곳
+            생각들을 던져두는 곳
           </p>
         </div>
 

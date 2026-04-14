@@ -31,6 +31,15 @@ body {
   overflow-x: hidden;
 }
 
+body.atelier-page {
+  overflow: hidden;
+  height: 100dvh;
+}
+
+body.atelier-page footer {
+  display: none;
+}
+
 /*noinspection CssUnusedSymbol*/
 @layer utilities {
   .text-balance {
