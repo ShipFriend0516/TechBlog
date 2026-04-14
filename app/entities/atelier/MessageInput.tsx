@@ -14,6 +14,7 @@ const MessageInput = ({
   disabled = false,
 }: MessageInputProps) => {
   const [input, setInput] = useState('');
+  const [isSending, setIsSending] = useState(false);
   const isComposing = useRef(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -31,10 +32,15 @@ const MessageInput = ({
 
   const handleSend = async () => {
     const trimmed = input.trim();
-    if (!trimmed || disabled) return;
-    await onSend(trimmed);
-    setInput('');
-    textareaRef.current?.focus();
+    if (!trimmed || disabled || isSending) return;
+    setIsSending(true);
+    try {
+      await onSend(trimmed);
+      setInput('');
+      textareaRef.current?.focus();
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -49,7 +55,7 @@ const MessageInput = ({
   };
 
   return (
-    <div className="flex gap-2 items-end">
+    <div className="flex gap-2 items-stretch">
       <textarea
         ref={textareaRef}
         value={input}
@@ -65,10 +71,14 @@ const MessageInput = ({
       <button
         type="button"
         onClick={handleClickSend}
-        disabled={!input.trim() || disabled}
-        className="px-4 py-3 rounded-xl bg-brand-primary text-white text-sm font-medium hover:opacity-90 disabled:opacity-30 transition-opacity"
+        disabled={!input.trim() || disabled || isSending}
+        className="px-4 rounded-xl bg-brand-primary text-white text-sm font-medium hover:opacity-90 disabled:opacity-30 transition-opacity"
       >
-        전송
+        {isSending ? (
+          <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+        ) : (
+          '전송'
+        )}
       </button>
     </div>
   );
