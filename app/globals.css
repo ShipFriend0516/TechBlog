@@ -31,12 +31,43 @@ body {
   overflow-x: hidden;
 }
 
+@keyframes atelierBg {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 body.atelier-page {
   overflow: hidden;
   height: 100dvh;
-  background: transparent;
+  background: linear-gradient(
+    135deg,
+    var(--background) 0%,
+    #f1faf2 40%,
+    #f7fdf7 70%,
+    var(--background) 100%
+  );
+  background-size: 300% 300%;
+  animation: atelierBg 20s ease infinite;
 }
 
+.dark body.atelier-page {
+  background: linear-gradient(
+    135deg,
+    #1e201e 0%,
+    #0f2a12 40%,
+    #162b18 70%,
+    #1e201e 100%
+  );
+  background-size: 300% 300%;
+  animation: atelierBg 20s ease infinite;
+}
 body.atelier-page main {
   padding-bottom: 0;
 }
