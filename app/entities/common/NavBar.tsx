@@ -1,13 +1,20 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { IoMoonSharp, IoSunnySharp } from 'react-icons/io5';
 import IconButton from '@/app/entities/common/Button/IconButton';
 import Profile from '@/app/entities/common/Profile';
 import useTheme from '@/app/hooks/useTheme';
+
+const TRANSPARENT_PATHS = ['/atelier'];
+
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const pathname = usePathname();
+
+  const isTransparent = TRANSPARENT_PATHS.some((p) => pathname.startsWith(p));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +32,8 @@ const NavBar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const fixedStyle = isFixed ? 'bg-white bg-opacity-20' : 'bg-background';
+
+  const fixedStyle = isTransparent ? 'bg-transparent' : isFixed ? 'bg-white bg-opacity-20' : 'bg-background';
 
   return (
     <nav>
