@@ -61,8 +61,8 @@ const ChatFeed = ({
   // 최신 메시지 수 추적 (새 메시지 도착 시 하단 유지용)
   const prevMessageCountRef = useRef(0);
 
-  // 초기 로드 시 하단으로 스크롤
-  useEffect(() => {
+  // 초기 로드 시 하단으로 스크롤 — 페인트 전에 실행해 플래시 방지
+  useLayoutEffect(() => {
     if (isInitialLoading) return;
     if (hasScrolledToBottomRef.current) return;
     if (!containerRef.current) return;
