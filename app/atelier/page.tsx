@@ -31,7 +31,6 @@ const AtelierPage = () => {
     removeOptimistic,
     updateMessage,
     removeMessage,
-    refresh,
   } = useAtelierMessages({ limit: 30 });
 
   const mutations = useAtelierMutations({
@@ -89,9 +88,12 @@ const AtelierPage = () => {
     await mutations.blockFingerprint(fingerprint);
   };
 
-  // 답글 전송 후 부모 스레드 카운트 갱신 — 간단히 refresh
-  const handleReplySent = async () => {
-    await refresh();
+  // 답글 전송 후 부모 메시지의 threadCount 만 로컬 갱신
+  const handleReplySent = (parentId: string) => {
+    const parent = messages.find((m) => m._id === parentId);
+    if (parent) {
+      updateMessage(parentId, { threadCount: parent.threadCount + 1 });
+    }
   };
 
   const placeholder = author.isAdmin
