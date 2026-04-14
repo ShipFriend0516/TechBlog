@@ -36,10 +36,6 @@ body.atelier-page {
   height: 100dvh;
 }
 
-body.atelier-page footer {
-  display: none;
-}
-
 /*noinspection CssUnusedSymbol*/
 @layer utilities {
   .text-balance {

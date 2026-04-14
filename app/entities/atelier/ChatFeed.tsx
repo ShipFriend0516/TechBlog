@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import ChatFeedSkeleton from '@/app/entities/atelier/ChatFeedSkeleton';
 import MessageBubble from '@/app/entities/atelier/MessageBubble';
 import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 
@@ -126,6 +127,8 @@ const ChatFeed = ({
     return () => observer.disconnect();
   }, [hasMore, isLoadingOlder, onLoadOlder]);
 
+  if (isInitialLoading) return <ChatFeedSkeleton />;
+
   return (
     <div
       ref={containerRef}
@@ -138,7 +141,7 @@ const ChatFeed = ({
         <p className="text-center text-xs text-weak">이전 메시지 불러오는 중...</p>
       )}
 
-      {!isInitialLoading && messages.length === 0 ? (
+      {messages.length === 0 ? (
         <div className="flex items-center justify-center h-full">
           <p className="text-weak text-sm">아직 아무것도 없어요</p>
         </div>

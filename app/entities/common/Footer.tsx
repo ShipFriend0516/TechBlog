@@ -1,11 +1,17 @@
 'use client';
 import axios from 'axios';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState, FormEvent } from 'react';
 import useToast from '@/app/hooks/useToast';
 
+const HIDDEN_PATHS = ['/atelier'];
+
 const Footer = () => {
+  const pathname = usePathname();
   const toast = useToast();
+
+  if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
