@@ -10,12 +10,12 @@ const HIDDEN_PATHS = ['/atelier'];
 const Footer = () => {
   const pathname = usePathname();
   const toast = useToast();
-
-  if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

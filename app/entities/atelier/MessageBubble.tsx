@@ -2,13 +2,13 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import MarkdownPreview from '@uiw/react-markdown-preview';
 import { PiEyeSlash } from 'react-icons/pi';
-import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import MessageActions from '@/app/entities/atelier/MessageActions';
 import ReactionBar from '@/app/entities/atelier/ReactionBar';
 import ThreadPanel from '@/app/entities/atelier/ThreadPanel';
+import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 interface MessageBubbleProps {
   message: AtelierMessage;

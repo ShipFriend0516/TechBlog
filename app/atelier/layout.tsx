@@ -1,6 +1,6 @@
 'use client';
-import { useEffect } from 'react';
 import { SessionProvider } from 'next-auth/react';
+import { useEffect } from 'react';
 
 interface AtelierLayoutProps {
   children: React.ReactNode;

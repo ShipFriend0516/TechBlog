@@ -1,7 +1,6 @@
 'use client';
 import axios from 'axios';
 import Image from 'next/image';
-import MarkdownPreview from '@uiw/react-markdown-preview';
 import { useEffect, useState } from 'react';
 import MessageInput from '@/app/entities/atelier/MessageInput';
 import useAtelierAuthor from '@/app/hooks/atelier/useAtelierAuthor';
@@ -11,6 +10,7 @@ import {
   GetThreadResponse,
   PostMessageResponse,
 } from '@/app/types/Atelier';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 interface ThreadPanelProps {
   parentId: string;

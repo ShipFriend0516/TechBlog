@@ -1,7 +1,6 @@
 'use client';
-import Image from 'next/image';
 import { Cormorant_Garamond } from 'next/font/google';
-// import DarkVeil from '@/app/entities/bits/LiquidEther';
+import Image from 'next/image';
 import { useState } from 'react';
 import ChatFeed from '@/app/entities/atelier/ChatFeed';
 import MessageInput from '@/app/entities/atelier/MessageInput';
@@ -9,10 +8,8 @@ import NicknameGate from '@/app/entities/atelier/NicknameGate';
 import useAtelierAuthor from '@/app/hooks/atelier/useAtelierAuthor';
 import useAtelierMessages from '@/app/hooks/atelier/useAtelierMessages';
 import useAtelierMutations from '@/app/hooks/atelier/useAtelierMutations';
-import useTheme from '@/app/hooks/useTheme';
 import useToast from '@/app/hooks/useToast';
 import { AtelierEmoji } from '@/app/types/Atelier';
-import LiquidEther from '@/app/entities/bits/LiquidEther';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -21,13 +18,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 const AtelierPage = () => {
-  const { theme } = useTheme();
   const toast = useToast();
-
-  // const liquidColors =
-  //   theme === 'dark'
-  //     ? ['#0d2318', '#1a3a28', '#0a1a10']
-  //     : ['#e6f5e9', '#25503c', '#ddd9ed'];
   const author = useAtelierAuthor();
 
   const {
