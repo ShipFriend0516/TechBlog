@@ -142,6 +142,10 @@ const config: Config = {
           '0%': { transform: 'translateX(-16px)', opacity: '0' },
           '100%': { transform: 'translateX(0)', opacity: '1' },
         },
+        atelierIn: {
+          '0%': { transform: 'scale(0.75)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
         float: {
           '0%': {
             transform: 'translateY(0) scale(0)',
@@ -168,8 +172,11 @@ const config: Config = {
         slideUp: 'slideUp 0.5s ease-out',
         heartBeat: 'heartBeat 0.7s cubic-bezier(0.17, 0.89, 0.32, 1.49)',
         heartPing: 'heartPing 0.8s cubic-bezier(0, 0, 0.2, 1)',
-        bubbleInRight: 'bubbleInRight 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both',
-        bubbleInLeft: 'bubbleInLeft 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both',
+        bubbleInRight:
+          'bubbleInRight 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both',
+        bubbleInLeft:
+          'bubbleInLeft 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both',
+        atelierIn: 'atelierIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -99,8 +99,8 @@ const AtelierPage = () => {
     : '방문자 댓글... (⌘+Enter)';
 
   return (
-    <section className="w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
-      <div className="flex flex-col gap-4">
+    <section className="w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col gap-4 animate-atelierIn duration-1000">
         {/* 헤더 */}
         <div className="mb-2">
           <h1
