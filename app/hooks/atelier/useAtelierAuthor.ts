@@ -1,10 +1,8 @@
 'use client';
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import useFingerprint from '@/app/hooks/useFingerprint';
-
-// sessionStorage 키 — 페이지 리로드 시 익명 닉네임 유지
-const NICKNAME_STORAGE_KEY = 'atelier-nickname';
+import useNicknameStore from '@/app/stores/atelier/useNicknameStore';
 
 interface GithubUser {
   name: string;
@@ -25,14 +23,8 @@ interface UseAtelierAuthorReturn {
 const useAtelierAuthor = (): UseAtelierAuthorReturn => {
   const { data: session, status } = useSession();
   const { fingerprint } = useFingerprint();
-  const [storedNickname, setStoredNickname] = useState<string | null>(null);
-
-  // 초기 마운트 시 sessionStorage 에서 닉네임 복원
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const saved = sessionStorage.getItem(NICKNAME_STORAGE_KEY);
-    if (saved) setStoredNickname(saved);
-  }, []);
+  const storedNickname = useNicknameStore((s) => s.nickname);
+  const setStoredNickname = useNicknameStore((s) => s.setNickname);
 
   // 클라이언트에서는 NEXT_PUBLIC_ADMIN_EMAIL 과 세션 이메일을 비교한다
   // 해당 env 가 설정되지 않았다면 isAdmin 은 항상 false 로 폴백된다
@@ -63,11 +55,8 @@ const useAtelierAuthor = (): UseAtelierAuthorReturn => {
   }, [githubUser, storedNickname]);
 
   const handleSetNickname = useCallback((next: string) => {
-    const trimmed = next.trim();
-    if (!trimmed) return;
-    sessionStorage.setItem(NICKNAME_STORAGE_KEY, trimmed);
-    setStoredNickname(trimmed);
-  }, []);
+    setStoredNickname(next);
+  }, [setStoredNickname]);
 
   // 세션도 없고 저장된 닉네임도 없을 때 입력이 필요하다
   const needsNickname = !isAuthenticated && !storedNickname;

@@ -2,7 +2,9 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import MessageInput from '@/app/entities/atelier/MessageInput';
+import NicknameGate from '@/app/entities/atelier/NicknameGate';
 import useAtelierAuthor from '@/app/hooks/atelier/useAtelierAuthor';
 import useToast from '@/app/hooks/useToast';
 import {
@@ -32,6 +34,7 @@ const ThreadPanel = ({
 }: ThreadPanelProps) => {
   const [replies, setReplies] = useState<AtelierMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isGateOpen, setIsGateOpen] = useState(false);
   const toast = useToast();
   const author = useAtelierAuthor();
 
@@ -53,6 +56,10 @@ const ThreadPanel = ({
   }, [parentId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSend = async (content: string) => {
+    if (author.needsNickname) {
+      setIsGateOpen(true);
+      return;
+    }
     try {
       const { data } = await axios.post<PostMessageResponse>(
         '/api/atelier/messages',
@@ -72,6 +79,12 @@ const ThreadPanel = ({
     } catch {
       toast.error('답글 전송에 실패했어요');
     }
+  };
+
+  const handleSubmitNickname = (nickname: string) => {
+    author.setNickname(nickname);
+    setIsGateOpen(false);
+    toast.success(`${nickname}님, 환영해요!`);
   };
 
   const handleClose = () => {
@@ -172,8 +185,16 @@ const ThreadPanel = ({
       <MessageInput
         onSend={handleSend}
         placeholder="답글을 남겨주세요... (⌘+Enter)"
-        disabled={author.needsNickname}
       />
+
+      {isGateOpen &&
+        createPortal(
+          <NicknameGate
+            onSubmit={handleSubmitNickname}
+            onClose={() => setIsGateOpen(false)}
+          />,
+          document.body
+        )}
     </div>
   );
 };
