@@ -28,13 +28,28 @@ const computeIsMine = (
   fingerprint: string | null,
   githubId: string | null
 ): boolean => {
-  // 관리자는 owner 역할의 메시지를 모두 내 것으로 본다
   if (isAdmin && message.role === 'owner') return true;
-  // GitHub 로그인 방문자는 githubId 로 매칭
   if (githubId && message.author.githubId === githubId) return true;
-  // 익명 방문자는 fingerprint 매칭
   if (fingerprint && message.author.fingerprint === fingerprint) return true;
   return false;
+};
+
+// 같은 작성자인지 판단
+const isSameAuthor = (a: AtelierMessage, b: AtelierMessage): boolean => {
+  if (a.role !== b.role) return false;
+  if (a.author.githubId && b.author.githubId)
+    return a.author.githubId === b.author.githubId;
+  if (a.author.fingerprint && b.author.fingerprint)
+    return a.author.fingerprint === b.author.fingerprint;
+  return a.author.nickname === b.author.nickname && a.role === b.role;
+};
+
+// 1분 이내 연속 메시지인지 판단
+const isWithinOneMinute = (a: AtelierMessage, b: AtelierMessage): boolean => {
+  const diff = Math.abs(
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+  return diff < 60 * 1000;
 };
 
 const ChatFeed = ({
@@ -134,7 +149,7 @@ const ChatFeed = ({
   return (
     <div
       ref={containerRef}
-      className="flex flex-col gap-4 h-full overflow-y-auto border border-border rounded-2xl p-4 scroll-smooth"
+      className="flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4 scroll-smooth"
     >
       {/* 상단 sentinel — infinite scroll 트리거 */}
       <div ref={sentinelRef} className="h-1" />
@@ -150,19 +165,31 @@ const ChatFeed = ({
       ) : (
         messages
           .filter((m) => m.parentId === null)
-          .map((message) => {
+          .map((message, idx, arr) => {
             const isMine = computeIsMine(
               message,
               isAdmin,
               currentFingerprint,
               currentGithubId
             );
+            const prev = arr[idx - 1];
+            const next = arr[idx + 1];
+            const groupedWithPrev =
+              !!prev &&
+              isSameAuthor(prev, message) &&
+              isWithinOneMinute(prev, message);
+            const groupedWithNext =
+              !!next &&
+              isSameAuthor(message, next) &&
+              isWithinOneMinute(message, next);
             return (
               <MessageBubble
                 key={message._id}
                 message={message}
                 isMine={isMine}
                 isAdmin={isAdmin}
+                showAuthor={!groupedWithPrev}
+                showTime={!groupedWithNext}
                 currentFingerprint={currentFingerprint}
                 currentGithubId={currentGithubId}
                 onReact={onReact}

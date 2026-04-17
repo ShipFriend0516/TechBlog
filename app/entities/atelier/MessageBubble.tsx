@@ -14,6 +14,8 @@ interface MessageBubbleProps {
   message: AtelierMessage;
   isMine: boolean;
   isAdmin: boolean;
+  showAuthor: boolean;
+  showTime: boolean;
   currentFingerprint: string | null;
   currentGithubId: string | null;
   onReact: (messageId: string, emoji: AtelierEmoji) => void;
@@ -44,6 +46,8 @@ const MessageBubble = ({
   message,
   isMine,
   isAdmin,
+  showAuthor,
+  showTime,
   currentFingerprint,
   currentGithubId,
   onReact,
@@ -127,9 +131,9 @@ const MessageBubble = ({
     : 'rounded-2xl rounded-tl-sm bg-white/60 dark:bg-neutral-800/60 backdrop-blur-sm text-foreground border border-border shadow-sm';
 
   return (
-    <div className={`flex flex-col gap-1 ${alignCls} ${animCls}`}>
-      {/* 작성자 정보 (내 메시지가 아닐 때 상단 노출) */}
-      {!isMine && (
+    <div className={`flex flex-col gap-1 ${alignCls} ${animCls} ${showAuthor ? 'mt-4 first:mt-0' : 'mt-1'}`}>
+      {/* 작성자 정보 (내 메시지가 아니고 묶음 첫 메시지일 때 노출) */}
+      {!isMine && showAuthor && (
         <div className="flex items-center gap-1.5 px-1 ml-1">
           {avatar ? (
             <Image
@@ -244,12 +248,14 @@ const MessageBubble = ({
         </button>
       )}
 
-      <span className="text-xs text-weak px-1">
-        {formatTime(message.createdAt)}
-        {message.isEdited && (
-          <span className="text-[10px] text-weak italic ml-1">(수정됨)</span>
-        )}
-      </span>
+      {showTime && (
+        <span className="text-xs text-weak px-1">
+          {formatTime(message.createdAt)}
+          {message.isEdited && (
+            <span className="text-[10px] text-weak italic ml-1">(수정됨)</span>
+          )}
+        </span>
+      )}
 
       {/* 스레드 패널 (인라인 확장) */}
       {isThreadOpen && (
