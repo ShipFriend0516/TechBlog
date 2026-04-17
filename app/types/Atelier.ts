@@ -36,6 +36,7 @@ export interface AtelierMessage {
   reactions: ReactionBucket[];
   isPublic: boolean;
   isDeleted: boolean;
+  isEdited: boolean;
   createdAt: string;
   updatedAt: string;
 }

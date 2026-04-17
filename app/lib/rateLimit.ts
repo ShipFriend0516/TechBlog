@@ -12,6 +12,7 @@ export function checkRateLimit(identifier: string): {
   allowed: boolean;
   remaining: number;
   resetTime: number;
+  retryAfter?: number;
 } {
   const now = Date.now();
   const entry = rateLimitMap.get(identifier);
@@ -32,10 +33,14 @@ export function checkRateLimit(identifier: string): {
   }
 
   if (entry.count >= MAX_REQUESTS) {
+    const retryAfterMs = entry.resetTime - now;
+    const retryAfterSeconds = Math.ceil(retryAfterMs / 1000);
+
     return {
       allowed: false,
       remaining: 0,
       resetTime: entry.resetTime,
+      retryAfter: retryAfterSeconds,
     };
   }
 

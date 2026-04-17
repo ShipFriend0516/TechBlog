@@ -37,6 +37,7 @@ interface UseAtelierMutationsReturn {
     options?: { parentId?: string }
   ) => Promise<AtelierMessage | null>;
   toggleReaction: (messageId: string, emoji: AtelierEmoji) => Promise<void>;
+  editMessage: (messageId: string, content: string) => Promise<boolean>;
   deleteMessage: (messageId: string) => Promise<void>;
   togglePublic: (messageId: string, isPublic: boolean) => Promise<void>;
   blockFingerprint: (fingerprint: string, reason?: string) => Promise<void>;
@@ -80,6 +81,7 @@ const useAtelierMutations = (
         reactions: [],
         isPublic: true,
         isDeleted: false,
+        isEdited: false,
         createdAt: nowIso,
         updatedAt: nowIso,
       };
@@ -98,9 +100,14 @@ const useAtelierMutations = (
         );
         messagesApi.replaceOptimistic(tempId, data.message);
         return data.message;
-      } catch {
+      } catch (err) {
         messagesApi.removeOptimistic(tempId);
-        toast.error('메시지를 보내지 못했어요. 다시 시도해주세요.');
+        if (axios.isAxiosError(err) && err.response?.status === 429) {
+          const retryAfter = err.response.data?.retryAfter ?? 60;
+          toast.error(`${retryAfter}초 후에 다시 시도해주세요`);
+        } else {
+          toast.error('메시지를 보내지 못했어요. 다시 시도해주세요.');
+        }
         return null;
       }
     },
@@ -124,6 +131,30 @@ const useAtelierMutations = (
     [author.fingerprint, messagesApi, toast]
   );
 
+  // 메시지 수정
+  const editMessage = useCallback(
+    async (messageId: string, content: string): Promise<boolean> => {
+      try {
+        await axios.put(
+          `/api/atelier/messages/${messageId}`,
+          { content },
+          { headers: fingerprintHeaders(author.fingerprint) }
+        );
+        messagesApi.updateMessage(messageId, { content, isEdited: true });
+        return true;
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.response?.status === 429) {
+          const retryAfter = err.response.data?.retryAfter ?? 60;
+          toast.error(`${retryAfter}초 후에 다시 시도해주세요`);
+        } else {
+          toast.error('메시지 수정에 실패했어요');
+        }
+        return false;
+      }
+    },
+    [author.fingerprint, messagesApi, toast]
+  );
+
   // 관리자 삭제
   const deleteMessage = useCallback(
     async (messageId: string) => {
@@ -133,8 +164,13 @@ const useAtelierMutations = (
         });
         messagesApi.removeMessage(messageId);
         toast.success('메시지를 삭제했어요.');
-      } catch {
-        toast.error('삭제에 실패했어요.');
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.response?.status === 429) {
+          const retryAfter = err.response.data?.retryAfter ?? 60;
+          toast.error(`${retryAfter}초 후에 다시 시도해주세요`);
+        } else {
+          toast.error('삭제에 실패했어요.');
+        }
       }
     },
     [author.fingerprint, messagesApi, toast]
@@ -177,6 +213,7 @@ const useAtelierMutations = (
   return {
     sendMessage,
     toggleReaction,
+    editMessage,
     deleteMessage,
     togglePublic,
     blockFingerprint,

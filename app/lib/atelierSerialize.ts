@@ -22,6 +22,7 @@ export interface LeanAtelierMessage {
   }[];
   isPublic: boolean;
   isDeleted: boolean;
+  isEdited?: boolean;
   createdAt: Date | string;
   updatedAt: Date | string;
 }
@@ -47,14 +48,18 @@ export const serializeAtelierMessage = (
       nickname: raw.author?.nickname ?? '',
       githubId: raw.author?.githubId,
       avatarUrl: raw.author?.avatarUrl,
-      // 프라이버시상 응답에 fingerprint 노출하지 않음
-      fingerprint: undefined,
+      // 본인 메시지만 fingerprint 유지, 타인은 프라이버시상 제거
+      fingerprint:
+        viewerFingerprint && raw.author?.fingerprint === viewerFingerprint
+          ? raw.author.fingerprint
+          : undefined,
     },
     parentId: raw.parentId ? raw.parentId.toString() : null,
     threadCount: raw.threadCount ?? 0,
     reactions,
     isPublic: raw.isPublic,
     isDeleted: raw.isDeleted,
+    isEdited: raw.isEdited ?? false,
     createdAt:
       raw.createdAt instanceof Date
         ? raw.createdAt.toISOString()

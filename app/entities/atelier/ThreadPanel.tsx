@@ -58,7 +58,7 @@ const ThreadPanel = ({
   const handleSend = async (content: string) => {
     if (author.needsNickname) {
       setIsGateOpen(true);
-      return;
+      return false;
     }
     try {
       const { data } = await axios.post<PostMessageResponse>(
@@ -184,7 +184,7 @@ const ThreadPanel = ({
 
       <MessageInput
         onSend={handleSend}
-        placeholder="답글을 남겨주세요... (⌘+Enter)"
+        placeholder="답글을 남겨주세요... (Enter)"
       />
 
       {isGateOpen &&

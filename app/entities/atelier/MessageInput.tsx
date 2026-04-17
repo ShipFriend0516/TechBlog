@@ -2,12 +2,12 @@
 import { KeyboardEvent, useRef, useState } from 'react';
 
 interface MessageInputProps {
-  onSend: (content: string) => void | Promise<void>;
+  onSend: (content: string) => void | boolean | Promise<void | boolean>;
   placeholder?: string;
   disabled?: boolean;
 }
 
-// 하단 입력 바 — IME 조합 중엔 전송 안함, Cmd/Ctrl+Enter 전송
+// 하단 입력 바 — IME 조합 중엔 전송 안함, Enter 전송, Shift+Enter 줄바꿈
 const MessageInput = ({
   onSend,
   placeholder,
@@ -35,7 +35,8 @@ const MessageInput = ({
     if (!trimmed || disabled || isSending) return;
     setIsSending(true);
     try {
-      await onSend(trimmed);
+      const result = await onSend(trimmed);
+      if (result === false) return;
       setInput('');
       textareaRef.current?.focus();
     } finally {
@@ -44,7 +45,7 @@ const MessageInput = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey) && !isComposing.current) {
+    if (e.key === 'Enter' && !e.shiftKey && !isComposing.current) {
       e.preventDefault();
       handleSend();
     }
@@ -66,7 +67,7 @@ const MessageInput = ({
         disabled={disabled}
         className="flex-1 resize-none rounded-xl border border-border bg-transparent p-3 text-sm outline-none focus:ring-1 focus:ring-brand-primary transition-all disabled:opacity-50"
         rows={2}
-        placeholder={placeholder ?? '생각을 던져보세요... (⌘+Enter)'}
+        placeholder={placeholder ?? '생각을 던져보세요... (Enter)'}
       />
       <button
         type="button"
