@@ -5,7 +5,7 @@ type RateLimitEntry = {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1분
+const RATE_LIMIT_WINDOW_MS = 15 * 1000; // 15초
 const MAX_REQUESTS = 3;
 
 export function checkRateLimit(identifier: string): {
