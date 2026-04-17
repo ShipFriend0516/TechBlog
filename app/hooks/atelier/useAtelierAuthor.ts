@@ -26,7 +26,7 @@ const useAtelierAuthor = (): UseAtelierAuthorReturn => {
   const storedNickname = useNicknameStore((s) => s.nickname);
   const setStoredNickname = useNicknameStore((s) => s.setNickname);
 
-  const isAdmin = (session as any)?.isAdmin === true;
+  const isAdmin = (session as (typeof session & { isAdmin?: boolean }) | null)?.isAdmin === true;
 
   const isAuthenticated = status === 'authenticated';
 

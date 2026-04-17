@@ -2,10 +2,10 @@
 // PATCH  /api/atelier/messages/[id] - 관리자 전용 isPublic 토글
 // PUT    /api/atelier/messages/[id] - 소유자 또는 관리자 메시지 수정
 import { getServerSession } from 'next-auth';
+import { serializeAtelierMessage, LeanAtelierMessage } from '@/app/lib/atelierSerialize';
 import { isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import AtelierMessage from '@/app/models/AtelierMessage';
-import { serializeAtelierMessage, LeanAtelierMessage } from '@/app/lib/atelierSerialize';
 
 interface RouteParams {
   params: { id: string };

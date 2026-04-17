@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
 // 세션 존재 여부만 체크하면 비관리자도 통과할 수 있다. 반드시 email 까지 검사.
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const session = useSession();
-  const isAdmin = (session.data as any)?.isAdmin === true;
+  const isAdmin = (session.data as (typeof session.data & { isAdmin?: boolean }) | undefined)?.isAdmin === true;
 
   useEffect(() => {
     if (session.status === 'loading') return;

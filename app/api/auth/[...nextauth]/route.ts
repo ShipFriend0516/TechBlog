@@ -1,5 +1,9 @@
-import NextAuth from 'next-auth';
+import NextAuth, { Session } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
+
+interface AtelierSession extends Session {
+  isAdmin?: boolean;
+}
 
 const handler = NextAuth({
   providers: [
@@ -13,7 +17,7 @@ const handler = NextAuth({
       return true;
     },
     async session({ session }) {
-      (session as any).isAdmin =
+      (session as AtelierSession).isAdmin =
         session.user?.email === process.env.ADMIN_EMAIL;
       return session;
     },
