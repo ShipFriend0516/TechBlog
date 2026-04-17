@@ -146,14 +146,20 @@ export const POST = async (request: Request) => {
       }
 
       // rate limit — fingerprint 단위 (1분 3회, rateLimit.ts 기본값)
-      const { allowed } = checkRateLimit(`atelier:${fingerprint}`);
+      const { allowed, retryAfter } = checkRateLimit(`atelier:${fingerprint}`);
       if (!allowed) {
+        const headers: Record<string, string> = {};
+        if (retryAfter !== undefined) {
+          headers['Retry-After'] = String(retryAfter);
+        }
+
         return Response.json(
           {
             success: false,
             error: '너무 빠른 요청입니다. 잠시 후 다시 시도해주세요.',
+            retryAfter,
           },
-          { status: 429 }
+          { status: 429, headers }
         );
       }
     }
