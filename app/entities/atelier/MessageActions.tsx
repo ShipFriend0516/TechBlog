@@ -7,8 +7,10 @@ import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 interface MessageActionsProps {
   message: AtelierMessage;
   isAdmin: boolean;
+  isMine: boolean;
   onReact: (emoji: AtelierEmoji) => void;
   onReply: () => void;
+  onEdit: () => void;
   onDelete: () => void;
   onTogglePublic: () => void;
   onBlock: () => void;
@@ -18,8 +20,10 @@ interface MessageActionsProps {
 const MessageActions = ({
   message,
   isAdmin,
+  isMine,
   onReact,
   onReply,
+  onEdit,
   onDelete,
   onTogglePublic,
   onBlock,
@@ -62,6 +66,10 @@ const MessageActions = ({
     onBlock();
   };
 
+  const handleEdit = () => {
+    onEdit();
+  };
+
   return (
     <div className="relative inline-flex items-center gap-1 whitespace-nowrap bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md border border-border rounded-full px-2 py-1 shadow-sm">
       {isPickerOpen && createPortal(
@@ -91,15 +99,28 @@ const MessageActions = ({
         답글
       </button>
 
+      {isMine && (
+        <button
+          type="button"
+          onClick={handleEdit}
+          className="text-xs text-weak hover:text-brand-primary transition-colors px-1.5 py-0.5 rounded"
+        >
+          수정
+        </button>
+      )}
+
+      {(isAdmin || isMine) && (
+        <button
+          type="button"
+          onClick={handleDelete}
+          className="text-xs text-weak hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
+        >
+          삭제
+        </button>
+      )}
+
       {isAdmin && (
         <>
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="text-xs text-weak hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
-          >
-            삭제
-          </button>
           <button
             type="button"
             onClick={handleTogglePublic}
