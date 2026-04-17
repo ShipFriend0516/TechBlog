@@ -172,7 +172,7 @@ const AtelierPage = () => {
 
           {/* 입력 */}
           <div className="shrink-0">
-            <MessageInput onSend={handleSendRoot} placeholder={placeholder} />
+            <MessageInput onSend={handleSendRoot} placeholder={placeholder} isAdmin={author.isAdmin} />
           </div>
 
           {/* 닉네임 게이트 (익명 방문자 전용) */}

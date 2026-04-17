@@ -248,9 +248,9 @@ const MessageBubble = ({
         </button>
       )}
 
-      {showTime && (
+      {(showTime || message.isEdited) && (
         <span className="text-xs text-weak px-1">
-          {formatTime(message.createdAt)}
+          {showTime && formatTime(message.createdAt)}
           {message.isEdited && (
             <span className="text-[10px] text-weak italic ml-1">(수정됨)</span>
           )}

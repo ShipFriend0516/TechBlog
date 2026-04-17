@@ -185,6 +185,7 @@ const ThreadPanel = ({
       <MessageInput
         onSend={handleSend}
         placeholder="답글을 남겨주세요... (Enter)"
+        isAdmin={isAdmin}
       />
 
       {isGateOpen &&
