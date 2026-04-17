@@ -92,6 +92,37 @@ const useAtelierMessages = (
     fetchInitial();
   }, [fetchInitial]);
 
+  // 10초 폴링 — 최신 메시지를 가져와 기존 맵에 병합
+  useEffect(() => {
+    if (isInitialLoading) return;
+    const id = setInterval(async () => {
+      try {
+        const { data } = await axios.get<GetMessagesResponse>(
+          '/api/atelier/messages',
+          { params: { limit } }
+        );
+        setMessageMap((prev) => {
+          const next = new Map(prev);
+          let changed = false;
+          for (const m of data.messages) {
+            const existing = next.get(m._id);
+            if (!existing || existing.updatedAt !== m.updatedAt) {
+              next.set(m._id, m);
+              changed = true;
+            }
+          }
+          if (!changed) return prev;
+          oldestCursorRef.current = computeOldestCursor(next);
+          return next;
+        });
+        setHasMore(data.hasMore);
+      } catch {
+        // 폴링 실패는 무시
+      }
+    }, 10_000);
+    return () => clearInterval(id);
+  }, [isInitialLoading, limit]);
+
   // 과거 메시지 로드 (cursor 기반)
   const loadOlder = useCallback(async () => {
     if (isLoadingOlder || !hasMore) return;
