@@ -14,6 +14,7 @@ interface ChatFeedProps {
   isInitialLoading: boolean;
   onLoadOlder: () => Promise<void>;
   onReact: (messageId: string, emoji: AtelierEmoji) => void;
+  onEdit: (messageId: string, content: string) => Promise<boolean>;
   onDelete: (messageId: string) => void;
   onTogglePublic: (messageId: string, isPublic: boolean) => void;
   onBlock: (fingerprint: string) => void;
@@ -46,6 +47,7 @@ const ChatFeed = ({
   isInitialLoading,
   onLoadOlder,
   onReact,
+  onEdit,
   onDelete,
   onTogglePublic,
   onBlock,
@@ -164,6 +166,7 @@ const ChatFeed = ({
                 currentFingerprint={currentFingerprint}
                 currentGithubId={currentGithubId}
                 onReact={onReact}
+                onEdit={onEdit}
                 onDelete={onDelete}
                 onTogglePublic={onTogglePublic}
                 onBlock={onBlock}

@@ -58,7 +58,7 @@ const AtelierPage = () => {
   const handleSendRoot = async (content: string) => {
     if (author.needsNickname) {
       setIsGateOpen(true);
-      return;
+      return false;
     }
     await mutations.sendMessage(content);
   };
@@ -75,6 +75,10 @@ const AtelierPage = () => {
 
   const handleReact = async (messageId: string, emoji: AtelierEmoji) => {
     await mutations.toggleReaction(messageId, emoji);
+  };
+
+  const handleEdit = async (messageId: string, content: string): Promise<boolean> => {
+    return await mutations.editMessage(messageId, content);
   };
 
   const handleDelete = async (messageId: string) => {
@@ -98,8 +102,8 @@ const AtelierPage = () => {
   };
 
   const placeholder = author.isAdmin
-    ? '생각을 던져보세요... (⌘+Enter)'
-    : '방문자 댓글... (⌘+Enter)';
+    ? '생각을 던져보세요... (Enter)'
+    : '방문자 댓글... (Enter)';
 
   return (
     <>
@@ -158,6 +162,7 @@ const AtelierPage = () => {
               isInitialLoading={isInitialLoading}
               onLoadOlder={loadOlder}
               onReact={handleReact}
+              onEdit={handleEdit}
               onDelete={handleDelete}
               onTogglePublic={handleTogglePublic}
               onBlock={handleBlock}

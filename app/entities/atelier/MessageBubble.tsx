@@ -17,6 +17,7 @@ interface MessageBubbleProps {
   currentFingerprint: string | null;
   currentGithubId: string | null;
   onReact: (messageId: string, emoji: AtelierEmoji) => void;
+  onEdit: (messageId: string, content: string) => Promise<boolean>;
   onDelete: (messageId: string) => void;
   onTogglePublic: (messageId: string, isPublic: boolean) => void;
   onBlock: (fingerprint: string) => void;
@@ -46,6 +47,7 @@ const MessageBubble = ({
   currentFingerprint,
   currentGithubId,
   onReact,
+  onEdit,
   onDelete,
   onTogglePublic,
   onBlock,
@@ -54,6 +56,8 @@ const MessageBubble = ({
   const [isThreadOpen, setIsThreadOpen] = useState(false);
   const [isActionsVisible, setIsActionsVisible] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(message.content);
 
   const handleMouseEnter = () => setIsActionsVisible(true);
   const handleMouseLeave = () => setIsActionsVisible(false);
@@ -83,6 +87,22 @@ const MessageBubble = ({
     if (message.author.fingerprint) {
       onBlock(message.author.fingerprint);
     }
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = async () => {
+    const success = await onEdit(message._id, editContent);
+    if (success) {
+      setIsEditing(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditContent(message.content);
+    setIsEditing(false);
   };
 
   const handleToggleThread = () => {
@@ -148,6 +168,30 @@ const MessageBubble = ({
         >
           {message.isDeleted ? (
             <span className="italic text-weak">[삭제된 메시지]</span>
+          ) : isEditing ? (
+            <div className="flex flex-col gap-2">
+              <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                className="w-full min-h-[80px] p-2 rounded bg-white/80 dark:bg-neutral-700/80 text-foreground border border-border resize-none focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
+              />
+              <div className="flex gap-2 justify-end">
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="text-xs px-3 py-1 rounded border border-border hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                >
+                  취소
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveEdit}
+                  className="text-xs px-3 py-1 rounded bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors"
+                >
+                  저장
+                </button>
+              </div>
+            </div>
           ) : (
             <MarkdownPreview
               source={message.content}
@@ -169,8 +213,10 @@ const MessageBubble = ({
             <MessageActions
               message={message}
               isAdmin={isAdmin}
+              isMine={isMine}
               onReact={handleReact}
               onReply={handleReply}
+              onEdit={handleEdit}
               onDelete={handleDelete}
               onTogglePublic={handleTogglePublic}
               onBlock={handleBlock}
@@ -200,6 +246,9 @@ const MessageBubble = ({
 
       <span className="text-xs text-weak px-1">
         {formatTime(message.createdAt)}
+        {message.isEdited && (
+          <span className="text-[10px] text-weak italic ml-1">(수정됨)</span>
+        )}
       </span>
 
       {/* 스레드 패널 (인라인 확장) */}
