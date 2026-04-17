@@ -26,13 +26,7 @@ const useAtelierAuthor = (): UseAtelierAuthorReturn => {
   const storedNickname = useNicknameStore((s) => s.nickname);
   const setStoredNickname = useNicknameStore((s) => s.setNickname);
 
-  // 클라이언트에서는 NEXT_PUBLIC_ADMIN_EMAIL 과 세션 이메일을 비교한다
-  // 해당 env 가 설정되지 않았다면 isAdmin 은 항상 false 로 폴백된다
-  const isAdmin = useMemo(() => {
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-    if (!adminEmail) return false;
-    return session?.user?.email === adminEmail;
-  }, [session]);
+  const isAdmin = (session as any)?.isAdmin === true;
 
   const isAuthenticated = status === 'authenticated';
 

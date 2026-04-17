@@ -11,11 +11,7 @@ interface ProtectedRouteProps {
 // 세션 존재 여부만 체크하면 비관리자도 통과할 수 있다. 반드시 email 까지 검사.
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const session = useSession();
-  // NEXT_PUBLIC_ADMIN_EMAIL 가 없는 경우 대비해 NextAuth 의 서버 환경변수를 노출하지 않고 비교
-  // 클라이언트 측에서는 NEXT_PUBLIC_ADMIN_EMAIL 을 사용해야 한다.
-  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-  const userEmail = session.data?.user?.email ?? null;
-  const isAdmin = !!adminEmail && userEmail === adminEmail;
+  const isAdmin = (session.data as any)?.isAdmin === true;
 
   useEffect(() => {
     if (session.status === 'loading') return;
