@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { IoCloseOutline } from 'react-icons/io5';
 import IconButton from '@/app/entities/common/Button/IconButton';
+import DividerWithText from '@/app/entities/common/DividerWithText';
 import useSubscribe from '@/app/hooks/useSubscribe';
 
 interface NavSidebarProps {
@@ -126,25 +127,6 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
         </div>
       </div>
     </>
-  );
-};
-
-type DividerWithTextProps = {
-  text: string;
-  className?: string;
-};
-
-const DividerWithText = ({ text, className = '' }: DividerWithTextProps) => {
-  return (
-    <div
-      className={`flex items-center gap-3 ${className}`}
-      role="separator"
-      aria-label={text}
-    >
-      <div className="h-px flex-1 bg-gray-300" />
-      <span className="shrink-0 text-sm text-gray-500">{text}</span>
-      <div className="h-px flex-1 bg-gray-300" />
-    </div>
   );
 };
 
