@@ -32,6 +32,8 @@ const AtelierPage = () => {
     removeOptimistic,
     updateMessage,
     removeMessage,
+    getSnapshot,
+    restoreMessage,
   } = useAtelierMessages({ limit: 30 });
 
   const mutations = useAtelierMutations({
@@ -48,6 +50,8 @@ const AtelierPage = () => {
       removeOptimistic,
       updateMessage,
       removeMessage,
+      getSnapshot,
+      restoreMessage,
     },
   });
 

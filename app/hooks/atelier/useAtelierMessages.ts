@@ -23,6 +23,8 @@ interface UseAtelierMessagesReturn {
   removeOptimistic: (tempId: string) => void;
   updateMessage: (id: string, patch: Partial<AtelierMessage>) => void;
   removeMessage: (id: string) => void;
+  getSnapshot: (id: string) => AtelierMessage | undefined;
+  restoreMessage: (msg: AtelierMessage) => void;
   refresh: () => Promise<void>;
 }
 
@@ -205,6 +207,22 @@ const useAtelierMessages = (
     });
   }, []);
 
+  const getSnapshot = useCallback(
+    (id: string): AtelierMessage | undefined => {
+      return messageMap.get(id);
+    },
+    [messageMap]
+  );
+
+  const restoreMessage = useCallback((msg: AtelierMessage) => {
+    setMessageMap((prev) => {
+      const next = new Map(prev);
+      next.set(msg._id, msg);
+      oldestCursorRef.current = computeOldestCursor(next);
+      return next;
+    });
+  }, []);
+
   const messages = useMemo(() => toSortedArray(messageMap), [messageMap]);
 
   return {
@@ -219,6 +237,8 @@ const useAtelierMessages = (
     removeOptimistic,
     updateMessage,
     removeMessage,
+    getSnapshot,
+    restoreMessage,
     refresh: fetchInitial,
   };
 };
