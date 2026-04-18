@@ -2,8 +2,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { HiOutlineBars3BottomRight } from 'react-icons/hi2';
 import { IoMoonSharp, IoSunnySharp } from 'react-icons/io5';
 import IconButton from '@/app/entities/common/Button/IconButton';
+import NavSidebar from '@/app/entities/common/NavSidebar';
 import Profile from '@/app/entities/common/Profile';
 import useTheme from '@/app/hooks/useTheme';
 
@@ -11,6 +13,7 @@ const TRANSPARENT_PATHS = ['/atelier'];
 
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
 
@@ -18,28 +21,38 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 100) {
-        setIsFixed(true);
-      } else {
-        setIsFixed(false);
-      }
+      setIsFixed(window.scrollY > 100);
     };
 
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const fixedStyle = isTransparent ? 'bg-transparent' : isFixed ? 'bg-white bg-opacity-20' : 'bg-background';
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isSidebarOpen]);
+
+  const handleSidebarOpen = () => setIsSidebarOpen(true);
+  const handleSidebarClose = () => setIsSidebarOpen(false);
+
+  const fixedStyle = isTransparent
+    ? 'bg-transparent'
+    : isFixed
+      ? 'bg-white bg-opacity-20'
+      : 'bg-background';
 
   return (
     <nav>
       <div className={'h-16 w-full'} />
       <div
-        className={`${fixedStyle} fixed h-16 top-0 px-4 w-screen  inline-flex items-center justify-center z-40 backdrop-blur-sm`}
+        className={`${fixedStyle} fixed h-16 top-0 px-4 w-screen inline-flex items-center justify-center z-40 backdrop-blur-sm`}
       >
         <div>
           <Link href={'/'}>
@@ -49,11 +62,7 @@ const NavBar = () => {
             />
           </Link>
         </div>
-        <ul
-          className={
-            'inline-flex max-w-5xl flex-grow justify-end gap-3 items-center'
-          }
-        >
+        <ul className={'inline-flex max-w-5xl flex-grow justify-end gap-3 items-center'}>
           <li>
             <Link href="/posts">Blog</Link>
           </li>
@@ -61,9 +70,12 @@ const NavBar = () => {
             <Link href="/series">Series</Link>
           </li>
           <li>
+            <Link href="/atelier">Atelier</Link>
+          </li>
+          <li className={'hidden sm:block'}>
             <Link href="/tags">Tags</Link>
           </li>
-          <li>
+          <li className={'hidden sm:block'}>
             <Link href="/portfolio">Portfolio</Link>
           </li>
           <li>
@@ -74,8 +86,18 @@ const NavBar = () => {
               aria-label="테마 변경 버튼"
             />
           </li>
+          <li className={'sm:hidden'}>
+            <IconButton
+              onClick={handleSidebarOpen}
+              Icon={HiOutlineBars3BottomRight}
+              size={16}
+              aria-label="메뉴 열기"
+            />
+          </li>
         </ul>
       </div>
+
+      <NavSidebar isOpen={isSidebarOpen} onClose={handleSidebarClose} />
     </nav>
   );
 };
