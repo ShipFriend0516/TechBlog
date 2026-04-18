@@ -1,4 +1,5 @@
 'use client';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import { KeyboardEvent, useRef, useState } from 'react';
 
 const GUEST_MAX_LENGTH = 200;
@@ -20,6 +21,7 @@ const MessageInput = ({
   const maxLength = isAdmin ? undefined : GUEST_MAX_LENGTH;
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
   const isComposing = useRef(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -45,6 +47,7 @@ const MessageInput = ({
       const result = await onSend(trimmed);
       if (result === false) return;
       setInput('');
+      setIsPreviewing(false);
       textareaRef.current?.focus();
     } finally {
       setIsSending(false);
@@ -58,40 +61,86 @@ const MessageInput = ({
     }
   };
 
-  const handleClickSend = () => {
-    handleSend();
+  const handleTabClick = (preview: boolean) => {
+    setIsPreviewing(preview);
+    if (!preview) {
+      setTimeout(() => textareaRef.current?.focus(), 0);
+    }
   };
 
   return (
-    <div className="flex gap-2 items-stretch">
-      <textarea
-        ref={textareaRef}
-        value={input}
-        onChange={handleChange}
-        onCompositionStart={handleCompositionStart}
-        onCompositionEnd={handleCompositionEnd}
-        onKeyDown={handleKeyDown}
-        disabled={disabled}
-        className={`flex-1 resize-none rounded-xl border bg-transparent p-3 text-sm outline-none focus:ring-1 transition-all disabled:opacity-50 ${
-          isOverLimit
-            ? 'border-red-500 focus:ring-red-500'
-            : 'border-border focus:ring-brand-primary'
-        }`}
-        rows={2}
-        placeholder={placeholder ?? '생각을 던져보세요... (Enter)'}
-      />
-      <button
-        type="button"
-        onClick={handleClickSend}
-        disabled={!input.trim() || disabled || isSending || isOverLimit}
-        className="px-4 rounded-xl bg-brand-primary text-white text-sm font-medium hover:opacity-90 disabled:opacity-30 transition-opacity"
-      >
-        {isSending ? (
-          <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+    <div className="flex flex-col gap-1">
+      {/* 탭 */}
+      <div className="flex gap-1">
+        <button
+          type="button"
+          onClick={() => handleTabClick(false)}
+          className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+            !isPreviewing
+              ? 'bg-brand-primary text-white'
+              : 'text-weak hover:text-foreground'
+          }`}
+        >
+          작성
+        </button>
+        <button
+          type="button"
+          onClick={() => handleTabClick(true)}
+          className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+            isPreviewing
+              ? 'bg-brand-primary text-white'
+              : 'text-weak hover:text-foreground'
+          }`}
+        >
+          미리보기
+        </button>
+      </div>
+
+      {/* 입력 영역 + 전송 버튼 */}
+      <div className="flex gap-2 items-stretch">
+        {isPreviewing ? (
+          <div className="flex-1 min-h-[4.75rem] rounded-xl border border-border p-3 text-sm overflow-y-auto">
+            {input.trim() ? (
+              <MarkdownPreview
+                source={input}
+                style={{ background: 'transparent', color: 'inherit', fontSize: 'inherit' }}
+                wrapperElement={{ 'data-color-mode': isAdmin ? 'dark' : 'light' }}
+              />
+            ) : (
+              <span className="text-weak">내용이 없어요</span>
+            )}
+          </div>
         ) : (
-          '전송'
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={handleChange}
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
+            onKeyDown={handleKeyDown}
+            disabled={disabled}
+            className={`flex-1 resize-none rounded-xl border bg-transparent p-3 text-sm outline-none focus:ring-1 transition-all disabled:opacity-50 ${
+              isOverLimit
+                ? 'border-red-500 focus:ring-red-500'
+                : 'border-border focus:ring-brand-primary'
+            }`}
+            rows={2}
+            placeholder={placeholder ?? '생각을 던져보세요... (Enter)'}
+          />
         )}
-      </button>
+        <button
+          type="button"
+          onClick={handleSend}
+          disabled={!input.trim() || disabled || isSending || isOverLimit}
+          className="px-4 rounded-xl bg-brand-primary text-white text-sm font-medium hover:opacity-90 disabled:opacity-30 transition-opacity"
+        >
+          {isSending ? (
+            <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+          ) : (
+            '전송'
+          )}
+        </button>
+      </div>
     </div>
   );
 };
