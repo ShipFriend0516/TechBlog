@@ -8,10 +8,23 @@ import { Schema, model, models } from 'mongoose';
 const reactionSchema = new Schema(
   {
     emoji: { type: String, required: true },
-    // 누가 눌렀는지 식별용 fingerprint 목록 (중복 방지)
     fingerprints: { type: [String], default: [] },
-    // fingerprints.length 캐싱
     count: { type: Number, default: 0 },
+    // 반응자 정보 (툴팁용)
+    reactors: {
+      type: [
+        new Schema(
+          {
+            fingerprint: { type: String, required: true },
+            nickname: { type: String, required: true },
+            avatarUrl: { type: String },
+            githubId: { type: String },
+          },
+          { _id: false }
+        ),
+      ],
+      default: [],
+    },
   },
   { _id: false }
 );

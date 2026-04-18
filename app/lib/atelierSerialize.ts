@@ -1,7 +1,7 @@
 // 아틀리에 메시지 직렬화 유틸
 // - lean() 결과를 공용 타입 AtelierMessage 로 변환
 // - fingerprints 는 프라이버시상 제거하고 hasReacted 로 대체
-import { AtelierMessage, ReactionBucket } from '@/app/types/Atelier';
+import { AtelierMessage, ReactionBucket, ReactorInfo } from '@/app/types/Atelier';
 
 export interface LeanAtelierMessage {
   _id: { toString(): string };
@@ -19,6 +19,7 @@ export interface LeanAtelierMessage {
     emoji: string;
     fingerprints?: string[];
     count: number;
+    reactors?: { fingerprint: string; nickname: string; avatarUrl?: string; githubId?: string }[];
   }[];
   isPublic: boolean;
   isDeleted: boolean;
@@ -31,14 +32,26 @@ export const serializeAtelierMessage = (
   raw: LeanAtelierMessage,
   viewerFingerprint: string | null
 ): AtelierMessage => {
-  const reactions: ReactionBucket[] = (raw.reactions ?? []).map((bucket) => ({
-    emoji: bucket.emoji,
-    count: bucket.count,
-    hasReacted:
-      !!viewerFingerprint &&
-      Array.isArray(bucket.fingerprints) &&
-      bucket.fingerprints.includes(viewerFingerprint),
-  }));
+  // 익명 반응자에게 순서 기반 번호 부여
+  let anonCounter = 0;
+  const reactions: ReactionBucket[] = (raw.reactions ?? []).map((bucket) => {
+    const reactors: ReactorInfo[] = (bucket.reactors ?? []).map((r) => {
+      if (r.githubId) {
+        return { displayName: r.nickname, avatarUrl: r.avatarUrl };
+      }
+      anonCounter += 1;
+      return { displayName: `익명${anonCounter}` };
+    });
+    return {
+      emoji: bucket.emoji,
+      count: bucket.count,
+      hasReacted:
+        !!viewerFingerprint &&
+        Array.isArray(bucket.fingerprints) &&
+        bucket.fingerprints.includes(viewerFingerprint),
+      reactors,
+    };
+  });
 
   return {
     _id: raw._id.toString(),

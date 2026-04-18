@@ -122,7 +122,12 @@ const useAtelierMutations = (
       try {
         const { data } = await axios.post<PostReactionResponse>(
           `/api/atelier/messages/${messageId}/reaction`,
-          { emoji },
+          {
+            emoji,
+            nickname: author.nickname ?? '익명',
+            avatarUrl: author.avatarUrl,
+            githubId: author.githubId,
+          },
           { headers: fingerprintHeaders(author.fingerprint) }
         );
         messagesApi.updateMessage(messageId, { reactions: data.reactions });
@@ -130,7 +135,7 @@ const useAtelierMutations = (
         toast.error('반응을 남기지 못했어요.');
       }
     },
-    [author.fingerprint, messagesApi, toast]
+    [author, messagesApi, toast]
   );
 
   // 메시지 수정

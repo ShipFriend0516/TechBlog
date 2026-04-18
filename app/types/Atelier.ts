@@ -15,14 +15,19 @@ export interface AtelierAuthor {
   fingerprint?: string;
 }
 
+// 이모지 반응자 정보 (툴팁용, 익명은 displayName만)
+export interface ReactorInfo {
+  displayName: string;
+  avatarUrl?: string;
+}
+
 // 이모지 반응 버킷
 export interface ReactionBucket {
   emoji: string;
   count: number;
-  // 서버가 응답할 때는 fingerprints 생략 가능 (프라이버시),
-  // 내가 눌렀는지 여부만 hasReacted 로 내려줄 수 있음
   fingerprints?: string[];
   hasReacted?: boolean;
+  reactors?: ReactorInfo[];
 }
 
 // 단일 메시지
