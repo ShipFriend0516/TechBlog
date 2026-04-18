@@ -1,6 +1,6 @@
 'use client';
-import useShortcut from '@/app/hooks/common/useShortcut';
 import Modal from '@/app/entities/common/Modal/Modal';
+import useShortcut from '@/app/hooks/common/useShortcut';
 
 interface DeleteModalProps {
   onCancel: () => void;
