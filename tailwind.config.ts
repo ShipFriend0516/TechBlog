@@ -164,6 +164,33 @@ const config: Config = {
             opacity: '0',
           },
         },
+        bubblePop: {
+          '0%': {
+            transform: 'scale(1)',
+            opacity: '1',
+            filter: 'blur(0px) brightness(1)',
+          },
+          '55%': {
+            transform: 'scale(1.08)',
+            opacity: '1',
+            filter: 'blur(0px) brightness(1)',
+          },
+          '68%': {
+            transform: 'scale(1.16)',
+            opacity: '0.9',
+            filter: 'blur(0px) brightness(1.6)',
+          },
+          '80%': {
+            transform: 'scale(1.9)',
+            opacity: '0.15',
+            filter: 'blur(5px) brightness(1)',
+          },
+          '100%': {
+            transform: 'scale(2.4)',
+            opacity: '0',
+            filter: 'blur(10px)',
+          },
+        },
       },
       animation: {
         blink: 'blink 1s ease-in-out infinite',
@@ -177,6 +204,7 @@ const config: Config = {
         bubbleInLeft:
           'bubbleInLeft 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both',
         atelierIn: 'atelierIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both',
+        bubblePop: 'bubblePop 0.5s ease-in forwards',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

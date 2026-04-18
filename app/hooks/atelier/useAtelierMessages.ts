@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { skipEntryAnimSet } from '@/app/entities/atelier/MessageBubble';
 import {
   AtelierMessage,
   GetMessagesResponse,
@@ -165,6 +166,7 @@ const useAtelierMessages = (
   // 서버 응답으로 교체
   const replaceOptimistic = useCallback(
     (tempId: string, real: AtelierMessage) => {
+      skipEntryAnimSet.add(real._id);
       setMessageMap((prev) => {
         const next = new Map(prev);
         next.delete(tempId);
