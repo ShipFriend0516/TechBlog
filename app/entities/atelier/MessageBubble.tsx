@@ -216,6 +216,12 @@ const MessageBubble = ({
                 fontSize: 'inherit',
               }}
               wrapperElement={{ 'data-color-mode': isOwner ? 'dark' : 'light' }}
+              components={{
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
             />
           )}
         </div>
