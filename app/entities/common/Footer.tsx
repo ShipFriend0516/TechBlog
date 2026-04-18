@@ -1,65 +1,24 @@
 'use client';
-import axios from 'axios';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, FormEvent } from 'react';
-import useToast from '@/app/hooks/useToast';
+import useSubscribe from '@/app/hooks/useSubscribe';
 
 const HIDDEN_PATHS = ['/atelier'];
 
 const Footer = () => {
   const pathname = usePathname();
-  const toast = useToast();
-  const [nickname, setNickname] = useState('');
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const {
+    nickname,
+    email,
+    isLoading,
+    isSubmitted,
+    setNickname,
+    setEmail,
+    handleSubmit,
+    handleReset: handleResubmit,
+  } = useSubscribe();
 
   if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (!nickname.trim() || !email.trim()) {
-      toast.error('닉네임과 이메일을 모두 입력해주세요.');
-      return;
-    }
-
-    if (nickname.trim().length < 2) {
-      toast.error('닉네임은 최소 2자 이상이어야 합니다.');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      toast.error('유효한 이메일 주소를 입력해주세요.');
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post('/api/subscribe', {
-        email: email.trim(),
-        nickname: nickname.trim(),
-      });
-
-      if (response.data.success) {
-        toast.success(response.data.message || '인증 이메일이 발송되었습니다.');
-        setIsSubmitted(true);
-        setNickname('');
-        setEmail('');
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        toast.error(error.response.data.error || '구독 신청에 실패했습니다.');
-      } else {
-        toast.error('구독 신청 중 오류가 발생했습니다.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <footer
@@ -106,7 +65,7 @@ const Footer = () => {
                 이메일을 확인하여 구독을 완료해주세요.
               </p>
               <button
-                onClick={() => setIsSubmitted(false)}
+                onClick={handleResubmit}
                 className={'text-sm text-gray-600 dark:text-gray-400 underline'}
               >
                 다시 입력하기

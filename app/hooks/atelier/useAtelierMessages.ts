@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { skipEntryAnimSet } from '@/app/entities/atelier/MessageBubble';
 import {
   AtelierMessage,
   GetMessagesResponse,
@@ -23,6 +24,8 @@ interface UseAtelierMessagesReturn {
   removeOptimistic: (tempId: string) => void;
   updateMessage: (id: string, patch: Partial<AtelierMessage>) => void;
   removeMessage: (id: string) => void;
+  getSnapshot: (id: string) => AtelierMessage | undefined;
+  restoreMessage: (msg: AtelierMessage) => void;
   refresh: () => Promise<void>;
 }
 
@@ -163,6 +166,7 @@ const useAtelierMessages = (
   // 서버 응답으로 교체
   const replaceOptimistic = useCallback(
     (tempId: string, real: AtelierMessage) => {
+      skipEntryAnimSet.add(real._id);
       setMessageMap((prev) => {
         const next = new Map(prev);
         next.delete(tempId);
@@ -205,6 +209,22 @@ const useAtelierMessages = (
     });
   }, []);
 
+  const getSnapshot = useCallback(
+    (id: string): AtelierMessage | undefined => {
+      return messageMap.get(id);
+    },
+    [messageMap]
+  );
+
+  const restoreMessage = useCallback((msg: AtelierMessage) => {
+    setMessageMap((prev) => {
+      const next = new Map(prev);
+      next.set(msg._id, msg);
+      oldestCursorRef.current = computeOldestCursor(next);
+      return next;
+    });
+  }, []);
+
   const messages = useMemo(() => toSortedArray(messageMap), [messageMap]);
 
   return {
@@ -219,6 +239,8 @@ const useAtelierMessages = (
     removeOptimistic,
     updateMessage,
     removeMessage,
+    getSnapshot,
+    restoreMessage,
     refresh: fetchInitial,
   };
 };

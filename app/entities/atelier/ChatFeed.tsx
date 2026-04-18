@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import ChatFeedSkeleton from '@/app/entities/atelier/ChatFeedSkeleton';
 import MessageBubble from '@/app/entities/atelier/MessageBubble';
 import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
@@ -70,59 +70,32 @@ const ChatFeed = ({
 }: ChatFeedProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
-
-  // prepend 전 스크롤 높이 저장 (loadOlder 요청 시점에 세팅)
-  const savedScrollHeightRef = useRef<number | null>(null);
-  // 최초 마운트 여부 — 첫 렌더 때만 bottom 으로 스크롤
-  const hasScrolledToBottomRef = useRef(false);
   // 최신 메시지 수 추적 (새 메시지 도착 시 하단 유지용)
   const prevMessageCountRef = useRef(0);
+  // isLoadingOlder를 ref로 추적 — observer effect dependency에서 제거해 재구독 루프 방지
+  const isLoadingOlderRef = useRef(isLoadingOlder);
+  useEffect(() => {
+    isLoadingOlderRef.current = isLoadingOlder;
+  }, [isLoadingOlder]);
 
-  // 초기 로드 시 하단으로 스크롤 — 페인트 전에 실행해 플래시 방지
-  useLayoutEffect(() => {
-    if (isInitialLoading) return;
-    if (hasScrolledToBottomRef.current) return;
-    if (!containerRef.current) return;
-    if (messages.length === 0) return;
-    containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    hasScrolledToBottomRef.current = true;
-    prevMessageCountRef.current = messages.length;
-  }, [isInitialLoading, messages.length]);
-
-  // prepend 시 스크롤 보정 (scrollHeight delta 만큼 내려서 위치 유지)
-  useLayoutEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    if (savedScrollHeightRef.current == null) return;
-    const delta = container.scrollHeight - savedScrollHeightRef.current;
-    if (delta > 0) {
-      container.scrollTop = container.scrollTop + delta;
-    }
-    savedScrollHeightRef.current = null;
-  }, [messages]);
-
-  // 새 메시지가 하단에 추가되면 자동 스크롤 (위쪽 prepend 는 제외)
+  // 새 메시지가 추가되면 자동 스크롤 (flex-col-reverse: scrollTop=0이 시각적 맨 아래)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    if (!hasScrolledToBottomRef.current) return;
-    if (savedScrollHeightRef.current != null) return;
 
     const prev = prevMessageCountRef.current;
     const next = messages.length;
     if (next > prev) {
-      // 사용자가 거의 하단에 있을 때만 자동 스크롤
       const threshold = 120;
-      const distanceFromBottom =
-        container.scrollHeight - container.scrollTop - container.clientHeight;
-      if (distanceFromBottom < threshold) {
-        container.scrollTop = container.scrollHeight;
+      if (container.scrollTop < threshold) {
+        container.scrollTop = 0;
       }
     }
     prevMessageCountRef.current = next;
   }, [messages]);
 
-  // IntersectionObserver — 상단 sentinel 이 보이면 loadOlder 호출
+  // IntersectionObserver — sentinel이 보이면 loadOlder 호출
+  // isLoadingOlder는 ref로 읽어 observer 재구독 루프를 방지
   useEffect(() => {
     const sentinel = sentinelRef.current;
     const container = containerRef.current;
@@ -132,9 +105,7 @@ const ChatFeed = ({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        if (isLoadingOlder) return;
-        // prepend 전 scrollHeight 저장
-        savedScrollHeightRef.current = container.scrollHeight;
+        if (isLoadingOlderRef.current) return;
         onLoadOlder();
       },
       { root: container, threshold: 0.1 }
@@ -142,29 +113,28 @@ const ChatFeed = ({
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [hasMore, isLoadingOlder, onLoadOlder]);
+  }, [hasMore, onLoadOlder]);
 
   if (isInitialLoading) return <ChatFeedSkeleton />;
 
   return (
+    // flex-col-reverse + overflow-y-auto: scrollTop=0이 시각적 맨 아래 (Discord/Slack 방식)
     <div
       ref={containerRef}
-      className="flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4 scroll-smooth"
+      className="relative flex flex-col-reverse h-full overflow-y-auto border border-border rounded-2xl p-4"
     >
-      {/* 상단 sentinel — infinite scroll 트리거 */}
+      {/* 시각적 맨 위 sentinel — DOM 끝 = flex-col-reverse로 시각적 맨 위 */}
       <div ref={sentinelRef} className="h-1" />
 
-      {hasMore && isLoadingOlder && (
-        <p className="text-center text-xs text-weak">이전 메시지 불러오는 중...</p>
-      )}
 
       {messages.length === 0 ? (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center py-8">
           <p className="text-weak text-sm">아직 아무것도 없어요</p>
         </div>
       ) : (
         messages
           .filter((m) => m.parentId === null)
+          .reverse()
           .map((message, idx, arr) => {
             const isMine = computeIsMine(
               message,
@@ -172,24 +142,25 @@ const ChatFeed = ({
               currentFingerprint,
               currentGithubId
             );
-            const prev = arr[idx - 1];
-            const next = arr[idx + 1];
-            const groupedWithPrev =
-              !!prev &&
-              isSameAuthor(prev, message) &&
-              isWithinOneMinute(prev, message);
-            const groupedWithNext =
-              !!next &&
-              isSameAuthor(message, next) &&
-              isWithinOneMinute(message, next);
+            // reverse 배열: arr[idx+1]이 시각적 위(더 오래된), arr[idx-1]이 시각적 아래(더 최신)
+            const olderNeighbor = arr[idx + 1];
+            const newerNeighbor = arr[idx - 1];
+            const groupedWithOlder =
+              !!olderNeighbor &&
+              isSameAuthor(message, olderNeighbor) &&
+              isWithinOneMinute(message, olderNeighbor);
+            const groupedWithNewer =
+              !!newerNeighbor &&
+              isSameAuthor(message, newerNeighbor) &&
+              isWithinOneMinute(message, newerNeighbor);
             return (
               <MessageBubble
                 key={message._id}
                 message={message}
                 isMine={isMine}
                 isAdmin={isAdmin}
-                showAuthor={!groupedWithPrev}
-                showTime={!groupedWithNext}
+                showAuthor={!groupedWithOlder}
+                showTime={!groupedWithNewer}
                 currentFingerprint={currentFingerprint}
                 currentGithubId={currentGithubId}
                 onReact={onReact}

@@ -2,6 +2,7 @@
 import { Cormorant_Garamond } from 'next/font/google';
 import Image from 'next/image';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import ChatFeed from '@/app/entities/atelier/ChatFeed';
 import MessageInput from '@/app/entities/atelier/MessageInput';
 import NicknameGate from '@/app/entities/atelier/NicknameGate';
@@ -32,6 +33,8 @@ const AtelierPage = () => {
     removeOptimistic,
     updateMessage,
     removeMessage,
+    getSnapshot,
+    restoreMessage,
   } = useAtelierMessages({ limit: 30 });
 
   const mutations = useAtelierMutations({
@@ -48,6 +51,8 @@ const AtelierPage = () => {
       removeOptimistic,
       updateMessage,
       removeMessage,
+      getSnapshot,
+      restoreMessage,
     },
   });
 
@@ -131,23 +136,31 @@ const AtelierPage = () => {
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[calc(100dvh-4rem)] flex flex-col gap-4 py-4">
         <div className="flex flex-col gap-4 flex-1 min-h-0 animate-atelierIn duration-1000">
           {/* 헤더 */}
-          <div className="shrink-0">
-            <h1
-              className={`${cormorant.className} text-[clamp(2rem,8vw,3.5rem)] font-light italic tracking-wide relative inline-block`}
-            >
-              Atelier
-              <Image
-                src="/images/atelier/pen.png"
-                alt="pen"
-                width={1024}
-                height={1024}
-                priority
-                className="absolute -right-[clamp(3rem,8vw,6.5rem)] top-1/3 -translate-y-2/4 rotate-[10deg] w-[clamp(4rem,10vw,8rem)] h-[clamp(4rem,10vw,8rem)] -z-10 opacity-90 dark:invert"
+          <div className="shrink-0 flex justify-between items-end">
+            <div>
+              <h1
+                className={`${cormorant.className} text-[clamp(2rem,8vw,3.5rem)] font-light italic tracking-wide relative inline-block`}
+              >
+                Atelier
+                <Image
+                  src="/images/atelier/pen.png"
+                  alt="pen"
+                  width={1024}
+                  height={1024}
+                  priority
+                  className="absolute -right-[clamp(3rem,8vw,6.5rem)] top-1/3 -translate-y-2/4 rotate-[10deg] w-[clamp(4rem,10vw,8rem)] h-[clamp(4rem,10vw,8rem)] -z-10 opacity-90 dark:invert"
+                />
+              </h1>
+              <p className="text-sm text-weak mt-1 tracking-widest uppercase">
+                생각들을 던져두는 곳
+              </p>
+            </div>
+            {/* 이전 메시지 로딩 스피너 — 공간 유지하며 숨김/표시 */}
+            <div className={`pb-1 ${hasMore ? '' : 'hidden'}`}>
+              <div
+                className={`w-3 h-3 rounded-full border-2 border-border border-t-weak transition-opacity duration-200 ${isLoadingOlder ? 'opacity-100 animate-spin' : 'opacity-0'}`}
               />
-            </h1>
-            <p className="text-sm text-weak mt-1 tracking-widest uppercase">
-              생각들을 던져두는 곳
-            </p>
+            </div>
           </div>
 
           {/* 채팅 피드 */}
@@ -172,16 +185,18 @@ const AtelierPage = () => {
 
           {/* 입력 */}
           <div className="shrink-0">
-            <MessageInput onSend={handleSendRoot} placeholder={placeholder} />
+            <MessageInput onSend={handleSendRoot} placeholder={placeholder} isAdmin={author.isAdmin} />
           </div>
 
           {/* 닉네임 게이트 (익명 방문자 전용) */}
-          {isGateOpen && (
-            <NicknameGate
-              onSubmit={handleSubmitNickname}
-              onClose={handleCloseGate}
-            />
-          )}
+          {isGateOpen &&
+            createPortal(
+              <NicknameGate
+                onSubmit={handleSubmitNickname}
+                onClose={handleCloseGate}
+              />,
+              document.body
+            )}
         </div>
       </section>
     </>

@@ -51,7 +51,12 @@ export const POST = async (request: Request, { params }: RouteParams) => {
         { status: 400 }
       );
     }
-    const { emoji } = body as { emoji: string };
+    const { emoji, nickname, avatarUrl, githubId } = body as {
+      emoji: string;
+      nickname?: string;
+      avatarUrl?: string;
+      githubId?: string;
+    };
     if (!allowedEmojiSet.has(emoji)) {
       return Response.json(
         { success: false, error: '허용되지 않은 이모지입니다.' },
@@ -69,20 +74,34 @@ export const POST = async (request: Request, { params }: RouteParams) => {
     }
 
     // 해당 이모지 버킷 찾기
+    interface ReactorDoc {
+      fingerprint: string;
+      nickname: string;
+      avatarUrl?: string;
+      githubId?: string;
+    }
     interface ReactionDoc {
       emoji: string;
       fingerprints: string[];
       count: number;
+      reactors: ReactorDoc[];
     }
     const reactions = message.reactions as unknown as ReactionDoc[];
     const bucketIndex = reactions.findIndex((r) => r.emoji === emoji);
 
+    const reactorInfo: ReactorDoc = {
+      fingerprint,
+      nickname: nickname ?? '익명',
+      ...(avatarUrl && { avatarUrl }),
+      ...(githubId && { githubId }),
+    };
+
     if (bucketIndex === -1) {
-      // 새 버킷 추가
       reactions.push({
         emoji,
         fingerprints: [fingerprint],
         count: 1,
+        reactors: [reactorInfo],
       });
     } else {
       const bucket = reactions[bucketIndex];
@@ -90,6 +109,7 @@ export const POST = async (request: Request, { params }: RouteParams) => {
       if (fpIndex >= 0) {
         // 이미 눌렀음 → 해제
         bucket.fingerprints.splice(fpIndex, 1);
+        bucket.reactors = bucket.reactors.filter((r) => r.fingerprint !== fingerprint);
         bucket.count = bucket.fingerprints.length;
         if (bucket.count === 0) {
           reactions.splice(bucketIndex, 1);
@@ -97,6 +117,7 @@ export const POST = async (request: Request, { params }: RouteParams) => {
       } else {
         // 새로 추가
         bucket.fingerprints.push(fingerprint);
+        bucket.reactors.push(reactorInfo);
         bucket.count = bucket.fingerprints.length;
       }
     }
@@ -104,13 +125,21 @@ export const POST = async (request: Request, { params }: RouteParams) => {
     message.markModified('reactions');
     await message.save();
 
-    // 응답 시 fingerprints 제거, hasReacted 계산
+    // 응답 시 fingerprints 제거, hasReacted + reactors 계산
+    let anonCounter = 0;
     const responseReactions: ReactionBucket[] = (
       message.reactions as unknown as ReactionDoc[]
     ).map((r) => ({
       emoji: r.emoji,
       count: r.count,
       hasReacted: r.fingerprints.includes(fingerprint),
+      reactors: r.reactors.map((reactor) => {
+        if (reactor.githubId) {
+          return { displayName: reactor.nickname, avatarUrl: reactor.avatarUrl };
+        }
+        anonCounter += 1;
+        return { displayName: `익명${anonCounter}` };
+      }),
     }));
 
     return Response.json(

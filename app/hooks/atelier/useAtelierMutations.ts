@@ -24,6 +24,8 @@ interface MessagesApi {
   removeOptimistic: (tempId: string) => void;
   updateMessage: (id: string, patch: Partial<AtelierMessage>) => void;
   removeMessage: (id: string) => void;
+  getSnapshot: (id: string) => AtelierMessage | undefined;
+  restoreMessage: (msg: AtelierMessage) => void;
 }
 
 interface UseAtelierMutationsOptions {
@@ -120,7 +122,12 @@ const useAtelierMutations = (
       try {
         const { data } = await axios.post<PostReactionResponse>(
           `/api/atelier/messages/${messageId}/reaction`,
-          { emoji },
+          {
+            emoji,
+            nickname: author.nickname ?? '익명',
+            avatarUrl: author.avatarUrl,
+            githubId: author.githubId,
+          },
           { headers: fingerprintHeaders(author.fingerprint) }
         );
         messagesApi.updateMessage(messageId, { reactions: data.reactions });
@@ -128,7 +135,7 @@ const useAtelierMutations = (
         toast.error('반응을 남기지 못했어요.');
       }
     },
-    [author.fingerprint, messagesApi, toast]
+    [author, messagesApi, toast]
   );
 
   // 메시지 수정
@@ -155,16 +162,18 @@ const useAtelierMutations = (
     [author.fingerprint, messagesApi, toast]
   );
 
-  // 관리자 삭제
+  // 관리자 삭제 — 낙관적 업데이트 후 실패 시 복구
   const deleteMessage = useCallback(
     async (messageId: string) => {
+      const snapshot = messagesApi.getSnapshot(messageId);
+      messagesApi.removeMessage(messageId);
       try {
         await axios.delete(`/api/atelier/messages/${messageId}`, {
           headers: fingerprintHeaders(author.fingerprint),
         });
-        messagesApi.removeMessage(messageId);
         toast.success('메시지를 삭제했어요.');
       } catch (err) {
+        if (snapshot) messagesApi.restoreMessage(snapshot);
         if (axios.isAxiosError(err) && err.response?.status === 429) {
           const retryAfter = err.response.data?.retryAfter ?? 60;
           toast.error(`${retryAfter}초 후에 다시 시도해주세요`);

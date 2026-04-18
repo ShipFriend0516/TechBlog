@@ -10,6 +10,9 @@ import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 
+// optimistic → real 교체 시 재마운트되는 컴포넌트가 입장 애니메이션을 건너뛰도록
+export const skipEntryAnimSet = new Set<string>();
+
 interface MessageBubbleProps {
   message: AtelierMessage;
   isMine: boolean;
@@ -59,12 +62,17 @@ const MessageBubble = ({
 }: MessageBubbleProps) => {
   const [isThreadOpen, setIsThreadOpen] = useState(false);
   const [isActionsVisible, setIsActionsVisible] = useState(false);
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+  const [entered, setEntered] = useState(() => skipEntryAnimSet.has(message._id));
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(message.content);
 
   const handleMouseEnter = () => setIsActionsVisible(true);
-  const handleMouseLeave = () => setIsActionsVisible(false);
+  const handleMouseLeave = () => {
+    if (!isEmojiPickerOpen) setIsActionsVisible(false);
+  };
 
   const handleReact = (emoji: AtelierEmoji) => {
     onReact(message._id, emoji);
@@ -80,7 +88,7 @@ const MessageBubble = ({
 
   const handleConfirmDelete = () => {
     setIsDeleteModalOpen(false);
-    onDelete(message._id);
+    setIsRemoving(true);
   };
 
   const handleTogglePublic = () => {
@@ -123,7 +131,7 @@ const MessageBubble = ({
 
   // 버블 정렬 방향
   const alignCls = isMine ? 'items-end' : 'items-start';
-  const animCls = isMine ? 'animate-bubbleInRight' : 'animate-bubbleInLeft';
+  const entryAnimCls = entered ? '' : (isMine ? 'animate-bubbleInRight' : 'animate-bubbleInLeft');
 
   // 버블 자체 스타일 — 소유자 여부에 따라 색을 분리
   const bubbleCls = isOwner
@@ -131,7 +139,13 @@ const MessageBubble = ({
     : 'rounded-2xl rounded-tl-sm bg-white/60 dark:bg-neutral-800/60 backdrop-blur-sm text-foreground border border-border shadow-sm';
 
   return (
-    <div className={`flex flex-col gap-1 ${alignCls} ${animCls} ${showAuthor ? 'mt-4 first:mt-0' : 'mt-1'}`}>
+    <div
+      className={`flex flex-col gap-1 ${alignCls} ${isRemoving ? `animate-bubblePop pointer-events-none ${isMine ? 'origin-right' : 'origin-left'}` : entryAnimCls} ${showAuthor ? 'mt-4 first:mt-0' : 'mt-1'}`}
+      onAnimationEnd={(e) => {
+        if (isRemoving) { onDelete(message._id); return; }
+        if (e.currentTarget === e.target) setEntered(true);
+      }}
+    >
       {/* 작성자 정보 (내 메시지가 아니고 묶음 첫 메시지일 때 노출) */}
       {!isMine && showAuthor && (
         <div className="flex items-center gap-1.5 px-1 ml-1">
@@ -205,6 +219,12 @@ const MessageBubble = ({
                 fontSize: 'inherit',
               }}
               wrapperElement={{ 'data-color-mode': isOwner ? 'dark' : 'light' }}
+              components={{
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
             />
           )}
         </div>
@@ -224,6 +244,7 @@ const MessageBubble = ({
               onDelete={handleDelete}
               onTogglePublic={handleTogglePublic}
               onBlock={handleBlock}
+              onPickerChange={setIsEmojiPickerOpen}
             />
           </div>
         )}
@@ -248,9 +269,9 @@ const MessageBubble = ({
         </button>
       )}
 
-      {showTime && (
+      {(showTime || message.isEdited) && (
         <span className="text-xs text-weak px-1">
-          {formatTime(message.createdAt)}
+          {showTime && formatTime(message.createdAt)}
           {message.isEdited && (
             <span className="text-[10px] text-weak italic ml-1">(수정됨)</span>
           )}
