@@ -1,32 +1,31 @@
 'use client';
 import { signIn } from 'next-auth/react';
-import { FormEvent, useState } from 'react';
 import { FaGithub } from 'react-icons/fa6';
 
 interface NicknameGateProps {
-  onSubmit: (nickname: string) => void;
+  onSubmit?: (nickname: string) => void;
   onClose?: () => void;
 }
 
 // 익명 방문자가 닉네임을 입력하는 간단한 모달 게이트
-const NicknameGate = ({ onSubmit, onClose }: NicknameGateProps) => {
-  const [value, setValue] = useState('');
-  const [error, setError] = useState<string | null>(null);
+const NicknameGate = ({ onClose }: NicknameGateProps) => {
+  // const [value, setValue] = useState('');
+  // const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    if (error) setError(null);
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValue(e.target.value);
+  //   if (error) setError(null);
+  // };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const trimmed = value.trim();
-    if (trimmed.length < 3 || trimmed.length > 20) {
-      setError('닉네임은 3-20자여야 해요');
-      return;
-    }
-    onSubmit(trimmed);
-  };
+  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const trimmed = value.trim();
+  //   if (trimmed.length < 3 || trimmed.length > 20) {
+  //     setError('닉네임은 3-20자여야 해요');
+  //     return;
+  //   }
+  //   onSubmit(trimmed);
+  // };
 
   const handleGithubLogin = () => {
     signIn('github');
