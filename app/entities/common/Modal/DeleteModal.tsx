@@ -1,3 +1,5 @@
+'use client';
+import useShortcut from '@/app/hooks/common/useShortcut';
 import Modal from '@/app/entities/common/Modal/Modal';
 
 interface DeleteModalProps {
@@ -13,6 +15,8 @@ const DeleteModal = ({
   title = '정말 삭제하시겠어요?',
   message = '이 작업은 되돌릴 수 없습니다.',
 }: DeleteModalProps) => {
+  useShortcut(onConfirm, ['Enter'], false);
+
   return (
     <Modal onClose={onCancel}>
       <div className="p-6 flex flex-col gap-5">
