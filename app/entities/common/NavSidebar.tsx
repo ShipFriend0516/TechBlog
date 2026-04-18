@@ -56,7 +56,9 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
         </div>
 
         {/* 네비게이션 링크 */}
-        <ul className={'flex flex-col gap-6 px-6 py-4 text-lg'}>
+        <DividerWithText text="Routes" className="text-xs mx-6" />
+
+        <ul className={'flex flex-col gap-6 px-6 py-4 text-lg text-right'}>
           <li>
             <Link href="/posts">Blog</Link>
           </li>
@@ -75,8 +77,8 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
         </ul>
 
         {/* 구독 폼 */}
-        <div className={'mt-auto border-t border-gray-200 px-6 py-6 dark:border-gray-700'}>
-          <p className={'mb-4 text-sm font-semibold'}>새 글 구독하기</p>
+        <DividerWithText text="Subscription" className="text-xs mx-6 mt-12" />
+        <div className={'px-6 py-6 dark:border-gray-700'}>
           {isSubmitted ? (
             <div className={'flex flex-col gap-2'}>
               <p className={'text-xs text-green-600 dark:text-green-400'}>
@@ -92,7 +94,9 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
           ) : (
             <form className={'flex flex-col gap-3'} onSubmit={handleSubmit}>
               <input
-                className={'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-gray-500'}
+                className={
+                  'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-gray-500'
+                }
                 placeholder={'닉네임'}
                 value={nickname}
                 onChange={handleNicknameChange}
@@ -100,7 +104,9 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
               />
               <input
                 type="email"
-                className={'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-gray-500'}
+                className={
+                  'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-gray-500'
+                }
                 placeholder={'이메일'}
                 value={email}
                 onChange={handleEmailChange}
@@ -108,7 +114,9 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
               />
               <button
                 type="submit"
-                className={'mt-1 rounded-md border border-current py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition disabled:opacity-50'}
+                className={
+                  'mt-1 rounded-md border border-current py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition disabled:opacity-50'
+                }
                 disabled={isLoading}
               >
                 {isLoading ? '처리 중...' : 'Subscribe'}
@@ -118,6 +126,25 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
         </div>
       </div>
     </>
+  );
+};
+
+type DividerWithTextProps = {
+  text: string;
+  className?: string;
+};
+
+const DividerWithText = ({ text, className = '' }: DividerWithTextProps) => {
+  return (
+    <div
+      className={`flex items-center gap-3 ${className}`}
+      role="separator"
+      aria-label={text}
+    >
+      <div className="h-px flex-1 bg-gray-300" />
+      <span className="shrink-0 text-sm text-gray-500">{text}</span>
+      <div className="h-px flex-1 bg-gray-300" />
+    </div>
   );
 };
 
