@@ -62,6 +62,7 @@ const MessageBubble = ({
 }: MessageBubbleProps) => {
   const [isThreadOpen, setIsThreadOpen] = useState(false);
   const [isActionsVisible, setIsActionsVisible] = useState(false);
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [entered, setEntered] = useState(() => skipEntryAnimSet.has(message._id));
@@ -69,7 +70,9 @@ const MessageBubble = ({
   const [editContent, setEditContent] = useState(message.content);
 
   const handleMouseEnter = () => setIsActionsVisible(true);
-  const handleMouseLeave = () => setIsActionsVisible(false);
+  const handleMouseLeave = () => {
+    if (!isEmojiPickerOpen) setIsActionsVisible(false);
+  };
 
   const handleReact = (emoji: AtelierEmoji) => {
     onReact(message._id, emoji);
@@ -241,6 +244,7 @@ const MessageBubble = ({
               onDelete={handleDelete}
               onTogglePublic={handleTogglePublic}
               onBlock={handleBlock}
+              onPickerChange={setIsEmojiPickerOpen}
             />
           </div>
         )}
