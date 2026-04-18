@@ -2,6 +2,7 @@
 import { Cormorant_Garamond } from 'next/font/google';
 import Image from 'next/image';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import ChatFeed from '@/app/entities/atelier/ChatFeed';
 import MessageInput from '@/app/entities/atelier/MessageInput';
 import NicknameGate from '@/app/entities/atelier/NicknameGate';
@@ -188,12 +189,14 @@ const AtelierPage = () => {
           </div>
 
           {/* 닉네임 게이트 (익명 방문자 전용) */}
-          {isGateOpen && (
-            <NicknameGate
-              onSubmit={handleSubmitNickname}
-              onClose={handleCloseGate}
-            />
-          )}
+          {isGateOpen &&
+            createPortal(
+              <NicknameGate
+                onSubmit={handleSubmitNickname}
+                onClose={handleCloseGate}
+              />,
+              document.body
+            )}
         </div>
       </section>
     </>

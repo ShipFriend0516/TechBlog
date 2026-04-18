@@ -1,6 +1,7 @@
 'use client';
 import { signIn } from 'next-auth/react';
 import { FormEvent, useState } from 'react';
+import { FaGithub } from 'react-icons/fa6';
 
 interface NicknameGateProps {
   onSubmit: (nickname: string) => void;
@@ -39,12 +40,22 @@ const NicknameGate = ({ onSubmit, onClose }: NicknameGateProps) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
       <div className="w-full max-w-sm rounded-2xl border border-border bg-white dark:bg-neutral-900 p-6 shadow-xl">
         <h2 className="text-lg font-semibold text-foreground mb-1">
-          닉네임을 알려주세요
+          로그인이 필요해요
         </h2>
         <p className="text-xs text-weak mb-4">
-          메시지 옆에 표시될 이름이에요.
+          GitHub 계정으로 로그인하면 댓글을 남길 수 있어요.
         </p>
 
+        <button
+          type="button"
+          onClick={handleGithubLogin}
+          className="inline-flex items-center justify-center gap-2 w-full rounded-xl border border-border text-sm text-foreground py-2 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+        >
+          <FaGithub />
+          GitHub으로 로그인
+        </button>
+
+        {/* 닉네임(익명) 로그인 비활성화
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
             type="text"
@@ -65,22 +76,7 @@ const NicknameGate = ({ onSubmit, onClose }: NicknameGateProps) => {
             확인
           </button>
         </form>
-
-        <div className="my-4 flex items-center gap-2">
-          <div className="h-px flex-1 bg-border" />
-          <span className="text-[10px] uppercase tracking-widest text-weak">
-            또는
-          </span>
-          <div className="h-px flex-1 bg-border" />
-        </div>
-
-        <button
-          type="button"
-          onClick={handleGithubLogin}
-          className="w-full rounded-xl border border-border text-sm text-foreground py-2 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
-        >
-          GitHub으로 로그인
-        </button>
+        */}
 
         {onClose && (
           <button
