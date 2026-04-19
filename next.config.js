@@ -5,11 +5,12 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
+  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://utteranc.es;
   style-src 'self' 'unsafe-inline';
   img-src 'self' data: blob: https:;
-  font-src 'self';
-  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;
+  font-src 'self' https:;
+  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://api.github.com;
+  frame-src https://utteranc.es;
   frame-ancestors 'none';
   base-uri 'self';
   form-action 'self';
