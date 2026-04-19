@@ -1,24 +1,29 @@
-import { useState, useEffect, useMemo, Dispatch, SetStateAction } from "react";
-import { TagData } from "@/app/types/Tag";
+import { useState, useEffect, useMemo, Dispatch, SetStateAction } from 'react';
+import { TagData } from '@/app/types/Tag';
 
 interface UseTagAutocompleteOptions {
   tagInput: string;
   currentTags: string[];
 }
 
-export function useTagAutocomplete({ tagInput, currentTags }: UseTagAutocompleteOptions): {
+interface UseTagAutocompleteReturn {
   suggestions: TagData[];
   isOpen: boolean;
   highlightedIndex: number;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setHighlightedIndex: Dispatch<SetStateAction<number>>;
-} {
+}
+
+const useTagAutocomplete = ({
+  tagInput,
+  currentTags,
+}: UseTagAutocompleteOptions): UseTagAutocompleteReturn => {
   const [allTags, setAllTags] = useState<TagData[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   useEffect(() => {
-    fetch("/api/tags")
+    fetch('/api/tags')
       .then((res) => res.json())
       .then((data: TagData[]) => setAllTags(data))
       .catch((err) => {
@@ -28,7 +33,7 @@ export function useTagAutocomplete({ tagInput, currentTags }: UseTagAutocomplete
   }, []);
 
   const suggestions = useMemo<TagData[]>(() => {
-    if (tagInput.trim() === "") return [];
+    if (tagInput.trim() === '') return [];
     const lower = tagInput.toLowerCase().trim();
     return allTags
       .filter(
@@ -50,4 +55,6 @@ export function useTagAutocomplete({ tagInput, currentTags }: UseTagAutocomplete
     setIsOpen,
     setHighlightedIndex,
   };
-}
+};
+
+export default useTagAutocomplete;

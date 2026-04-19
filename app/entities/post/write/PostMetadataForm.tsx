@@ -3,7 +3,7 @@ import { CgMoveRight } from 'react-icons/cg';
 import { FaTrash } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
 import Select from '@/app/entities/common/Select';
-import { useTagAutocomplete } from '@/app/hooks/post/useTagAutocomplete';
+import useTagAutocomplete from '@/app/hooks/post/useTagAutocomplete';
 import { Series } from '@/app/types/Series';
 import AutoSyncToggle from './AutoSyncToggle';
 import TagAutocompleteDropdown from './TagAutocompleteDropdown';
@@ -55,8 +55,29 @@ const PostMetadataForm = ({
       ? series[0]._id
       : '';
 
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onFieldChange('title', e.target.value);
+  };
+
+  const handleSubTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onFieldChange('subTitle', e.target.value);
+  };
+
+  const handleSeriesChange = (value: string) => {
+    onFieldChange('seriesId', value);
+  };
+
   const handleTagInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
+  };
+
+  const handleTagInputBlur = () => {
+    setIsOpen(false);
+    setHighlightedIndex(-1);
+  };
+
+  const handleTagRemove = (index: number) => {
+    onFieldChange('tags', tags.filter((_, i) => i !== index));
   };
 
   const handleSelectSuggestion = (tag: string) => {
@@ -128,7 +149,7 @@ const PostMetadataForm = ({
           type="text"
           placeholder="제목"
           className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
-          onChange={(e) => onFieldChange('title', e.target.value)}
+          onChange={handleTitleChange}
           value={title}
         />
       </div>
@@ -140,7 +161,7 @@ const PostMetadataForm = ({
           type="text"
           placeholder="소제목"
           className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
-          onChange={(e) => onFieldChange('subTitle', e.target.value)}
+          onChange={handleSubTitleChange}
           value={subTitle}
         />
       </div>
@@ -154,14 +175,7 @@ const PostMetadataForm = ({
             <span
               key={index}
               className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold cursor-pointer hover:animate-blink duration-75"
-              onClick={() => {
-                onFieldChange(
-                  'tags',
-                  tags.filter((_, i) => {
-                    return i !== index;
-                  })
-                );
-              }}
+              onClick={() => handleTagRemove(index)}
             >
               {tag}
             </span>
@@ -173,10 +187,7 @@ const PostMetadataForm = ({
               className="inline min-w-12 px-2 py-1 outline-none text-default bg-transparent border-b border-gray-300 text-sm"
               onChange={handleTagInputChange}
               onKeyDown={handleTagInputKeyDown}
-              onBlur={() => {
-                setIsOpen(false);
-                setHighlightedIndex(-1);
-              }}
+              onBlur={handleTagInputBlur}
               value={tagInput}
             />
             <TagAutocompleteDropdown
@@ -199,7 +210,7 @@ const PostMetadataForm = ({
             ) : (
               <Select
                 options={selectOptions}
-                setValue={(value) => onFieldChange('seriesId', value)}
+                setValue={handleSeriesChange}
                 defaultValue={defaultSeriesId}
               />
             )}

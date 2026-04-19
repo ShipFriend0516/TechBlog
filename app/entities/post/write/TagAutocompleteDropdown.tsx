@@ -1,4 +1,4 @@
-import { TagData } from "@/app/types/Tag";
+import { TagData } from '@/app/types/Tag';
 
 interface TagAutocompleteDropdownProps {
   suggestions: TagData[];
@@ -8,13 +8,13 @@ interface TagAutocompleteDropdownProps {
   onMouseEnter: (index: number) => void;
 }
 
-export default function TagAutocompleteDropdown({
+const TagAutocompleteDropdown = ({
   suggestions,
   isOpen,
   highlightedIndex,
   onSelect,
   onMouseEnter,
-}: TagAutocompleteDropdownProps) {
+}: TagAutocompleteDropdownProps) => {
   if (!isOpen || suggestions.length === 0) return null;
 
   return (
@@ -24,8 +24,8 @@ export default function TagAutocompleteDropdown({
           key={suggestion.tag}
           className={`px-3 py-2 text-sm cursor-pointer flex items-center justify-between ${
             highlightedIndex === index
-              ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-              : "hover:bg-gray-100 dark:hover:bg-gray-700"
+              ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+              : 'hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
           onClick={() => onSelect(suggestion.tag)}
           onMouseEnter={() => onMouseEnter(index)}
@@ -37,4 +37,6 @@ export default function TagAutocompleteDropdown({
       ))}
     </div>
   );
-}
+};
+
+export default TagAutocompleteDropdown;
