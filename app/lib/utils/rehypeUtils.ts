@@ -2,6 +2,7 @@
  * MDEditor rehypeRewrite에서 사용하는 유틸리티 함수들
  */
 
+import { Element, Root, RootContent } from 'hast';
 import { SelectedImage } from '../../entities/post/detail/PostBody';
 
 /**
@@ -35,15 +36,15 @@ export const addDescriptionUnderImage = (
     const altText = node.properties.alt;
     if (altText) {
       const descriptionNode = {
-        type: 'element',
+        type: 'element' as const,
         tagName: 'span',
         properties: {
           className: 'image-description',
         },
         children: [
           {
-            type: 'text',
-            value: altText,
+            type: 'text' as const,
+            value: altText as string,
           },
         ],
       };
@@ -117,7 +118,7 @@ export const createYoutubeIframe = (
   height: number
 ) => {
   return {
-    type: 'element',
+    type: 'element' as const,
     tagName: 'iframe',
     properties: {
       src: `https://www.youtube.com/embed/${videoId}`,
@@ -150,7 +151,7 @@ export const renderOpenGraph = (
     if (!href || !(href.startsWith('/') || href.startsWith('http'))) return;
 
     const ogNode = {
-      type: 'element',
+      type: 'element' as const,
       tagName: 'ogcard',
       properties: { href },
       children: [],
@@ -173,6 +174,19 @@ export const renderOpenGraph = (
       }
     }
   }
+};
+
+/**
+ * 첫 번째 이미지는 eager, 나머지는 lazy loading 적용하는 함수 팩토리
+ */
+export const createLazyLoadHandler = () => {
+  let imageCount = 0;
+  return (node: Root | RootContent) => {
+    if (node.type === 'element' && node.tagName === 'img') {
+      node.properties.loading = imageCount === 0 ? 'eager' : 'lazy';
+      imageCount++;
+    }
+  };
 };
 
 /**
