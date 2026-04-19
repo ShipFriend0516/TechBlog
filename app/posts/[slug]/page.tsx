@@ -67,7 +67,6 @@ export const generateMetadata = async ({
       'application-name': 'ShipFriend TechBlog',
       author: post.author,
       publish_date: new Date(post.date).toISOString(),
-      'og:type': 'article',
       'article:tag': 'technology,programming,web development',
     },
   };
