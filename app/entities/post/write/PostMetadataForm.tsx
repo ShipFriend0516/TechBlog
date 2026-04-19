@@ -3,8 +3,10 @@ import { CgMoveRight } from 'react-icons/cg';
 import { FaTrash } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
 import Select from '@/app/entities/common/Select';
+import { useTagAutocomplete } from '@/app/hooks/post/useTagAutocomplete';
 import { Series } from '@/app/types/Series';
 import AutoSyncToggle from './AutoSyncToggle';
+import TagAutocompleteDropdown from './TagAutocompleteDropdown';
 
 interface PostMetadataFormProps {
   onFieldChange: (field: string, value: string | boolean | string[]) => void;
@@ -40,6 +42,9 @@ const PostMetadataForm = ({
 
   const { title, subTitle, seriesId, tags, isPrivate, sendToSubscribers } =
     formData;
+
+  const { suggestions, isOpen, highlightedIndex, setIsOpen, setHighlightedIndex } =
+    useTagAutocomplete({ tagInput, currentTags: tags });
   const selectOptions = series.map((s) => ({
     value: s._id,
     label: s.title,
@@ -54,15 +59,48 @@ const PostMetadataForm = ({
     setTagInput(e.target.value);
   };
 
+  const handleSelectSuggestion = (tag: string) => {
+    if (!tags.includes(tag)) {
+      onFieldChange('tags', [...(tags || []), tag]);
+    }
+    setTagInput('');
+    setIsOpen(false);
+    setHighlightedIndex(-1);
+  };
+
   const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && tagInput.trim() !== '') {
-      if (tags.includes(tagInput)) {
-        setTagInput('');
+    if (e.nativeEvent.isComposing) return;
+
+    if (e.key === 'ArrowDown' && isOpen && suggestions.length > 0) {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev + 1) % suggestions.length);
+      return;
+    }
+    if (e.key === 'ArrowUp' && isOpen && suggestions.length > 0) {
+      e.preventDefault();
+      setHighlightedIndex(
+        (prev) => (prev - 1 + suggestions.length) % suggestions.length
+      );
+      return;
+    }
+    if (e.key === 'Escape') {
+      setIsOpen(false);
+      setHighlightedIndex(-1);
+      return;
+    }
+    if (e.key === 'Enter') {
+      if (isOpen && highlightedIndex >= 0) {
+        handleSelectSuggestion(suggestions[highlightedIndex].tag);
         return;
       }
-      if (e.nativeEvent.isComposing) return;
-      onFieldChange('tags', [...(tags || []), tagInput]);
-      setTagInput('');
+      if (tagInput.trim() !== '') {
+        if (tags.includes(tagInput)) {
+          setTagInput('');
+          return;
+        }
+        onFieldChange('tags', [...(tags || []), tagInput]);
+        setTagInput('');
+      }
     } else if (e.key === 'Backspace' && tagInput === '') {
       onFieldChange('tags', tags.slice(0, -1));
     }
@@ -128,14 +166,27 @@ const PostMetadataForm = ({
               {tag}
             </span>
           ))}
-          <input
-            type="text"
-            placeholder="태그를 입력하세요"
-            className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm  "
-            onChange={handleTagInputChange}
-            onKeyDown={handleTagInputKeyDown}
-            value={tagInput}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="태그를 입력하세요"
+              className="inline min-w-12 px-2 py-1 outline-none text-default bg-transparent border-b border-gray-300 text-sm"
+              onChange={handleTagInputChange}
+              onKeyDown={handleTagInputKeyDown}
+              onBlur={() => {
+                setIsOpen(false);
+                setHighlightedIndex(-1);
+              }}
+              value={tagInput}
+            />
+            <TagAutocompleteDropdown
+              suggestions={suggestions}
+              isOpen={isOpen}
+              highlightedIndex={highlightedIndex}
+              onSelect={handleSelectSuggestion}
+              onMouseEnter={setHighlightedIndex}
+            />
+          </div>
         </div>
       </div>
 
