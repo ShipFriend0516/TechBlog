@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { PiEyeSlash } from 'react-icons/pi';
 import MessageActions from '@/app/entities/atelier/MessageActions';
-import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
 import ReactionBar from '@/app/entities/atelier/ReactionBar';
 import ThreadPanel from '@/app/entities/atelier/ThreadPanel';
 import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
+import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
 import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 
