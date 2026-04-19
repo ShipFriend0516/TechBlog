@@ -51,6 +51,9 @@ export const generateMetadata = async ({
   return {
     title: post.title,
     description: post.subTitle || post.content.substring(0, 160),
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       title: post.title,
       description: post.subTitle || post.content.substring(0, 160),
