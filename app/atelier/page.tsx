@@ -82,7 +82,10 @@ const AtelierPage = () => {
     await mutations.toggleReaction(messageId, emoji);
   };
 
-  const handleEdit = async (messageId: string, content: string): Promise<boolean> => {
+  const handleEdit = async (
+    messageId: string,
+    content: string
+  ): Promise<boolean> => {
     return await mutations.editMessage(messageId, content);
   };
 
@@ -185,7 +188,11 @@ const AtelierPage = () => {
 
           {/* 입력 */}
           <div className="shrink-0">
-            <MessageInput onSend={handleSendRoot} placeholder={placeholder} isAdmin={author.isAdmin} />
+            <MessageInput
+              onSend={handleSendRoot}
+              placeholder={placeholder}
+              isAdmin={author.isAdmin}
+            />
           </div>
 
           {/* 닉네임 게이트 (익명 방문자 전용) */}
