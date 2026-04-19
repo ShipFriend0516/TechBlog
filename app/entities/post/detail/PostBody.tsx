@@ -1,4 +1,5 @@
 'use client';
+import type { Element as HastElement, Root, RootContent } from 'hast';
 import { useState } from 'react';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
@@ -16,6 +17,7 @@ import {
   renderYoutubeEmbed,
   renderOpenGraph,
   createImageClickHandler,
+  createLazyLoadHandler,
 } from '../../../lib/utils/rehypeUtils';
 
 interface Props {
@@ -41,6 +43,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
     setSelectedImage,
     setOpenImageBox
   );
+  const addLazyLoad = createLazyLoadHandler();
 
   return (
     <div
@@ -83,20 +86,13 @@ const PostBody = ({ content, tags, loading }: Props) => {
               callout: ({ emoji, children }: { emoji?: string; children?: React.ReactNode }) =>
                 <Callout emoji={emoji}>{children}</Callout>,
             } as any}
-            rehypeRewrite={(node, index?, parent?) => {
+            rehypeRewrite={(node: Root | RootContent, index?: number, parent?: Root | HastElement) => {
               asideToCallout(node);
-              renderOpenGraph(node, index, parent as Element | undefined);
-              renderYoutubeEmbed(
-                node,
-                index || 0,
-                parent as Element | undefined
-              );
+              renderOpenGraph(node, index, parent as HastElement | undefined);
+              renderYoutubeEmbed(node, index || 0, parent as HastElement | undefined);
               addImageClickHandler(node);
-              addDescriptionUnderImage(
-                node,
-                index,
-                parent as Element | undefined
-              );
+              addLazyLoad(node);
+              addDescriptionUnderImage(node, index, parent as HastElement | undefined);
             }}
           />
         </>

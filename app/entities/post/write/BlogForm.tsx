@@ -1,4 +1,5 @@
 'use client';
+import type { Element as HastElement, Root, RootContent } from 'hast';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
@@ -316,18 +317,22 @@ const BlogForm = () => {
                 children?: React.ReactNode;
               }) => <Callout emoji={emoji}>{children}</Callout>,
             } as any,
-            rehypeRewrite: (node, index?, parent?) => {
+            rehypeRewrite: (
+              node: Root | RootContent,
+              index?: number,
+              parent?: Root | HastElement
+            ) => {
               asideToCallout(node);
               renderYoutubeEmbed(
                 node,
                 index || 0,
-                parent as Element | undefined
+                parent as HastElement | undefined
               );
               addImageClickHandler(node);
               addDescriptionUnderImage(
                 node,
                 index,
-                parent as Element | undefined
+                parent as HastElement | undefined
               );
             },
           }}
