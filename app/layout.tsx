@@ -66,7 +66,6 @@ export const metadata: Metadata = {
   other: {
     'application-name': 'ShipFriend TechBlog 🌱',
     author: 'ShipFriend',
-    'og:type': 'article',
     'article:tag': 'technology,programming,web development',
   },
 };
