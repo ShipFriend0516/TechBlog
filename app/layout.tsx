@@ -172,7 +172,7 @@ export default function RootLayout({
   ];
 
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
