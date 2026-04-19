@@ -5,16 +5,18 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://utteranc.es;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://utteranc.es https://giscus.app;
   style-src 'self' 'unsafe-inline';
   img-src 'self' data: blob: https:;
   font-src 'self' https:;
-  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://api.github.com;
-  frame-src https://utteranc.es;
+  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://api.github.com https://utteranc.es https://giscus.app;
+  frame-src https://utteranc.es https://giscus.app;
   frame-ancestors 'none';
   base-uri 'self';
   form-action 'self';
-`.replace(/\n/g, ' ').trim();
+`
+  .replace(/\n/g, ' ')
+  .trim();
 
 const securityHeaders = [
   { key: 'Content-Security-Policy', value: ContentSecurityPolicy },
@@ -23,7 +25,10 @@ const securityHeaders = [
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   { key: 'X-XSS-Protection', value: '1; mode=block' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()',
+  },
   {
     key: 'Strict-Transport-Security',
     value: 'max-age=63072000; includeSubDomains; preload',
