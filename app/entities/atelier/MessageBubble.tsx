@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { PiEyeSlash } from 'react-icons/pi';
 import MessageActions from '@/app/entities/atelier/MessageActions';
+import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
 import ReactionBar from '@/app/entities/atelier/ReactionBar';
 import ThreadPanel from '@/app/entities/atelier/ThreadPanel';
 import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
@@ -43,6 +44,20 @@ const formatTime = (iso: string) => {
     month: 'long',
     day: 'numeric',
   }).format(date);
+};
+
+// 마크다운 링크 파싱 헬퍼: [text](url) 형식의 링크 추출
+const extractMarkdownLinks = (content: string): string[] => {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const links: string[] = [];
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    const url = match[2];
+    if (links.indexOf(url) === -1) {
+      links.push(url);
+    }
+  }
+  return links;
 };
 
 const MessageBubble = ({
@@ -211,21 +226,26 @@ const MessageBubble = ({
               </div>
             </div>
           ) : (
-            <MarkdownPreview
-              source={message.content}
-              style={{
-                background: 'transparent',
-                color: 'inherit',
-                fontSize: 'inherit',
-              }}
-              wrapperElement={{ 'data-color-mode': isOwner ? 'dark' : 'light' }}
-              components={{
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                a: ({ node, ...props }) => (
-                  <a {...props} target="_blank" rel="noopener noreferrer" />
-                ),
-              }}
-            />
+            <div className="flex flex-col gap-3">
+              <MarkdownPreview
+                source={message.content}
+                style={{
+                  background: 'transparent',
+                  color: 'inherit',
+                  fontSize: 'inherit',
+                }}
+                wrapperElement={{ 'data-color-mode': isOwner ? 'dark' : 'light' }}
+                components={{
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                  a: ({ node, ...props }) => (
+                    <a {...props} target="_blank" rel="noopener noreferrer" />
+                  ),
+                }}
+              />
+              {extractMarkdownLinks(message.content).map((url) => (
+                <OgLinkCard key={url} href={url} />
+              ))}
+            </div>
           )}
         </div>
 
