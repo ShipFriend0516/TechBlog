@@ -56,6 +56,13 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     type: 'website',
   },
+  alternates: {
+    types: {
+      'application/rss+xml': [
+        { url: '/rss.xml', title: 'ShipFriend TechBlog RSS Feed' },
+      ],
+    },
+  },
   other: {
     'application-name': 'ShipFriend TechBlog 🌱',
     author: 'ShipFriend',
