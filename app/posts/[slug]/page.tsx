@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import Comments from '@/app/entities/comment/Comments';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
+import PostBreadcrumbJSONLd from '@/app/entities/post/detail/PostBreadcrumbJSONLd';
 import PostDetail from '@/app/entities/post/detail/PostDetail';
 import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
 import SubscribeToast from '@/app/entities/post/detail/SubscribeToast';
 import dbConnect from '@/app/lib/dbConnect';
+import { stripMarkdown } from '@/app/lib/utils/stripMarkdown';
 import Post from '@/app/models/Post';
 
 const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
@@ -47,27 +49,36 @@ export const generateMetadata = async ({
   const baseUrl =
     process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
   const postUrl = `${baseUrl}/posts/${post.slug}`;
+  const description = post.subTitle
+    ? stripMarkdown(post.subTitle, 160)
+    : stripMarkdown(post.content, 160);
 
   return {
     title: post.title,
-    description: post.subTitle || post.content.substring(0, 160),
+    description,
+    keywords: post.tags,
     alternates: {
       canonical: postUrl,
     },
     openGraph: {
       title: post.title,
-      description: post.subTitle || post.content.substring(0, 160),
+      description,
       url: postUrl,
       images: [post.thumbnailImage || defaultThumbnail],
       type: 'article',
-      publishedTime: new Date(post.createdAt).toISOString(),
+      locale: 'ko_KR',
+      publishedTime: new Date(post.date).toISOString(),
       authors: [post.author],
     },
     other: {
       'application-name': 'ShipFriend TechBlog',
       author: post.author,
       publish_date: new Date(post.date).toISOString(),
-      'article:tag': 'technology,programming,web development',
+      'article:tag': post.tags?.join(',') || 'technology,programming,web development',
+      'twitter:card': 'summary_large_image',
+      'twitter:title': post.title,
+      'twitter:description': description,
+      'twitter:image': String(post.thumbnailImage || defaultThumbnail),
     },
   };
 };
@@ -78,6 +89,7 @@ const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <>
       <PostJSONLd post={post} />
+      <PostBreadcrumbJSONLd title={post.title} slug={post.slug} />
       <section className="bg-transparent w-full flex-grow">
         <PostDetail post={post} isAdmin={!!session?.user} />
         <PostActionSection postId={post?._id} />
