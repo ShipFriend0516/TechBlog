@@ -139,12 +139,50 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteBaseUrl =
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
+    process.env.NEXT_PUBLIC_URL ||
+    'https://shipfriend.dev';
+
+  const siteSchema = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': `${siteBaseUrl}/#website`,
+      url: siteBaseUrl,
+      name: 'ShipFriend TechBlog',
+      description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
+      inLanguage: 'ko-KR',
+      publisher: {
+        '@id': `${siteBaseUrl}/#organization`,
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      '@id': `${siteBaseUrl}/#organization`,
+      name: 'ShipFriend TechBlog',
+      url: siteBaseUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteBaseUrl}/assets/apple-touch-icon.png`,
+      },
+      sameAs: ['https://github.com/ShipFriend0516'],
+    },
+  ];
+
   return (
     <html lang="ko">
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: preventFOUC,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(siteSchema),
           }}
         />
       </head>
