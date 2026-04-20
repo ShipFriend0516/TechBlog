@@ -60,6 +60,18 @@ const extractMarkdownLinks = (content: string): string[] => {
   return links;
 };
 
+// 이미지 URL 여부 판단
+const isImageUrl = (url: string): boolean => {
+  try {
+    const urlObj = new URL(url);
+    const pathname = urlObj.pathname.toLowerCase();
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.ico'];
+    return imageExtensions.some(ext => pathname.endsWith(ext));
+  } catch {
+    return false;
+  }
+};
+
 const MessageBubble = ({
   message,
   isMine,
@@ -253,9 +265,11 @@ const MessageBubble = ({
                   ),
                 }}
               />
-              {extractMarkdownLinks(message.content).map((url) => (
-                <OgLinkCard key={url} href={url} />
-              ))}
+              {extractMarkdownLinks(message.content)
+                .filter(url => !isImageUrl(url))
+                .map((url) => (
+                  <OgLinkCard key={url} href={url} />
+                ))}
             </div>
           )}
         </div>
