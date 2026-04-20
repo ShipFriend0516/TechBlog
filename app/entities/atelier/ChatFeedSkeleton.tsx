@@ -24,7 +24,7 @@ const SkeletonBubble = ({
       {/* 아바타 + 닉네임 (상대방 메시지) */}
       {!mine && (
         <div className="flex items-center gap-1.5 px-0 ml-1">
-          <div className="w-4 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+          <div className="-ml-1 w-4 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
           <div className="w-12 h-3 rounded bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
         </div>
       )}

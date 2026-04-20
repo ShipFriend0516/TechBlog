@@ -179,7 +179,7 @@ const MessageBubble = ({
               alt={nickname}
               width={18}
               height={18}
-              className="rounded-full"
+              className="-ml-1 rounded-full"
               unoptimized
             />
           ) : null}
