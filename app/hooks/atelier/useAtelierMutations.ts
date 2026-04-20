@@ -31,6 +31,7 @@ interface MessagesApi {
 interface UseAtelierMutationsOptions {
   author: AuthorSnapshot;
   messagesApi: MessagesApi;
+  onMessageSent?: () => Promise<void>;
 }
 
 interface UseAtelierMutationsReturn {
@@ -52,7 +53,7 @@ const fingerprintHeaders = (fingerprint: string | null) =>
 const useAtelierMutations = (
   options: UseAtelierMutationsOptions
 ): UseAtelierMutationsReturn => {
-  const { author, messagesApi } = options;
+  const { author, messagesApi, onMessageSent } = options;
   const toast = useToast();
 
   // 메시지 전송 — 낙관적 업데이트 + 롤백
@@ -101,6 +102,7 @@ const useAtelierMutations = (
           { headers: fingerprintHeaders(author.fingerprint) }
         );
         messagesApi.replaceOptimistic(tempId, data.message);
+        await onMessageSent?.();
         return data.message;
       } catch (err) {
         messagesApi.removeOptimistic(tempId);
@@ -113,7 +115,7 @@ const useAtelierMutations = (
         return null;
       }
     },
-    [author, messagesApi, toast]
+    [author, messagesApi, onMessageSent, toast]
   );
 
   // 이모지 반응 토글
