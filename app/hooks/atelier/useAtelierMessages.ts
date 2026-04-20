@@ -54,6 +54,9 @@ const useAtelierMessages = (
 
   // 최상단(가장 오래된) 메시지의 createdAt 커서
   const oldestCursorRef = useRef<string | null>(null);
+  // isLoadingOlder와 hasMore를 ref로 추적 — 무한 callback 재구독 방지
+  const isLoadingOlderRef = useRef(false);
+  const hasMoreRef = useRef(false);
 
   // 현재 가장 오래된 실제 메시지의 createdAt 을 계산
   const computeOldestCursor = (
@@ -90,6 +93,15 @@ const useAtelierMessages = (
       setIsInitialLoading(false);
     }
   }, [limit]);
+
+  // ref 동기화
+  useEffect(() => {
+    isLoadingOlderRef.current = isLoadingOlder;
+  }, [isLoadingOlder]);
+
+  useEffect(() => {
+    hasMoreRef.current = hasMore;
+  }, [hasMore]);
 
   useEffect(() => {
     fetchInitial();
@@ -128,7 +140,7 @@ const useAtelierMessages = (
 
   // 과거 메시지 로드 (cursor 기반)
   const loadOlder = useCallback(async () => {
-    if (isLoadingOlder || !hasMore) return;
+    if (isLoadingOlderRef.current || !hasMoreRef.current) return;
     const cursor = oldestCursorRef.current;
     if (!cursor) return;
 
@@ -152,7 +164,7 @@ const useAtelierMessages = (
     } finally {
       setIsLoadingOlder(false);
     }
-  }, [isLoadingOlder, hasMore, limit]);
+  }, [limit]);
 
   // Optimistic 메시지 추가 (tempId 를 키로 사용)
   const appendOptimistic = useCallback((msg: OptimisticAtelierMessage) => {

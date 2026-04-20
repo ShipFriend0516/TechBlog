@@ -69,109 +69,111 @@ const ChatFeed = ({
   onReplySent,
 }: ChatFeedProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const sentinelRef = useRef<HTMLDivElement>(null);
-  // 최신 메시지 수 추적 (새 메시지 도착 시 하단 유지용)
-  const prevMessageCountRef = useRef(0);
-  // isLoadingOlder를 ref로 추적 — observer effect dependency에서 제거해 재구독 루프 방지
   const isLoadingOlderRef = useRef(isLoadingOlder);
+  const prevScrollHeightRef = useRef(0);
+
   useEffect(() => {
     isLoadingOlderRef.current = isLoadingOlder;
   }, [isLoadingOlder]);
 
-  // 새 메시지가 추가되면 자동 스크롤 (flex-col-reverse: scrollTop=0이 시각적 맨 아래)
+  // 초기 로드 후 맨 아래로 스크롤
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || isInitialLoading) return;
 
-    const prev = prevMessageCountRef.current;
-    const next = messages.length;
-    if (next > prev) {
-      const threshold = 120;
-      if (container.scrollTop < threshold) {
-        container.scrollTop = 0;
-      }
-    }
-    prevMessageCountRef.current = next;
-  }, [messages]);
+    // 약간 지연 후 스크롤 (렌더링 완료 대기)
+    const timer = setTimeout(() => {
+      container.scrollTop = container.scrollHeight - container.clientHeight;
+    }, 0);
 
-  // IntersectionObserver — sentinel이 보이면 loadOlder 호출
-  // isLoadingOlder는 ref로 읽어 observer 재구독 루프를 방지
+    return () => clearTimeout(timer);
+  }, [isInitialLoading]);
+
+  // 스크롤 이벤트 — 위로 스크롤 감지해 과거 메시지 로드
   useEffect(() => {
-    const sentinel = sentinelRef.current;
     const container = containerRef.current;
-    if (!sentinel || !container) return;
-    if (!hasMore) return;
+    if (!container || !hasMore) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        if (isLoadingOlderRef.current) return;
+    const handleScroll = () => {
+      const { scrollTop } = container;
+
+      // 위로 300px 이상 스크롤했으면 로드
+      if (scrollTop < 300 && !isLoadingOlderRef.current && hasMore) {
+        // 스크롤 위치 저장 (로딩 후 복원용)
+        prevScrollHeightRef.current = container.scrollHeight;
         onLoadOlder();
-      },
-      { root: container, threshold: 0.1 }
-    );
+      }
+    };
 
-    observer.observe(sentinel);
-    return () => observer.disconnect();
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
   }, [hasMore, onLoadOlder]);
+
+  // 과거 메시지 로드 후 스크롤 위치 복원
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || isLoadingOlder || prevScrollHeightRef.current === 0) return;
+
+    // 로딩 완료 후 스크롤 조정
+    const newHeightAdded = container.scrollHeight - prevScrollHeightRef.current;
+    if (newHeightAdded > 0) {
+      container.scrollTop += newHeightAdded;
+    }
+    prevScrollHeightRef.current = 0;
+  }, [isLoadingOlder]);
 
   if (isInitialLoading) return <ChatFeedSkeleton />;
 
+  const rootMessages = messages.filter((m) => m.parentId === null);
+
   return (
-    // flex-col-reverse + overflow-y-auto: scrollTop=0이 시각적 맨 아래 (Discord/Slack 방식)
     <div
       ref={containerRef}
-      className="relative flex flex-col-reverse h-full overflow-y-auto border border-border rounded-2xl p-4"
+      className="relative flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4"
     >
-      {/* 시각적 맨 위 sentinel — DOM 끝 = flex-col-reverse로 시각적 맨 위 */}
-      <div ref={sentinelRef} className="h-1" />
-
-
-      {messages.length === 0 ? (
+      {rootMessages.length === 0 ? (
         <div className="flex items-center justify-center py-8">
           <p className="text-weak text-sm">아직 아무것도 없어요</p>
         </div>
       ) : (
-        messages
-          .filter((m) => m.parentId === null)
-          .reverse()
-          .map((message, idx, arr) => {
-            const isMine = computeIsMine(
-              message,
-              isAdmin,
-              currentFingerprint,
-              currentGithubId
-            );
-            // reverse 배열: arr[idx+1]이 시각적 위(더 오래된), arr[idx-1]이 시각적 아래(더 최신)
-            const olderNeighbor = arr[idx + 1];
-            const newerNeighbor = arr[idx - 1];
-            const groupedWithOlder =
-              !!olderNeighbor &&
-              isSameAuthor(message, olderNeighbor) &&
-              isWithinOneMinute(message, olderNeighbor);
-            const groupedWithNewer =
-              !!newerNeighbor &&
-              isSameAuthor(message, newerNeighbor) &&
-              isWithinOneMinute(message, newerNeighbor);
-            return (
-              <MessageBubble
-                key={message._id}
-                message={message}
-                isMine={isMine}
-                isAdmin={isAdmin}
-                showAuthor={!groupedWithOlder}
-                showTime={!groupedWithNewer}
-                currentFingerprint={currentFingerprint}
-                currentGithubId={currentGithubId}
-                onReact={onReact}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                onTogglePublic={onTogglePublic}
-                onBlock={onBlock}
-                onReplySent={onReplySent}
-              />
-            );
-          })
+        rootMessages.map((message, idx, arr) => {
+          const isMine = computeIsMine(
+            message,
+            isAdmin,
+            currentFingerprint,
+            currentGithubId
+          );
+          // arr[idx-1]이 이전 메시지(더 오래된), arr[idx+1]이 다음 메시지(더 최신)
+          const olderNeighbor = arr[idx - 1];
+          const newerNeighbor = arr[idx + 1];
+          const groupedWithOlder =
+            !!olderNeighbor &&
+            isSameAuthor(message, olderNeighbor) &&
+            isWithinOneMinute(message, olderNeighbor);
+          const groupedWithNewer =
+            !!newerNeighbor &&
+            isSameAuthor(message, newerNeighbor) &&
+            isWithinOneMinute(message, newerNeighbor);
+
+          return (
+            <MessageBubble
+              key={message._id}
+              message={message}
+              isMine={isMine}
+              isAdmin={isAdmin}
+              showAuthor={!groupedWithOlder}
+              showTime={!groupedWithNewer}
+              currentFingerprint={currentFingerprint}
+              currentGithubId={currentGithubId}
+              onReact={onReact}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              onTogglePublic={onTogglePublic}
+              onBlock={onBlock}
+              onReplySent={onReplySent}
+            />
+          );
+        })
       )}
     </div>
   );
