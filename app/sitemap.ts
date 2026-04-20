@@ -53,7 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postUrls = posts.map((post) => {
     const postDate = new Date(post.updatedAt || post.date);
     // 최신 포스트는 높은 우선순위, 오래된 포스트는 낮은 우선순위
-    const priority = Math.max(0.5, 0.9 - posts.indexOf(post) * 0.01);
+    const priority = Math.max(0.5, 0.9 - posts.indexOf(post) * 0.01).toFixed(2);
 
     return {
       url: `${baseUrl}/posts/${post.slug}`,
