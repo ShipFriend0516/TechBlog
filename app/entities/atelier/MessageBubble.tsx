@@ -80,7 +80,9 @@ const MessageBubble = ({
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
-  const [entered, setEntered] = useState(() => skipEntryAnimSet.has(message._id));
+  const [entered, setEntered] = useState(() =>
+    skipEntryAnimSet.has(message._id)
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(message.content);
 
@@ -146,7 +148,11 @@ const MessageBubble = ({
 
   // 버블 정렬 방향
   const alignCls = isMine ? 'items-end' : 'items-start';
-  const entryAnimCls = entered ? '' : (isMine ? 'animate-bubbleInRight' : 'animate-bubbleInLeft');
+  const entryAnimCls = entered
+    ? ''
+    : isMine
+      ? 'animate-bubbleInRight'
+      : 'animate-bubbleInLeft';
 
   // 버블 자체 스타일 — 소유자 여부에 따라 색을 분리
   const bubbleCls = isOwner
@@ -157,13 +163,16 @@ const MessageBubble = ({
     <div
       className={`flex flex-col gap-1 ${alignCls} ${isRemoving ? `animate-bubblePop pointer-events-none ${isMine ? 'origin-right' : 'origin-left'}` : entryAnimCls} ${showAuthor ? 'mt-4 first:mt-0' : 'mt-1'}`}
       onAnimationEnd={(e) => {
-        if (isRemoving) { onDelete(message._id); return; }
+        if (isRemoving) {
+          onDelete(message._id);
+          return;
+        }
         if (e.currentTarget === e.target) setEntered(true);
       }}
     >
       {/* 작성자 정보 (내 메시지가 아니고 묶음 첫 메시지일 때 노출) */}
       {!isMine && showAuthor && (
-        <div className="flex items-center gap-1.5 px-1 ml-1">
+        <div className="flex items-center gap-1.5 px-0 ml-1">
           {avatar ? (
             <Image
               src={avatar}
@@ -234,7 +243,9 @@ const MessageBubble = ({
                   color: 'inherit',
                   fontSize: 'inherit',
                 }}
-                wrapperElement={{ 'data-color-mode': isOwner ? 'dark' : 'light' }}
+                wrapperElement={{
+                  'data-color-mode': isOwner ? 'dark' : 'light',
+                }}
                 components={{
                   // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   a: ({ node, ...props }) => (

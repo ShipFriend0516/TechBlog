@@ -1,13 +1,13 @@
 // 채팅 피드 초기 로딩 스켈레톤
 const SKELETON_ITEMS = [
   { mine: false, widths: ['w-32', 'w-48'] },
-  { mine: true,  widths: ['w-40'] },
+  { mine: true, widths: ['w-40'] },
   { mine: false, widths: ['w-56', 'w-36'] },
-  { mine: true,  widths: ['w-28', 'w-44'] },
+  { mine: true, widths: ['w-28', 'w-44'] },
   { mine: false, widths: ['w-48'] },
-  { mine: true,  widths: ['w-36'] },
+  { mine: true, widths: ['w-36'] },
   { mine: false, widths: ['w-52', 'w-32', 'w-44'] },
-  { mine: true,  widths: ['w-40', 'w-28'] },
+  { mine: true, widths: ['w-40', 'w-28'] },
 ];
 
 const SkeletonBubble = ({
@@ -23,7 +23,7 @@ const SkeletonBubble = ({
     <div className={`flex flex-col gap-1 ${alignCls}`}>
       {/* 아바타 + 닉네임 (상대방 메시지) */}
       {!mine && (
-        <div className="flex items-center gap-1.5 px-1 ml-1">
+        <div className="flex items-center gap-1.5 px-0 ml-1">
           <div className="w-4 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
           <div className="w-12 h-3 rounded bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
         </div>
