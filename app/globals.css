@@ -252,6 +252,24 @@ article.post .image-description {
     0 -2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+.wmde-markdown a.og-link-card,
+.wmde-markdown a.og-link-card:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wmde-markdown a.og-link-card p {
+  margin: 0;
+  color: inherit;
+}
+
+.wmde-markdown a.og-link-card img {
+  max-width: 100%;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .post-body .open-graph {
   display: flex;
   height: 120px;
