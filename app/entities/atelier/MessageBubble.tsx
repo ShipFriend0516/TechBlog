@@ -65,8 +65,17 @@ const isImageUrl = (url: string): boolean => {
   try {
     const urlObj = new URL(url);
     const pathname = urlObj.pathname.toLowerCase();
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.ico'];
-    return imageExtensions.some(ext => pathname.endsWith(ext));
+    const imageExtensions = [
+      '.jpg',
+      '.jpeg',
+      '.png',
+      '.gif',
+      '.webp',
+      '.svg',
+      '.bmp',
+      '.ico',
+    ];
+    return imageExtensions.some((ext) => pathname.endsWith(ext));
   } catch {
     return false;
   }
@@ -88,7 +97,6 @@ const MessageBubble = ({
   onReplySent,
 }: MessageBubbleProps) => {
   const [isThreadOpen, setIsThreadOpen] = useState(false);
-  const [isActionsVisible, setIsActionsVisible] = useState(false);
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -97,11 +105,6 @@ const MessageBubble = ({
   );
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(message.content);
-
-  const handleMouseEnter = () => setIsActionsVisible(true);
-  const handleMouseLeave = () => {
-    if (!isEmojiPickerOpen) setIsActionsVisible(false);
-  };
 
   const handleReact = (emoji: AtelierEmoji) => {
     onReact(message._id, emoji);
@@ -206,78 +209,79 @@ const MessageBubble = ({
 
       {/* 버블 + 비공개 아이콘 + 호버 액션 */}
       <div
-        className="max-w-[75%] relative group pt-8 -mt-8"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        className={`flex gap-2 group ${isMine ? 'flex-row-reverse' : 'flex-row'} items-end`}
       >
-        {isAdmin && !message.isPublic && (
-          <PiEyeSlash
-            className={`absolute top-1/2 translate-y-1/2 text-weak ${isMine ? '-left-5' : '-right-5'}`}
-            size={14}
-            title="비공개"
-          />
-        )}
-        <div
-          className={`${bubbleCls} px-4 py-2.5 text-sm leading-relaxed break-words`}
-        >
-          {message.isDeleted ? (
-            <span className="italic text-weak">[삭제된 메시지]</span>
-          ) : isEditing ? (
-            <div className="flex flex-col gap-2">
-              <textarea
-                value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-                className="w-full min-h-[80px] p-2 rounded bg-white/80 dark:bg-neutral-700/80 text-foreground border border-border resize-none focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
-              />
-              <div className="flex gap-2 justify-end">
-                <button
-                  type="button"
-                  onClick={handleCancelEdit}
-                  className="text-xs px-3 py-1 rounded border border-border hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
-                >
-                  취소
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSaveEdit}
-                  className="text-xs px-3 py-1 rounded bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors"
-                >
-                  저장
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3">
-              <MarkdownPreview
-                source={message.content}
-                style={{
-                  background: 'transparent',
-                  color: 'inherit',
-                  fontSize: 'inherit',
-                }}
-                wrapperElement={{
-                  'data-color-mode': isOwner ? 'dark' : 'light',
-                }}
-                components={{
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                  a: ({ node, ...props }) => (
-                    <a {...props} target="_blank" rel="noopener noreferrer" />
-                  ),
-                }}
-              />
-              {extractMarkdownLinks(message.content)
-                .filter(url => !isImageUrl(url))
-                .map((url) => (
-                  <OgLinkCard key={url} href={url} />
-                ))}
-            </div>
+        {/* 메시지 버블 */}
+        <div className="max-w-[75%] relative pt-8 -mt-8">
+          {isAdmin && !message.isPublic && (
+            <PiEyeSlash
+              className={`absolute top-1/2 translate-y-1/2 text-weak ${isMine ? '-right-5' : '-left-5'}`}
+              size={14}
+              title="비공개"
+            />
           )}
+          <div
+            className={`${bubbleCls} px-4 py-2.5 text-sm leading-relaxed break-words`}
+          >
+            {message.isDeleted ? (
+              <span className="italic text-weak">[삭제된 메시지]</span>
+            ) : isEditing ? (
+              <div className="flex flex-col gap-2">
+                <textarea
+                  value={editContent}
+                  onChange={(e) => setEditContent(e.target.value)}
+                  className="w-full min-h-[80px] p-2 rounded bg-white/80 dark:bg-neutral-700/80 text-foreground border border-border resize-none focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
+                />
+                <div className="flex gap-2 justify-end">
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="text-xs px-3 py-1 rounded border border-border hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                  >
+                    취소
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSaveEdit}
+                    className="text-xs px-3 py-1 rounded bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors"
+                  >
+                    저장
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                <MarkdownPreview
+                  source={message.content}
+                  style={{
+                    background: 'transparent',
+                    color: 'inherit',
+                    fontSize: 'inherit',
+                  }}
+                  wrapperElement={{
+                    'data-color-mode': isOwner ? 'dark' : 'light',
+                  }}
+                  components={{
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    a: ({ node, ...props }) => (
+                      <a {...props} target="_blank" rel="noopener noreferrer" />
+                    ),
+                  }}
+                />
+                {extractMarkdownLinks(message.content)
+                  .filter((url) => !isImageUrl(url))
+                  .map((url) => (
+                    <OgLinkCard key={url} href={url} />
+                  ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* 액션 바 — 삭제된 메시지에는 노출하지 않음 */}
-        {!message.isDeleted && isActionsVisible && (
+        {!message.isDeleted && (
           <div
-            className={`absolute top-1 ${isMine ? 'right-0' : 'left-0'} z-10`}
+            className={`${isEmojiPickerOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`}
           >
             <MessageActions
               message={message}
