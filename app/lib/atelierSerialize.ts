@@ -2,6 +2,7 @@
 // - lean() 결과를 공용 타입 AtelierMessage 로 변환
 // - fingerprints 는 프라이버시상 제거하고 hasReacted 로 대체
 import { AtelierMessage, ReactionBucket, ReactorInfo } from '@/app/types/Atelier';
+import { AtelierEffect } from '@/app/lib/atelierEffects';
 
 export interface LeanAtelierMessage {
   _id: { toString(): string };
@@ -24,7 +25,8 @@ export interface LeanAtelierMessage {
   isPublic: boolean;
   isDeleted: boolean;
   isEdited?: boolean;
-  isStarred?: boolean;
+  isStarred?: boolean;  // 하위 호환: 기존 DB 문서 읽기용
+  effect?: AtelierEffect | null;
   createdAt: Date | string;
   updatedAt: Date | string;
 }
@@ -81,7 +83,7 @@ export const serializeAtelierMessage = (
     isPublic: raw.isPublic,
     isDeleted: raw.isDeleted,
     isEdited: raw.isEdited ?? false,
-    isStarred: raw.isStarred ?? false,
+    effect: raw.effect ?? (raw.isStarred ? 'star' : null),
     createdAt:
       raw.createdAt instanceof Date
         ? raw.createdAt.toISOString()

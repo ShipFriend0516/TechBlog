@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useCallback } from 'react';
 import useToast from '@/app/hooks/useToast';
+import { parseEffect } from '@/app/lib/atelierEffects';
 import {
   AtelierEmoji,
   AtelierMessage,
@@ -64,10 +65,7 @@ const useAtelierMutations = (
       const trimmed = content.trim();
       if (!trimmed) return null;
 
-      const STAR_REGEX = /^\/star\s+(.+)/s;
-      const starMatch = STAR_REGEX.exec(trimmed);
-      const isStarred = !!starMatch;
-      const displayContent = starMatch ? starMatch[1].trim() : trimmed;
+      const { effect, finalContent: displayContent } = parseEffect(trimmed);
 
       const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       const nowIso = new Date().toISOString();
@@ -76,7 +74,7 @@ const useAtelierMutations = (
         tempId,
         isSending: true,
         content: displayContent,
-        isStarred: isStarred,
+        effect: effect,
         role: author.isAdmin ? 'owner' : 'visitor',
         author: {
           nickname: author.nickname ?? '익명',

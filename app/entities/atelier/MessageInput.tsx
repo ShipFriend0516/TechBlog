@@ -1,6 +1,7 @@
 'use client';
 import { KeyboardEvent, useRef, useState } from 'react';
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import { EFFECT_REGISTRY, AtelierEffect } from '@/app/lib/atelierEffects';
 
 const GUEST_MAX_LENGTH = 200;
 
@@ -38,7 +39,15 @@ const MessageInput = ({
   };
 
   const isOverLimit = maxLength !== undefined && input.length > maxLength;
-  const isStarCommand = input.trimStart().startsWith('/star ') && input.trimStart().length > 6;
+  const detectedEffect: AtelierEffect | null = (() => {
+    const trimmed = input.trimStart();
+    for (const [key, cfg] of Object.entries(EFFECT_REGISTRY) as [AtelierEffect, typeof EFFECT_REGISTRY[AtelierEffect]][]) {
+      if (trimmed.startsWith(cfg.command + ' ') && trimmed.length > cfg.command.length + 1) {
+        return key;
+      }
+    }
+    return null;
+  })();
 
   const handleSend = async () => {
     const trimmed = input.trim();
@@ -97,11 +106,12 @@ const MessageInput = ({
         </button>
       </div>
 
-      {/* star 커맨드 힌트 */}
+      {/* 이펙트 커맨드 힌트 */}
       <div className="h-5 flex items-center">
-        {isStarCommand && (
-          <p className="text-xs text-amber-500 px-1 flex items-center gap-1">
-            <span>✦</span> 반짝임 메시지로 전송됩니다
+        {detectedEffect && (
+          <p className={`text-xs ${EFFECT_REGISTRY[detectedEffect].hintColor} px-1 flex items-center gap-1`}>
+            <span>{EFFECT_REGISTRY[detectedEffect].hintIcon}</span>
+            {EFFECT_REGISTRY[detectedEffect].hintText}
           </p>
         )}
       </div>

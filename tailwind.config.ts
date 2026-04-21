@@ -63,6 +63,11 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  safelist: [
+    'ring-2',
+    'ring-amber-400/50',
+    'ring-pink-400/50',
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -205,6 +210,16 @@ const config: Config = {
           '0%, 100%': { boxShadow: '0 0 4px 1px rgba(251,191,36,0.6)' },
           '50%':      { boxShadow: '0 0 12px 4px rgba(251,191,36,0.9)' },
         },
+        petalFloat: {
+          '0%':   { transform: 'translate(0, 0) scale(0) rotate(0deg)',   opacity: '0' },
+          '20%':  { transform: 'translate(var(--px), var(--py)) scale(1) rotate(var(--pr))', opacity: '1' },
+          '80%':  { transform: 'translate(calc(var(--px) * 1.5), calc(var(--py) * 1.5)) scale(0.7) rotate(calc(var(--pr) * 2))', opacity: '0.5' },
+          '100%': { transform: 'translate(calc(var(--px) * 2), calc(var(--py) * 2)) scale(0) rotate(calc(var(--pr) * 3))', opacity: '0' },
+        },
+        flowerGlow: {
+          '0%, 100%': { boxShadow: '0 0 4px 1px rgba(244,114,182,0.6)' },
+          '50%':      { boxShadow: '0 0 12px 4px rgba(244,114,182,0.9)' },
+        },
       },
       animation: {
         blink: 'blink 1s ease-in-out infinite',
@@ -222,6 +237,8 @@ const config: Config = {
         sparkleFloat: 'sparkleFloat var(--sd, 1.2s) ease-out var(--delay, 0s) infinite',
         sparklePulse: 'sparklePulse 1.5s ease-in-out infinite',
         starGlow:     'starGlow 2s ease-in-out infinite',
+        petalFloat: 'petalFloat var(--pd, 1.2s) ease-out var(--delay, 0s) infinite',
+        flowerGlow: 'flowerGlow 2s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

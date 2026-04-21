@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+import { EFFECT_REGISTRY } from '@/app/lib/atelierEffects';
 
 // 아틀리에 메시지 스키마
 // - parentId 가 null 이면 최상위 피드 메시지
@@ -81,9 +82,10 @@ const atelierMessageSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    isStarred: {
-      type: Boolean,
-      default: false,
+    effect: {
+      type: String,
+      enum: Object.keys(EFFECT_REGISTRY),
+      default: null,
     },
   },
   { timestamps: true }

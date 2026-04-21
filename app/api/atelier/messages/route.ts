@@ -3,6 +3,7 @@
 import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { decodeCursor, encodeCursor } from '@/app/lib/atelierCursor';
+import { parseEffect } from '@/app/lib/atelierEffects';
 import {
   LeanAtelierMessage,
   serializeAtelierMessage,
@@ -130,15 +131,12 @@ export const POST = async (request: Request) => {
       );
     }
 
-    // /star 접두사 파싱
-    const STAR_REGEX = /^\/star\s+(.+)/s;
-    const starMatch = STAR_REGEX.exec(trimmed);
-    const isStarred = !!starMatch;
-    const finalContent = starMatch ? starMatch[1].trim() : trimmed;
+    // 이펙트 커맨드 파싱 (/star, /flower 등)
+    const { effect, finalContent } = parseEffect(trimmed);
 
     if (!finalContent) {
       return Response.json(
-        { success: false, error: '/star 뒤에 메시지 내용을 입력해주세요.' },
+        { success: false, error: '커맨드 뒤에 메시지 내용을 입력해주세요.' },
         { status: 400 }
       );
     }
@@ -260,7 +258,7 @@ export const POST = async (request: Request) => {
       parentId: parentObjectId,
       isPublic: true,
       isDeleted: false,
-      isStarred: isStarred,
+      effect: effect,
       threadCount: 0,
       reactions: [],
     });

@@ -1,5 +1,6 @@
 // Atelier 피처 공용 타입 정의
 // FE / BE 모두 이 파일을 기준으로 개발한다.
+import { AtelierEffect } from '@/app/lib/atelierEffects';
 
 export type MessageRole = 'owner' | 'visitor';
 
@@ -42,7 +43,7 @@ export interface AtelierMessage {
   isPublic: boolean;
   isDeleted: boolean;
   isEdited: boolean;
-  isStarred?: boolean;
+  effect?: AtelierEffect | null;
   createdAt: string;
   updatedAt: string;
 }
