@@ -71,6 +71,7 @@ const ChatFeed = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const isLoadingOlderRef = useRef(isLoadingOlder);
   const prevScrollHeightRef = useRef(0);
+  const prevMessageCountRef = useRef(0);
 
   useEffect(() => {
     isLoadingOlderRef.current = isLoadingOlder;
@@ -121,6 +122,22 @@ const ChatFeed = ({
     }
     prevScrollHeightRef.current = 0;
   }, [isLoadingOlder]);
+
+  // 새 메시지 추가 시 스크롤을 최하단으로 이동 (과거 메시지 로드 시 제외)
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || isLoadingOlder) return;
+
+    const currentCount = messages.length;
+    const prevCount = prevMessageCountRef.current;
+
+    // 메시지가 증가했을 때만 스크롤 이동
+    if (currentCount > prevCount) {
+      container.scrollTop = container.scrollHeight - container.clientHeight;
+    }
+
+    prevMessageCountRef.current = currentCount;
+  }, [messages.length, isLoadingOlder]);
 
   if (isInitialLoading) return <ChatFeedSkeleton />;
 
