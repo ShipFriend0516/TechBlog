@@ -198,7 +198,18 @@ const MessageBubble = ({
               unoptimized
             />
           ) : null}
-          <span className="text-xs text-weak">{nickname}</span>
+          {message.author.githubId ? (
+            <a
+              href={`https://github.com/${message.author.githubId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-brand-primary hover:underline cursor-pointer z-10"
+            >
+              {nickname}
+            </a>
+          ) : (
+            <span className="text-xs text-weak">{nickname}</span>
+          )}
           {isOwner && (
             <span className="text-[10px] text-brand-primary border border-brand-primary/40 rounded-full px-1">
               주인
