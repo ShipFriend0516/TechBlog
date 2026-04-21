@@ -86,7 +86,7 @@ const NavBar = () => {
             <IconButton
               onClick={toggleTheme}
               Icon={theme === 'light' ? IoSunnySharp : IoMoonSharp}
-              size={16}
+              size={20}
               aria-label="테마 변경 버튼"
             />
           </li>
@@ -94,7 +94,7 @@ const NavBar = () => {
             <IconButton
               onClick={handleSidebarOpen}
               Icon={HiOutlineBars3BottomRight}
-              size={16}
+              size={20}
               aria-label="메뉴 열기"
             />
           </li>

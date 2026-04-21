@@ -26,7 +26,7 @@ const Profile = ({ profileThumbnail, username }: Props) => {
           />
         )}
       </div>
-      <span className={'font-bold mx-2 hidden sm:inline'}>{username}</span>
+      <span className={'font-bold mx-2 sm:inline'}>{username}</span>
     </div>
   );
 };
