@@ -5,7 +5,7 @@ import { AtelierEffect } from '@/app/lib/atelierEffects';
 export type MessageRole = 'owner' | 'visitor';
 
 // 허용 이모지 화이트리스트 (서버/클라 공통)
-export const ATELIER_EMOJIS = ['👍', '🔥', '💭', '😮', '🤔', '❤️'] as const;
+export const ATELIER_EMOJIS = ['👍', '👎', '🔥', '💭', '😮', '🤔', '❤️', '👀'] as const;
 export type AtelierEmoji = (typeof ATELIER_EMOJIS)[number];
 
 // 메시지 작성자 정보
