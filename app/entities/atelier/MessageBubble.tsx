@@ -226,7 +226,7 @@ const MessageBubble = ({
         <div className="max-w-[75%] relative pt-8 -mt-8">
           {isAdmin && !message.isPublic && (
             <PiEyeSlash
-              className={`absolute top-1/2 translate-y-1/2 text-weak ${isMine ? '-right-5' : '-left-5'}`}
+              className={`absolute top-1/2 translate-y-1/2 text-weak ${isMine ? '-left-5' : '-right-5'}`}
               size={14}
               title="비공개"
             />

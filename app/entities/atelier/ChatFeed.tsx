@@ -107,7 +107,8 @@ const ChatFeed = ({
       }
 
       // 사용자가 맨 아래 근처인지 추적 (하단에서 20px 이내)
-      isUserNearBottomRef.current = scrollHeight - scrollTop - clientHeight < 20;
+      isUserNearBottomRef.current =
+        scrollHeight - scrollTop - clientHeight < 20;
     };
 
     container.addEventListener('scroll', handleScroll);
@@ -117,7 +118,8 @@ const ChatFeed = ({
   // 과거 메시지 로드 후 스크롤 위치 복원
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || isLoadingOlder || prevScrollHeightRef.current === 0) return;
+    if (!container || isLoadingOlder || prevScrollHeightRef.current === 0)
+      return;
 
     // 로딩 완료 후 스크롤 조정
     const newHeightAdded = container.scrollHeight - prevScrollHeightRef.current;
@@ -145,7 +147,7 @@ const ChatFeed = ({
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4 scrollbar-custom"
+      className="relative flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4 scrollbar-custom overflow-x-hidden"
     >
       {rootMessages.length === 0 ? (
         <div className="flex items-center justify-center py-8">
