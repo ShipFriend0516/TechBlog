@@ -35,7 +35,6 @@ const AtelierPage = () => {
     removeMessage,
     getSnapshot,
     restoreMessage,
-    refresh,
   } = useAtelierMessages({ limit: 15 });
 
   const mutations = useAtelierMutations({
@@ -55,7 +54,6 @@ const AtelierPage = () => {
       getSnapshot,
       restoreMessage,
     },
-    onMessageSent: refresh,
   });
 
   // 닉네임 게이트 노출 여부
