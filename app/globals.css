@@ -440,3 +440,41 @@ article.post .post-body table tbody tr:last-child td {
 .recharts-wrapper * {
   outline: none !important;
 }
+
+/* Custom Scrollbar */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 100, 0, 0.4) transparent;
+}
+
+.dark .scrollbar-custom {
+  scrollbar-color: rgba(100, 200, 100, 0.4) transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 100, 0, 0.4);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 100, 0, 0.6);
+}
+
+.dark .scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 200, 100, 0.4);
+  background-clip: content-box;
+}
+
+.dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 200, 100, 0.6);
+}

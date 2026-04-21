@@ -145,7 +145,7 @@ const ChatFeed = ({
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4"
+      className="relative flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4 scrollbar-custom"
     >
       {rootMessages.length === 0 ? (
         <div className="flex items-center justify-center py-8">
