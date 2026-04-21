@@ -46,6 +46,8 @@ export const GET = async (request: NextRequest) => {
     }
 
     const viewerFingerprint = request.headers.get('X-Fingerprint') || null;
+    const viewerGithubId =
+      (session?.user as { id?: string })?.id || null;
 
     // hasMore 판정을 위해 limit + 1 조회
     const docs = (await AtelierMessage.find(query)
@@ -69,7 +71,7 @@ export const GET = async (request: NextRequest) => {
         : null;
 
     const messages = ascending.map((d) =>
-      serializeAtelierMessage(d, viewerFingerprint)
+      serializeAtelierMessage(d, viewerFingerprint, viewerGithubId)
     );
 
     return Response.json(

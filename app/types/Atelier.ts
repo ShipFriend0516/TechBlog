@@ -96,7 +96,7 @@ export interface PatchMessageBody {
 
 // POST /api/atelier/block
 export interface PostBlockBody {
-  fingerprint: string;
+  identifier?: string;
   reason?: string;
 }
 

@@ -15,16 +15,38 @@ export const POST = async (request: Request, { params }: RouteParams) => {
   try {
     await dbConnect();
 
+    // fingerprint 헤더 (GitHub 미로그인) 또는 요청 바디의 githubId (GitHub 로그인)
+    // 둘 중 하나는 반드시 있어야 함
     const fingerprint = request.headers.get('X-Fingerprint') || '';
-    if (!fingerprint) {
+
+    const body = (await request.json()) as unknown;
+    if (!body || typeof body !== 'object') {
       return Response.json(
-        { success: false, error: 'Fingerprint 헤더가 필요합니다.' },
+        { success: false, error: 'emoji 가 필요합니다.' },
+        { status: 400 }
+      );
+    }
+    const { emoji, nickname, avatarUrl, githubId } = body as {
+      emoji: string;
+      nickname?: string;
+      avatarUrl?: string;
+      githubId?: string;
+    };
+
+    if (!fingerprint && !githubId) {
+      return Response.json(
+        { success: false, error: 'Fingerprint 또는 GitHub 로그인이 필요합니다.' },
         { status: 400 }
       );
     }
 
-    // 차단 검사
-    const blocked = await BlockedFingerprint.findOne({ fingerprint }).lean();
+    // 차단 검사 (fingerprint 또는 githubId)
+    const blocked = await BlockedFingerprint.findOne({
+      $or: [
+        fingerprint ? { fingerprint } : null,
+        githubId ? { githubId } : null,
+      ].filter(Boolean),
+    }).lean();
     if (blocked) {
       return Response.json(
         { success: false, error: '차단된 사용자입니다.' },
@@ -40,29 +62,15 @@ export const POST = async (request: Request, { params }: RouteParams) => {
       );
     }
 
-    const body = (await request.json()) as unknown;
-    if (
-      !body ||
-      typeof body !== 'object' ||
-      typeof (body as { emoji?: unknown }).emoji !== 'string'
-    ) {
-      return Response.json(
-        { success: false, error: 'emoji 가 필요합니다.' },
-        { status: 400 }
-      );
-    }
-    const { emoji, nickname, avatarUrl, githubId } = body as {
-      emoji: string;
-      nickname?: string;
-      avatarUrl?: string;
-      githubId?: string;
-    };
     if (!allowedEmojiSet.has(emoji)) {
       return Response.json(
         { success: false, error: '허용되지 않은 이모지입니다.' },
         { status: 400 }
       );
     }
+
+    // 현재 반응자 식별자 (fingerprint 또는 github:${githubId})
+    const identifier = githubId ? `github:${githubId}` : fingerprint;
 
     // 메시지 조회 후 직접 수정 (findOneAndUpdate 로는 배열 내 조건부 토글이 복잡)
     const message = await AtelierMessage.findById(id);
@@ -75,7 +83,7 @@ export const POST = async (request: Request, { params }: RouteParams) => {
 
     // 해당 이모지 버킷 찾기
     interface ReactorDoc {
-      fingerprint: string;
+      fingerprint?: string;
       nickname: string;
       avatarUrl?: string;
       githubId?: string;
@@ -90,8 +98,8 @@ export const POST = async (request: Request, { params }: RouteParams) => {
     const bucketIndex = reactions.findIndex((r) => r.emoji === emoji);
 
     const reactorInfo: ReactorDoc = {
-      fingerprint,
       nickname: nickname ?? '익명',
+      ...(fingerprint && { fingerprint }),
       ...(avatarUrl && { avatarUrl }),
       ...(githubId && { githubId }),
     };
@@ -99,24 +107,30 @@ export const POST = async (request: Request, { params }: RouteParams) => {
     if (bucketIndex === -1) {
       reactions.push({
         emoji,
-        fingerprints: [fingerprint],
+        fingerprints: [identifier],
         count: 1,
         reactors: [reactorInfo],
       });
     } else {
       const bucket = reactions[bucketIndex];
-      const fpIndex = bucket.fingerprints.indexOf(fingerprint);
+      const fpIndex = bucket.fingerprints.indexOf(identifier);
       if (fpIndex >= 0) {
         // 이미 눌렀음 → 해제
         bucket.fingerprints.splice(fpIndex, 1);
-        bucket.reactors = bucket.reactors.filter((r) => r.fingerprint !== fingerprint);
+        bucket.reactors = bucket.reactors.filter((r) => {
+          // fingerprint와 githubId 모두 일치하면 제거
+          const isMatch = githubId
+            ? r.githubId === githubId
+            : r.fingerprint === fingerprint;
+          return !isMatch;
+        });
         bucket.count = bucket.fingerprints.length;
         if (bucket.count === 0) {
           reactions.splice(bucketIndex, 1);
         }
       } else {
         // 새로 추가
-        bucket.fingerprints.push(fingerprint);
+        bucket.fingerprints.push(identifier);
         bucket.reactors.push(reactorInfo);
         bucket.count = bucket.fingerprints.length;
       }
@@ -132,7 +146,7 @@ export const POST = async (request: Request, { params }: RouteParams) => {
     ).map((r) => ({
       emoji: r.emoji,
       count: r.count,
-      hasReacted: r.fingerprints.includes(fingerprint),
+      hasReacted: r.fingerprints.includes(identifier),
       reactors: r.reactors.map((reactor) => {
         if (reactor.githubId) {
           return { displayName: reactor.nickname, avatarUrl: reactor.avatarUrl };

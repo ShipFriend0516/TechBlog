@@ -98,8 +98,8 @@ const AtelierPage = () => {
     await mutations.togglePublic(messageId, isPublic);
   };
 
-  const handleBlock = async (fingerprint: string) => {
-    await mutations.blockFingerprint(fingerprint);
+  const handleBlock = async (identifier: string) => {
+    await mutations.blockUser(identifier);
   };
 
   // 답글 전송 후 부모 메시지의 threadCount 만 로컬 갱신

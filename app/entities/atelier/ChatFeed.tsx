@@ -22,7 +22,8 @@ interface ChatFeedProps {
   lastAppendedId: string | null;
 }
 
-// 현재 방문자 기준으로 "내 메시지" 여부 판단
+// "내 메시지" 판단 — GitHub ID 우선, fingerprint는 폴백
+// GitHub 로그인 유저는 항상 githubId로 비교하므로 fingerprint 변경 영향 없음
 const computeIsMine = (
   message: AtelierMessage,
   isAdmin: boolean,
@@ -35,7 +36,8 @@ const computeIsMine = (
   return false;
 };
 
-// 같은 작성자인지 판단
+// 메시지 그룹화: 같은 작성자인지 판단 (GitHub ID 우선)
+// GitHub 로그인 유저는 githubId로만 비교, 미로그인은 fingerprint → nickname 폴백
 const isSameAuthor = (a: AtelierMessage, b: AtelierMessage): boolean => {
   if (a.role !== b.role) return false;
   if (a.author.githubId && b.author.githubId)

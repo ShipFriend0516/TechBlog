@@ -115,7 +115,7 @@ const MessageActions = ({
               >
                 {message.isPublic ? '비공개' : '공개'}
               </button>
-              {message.author.fingerprint && (
+              {(message.author.fingerprint || message.author.githubId) && (
                 <button
                   type="button"
                   onClick={onBlock}

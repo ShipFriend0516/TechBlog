@@ -1,4 +1,4 @@
-// POST /api/atelier/block - 관리자 전용 fingerprint 차단
+// POST /api/atelier/block - 관리자 전용 사용자 차단 (fingerprint 또는 GitHub ID)
 import { getServerSession } from 'next-auth';
 import { isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
@@ -18,31 +18,33 @@ export const POST = async (request: Request) => {
     }
 
     const body = (await request.json()) as unknown;
-    if (
-      !body ||
-      typeof body !== 'object' ||
-      typeof (body as { fingerprint?: unknown }).fingerprint !== 'string'
-    ) {
+    if (!body || typeof body !== 'object') {
       return Response.json(
-        { success: false, error: 'fingerprint 가 필요합니다.' },
+        { success: false, error: 'identifier 가 필요합니다.' },
         { status: 400 }
       );
     }
 
-    const { fingerprint, reason } = body as {
-      fingerprint: string;
+    const { identifier, reason } = body as {
+      identifier?: unknown;
       reason?: unknown;
     };
 
-    if (!fingerprint.trim()) {
+    if (typeof identifier !== 'string' || !identifier.trim()) {
       return Response.json(
-        { success: false, error: 'fingerprint 는 비어 있을 수 없습니다.' },
+        { success: false, error: 'identifier 는 필수입니다.' },
         { status: 400 }
       );
     }
 
-    // upsert 스타일로 이미 존재하면 무시
-    const existing = await BlockedFingerprint.findOne({ fingerprint });
+    // identifier가 UUID 형태(36자)인지 확인하여 fingerprint 또는 githubId로 판별
+    const isUUID = identifier.length === 36 && identifier.includes('-');
+    const blockData = isUUID
+      ? { fingerprint: identifier }
+      : { githubId: identifier };
+
+    // 이미 차단된 경우 무시
+    const existing = await BlockedFingerprint.findOne(blockData);
     if (existing) {
       return Response.json(
         { success: true, alreadyBlocked: true },
@@ -51,7 +53,7 @@ export const POST = async (request: Request) => {
     }
 
     await BlockedFingerprint.create({
-      fingerprint,
+      ...blockData,
       reason: typeof reason === 'string' ? reason : undefined,
     });
 

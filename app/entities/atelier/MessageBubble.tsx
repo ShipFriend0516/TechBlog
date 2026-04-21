@@ -26,7 +26,7 @@ interface MessageBubbleProps {
   onEdit: (messageId: string, content: string) => Promise<boolean>;
   onDelete: (messageId: string) => void;
   onTogglePublic: (messageId: string, isPublic: boolean) => void;
-  onBlock: (fingerprint: string) => void;
+  onBlock: (identifier: string) => void;
   onReplySent: (parentId: string) => void;
 }
 
@@ -128,8 +128,9 @@ const MessageBubble = ({
   };
 
   const handleBlock = () => {
-    if (message.author.fingerprint) {
-      onBlock(message.author.fingerprint);
+    const identifier = message.author.githubId ?? message.author.fingerprint;
+    if (identifier) {
+      onBlock(identifier);
     }
   };
 

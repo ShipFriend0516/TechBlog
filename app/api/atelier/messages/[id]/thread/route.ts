@@ -27,6 +27,8 @@ export const GET = async (request: Request, { params }: RouteParams) => {
     const session = await getServerSession();
     const isAdmin = isAdminSession(session);
     const viewerFingerprint = request.headers.get('X-Fingerprint') || null;
+    const viewerGithubId =
+      (session?.user as { id?: string })?.id || null;
 
     // 쿼리 구성
     const query: Record<string, unknown> = {
@@ -43,7 +45,7 @@ export const GET = async (request: Request, { params }: RouteParams) => {
       .lean()) as unknown as LeanAtelierMessage[];
 
     const replies = docs.map((d) =>
-      serializeAtelierMessage(d, viewerFingerprint)
+      serializeAtelierMessage(d, viewerFingerprint, viewerGithubId)
     );
 
     return Response.json({ success: true, replies }, { status: 200 });

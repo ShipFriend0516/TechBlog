@@ -36,9 +36,10 @@ export const DELETE = async (request: Request, { params }: RouteParams) => {
 
     // 소유권 확인: admin OR 소유자
     let isOwner = false;
-    if (session?.user?.email) {
+    const sessionGithubId = (session?.user as { id?: string })?.id;
+    if (sessionGithubId) {
       // 로그인 사용자: githubId로 비교
-      isOwner = message.author?.githubId === session.user.email;
+      isOwner = message.author?.githubId === sessionGithubId;
     } else {
       // 비로그인 사용자: fingerprint로 비교
       const fingerprint = request.headers.get('X-Fingerprint');
@@ -193,9 +194,10 @@ export const PUT = async (request: Request, { params }: RouteParams) => {
 
     // 소유권 확인: admin OR 소유자
     let isOwner = false;
-    if (session?.user?.email) {
+    const sessionGithubId = (session?.user as { id?: string })?.id;
+    if (sessionGithubId) {
       // 로그인 사용자: githubId로 비교
-      isOwner = message.author?.githubId === session.user.email;
+      isOwner = message.author?.githubId === sessionGithubId;
     } else {
       // 비로그인 사용자: fingerprint로 비교
       const fingerprint = request.headers.get('X-Fingerprint');
@@ -225,7 +227,9 @@ export const PUT = async (request: Request, { params }: RouteParams) => {
     }
 
     const fingerprint = request.headers.get('X-Fingerprint');
-    const serialized = serializeAtelierMessage(updated, fingerprint);
+    const githubId =
+      (session?.user as { id?: string })?.id || null;
+    const serialized = serializeAtelierMessage(updated, fingerprint, githubId);
 
     return Response.json(
       { success: true, message: serialized },

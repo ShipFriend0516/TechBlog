@@ -42,7 +42,7 @@ interface UseAtelierMutationsReturn {
   editMessage: (messageId: string, content: string) => Promise<boolean>;
   deleteMessage: (messageId: string) => Promise<void>;
   togglePublic: (messageId: string, isPublic: boolean) => Promise<void>;
-  blockFingerprint: (fingerprint: string, reason?: string) => Promise<void>;
+  blockUser: (identifier: string, reason?: string) => Promise<void>;
 }
 
 // 핑거프린트 헤더 헬퍼
@@ -202,13 +202,13 @@ const useAtelierMutations = (
     [author.fingerprint, messagesApi, toast]
   );
 
-  // 핑거프린트 차단
-  const blockFingerprint = useCallback(
-    async (fingerprint: string, reason?: string) => {
+  // 사용자 차단 (GitHub ID 또는 fingerprint)
+  const blockUser = useCallback(
+    async (identifier: string, reason?: string) => {
       try {
         await axios.post(
           '/api/atelier/block',
-          { fingerprint, reason },
+          { identifier, reason },
           { headers: fingerprintHeaders(author.fingerprint) }
         );
         toast.success('해당 방문자를 차단했어요.');
@@ -225,7 +225,7 @@ const useAtelierMutations = (
     editMessage,
     deleteMessage,
     togglePublic,
-    blockFingerprint,
+    blockUser,
   };
 };
 

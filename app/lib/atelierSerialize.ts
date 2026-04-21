@@ -30,8 +30,15 @@ export interface LeanAtelierMessage {
 
 export const serializeAtelierMessage = (
   raw: LeanAtelierMessage,
-  viewerFingerprint: string | null
+  viewerFingerprint: string | null,
+  viewerGithubId: string | null = null
 ): AtelierMessage => {
+  // 현재 뷰어의 식별자 (fingerprint 또는 github:${githubId})
+  const viewerIdentifiers = [
+    viewerFingerprint,
+    viewerGithubId ? `github:${viewerGithubId}` : null,
+  ].filter(Boolean) as string[];
+
   // 익명 반응자에게 순서 기반 번호 부여
   let anonCounter = 0;
   const reactions: ReactionBucket[] = (raw.reactions ?? []).map((bucket) => {
@@ -46,9 +53,9 @@ export const serializeAtelierMessage = (
       emoji: bucket.emoji,
       count: bucket.count,
       hasReacted:
-        !!viewerFingerprint &&
+        viewerIdentifiers.length > 0 &&
         Array.isArray(bucket.fingerprints) &&
-        bucket.fingerprints.includes(viewerFingerprint),
+        viewerIdentifiers.some((id) => bucket.fingerprints!.includes(id)),
       reactors,
     };
   });
