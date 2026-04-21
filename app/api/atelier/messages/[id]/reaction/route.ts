@@ -41,11 +41,15 @@ export const POST = async (request: Request, { params }: RouteParams) => {
     }
 
     // 차단 검사 (fingerprint 또는 githubId)
+    const orConditions = [];
+    if (fingerprint) {
+      orConditions.push({ fingerprint });
+    }
+    if (githubId) {
+      orConditions.push({ githubId });
+    }
     const blocked = await BlockedFingerprint.findOne({
-      $or: [
-        fingerprint ? { fingerprint } : null,
-        githubId ? { githubId } : null,
-      ].filter(Boolean),
+      $or: orConditions,
     }).lean();
     if (blocked) {
       return Response.json(
