@@ -10,6 +10,7 @@ import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
 import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import SparkleOverlay from './SparkleOverlay';
 
 // optimistic → real 교체 시 재마운트되는 컴포넌트가 입장 애니메이션을 건너뛰도록
 export const skipEntryAnimSet = new Set<string>();
@@ -232,62 +233,71 @@ const MessageBubble = ({
               title="비공개"
             />
           )}
-          <div
-            className={`${bubbleCls} px-4 py-2.5 text-sm leading-relaxed break-words`}
-          >
-            {message.isDeleted ? (
-              <span className="italic text-weak">[삭제된 메시지]</span>
-            ) : isEditing ? (
-              <div className="flex flex-col gap-2">
-                <textarea
-                  value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
-                  className="w-full min-h-[80px] p-2 rounded bg-white/80 dark:bg-neutral-700/80 text-foreground border border-border resize-none focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
-                />
-                <div className="flex gap-2 justify-end">
-                  <button
-                    type="button"
-                    onClick={handleCancelEdit}
-                    className="text-xs px-3 py-1 rounded border border-border hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
-                  >
-                    취소
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleSaveEdit}
-                    className="text-xs px-3 py-1 rounded bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors"
-                  >
-                    저장
-                  </button>
-                </div>
+          {(() => {
+            const bubble = (
+              <div
+                className={`${bubbleCls} ${message.isStarred ? 'ring-2 ring-amber-400/50' : ''} px-4 py-2.5 text-sm leading-relaxed break-words`}
+              >
+                {message.isDeleted ? (
+                  <span className="italic text-weak">[삭제된 메시지]</span>
+                ) : isEditing ? (
+                  <div className="flex flex-col gap-2">
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      className="w-full min-h-[80px] p-2 rounded bg-white/80 dark:bg-neutral-700/80 text-foreground border border-border resize-none focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
+                    />
+                    <div className="flex gap-2 justify-end">
+                      <button
+                        type="button"
+                        onClick={handleCancelEdit}
+                        className="text-xs px-3 py-1 rounded border border-border hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                      >
+                        취소
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleSaveEdit}
+                        className="text-xs px-3 py-1 rounded bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors"
+                      >
+                        저장
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    <MarkdownPreview
+                      source={message.content}
+                      style={{
+                        background: 'transparent',
+                        color: 'inherit',
+                        fontSize: 'inherit',
+                      }}
+                      wrapperElement={{
+                        'data-color-mode': isOwner ? 'dark' : 'light',
+                      }}
+                      components={{
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        a: ({ node, ...props }) => (
+                          <a {...props} target="_blank" rel="noopener noreferrer" />
+                        ),
+                      }}
+                    />
+                    {extractMarkdownLinks(message.content)
+                      .filter((url) => !isImageUrl(url))
+                      .map((url) => (
+                        <OgLinkCard key={url} href={url} />
+                      ))}
+                  </div>
+                )}
               </div>
+            );
+            return message.isStarred ? (
+              <SparkleOverlay>{bubble}</SparkleOverlay>
             ) : (
-              <div className="flex flex-col gap-3">
-                <MarkdownPreview
-                  source={message.content}
-                  style={{
-                    background: 'transparent',
-                    color: 'inherit',
-                    fontSize: 'inherit',
-                  }}
-                  wrapperElement={{
-                    'data-color-mode': isOwner ? 'dark' : 'light',
-                  }}
-                  components={{
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    a: ({ node, ...props }) => (
-                      <a {...props} target="_blank" rel="noopener noreferrer" />
-                    ),
-                  }}
-                />
-                {extractMarkdownLinks(message.content)
-                  .filter((url) => !isImageUrl(url))
-                  .map((url) => (
-                    <OgLinkCard key={url} href={url} />
-                  ))}
-              </div>
-            )}
-          </div>
+              bubble
+            );
+          })()}
         </div>
 
         {/* 액션 바 — 삭제된 메시지에는 노출하지 않음 */}

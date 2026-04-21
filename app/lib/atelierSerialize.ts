@@ -24,6 +24,7 @@ export interface LeanAtelierMessage {
   isPublic: boolean;
   isDeleted: boolean;
   isEdited?: boolean;
+  isStarred?: boolean;
   createdAt: Date | string;
   updatedAt: Date | string;
 }
@@ -80,6 +81,7 @@ export const serializeAtelierMessage = (
     isPublic: raw.isPublic,
     isDeleted: raw.isDeleted,
     isEdited: raw.isEdited ?? false,
+    isStarred: raw.isStarred ?? false,
     createdAt:
       raw.createdAt instanceof Date
         ? raw.createdAt.toISOString()

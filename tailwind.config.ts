@@ -191,6 +191,20 @@ const config: Config = {
             filter: 'blur(10px)',
           },
         },
+        sparkleFloat: {
+          '0%':   { transform: 'translate(0, 0) scale(0) rotate(0deg)',   opacity: '0' },
+          '20%':  { transform: 'translate(var(--sx), var(--sy)) scale(1) rotate(var(--sr))', opacity: '1' },
+          '80%':  { transform: 'translate(calc(var(--sx) * 1.5), calc(var(--sy) * 1.5)) scale(0.6) rotate(calc(var(--sr) * 2))', opacity: '0.6' },
+          '100%': { transform: 'translate(calc(var(--sx) * 2), calc(var(--sy) * 2)) scale(0) rotate(calc(var(--sr) * 3))', opacity: '0' },
+        },
+        sparklePulse: {
+          '0%, 100%': { transform: 'scale(1)',   opacity: '1' },
+          '50%':      { transform: 'scale(1.4)', opacity: '0.7' },
+        },
+        starGlow: {
+          '0%, 100%': { boxShadow: '0 0 4px 1px rgba(251,191,36,0.6)' },
+          '50%':      { boxShadow: '0 0 12px 4px rgba(251,191,36,0.9)' },
+        },
       },
       animation: {
         blink: 'blink 1s ease-in-out infinite',
@@ -205,6 +219,9 @@ const config: Config = {
           'bubbleInLeft 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both',
         atelierIn: 'atelierIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both',
         bubblePop: 'bubblePop 0.5s ease-in forwards',
+        sparkleFloat: 'sparkleFloat var(--sd, 1.2s) ease-out var(--delay, 0s) infinite',
+        sparklePulse: 'sparklePulse 1.5s ease-in-out infinite',
+        starGlow:     'starGlow 2s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

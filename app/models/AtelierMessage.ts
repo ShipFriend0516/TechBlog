@@ -81,6 +81,10 @@ const atelierMessageSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isStarred: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

@@ -130,6 +130,19 @@ export const POST = async (request: Request) => {
       );
     }
 
+    // /star 접두사 파싱
+    const STAR_REGEX = /^\/star\s+(.+)/s;
+    const starMatch = STAR_REGEX.exec(trimmed);
+    const isStarred = !!starMatch;
+    const finalContent = starMatch ? starMatch[1].trim() : trimmed;
+
+    if (!finalContent) {
+      return Response.json(
+        { success: false, error: '/star 뒤에 메시지 내용을 입력해주세요.' },
+        { status: 400 }
+      );
+    }
+
     // 관리자가 아닌 경우 fingerprint 필수 + 차단 검사 + rate limit
     if (!isAdmin) {
       if (!fingerprint) {
@@ -241,12 +254,13 @@ export const POST = async (request: Request) => {
 
     // 생성
     const created = await AtelierMessage.create({
-      content: trimmed,
+      content: finalContent,
       role,
       author,
       parentId: parentObjectId,
       isPublic: true,
       isDeleted: false,
+      isStarred: isStarred,
       threadCount: 0,
       reactions: [],
     });

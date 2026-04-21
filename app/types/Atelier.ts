@@ -42,6 +42,7 @@ export interface AtelierMessage {
   isPublic: boolean;
   isDeleted: boolean;
   isEdited: boolean;
+  isStarred?: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -38,6 +38,7 @@ const MessageInput = ({
   };
 
   const isOverLimit = maxLength !== undefined && input.length > maxLength;
+  const isStarCommand = input.trimStart().startsWith('/star ') && input.trimStart().length > 6;
 
   const handleSend = async () => {
     const trimmed = input.trim();
@@ -94,6 +95,15 @@ const MessageInput = ({
         >
           미리보기
         </button>
+      </div>
+
+      {/* star 커맨드 힌트 */}
+      <div className="h-5 flex items-center">
+        {isStarCommand && (
+          <p className="text-xs text-amber-500 px-1 flex items-center gap-1">
+            <span>✦</span> 반짝임 메시지로 전송됩니다
+          </p>
+        )}
       </div>
 
       {/* 입력 영역 + 전송 버튼 */}

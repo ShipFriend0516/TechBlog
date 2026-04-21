@@ -64,13 +64,19 @@ const useAtelierMutations = (
       const trimmed = content.trim();
       if (!trimmed) return null;
 
+      const STAR_REGEX = /^\/star\s+(.+)/s;
+      const starMatch = STAR_REGEX.exec(trimmed);
+      const isStarred = !!starMatch;
+      const displayContent = starMatch ? starMatch[1].trim() : trimmed;
+
       const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       const nowIso = new Date().toISOString();
       const optimistic: OptimisticAtelierMessage = {
         _id: tempId,
         tempId,
         isSending: true,
-        content: trimmed,
+        content: displayContent,
+        isStarred: isStarred,
         role: author.isAdmin ? 'owner' : 'visitor',
         author: {
           nickname: author.nickname ?? '익명',
