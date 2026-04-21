@@ -1,8 +1,8 @@
 // 아틀리에 메시지 직렬화 유틸
 // - lean() 결과를 공용 타입 AtelierMessage 로 변환
 // - fingerprints 는 프라이버시상 제거하고 hasReacted 로 대체
-import { AtelierMessage, ReactionBucket, ReactorInfo } from '@/app/types/Atelier';
 import { AtelierEffect } from '@/app/lib/atelierEffects';
+import { AtelierMessage, ReactionBucket, ReactorInfo } from '@/app/types/Atelier';
 
 export interface LeanAtelierMessage {
   _id: { toString(): string };

@@ -1,7 +1,7 @@
 'use client';
 import { KeyboardEvent, useRef, useState } from 'react';
-import MarkdownPreview from '@uiw/react-markdown-preview';
 import { EFFECT_REGISTRY, AtelierEffect } from '@/app/lib/atelierEffects';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 const GUEST_MAX_LENGTH = 200;
 

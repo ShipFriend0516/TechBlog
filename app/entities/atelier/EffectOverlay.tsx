@@ -1,8 +1,8 @@
 'use client';
 
 import { AtelierEffect } from '@/app/lib/atelierEffects';
-import SparkleOverlay from './SparkleOverlay';
 import FlowerOverlay from './FlowerOverlay';
+import SparkleOverlay from './SparkleOverlay';
 
 interface EffectOverlayProps {
   effect: AtelierEffect | null | undefined;

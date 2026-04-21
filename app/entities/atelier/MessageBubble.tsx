@@ -8,8 +8,8 @@ import ReactionBar from '@/app/entities/atelier/ReactionBar';
 import ThreadPanel from '@/app/entities/atelier/ThreadPanel';
 import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
-import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 import { EFFECT_REGISTRY } from '@/app/lib/atelierEffects';
+import { AtelierEmoji, AtelierMessage } from '@/app/types/Atelier';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import EffectOverlay from './EffectOverlay';
 
