@@ -27,6 +27,7 @@ interface UseAtelierMessagesReturn {
   getSnapshot: (id: string) => AtelierMessage | undefined;
   restoreMessage: (msg: AtelierMessage) => void;
   refresh: () => Promise<void>;
+  lastAppendedId: string | null;
 }
 
 // 메시지 맵 → ASC 정렬 배열
@@ -51,6 +52,7 @@ const useAtelierMessages = (
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isLoadingOlder, setIsLoadingOlder] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [lastAppendedId, setLastAppendedId] = useState<string | null>(null);
 
   // 최상단(가장 오래된) 메시지의 createdAt 커서
   const oldestCursorRef = useRef<string | null>(null);
@@ -85,6 +87,12 @@ const useAtelierMessages = (
       const next = new Map<string, AtelierMessage>();
       for (const m of data.messages) next.set(m._id, m);
       setMessageMap(next);
+      const sorted = toSortedArray(next);
+      if (sorted.length > 0) {
+        setLastAppendedId(sorted[sorted.length - 1]._id);
+      } else {
+        setLastAppendedId(null);
+      }
       setHasMore(data.hasMore);
       oldestCursorRef.current = computeOldestCursor(next);
     } catch (e) {
@@ -119,18 +127,28 @@ const useAtelierMessages = (
         setMessageMap((prev) => {
           const next = new Map(prev);
           let changed = false;
+          let newlyAddedId: string | null = null;
           for (const m of data.messages) {
             const existing = next.get(m._id);
-            if (!existing || existing.updatedAt !== m.updatedAt) {
+            if (!existing) {
+              next.set(m._id, m);
+              newlyAddedId = m._id;
+              changed = true;
+            } else if (existing.updatedAt !== m.updatedAt) {
               next.set(m._id, m);
               changed = true;
             }
+          }
+          if (newlyAddedId) {
+            setLastAppendedId(newlyAddedId);
           }
           if (!changed) return prev;
           oldestCursorRef.current = computeOldestCursor(next);
           return next;
         });
-        setHasMore(data.hasMore);
+        if (data.hasMore !== hasMoreRef.current) {
+          setHasMore(data.hasMore);
+        }
       } catch {
         // 폴링 실패는 무시
       }
@@ -173,6 +191,7 @@ const useAtelierMessages = (
       next.set(msg.tempId, msg);
       return next;
     });
+    setLastAppendedId(msg.tempId);
   }, []);
 
   // 서버 응답으로 교체
@@ -187,6 +206,7 @@ const useAtelierMessages = (
         oldestCursorRef.current = computeOldestCursor(next);
         return next;
       });
+      setLastAppendedId(real._id);
     },
     []
   );
@@ -254,6 +274,7 @@ const useAtelierMessages = (
     getSnapshot,
     restoreMessage,
     refresh: fetchInitial,
+    lastAppendedId,
   };
 };
 

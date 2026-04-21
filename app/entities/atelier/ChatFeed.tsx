@@ -19,6 +19,7 @@ interface ChatFeedProps {
   onTogglePublic: (messageId: string, isPublic: boolean) => void;
   onBlock: (fingerprint: string) => void;
   onReplySent: (parentId: string) => void;
+  lastAppendedId: string | null;
 }
 
 // 현재 방문자 기준으로 "내 메시지" 여부 판단
@@ -67,11 +68,12 @@ const ChatFeed = ({
   onTogglePublic,
   onBlock,
   onReplySent,
+  lastAppendedId,
 }: ChatFeedProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isLoadingOlderRef = useRef(isLoadingOlder);
   const prevScrollHeightRef = useRef(0);
-  const prevMessageCountRef = useRef(0);
+  const isUserNearBottomRef = useRef(true); // 사용자가 맨 아래 근처에 있는지
 
   useEffect(() => {
     isLoadingOlderRef.current = isLoadingOlder;
@@ -90,20 +92,22 @@ const ChatFeed = ({
     return () => clearTimeout(timer);
   }, [isInitialLoading]);
 
-  // 스크롤 이벤트 — 위로 스크롤 감지해 과거 메시지 로드
+  // 스크롤 이벤트 — 과거 메시지 로드 + 사용자가 맨 아래 근처인지 추적
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !hasMore) return;
+    if (!container) return;
 
     const handleScroll = () => {
-      const { scrollTop } = container;
+      const { scrollTop, scrollHeight, clientHeight } = container;
 
-      // 위로 300px 이상 스크롤했으면 로드
+      // 과거 메시지 로드 (위로 300px 이상 스크롤)
       if (scrollTop < 300 && !isLoadingOlderRef.current && hasMore) {
-        // 스크롤 위치 저장 (로딩 후 복원용)
-        prevScrollHeightRef.current = container.scrollHeight;
+        prevScrollHeightRef.current = scrollHeight;
         onLoadOlder();
       }
+
+      // 사용자가 맨 아래 근처인지 추적 (하단에서 20px 이내)
+      isUserNearBottomRef.current = scrollHeight - scrollTop - clientHeight < 20;
     };
 
     container.addEventListener('scroll', handleScroll);
@@ -123,21 +127,16 @@ const ChatFeed = ({
     prevScrollHeightRef.current = 0;
   }, [isLoadingOlder]);
 
-  // 새 메시지 추가 시 스크롤을 최하단으로 이동 (과거 메시지 로드 시 제외)
+  // lastAppendedId가 변할 때만 자동 스크롤 (폴링 업데이트에는 반응 안 함)
   useEffect(() => {
+    if (!lastAppendedId) return;
     const container = containerRef.current;
     if (!container || isLoadingOlder) return;
-
-    const currentCount = messages.length;
-    const prevCount = prevMessageCountRef.current;
-
-    // 메시지가 증가했을 때만 스크롤 이동
-    if (currentCount > prevCount) {
+    // 사용자가 이미 맨 아래에 있을 때만 자동 스크롤
+    if (isUserNearBottomRef.current) {
       container.scrollTop = container.scrollHeight - container.clientHeight;
     }
-
-    prevMessageCountRef.current = currentCount;
-  }, [messages.length, isLoadingOlder]);
+  }, [lastAppendedId, isLoadingOlder]);
 
   if (isInitialLoading) return <ChatFeedSkeleton />;
 

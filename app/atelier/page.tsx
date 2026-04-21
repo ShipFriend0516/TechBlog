@@ -35,6 +35,7 @@ const AtelierPage = () => {
     removeMessage,
     getSnapshot,
     restoreMessage,
+    lastAppendedId,
   } = useAtelierMessages({ limit: 15 });
 
   const mutations = useAtelierMutations({
@@ -183,6 +184,7 @@ const AtelierPage = () => {
               onTogglePublic={handleTogglePublic}
               onBlock={handleBlock}
               onReplySent={handleReplySent}
+              lastAppendedId={lastAppendedId}
             />
           </div>
 
