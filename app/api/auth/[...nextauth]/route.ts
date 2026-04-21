@@ -1,8 +1,27 @@
 import NextAuth, { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import GithubProvider from 'next-auth/providers/github';
 
 interface AtelierSession extends Session {
   isAdmin?: boolean;
+}
+
+interface AtelierJWT extends JWT {
+  githubLogin?: string;
+  githubId?: number;
+  githubBio?: string;
+  githubCompany?: string;
+  githubLocation?: string;
+}
+
+interface GitHubProfile {
+  login: string;
+  id: number;
+  name?: string;
+  email?: string;
+  bio?: string;
+  company?: string;
+  location?: string;
 }
 
 const handler = NextAuth({
@@ -16,10 +35,26 @@ const handler = NextAuth({
     async signIn() {
       return true;
     },
-    async session({ session }) {
+    async jwt({ token, account }): Promise<AtelierJWT> {
+      if (account?.profile) {
+        const profile = account.profile as GitHubProfile;
+        token.githubLogin = profile.login;
+        token.githubId = profile.id;
+        token.githubBio = profile.bio;
+        token.githubCompany = profile.company;
+        token.githubLocation = profile.location;
+      }
+      return token as AtelierJWT;
+    },
+    async session({ session, token }): Promise<AtelierSession> {
+      const jwtToken = token as AtelierJWT;
       (session as AtelierSession).isAdmin =
         session.user?.email === process.env.ADMIN_EMAIL;
-      return session;
+      if (jwtToken.githubLogin) {
+        (session.user as { githubLogin?: string }).githubLogin =
+          jwtToken.githubLogin;
+      }
+      return session as AtelierSession;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

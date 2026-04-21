@@ -183,8 +183,8 @@ export const POST = async (request: Request) => {
       };
     } else if (session?.user) {
       // GitHub 로그인 방문자
-      const idCandidate =
-        (session.user as { id?: string }).id ?? session.user.email ?? undefined;
+      const githubLogin = (session.user as { githubLogin?: string })
+        .githubLogin;
       role = 'visitor';
       author = {
         nickname:
@@ -192,7 +192,7 @@ export const POST = async (request: Request) => {
           (typeof nickname === 'string' && nickname.trim()) ||
           '익명',
         avatarUrl: session.user.image || undefined,
-        githubId: idCandidate,
+        githubId: githubLogin,
         fingerprint,
       };
     } else {
