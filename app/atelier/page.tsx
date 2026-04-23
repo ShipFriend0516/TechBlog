@@ -36,7 +36,7 @@ const AtelierPage = () => {
     getSnapshot,
     restoreMessage,
     lastAppendedId,
-  } = useAtelierMessages({ limit: 15 });
+  } = useAtelierMessages({ limit: 30 });
 
   const mutations = useAtelierMutations({
     author: {
