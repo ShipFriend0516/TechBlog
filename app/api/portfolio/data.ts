@@ -51,7 +51,7 @@ const shipfriend: PortfolioItem = {
   category: '개인 블로그',
   links: {
     githubUrl: 'https://github.com/shipfriend0516/techblog',
-    deployUrl: 'https://www.shipfriend.dev',
+    deployUrl: 'https://shipfriend.dev',
   },
 };
 const preview: PortfolioItem = {

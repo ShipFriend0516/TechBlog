@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'ShipFriend TechBlog',
     description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
-    url: process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://www.shipfriend.dev',
+    url: process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev',
     siteName: 'ShipFriend TechBlog',
     images: [
       {
