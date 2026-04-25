@@ -3,11 +3,9 @@ import { useEffect } from 'react';
 import useDataFetch from '@/app/hooks/common/useDataFetch';
 import useFingerprint from '@/app/hooks/useFingerprint';
 import useToast from '@/app/hooks/useToast';
-import { projects } from '@/app/lib/constants/landingPageData';
 import { Post } from '@/app/types/Post';
 import AboutMe from './entities/profile/AboutMe';
 import Experience from './entities/profile/Experience';
-import FeaturedProjects from './entities/profile/FeaturedProjects';
 import HeroBanner from './entities/profile/HeroBanner';
 import LatestArticles from './entities/profile/LatestArticles';
 import MoreExplore from './entities/profile/MoreExplore';
@@ -41,7 +39,6 @@ export default function Home() {
       <HeroBanner />
       <AboutMe />
       <Experience />
-      <FeaturedProjects projects={projects} />
       <LatestArticles posts={posts} loading={loading} error={error} />
       <MoreExplore />
     </main>
