@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     siteName: 'ShipFriend TechBlog',
     images: [
       {
-        url: '/images/profile/profile.jpg',
+        url: '/images/profile/profile-banner.png',
         width: 512,
         height: 512,
         alt: 'ShipFriend TechBlog Open Graph Image',

@@ -40,7 +40,7 @@ export async function generateMetadata({
       ? [{ url: series.thumbnailImage, alt: series.title }]
       : [
           {
-            url: `${baseUrl}/images/profile/profile.jpg`,
+            url: `${baseUrl}/images/profile/profile-banner.png`,
             width: 512,
             height: 512,
             alt: 'ShipFriend TechBlog',
