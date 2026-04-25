@@ -33,7 +33,7 @@ const LatestArticles = ({
             <Link
               href={`/posts/${post.slug}`}
               key={post._id}
-              className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100  dark:from-primary-rich rounded-2xl overflow-hidden shadow transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-[1.02]"
+              className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100  dark:from-primary-rich rounded-2xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-[1.02]"
             >
               <div className="relative h-44 overflow-hidden">
                 <Image
@@ -68,7 +68,7 @@ const LatestArticleSkeleton = () => {
   return (
     <div
       className={
-        'flex flex-col gap-3 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-primary-rich  rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700'
+        'flex flex-col gap-3 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-primary-rich  rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700'
       }
     >
       <Skeleton className={'w-full h-44 rounded-none'} />
