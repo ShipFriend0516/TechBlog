@@ -5,7 +5,7 @@ import { githubLink, linkedinLink } from '@/app/lib/constants/landingPageData';
 const AboutMe = () => {
   return (
     <section className="relative overflow-visible rounded-2xl from-primary-caribbean to-gray-100 dark:from-primary-bangladesh dark:to-primary-dark p-6 md:p-10">
-      <div className="grid md:grid-cols-[1fr,2fr] gap-8 md:gap-12 items-center">
+      <div className="flex gap-8 md:gap-12 items-center">
         <div className="relative mx-auto md:mx-0 group/duck">
           <div className="absolute -inset-1 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full blur opacity-20 animate-pulse"></div>
           <div className="relative h-44 w-44 overflow-hidden rounded-full ring-4 ring-white dark:ring-gray-400 shadow-xl">
