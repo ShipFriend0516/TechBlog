@@ -1,3 +1,4 @@
+'use client';
 import { motion, HTMLMotionProps } from 'motion/react';
 import { useEffect, useState, useRef } from 'react';
 
