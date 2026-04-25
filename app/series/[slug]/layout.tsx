@@ -18,14 +18,15 @@ export async function generateMetadata({
 
   try {
     await dbConnect();
+    const slug = decodeURIComponent(params.slug);
     const series = (await SeriesModel.findOne({
-      slug: params.slug,
+      slug,
     }).lean()) as Series | null;
 
     if (!series) {
       return {
-        title: '시리즈를 찾을 수 없습니다 | ShipFriend TechBlog',
-        description: '요청하신 시리즈를 찾을 수 없습니다.',
+        title: '시리즈 | ShipFriend TechBlog',
+        description: '시리즈 글 목록입니다.',
       };
     }
 
@@ -69,7 +70,7 @@ export async function generateMetadata({
         canonical: `/series/${params.slug}`,
       },
     };
-  } catch {
+  } catch (error) {
     return {
       title: '시리즈 | ShipFriend TechBlog',
       description: '시리즈 글 목록입니다.',
