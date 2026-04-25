@@ -5,7 +5,6 @@ import AboutMe from './entities/profile/AboutMe';
 import Experience from './entities/profile/Experience';
 import HeroBanner from './entities/profile/HeroBanner';
 import LatestArticles from './entities/profile/LatestArticles';
-import MoreExplore from './entities/profile/MoreExplore';
 import WelcomeClient from './entities/profile/WelcomeClient';
 
 const Home = async () => {
