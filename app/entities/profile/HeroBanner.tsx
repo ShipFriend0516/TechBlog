@@ -3,6 +3,9 @@ import { RiDoubleQuotesR } from 'react-icons/ri';
 import DecryptedText from '../bits/DecryptedText';
 
 const HeroBanner = () => {
+  const myName = 'Jeongwoo Seo';
+  const instruction = `깔끔한 코드를 중점으로, 확장성에 대해 고민합니다. 기록의 중요성을 믿으며, 블로그를 통해 공유하려 합니다.`;
+
   return (
     <section className="grid gap-4">
       <div className="relative h-64 md:h-80 w-full overflow-hidden rounded-2xl shadow-2xl group">
@@ -28,18 +31,13 @@ const HeroBanner = () => {
                 encryptedClassName="text-neutral-200/90"
               />
             </h1>
-            <p className="text-lg md:text-xl font-light opacity-90">
-              Jeongwoo Seo
-            </p>
+            <p className="text-lg md:text-xl font-light opacity-90">{myName}</p>
           </div>
           <div className="flex flex-col justify-end flex-grow">
             <div className="flex flex-wrap gap-3 text-sm md:text-base font-medium">
               <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
                 React
               </span>
-              {/* <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
-                NextJS
-              </span> */}
               <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
                 TypeScript
               </span>
@@ -53,11 +51,10 @@ const HeroBanner = () => {
         </div>
         <div>
           <p className="md:text-lg text-default w-full mx-auto text-left mt-4">
-            안녕하세요, 서정우입니다.
+            안녕하세요,개발자 서정우입니다.
           </p>
           <p className="md:text-lg text-default w-full mx-auto text-left mb-4">
-            깔끔한 코드를 중점으로, 확장성에 대해 고민합니다. 기록의 중요성을
-            믿으며, 블로그를 통해 공유하려 합니다.
+            {instruction}
           </p>
         </div>
       </div>

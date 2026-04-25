@@ -16,7 +16,7 @@ const LatestArticles = ({ posts }: LatestArticlesProps) => {
           <Link
             href={`/posts/${post.slug}`}
             key={post._id}
-            className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100  dark:from-primary-rich rounded-2xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-[1.02]"
+            className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100 dark:from-primary-rich rounded-2xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-[1.02]"
           >
             <div className="relative h-44 overflow-hidden">
               <Image
