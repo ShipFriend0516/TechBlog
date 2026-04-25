@@ -5,12 +5,13 @@ import SectionHeading from '../common/SectionHeading';
 
 interface LatestArticlesProps {
   posts: Post[];
+  totalCount: number;
 }
 
-const LatestArticles = ({ posts }: LatestArticlesProps) => {
+const LatestArticles = ({ posts, totalCount }: LatestArticlesProps) => {
   return (
     <section className="grid gap-6">
-      <SectionHeading title="Latest Articles" />
+      <SectionHeading title="Latest Articles" viewAllHref="/posts" viewAllCount={totalCount} />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {posts.slice(0, 3).map((post) => (
           <Link

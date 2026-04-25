@@ -10,13 +10,18 @@ import WelcomeClient from './entities/profile/WelcomeClient';
 
 const Home = async () => {
   await dbConnect();
-  const rawPosts = await Post.find({
+  const publicFilter = {
     $or: [{ isPrivate: false }, { isPrivate: { $exists: false } }],
-  })
-    .select('slug title _id subTitle thumbnailImage')
-    .sort({ date: -1 })
-    .limit(3)
-    .lean();
+  };
+
+  const [rawPosts, totalCount] = await Promise.all([
+    Post.find(publicFilter)
+      .select('slug title _id subTitle thumbnailImage')
+      .sort({ date: -1 })
+      .limit(3)
+      .lean(),
+    Post.countDocuments(publicFilter),
+  ]);
 
   const posts = rawPosts as unknown as PostType[];
 
@@ -26,8 +31,7 @@ const Home = async () => {
       <HeroBanner />
       <AboutMe />
       <Experience />
-      <LatestArticles posts={posts} />
-      <MoreExplore />
+      <LatestArticles posts={posts} totalCount={totalCount} />
     </main>
   );
 };
