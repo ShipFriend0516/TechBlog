@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
 import Comments from '@/app/entities/comment/Comments';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 import PostBreadcrumbJSONLd from '@/app/entities/post/detail/PostBreadcrumbJSONLd';
@@ -84,14 +83,13 @@ export const generateMetadata = async ({
 };
 
 const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
-  const session = await getServerSession();
   const { post } = await getPostDetail(params.slug);
   return (
     <>
       <PostJSONLd post={post} />
       <PostBreadcrumbJSONLd title={post.title} slug={post.slug} />
       <section className="bg-transparent w-full flex-grow">
-        <PostDetail post={post} isAdmin={!!session?.user} />
+        <PostDetail post={post} />
         <PostActionSection postId={post?._id} />
         <PostRecommendation
           tags={post?.tags}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { FaBook } from 'react-icons/fa';
 import Profile from '@/app/entities/common/Profile';
+import PostEditButton from '@/app/entities/post/detail/PostEditButton';
 import TypingText from '../../common/Typography/TypingText';
 
 interface Props {
@@ -15,7 +16,6 @@ interface Props {
   date: number;
   timeToRead: number;
   backgroundThumbnail?: StaticImport | string;
-  isAdmin?: boolean;
 }
 
 const PostHeader = ({
@@ -26,14 +26,8 @@ const PostHeader = ({
   date,
   timeToRead,
   backgroundThumbnail,
-  isAdmin = false,
 }: Props) => {
   const [isTypingComplete, setIsTypingComplete] = useState(false);
-
-  const handleEditClick = () => {
-    const editUrl = `/admin/write?slug=${slug}`;
-    window.open(editUrl, '_blank')?.focus();
-  };
 
   return (
     <div
@@ -104,11 +98,7 @@ const PostHeader = ({
               <FaBook />
               {timeToRead} min read
             </span>
-            {isAdmin && (
-              <button onClick={handleEditClick}>
-                <span className="underline">Edit</span>
-              </button>
-            )}
+            <PostEditButton slug={slug} />
           </div>
         </div>
       </div>

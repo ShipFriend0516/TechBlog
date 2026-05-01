@@ -4,10 +4,9 @@ import { Post as PostType } from '@/app/types/Post';
 
 interface PostArticleProps {
   post: PostType;
-  isAdmin?: boolean;
 }
 
-const PostDetail = ({ post, isAdmin = false }: PostArticleProps) => {
+const PostDetail = ({ post }: PostArticleProps) => {
   const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
   return (
     <article className="post">
@@ -19,7 +18,6 @@ const PostDetail = ({ post, isAdmin = false }: PostArticleProps) => {
         date={post?.date || 0}
         timeToRead={post?.timeToRead || 0}
         backgroundThumbnail={post?.thumbnailImage || defaultThumbnail}
-        isAdmin={isAdmin}
       />
       <PostBody
         loading={false}
