@@ -1,12 +1,12 @@
 'use client';
 import type { Element as HastElement, Root, RootContent } from 'hast';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import Callout from '@/app/entities/post/detail/Callout';
 import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
-import PostTOC from '@/app/entities/post/detail/PostTOC';
 import TagBox from '@/app/entities/post/tags/TagBox';
 import useOverlay from '@/app/hooks/common/useOverlay';
 import useTheme from '@/app/hooks/useTheme';
@@ -19,6 +19,10 @@ import {
   createImageClickHandler,
   createLazyLoadHandler,
 } from '../../../lib/utils/rehypeUtils';
+
+const PostTOC = dynamic(() => import('@/app/entities/post/detail/PostTOC'), {
+  ssr: false,
+});
 
 interface Props {
   content: string;
@@ -80,19 +84,38 @@ const PostBody = ({ content, tags, loading }: Props) => {
             wrapperElement={{
               'data-color-mode': theme,
             }}
-            components={{
-              ogcard: ({ href }: { href?: string }) =>
-                href ? <OgLinkCard href={href} /> : null,
-              callout: ({ emoji, children }: { emoji?: string; children?: React.ReactNode }) =>
-                <Callout emoji={emoji}>{children}</Callout>,
-            } as any}
-            rehypeRewrite={(node: Root | RootContent, index?: number, parent?: Root | HastElement) => {
+            components={
+              {
+                ogcard: ({ href }: { href?: string }) =>
+                  href ? <OgLinkCard href={href} /> : null,
+                callout: ({
+                  emoji,
+                  children,
+                }: {
+                  emoji?: string;
+                  children?: React.ReactNode;
+                }) => <Callout emoji={emoji}>{children}</Callout>,
+              } as any
+            }
+            rehypeRewrite={(
+              node: Root | RootContent,
+              index?: number,
+              parent?: Root | HastElement
+            ) => {
               asideToCallout(node);
               renderOpenGraph(node, index, parent as HastElement | undefined);
-              renderYoutubeEmbed(node, index || 0, parent as HastElement | undefined);
+              renderYoutubeEmbed(
+                node,
+                index || 0,
+                parent as HastElement | undefined
+              );
               addImageClickHandler(node);
               addLazyLoad(node);
-              addDescriptionUnderImage(node, index, parent as HastElement | undefined);
+              addDescriptionUnderImage(
+                node,
+                index,
+                parent as HastElement | undefined
+              );
             }}
           />
         </>
