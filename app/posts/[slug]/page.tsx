@@ -73,7 +73,8 @@ export const generateMetadata = async ({
       'application-name': 'ShipFriend TechBlog',
       author: post.author,
       publish_date: new Date(post.date).toISOString(),
-      'article:tag': post.tags?.join(',') || 'technology,programming,web development',
+      'article:tag':
+        post.tags?.join(',') || 'technology,programming,web development',
       'twitter:card': 'summary_large_image',
       'twitter:title': post.title,
       'twitter:description': description,

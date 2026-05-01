@@ -14,7 +14,7 @@ const Comments = () => {
   if (!mounted) return null;
 
   return (
-    <div className="max-w-3xl mx-auto mt-12">
+    <div className="max-w-3xl mx-auto mt-12 p-4 md:p-0">
       <Giscus
         id="comments"
         repo="ShipFriend0516/TechBlog"

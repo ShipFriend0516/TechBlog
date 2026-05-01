@@ -52,7 +52,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
   return (
     <div
       className={
-        'max-w-full post-body px-4 py-8 lg:py-16 min-h-[500px] relative'
+        'max-w-full post-body px-3 sm:px-4 py-6 sm:py-8 lg:py-16 min-h-[500px] relative'
       }
     >
       {loading ? (

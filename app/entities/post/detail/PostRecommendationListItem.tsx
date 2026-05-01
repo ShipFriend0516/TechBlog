@@ -30,7 +30,7 @@ const PostRecommendationListItem: FC<PostRecommendationListItemProps> = ({
   });
 
   return (
-    <li className="w-full mb-4 mx-auto ">
+    <li className="w-full mb-4 mx-auto">
       <Link href={`/posts/${slug}`} className="block" title={title}>
         <div className="relative flex items-center bg-white dark:bg-neutral-800  shadow-sm hover:shadow-md transition-shadow duration-200  border-neutral-400    border-l-4 border-l-emerald-700  overflow-hidden">
           <div className="relative w-0 md:w-32 h-24 mr-4  rounded-tr-none rounded-br-none overflow-hidden flex-shrink-0">
@@ -73,7 +73,11 @@ const PostRecommendationListItem: FC<PostRecommendationListItemProps> = ({
                 </svg>
                 {timeToRead}분
               </span>
-              <TagBox className={'hidden lg:block ml-4'} tags={tags} />
+              <TagBox
+                className={'hidden lg:block ml-4'}
+                tags={tags}
+                limit={1}
+              />
             </div>
           </div>
         </div>

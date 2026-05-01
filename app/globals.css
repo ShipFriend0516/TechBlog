@@ -129,6 +129,8 @@ article.post .post-body {
   margin: 0 auto;
   font-size: 1.1em;
   line-height: 150%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 article.post .post-body p:has(img) {
@@ -477,4 +479,58 @@ article.post .post-body table tbody tr:last-child td {
 
 .dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
   background-color: rgba(100, 200, 100, 0.6);
+}
+
+/* ── Mobile-only overrides (≤ 767px) ─────────────────────── */
+@media (max-width: 767px) {
+  /* 본문 폰트 크기 / 줄간격 */
+  article.post .post-body {
+    font-size: 1rem;
+    line-height: 160%;
+  }
+
+  /* 헤딩 크기 */
+  article.post .post-body h1 { font-size: 1.7rem; }
+  article.post .post-body h2 { font-size: 1.35rem; }
+  article.post .post-body h3 { font-size: 1.1rem; }
+  article.post .post-body h4 { font-size: 1rem; }
+
+  /* 이미지 — 중첩 이미지를 80%로 확대 (데스크탑은 50% 유지) */
+  article.post .post-body div > div img {
+    max-width: 80%;
+  }
+
+  /* 코드 블록 수평 스크롤 */
+  article.post .post-body pre {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.85em;
+  }
+
+  /* 인라인 코드 줄바꿈 */
+  .post-body p > code,
+  .post-body li > code,
+  .post-body strong > code {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* 테이블 수평 스크롤 */
+  article.post .post-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  article.post .post-body table th,
+  article.post .post-body table td {
+    padding: 0.5em 0.6em;
+    font-size: 0.9em;
+  }
+
+  /* 링크 줄바꿈 */
+  article.post .post-body a {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
 }
