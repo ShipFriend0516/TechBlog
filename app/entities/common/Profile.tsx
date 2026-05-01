@@ -4,7 +4,7 @@ import React from 'react';
 
 interface Props {
   profileThumbnail?: string | StaticImport;
-  username: string;
+  username?: string;
 }
 
 const Profile = ({ profileThumbnail, username }: Props) => {
@@ -26,7 +26,9 @@ const Profile = ({ profileThumbnail, username }: Props) => {
           />
         )}
       </div>
-      <span className={'font-bold mx-2 sm:inline'}>{username}</span>
+      {username && (
+        <span className={'font-bold mx-2 sm:inline'}>{username}</span>
+      )}
     </div>
   );
 };

@@ -70,22 +70,19 @@ const PostHeader = ({
             />
           </h1>
           <h2
-            className={`md:text-2xl font-bold mb-4 transition-opacity duration-500 ${
+            className={`md:text-2xl font-bold mb-4 transition-opacity duration-500 line-clamp-1 ${
               isTypingComplete ? 'opacity-100' : 'opacity-0'
             }`}
           >
             {subTitle}
           </h2>
           <div
-            className={`inline-flex items-center transition-opacity duration-500 ${
+            className={`inline-flex items-center transition-opacity duration-500 gap-2 md:gap-0 ${
               isTypingComplete ? 'opacity-100' : 'opacity-0'
             }`}
           >
             <div className={'items-center post-author flex'}>
-              <Profile
-                profileThumbnail={'/images/profile/profile.jpg'}
-                username={author}
-              />
+              <Profile profileThumbnail={'/images/profile/profile.jpg'} />
             </div>
             <span className={'post-date'}>
               {new Date(date).toLocaleDateString('ko-KR')}
