@@ -201,7 +201,7 @@ function TOCItem({
         className={`
           w-full flex items-center gap-2.5 px-2 py-[5px] rounded-md text-left
           text-[12.5px] leading-snug whitespace-nowrap overflow-hidden text-ellipsis
-          transition-all duration-150 group relative
+          transition-all duration-150 group relative 
           ${
             isActive
               ? 'font-semibold'
@@ -229,7 +229,7 @@ function TOCItem({
         />
 
         {/* Title */}
-        <span className="truncate">{heading.title}</span>
+        <span className="ml-1 truncate">{heading.title}</span>
 
         {/* Active indicator dot (right side) */}
         {isActive && (
