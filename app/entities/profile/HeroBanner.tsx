@@ -23,7 +23,7 @@ const HeroBanner = () => {
           <div className="space-y-2">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
               <DecryptedText
-                text="Software Engineer"
+                text="ShipFriend TechBlog"
                 speed={60}
                 animateOn="view"
                 revealDirection="start"
@@ -31,7 +31,9 @@ const HeroBanner = () => {
                 encryptedClassName="text-neutral-200/90"
               />
             </h1>
-            <p className="text-lg md:text-xl font-light opacity-90">{myName}</p>
+            <p className="text-lg md:text-xl font-light opacity-90">
+              {myName}, Software Engineer
+            </p>
           </div>
           <div className="flex flex-col justify-end flex-grow">
             <div className="flex flex-wrap gap-3 text-sm md:text-base font-medium">
@@ -51,7 +53,7 @@ const HeroBanner = () => {
         </div>
         <div>
           <p className="md:text-lg text-default w-full mx-auto text-left mt-4">
-            안녕하세요,개발자 서정우입니다.
+            안녕하세요, 개발자 서정우입니다.
           </p>
           <p className="md:text-lg text-default w-full mx-auto text-left mb-4">
             {instruction}
