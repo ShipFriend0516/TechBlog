@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
+import Series from '@/app/models/Series';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
@@ -63,13 +64,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  // 시리즈 URL 생성 (포스트에서 고유한 시리즈만)
-  const seriesIds = Array.from(
-    new Set(posts.filter((p) => p.seriesId).map((p) => p.seriesId))
-  );
-  const seriesUrls = seriesIds.map((seriesId) => ({
-    url: `${baseUrl}/series/${seriesId}`,
-    lastModified: new Date(),
+  // 시리즈 URL 생성 (Series 컬렉션에서 slug 직접 조회)
+  const allSeries = await Series.find({}, { slug: 1, updatedAt: 1 }).lean();
+  const seriesUrls = allSeries.map((series) => ({
+    url: `${baseUrl}/series/${series.slug}`,
+    lastModified: series.updatedAt ? new Date(series.updatedAt as Date) : new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));
