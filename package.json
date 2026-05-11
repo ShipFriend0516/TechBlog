@@ -40,7 +40,7 @@
     "zustand": "^5.0.3"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "next lint --fix"
+    "*.{ts,tsx}": "pnpm exec next lint --fix --file"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.3.4",
