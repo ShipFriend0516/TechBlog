@@ -1,4 +1,9 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const errorMessages: Record<string, string> = {
   invalid_token: '유효하지 않은 인증 링크입니다.',
