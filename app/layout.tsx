@@ -7,9 +7,13 @@ import NavBar from '@/app/entities/common/NavBar';
 import ToastProvider from '@/app/entities/common/Toast/ToastProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
+const SITE_NAME = 'ShipFriend TechBlog';
+const SITE_DESCRIPTION = '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.';
+const SITE_URL = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
+
 export const metadata: Metadata = {
-  title: 'ShipFriend TechBlog',
-  description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
   icons: {
     icon: '/favicon.ico',
     apple: '/assets/apple-touch-icon.png',
@@ -41,13 +45,13 @@ export const metadata: Metadata = {
     'TypeScript',
   ],
   openGraph: {
-    title: 'ShipFriend TechBlog',
-    description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
-    url: process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev',
-    siteName: 'ShipFriend TechBlog',
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
     images: [
       {
-        url: '/images/profile/profile-banner.png',
+        url: `${SITE_URL}/images/profile/profile-banner.png`,
         width: 1424,
         height: 752,
         alt: 'ShipFriend TechBlog Open Graph Image',
@@ -56,10 +60,17 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [`${SITE_URL}/images/profile/profile-banner.png`],
+  },
   alternates: {
+    canonical: SITE_URL,
     types: {
       'application/rss+xml': [
-        { url: '/rss.xml', title: 'ShipFriend TechBlog RSS Feed' },
+        { url: '/rss.xml', title: `${SITE_NAME} RSS Feed` },
       ],
     },
   },
@@ -139,33 +150,28 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteBaseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXT_PUBLIC_URL ||
-    'https://shipfriend.dev';
-
   const siteSchema = [
     {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      '@id': `${siteBaseUrl}/#website`,
-      url: siteBaseUrl,
-      name: 'ShipFriend TechBlog',
-      description: '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
       inLanguage: 'ko-KR',
       publisher: {
-        '@id': `${siteBaseUrl}/#organization`,
+        '@id': `${SITE_URL}/#organization`,
       },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      '@id': `${siteBaseUrl}/#organization`,
-      name: 'ShipFriend TechBlog',
-      url: siteBaseUrl,
+      '@id': `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteBaseUrl}/assets/apple-touch-icon.png`,
+        url: `${SITE_URL}/assets/apple-touch-icon.png`,
       },
       sameAs: ['https://github.com/ShipFriend0516'],
     },
