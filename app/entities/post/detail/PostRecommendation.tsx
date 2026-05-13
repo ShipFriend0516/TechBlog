@@ -37,7 +37,7 @@ const PostRecommendation = ({
     useDataFetch<PostRecommendationResponse>(config);
 
   return (
-    <div className={'max-w-[768px] mt-4 mx-6 md:mx-auto px-2'}>
+    <div className={'max-w-[768px] mt-4 mx-4 md:mx-auto px-2'}>
       <div className="text-[13px] font-bold tracking-[0.12em] uppercase text-neutral-500">
         You might also like
       </div>
@@ -62,9 +62,20 @@ const PostRecommendation = ({
         </ul>
       ) : (
         <div>
-          <Skeleton className={'w-full h-[94px] mb-1 mx-auto'}></Skeleton>
-          <Skeleton className={'w-full h-[94px] mb-1 mx-auto'}></Skeleton>
-          <Skeleton className={'w-full h-[94px] mb-1 mx-auto'}></Skeleton>
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="flex items-center gap-4 px-2.5 py-3.5 mb-1">
+              <Skeleton className="w-[116px] aspect-[16/9] rounded-[10px] flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="flex gap-1.5 mb-1.5">
+                  <Skeleton className="h-[18px] w-12 rounded-full" />
+                  <Skeleton className="h-[18px] w-16 rounded-full" />
+                </div>
+                <Skeleton className="h-4 w-3/4 mb-2" />
+                <Skeleton className="h-3 w-1/3" />
+              </div>
+              <Skeleton className="w-8 h-8 rounded-full flex-shrink-0" />
+            </div>
+          ))}
         </div>
       )}
     </div>
