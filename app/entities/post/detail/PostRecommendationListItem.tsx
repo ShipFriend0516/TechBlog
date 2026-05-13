@@ -67,7 +67,7 @@ const PostRecommendationListItem: FC<PostRecommendationListItemProps> = ({
               ))}
             </div>
           )}
-          <div className="text-sm font-bold leading-snug line-clamp-1 text-gray-900 dark:text-white group-hover:text-brand-primary transition-colors duration-200">
+          <div className="text-sm font-bold leading-snug line-clamp-1 text-gray-900 dark:text-white group-hover:text-primary-mountain transition-colors duration-200">
             {title}
           </div>
           <div className="text-xs text-weak mt-1">
