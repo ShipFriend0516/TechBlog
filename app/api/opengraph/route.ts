@@ -38,6 +38,7 @@ export const GET = async (request: Request) => {
         Accept: 'text/html,application/xhtml+xml',
       },
       signal: AbortSignal.timeout(5000),
+      next: { revalidate: 3600 },
     });
 
     if (!res.ok)
