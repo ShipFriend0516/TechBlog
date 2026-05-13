@@ -37,7 +37,7 @@ const PostRecommendation = ({
     useDataFetch<PostRecommendationResponse>(config);
 
   return (
-    <div className={'max-w-[768px] mx-auto mt-4  '}>
+    <div className={'max-w-[768px] mt-4 mx-6 md:mx-auto px-2'}>
       <div className="text-[13px] font-bold tracking-[0.12em] uppercase text-neutral-500">
         You might also like
       </div>
