@@ -150,32 +150,33 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteSchema = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      '@id': `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: SITE_NAME,
-      description: SITE_DESCRIPTION,
-      inLanguage: 'ko-KR',
-      publisher: {
+  const siteSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: SITE_NAME,
+        description: SITE_DESCRIPTION,
+        inLanguage: 'ko-KR',
+        publisher: {
+          '@id': `${SITE_URL}/#organization`,
+        },
+      },
+      {
+        '@type': 'Organization',
         '@id': `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}/assets/apple-touch-icon.png`,
+        },
+        sameAs: ['https://github.com/ShipFriend0516'],
       },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      '@id': `${SITE_URL}/#organization`,
-      name: SITE_NAME,
-      url: SITE_URL,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${SITE_URL}/assets/apple-touch-icon.png`,
-      },
-      sameAs: ['https://github.com/ShipFriend0516'],
-    },
-  ];
+    ],
+  };
 
   return (
     <html lang="ko" suppressHydrationWarning>
