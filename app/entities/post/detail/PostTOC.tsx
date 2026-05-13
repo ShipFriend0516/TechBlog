@@ -315,7 +315,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
       observer.disconnect();
       window.removeEventListener('scroll', onScroll);
     };
-  }, [postContent]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [postContent]);  
 
   /* ── Rail fill height (animate on active change) ────── */
   useEffect(() => {
