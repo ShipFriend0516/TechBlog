@@ -1,6 +1,6 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 import Loading from './[slug]/loading';
-import { Metadata } from 'next';
 
 interface LayoutProps {
   children: React.ReactNode;

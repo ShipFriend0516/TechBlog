@@ -14,7 +14,6 @@ import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
 import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import { useBlockNavigate } from '@/app/hooks/common/useBlockNavigate';
-import useOverlay from '@/app/hooks/common/useOverlay';
 import useAutoSync from '@/app/hooks/post/useAutoSync';
 import useCloudDraft from '@/app/hooks/post/useCloudDraft';
 import useDraft from '@/app/hooks/post/useDraft';
