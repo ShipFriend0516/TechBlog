@@ -135,10 +135,20 @@ const ImageZoomViewer = ({ image, onClose }: ImageZoomViewerProps) => {
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <motion.div
           ref={containerRef}
-          className="pointer-events-auto cursor-zoom-in"
+          className="relative pointer-events-auto cursor-zoom-in"
           style={{ x, y, scale }}
           onClick={handleImageClick}
         >
+          {/* 닫기 버튼 */}
+          <button
+            className="absolute -top-3 -right-3 z-10 flex items-center justify-center w-7 h-7 rounded-full bg-white/90 text-gray-800 shadow-md hover:bg-white transition-colors cursor-pointer"
+            onClick={(e) => { e.stopPropagation(); handleClose(); }}
+            aria-label="닫기"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
           <img
             src={image.src}
             alt={image.alt ?? '확대된 이미지'}
