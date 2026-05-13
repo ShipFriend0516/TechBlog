@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "node scripts/generate-llms.mjs && next build",
     "analyze": "ANALYZE=true node scripts/generate-llms.mjs && ANALYZE=true next build --webpack",
     "start": "next start",

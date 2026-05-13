@@ -36,7 +36,11 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  turbopack: {
+    root: __dirname,
+  },
   images: {
+    qualities: [30, 75],
     remotePatterns: [
       {
         protocol: 'https',
