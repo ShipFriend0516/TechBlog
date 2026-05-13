@@ -1,5 +1,4 @@
 'use client';
-import { FaBookmark } from 'react-icons/fa';
 import ErrorBox from '@/app/entities/common/Error/ErrorBox';
 import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import PostRecommendationListItem from '@/app/entities/post/detail/PostRecommendationListItem';
@@ -38,11 +37,13 @@ const PostRecommendation = ({
     useDataFetch<PostRecommendationResponse>(config);
 
   return (
-    <div className={'max-w-3xl mx-auto mt-4 p-4 md:px-2'}>
-      <div className={'inline-flex items-center gap-2 text-xl font-bold mb-2'}>
-        <FaBookmark />
-        추천 글
+    <div className={'max-w-[768px] mx-auto mt-4  '}>
+      <div className="text-[13px] font-bold tracking-[0.12em] uppercase text-neutral-500">
+        You might also like
       </div>
+      <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white mt-1 mb-[18px]">
+        이런 글은 어떠세요?
+      </h2>
 
       <ErrorBox error={error} />
       {!loading && data && data.posts.length > 0 ? (
@@ -61,9 +62,9 @@ const PostRecommendation = ({
         </ul>
       ) : (
         <div>
-          <Skeleton className={'w-full h-24 mb-4 mx-auto'}></Skeleton>
-          <Skeleton className={'w-full h-24 mb-4 mx-auto'}></Skeleton>
-          <Skeleton className={'w-full h-24 mb-4 mx-auto'}></Skeleton>
+          <Skeleton className={'w-full h-[94px] mb-1 mx-auto'}></Skeleton>
+          <Skeleton className={'w-full h-[94px] mb-1 mx-auto'}></Skeleton>
+          <Skeleton className={'w-full h-[94px] mb-1 mx-auto'}></Skeleton>
         </div>
       )}
     </div>

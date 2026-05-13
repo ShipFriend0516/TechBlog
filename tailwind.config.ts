@@ -220,6 +220,12 @@ const config: Config = {
           '0%, 100%': { boxShadow: '0 0 4px 1px rgba(244,114,182,0.6)' },
           '50%':      { boxShadow: '0 0 12px 4px rgba(244,114,182,0.9)' },
         },
+        arrowChase: {
+          '0%':   { transform: 'translateX(-10px)', opacity: '0' },
+          '25%':  { transform: 'translateX(0)',     opacity: '1' },
+          '70%':  { transform: 'translateX(10px)',  opacity: '1' },
+          '100%': { transform: 'translateX(14px)',  opacity: '0' },
+        },
       },
       animation: {
         blink: 'blink 1s ease-in-out infinite',
@@ -239,6 +245,7 @@ const config: Config = {
         starGlow:     'starGlow 2s ease-in-out infinite',
         petalFloat: 'petalFloat var(--pd, 1.2s) ease-out var(--delay, 0s) infinite',
         flowerGlow: 'flowerGlow 2s ease-in-out infinite',
+        arrowChase: 'arrowChase 1.1s cubic-bezier(0.5, 0, 0.4, 1) infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
