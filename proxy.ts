@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // /posts/[slug] 페이지 진입 시 HTTP Referer 헤더를 쿠키로 저장
   if (request.nextUrl.pathname.startsWith('/posts/')) {
     const referer = request.headers.get('referer') ?? '';
