@@ -8,10 +8,11 @@ import dbConnect from '@/app/lib/dbConnect';
 import AtelierMessage from '@/app/models/AtelierMessage';
 
 interface RouteParams {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export const DELETE = async (request: Request, { params }: RouteParams) => {
+export const DELETE = async (request: Request, props: RouteParams) => {
+  const params = await props.params;
   try {
     await dbConnect();
 
@@ -78,7 +79,8 @@ export const DELETE = async (request: Request, { params }: RouteParams) => {
   }
 };
 
-export const PATCH = async (request: Request, { params }: RouteParams) => {
+export const PATCH = async (request: Request, props: RouteParams) => {
+  const params = await props.params;
   try {
     await dbConnect();
 
@@ -139,7 +141,8 @@ export const PATCH = async (request: Request, { params }: RouteParams) => {
   }
 };
 
-export const PUT = async (request: Request, { params }: RouteParams) => {
+export const PUT = async (request: Request, props: RouteParams) => {
+  const params = await props.params;
   try {
     await dbConnect();
 

@@ -5,13 +5,14 @@ import BlockedFingerprint from '@/app/models/BlockedFingerprint';
 import { ATELIER_EMOJIS, ReactionBucket } from '@/app/types/Atelier';
 
 interface RouteParams {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 // 허용 이모지 화이트리스트
 const allowedEmojiSet = new Set<string>(ATELIER_EMOJIS);
 
-export const POST = async (request: Request, { params }: RouteParams) => {
+export const POST = async (request: Request, props: RouteParams) => {
+  const params = await props.params;
   try {
     await dbConnect();
 

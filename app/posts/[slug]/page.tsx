@@ -39,11 +39,12 @@ async function getPostDetail(slug: string) {
   return { post: JSON.parse(JSON.stringify(post)) };
 }
 
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> => {
+export const generateMetadata = async (
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+): Promise<Metadata> => {
+  const params = await props.params;
   const { post } = await getPostDetail(params.slug);
   const baseUrl =
     process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
@@ -83,7 +84,8 @@ export const generateMetadata = async ({
   };
 };
 
-const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
+const BlogDetailPage = async (props: { params: Promise<{ slug: string }> }) => {
+  const params = await props.params;
   const { post } = await getPostDetail(params.slug);
   return (
     <>

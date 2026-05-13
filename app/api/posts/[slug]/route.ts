@@ -7,10 +7,8 @@ import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 import Post from '@/app/models/Post';
 import Series from '@/app/models/Series';
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   try {
     await dbConnect();
     const post = await Post.findOne({ slug: params.slug }).lean();
@@ -40,10 +38,8 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   try {
     // 글 수정은 관리자 전용
     const session = await getServerSession();
@@ -109,10 +105,8 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { slug: string } }
-) {
+export async function DELETE(request: Request, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   try {
     // 글 삭제는 관리자 전용
     const session = await getServerSession();

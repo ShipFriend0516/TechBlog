@@ -5,11 +5,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function VerifiedPage({
-  searchParams,
-}: {
-  searchParams: { message?: string };
-}) {
+export default async function VerifiedPage(
+  props: {
+    searchParams: Promise<{ message?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const isAlreadyVerified = searchParams.message === 'already_verified';
 
   return (

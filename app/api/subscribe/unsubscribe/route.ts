@@ -1,4 +1,4 @@
-import { isRedirectError } from 'next/dist/client/components/redirect';
+import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';

@@ -173,10 +173,7 @@ const Carousel = ({ slides }: CarouselProps) => {
                     ? currentSlides.length - 1
                     : currentIndex - 1
                 ] as ReactElement,
-                {
-                  hideTags: true,
-
-                }
+                { hideTags: true } as Record<string, unknown>
               )}
             </div>
           )}
@@ -195,10 +192,7 @@ const Carousel = ({ slides }: CarouselProps) => {
                     ? 0
                     : currentIndex + 1
                 ] as ReactElement,
-                {
-                  hideTags: true,
-
-                }
+                { hideTags: true } as Record<string, unknown>
               )}
             </div>
           )}

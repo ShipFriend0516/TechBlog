@@ -9,10 +9,11 @@ import dbConnect from '@/app/lib/dbConnect';
 import AtelierMessage from '@/app/models/AtelierMessage';
 
 interface RouteParams {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export const GET = async (request: Request, { params }: RouteParams) => {
+export const GET = async (request: Request, props: RouteParams) => {
+  const params = await props.params;
   try {
     await dbConnect();
 
