@@ -46,7 +46,9 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
         .split('; ')
         .find((row) => row.startsWith('x-page-referrer='))
         ?.split('=')[1];
-      const referrer = cookieReferrer ? decodeURIComponent(cookieReferrer) : document.referrer;
+      const referrer = cookieReferrer
+        ? decodeURIComponent(cookieReferrer)
+        : document.referrer;
 
       const response = await axios.post(
         '/api/posts/view',
@@ -155,7 +157,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
           aria-label={'좋아요'}
           onClick={isLiked ? handleUnlike : handleLike}
           className={
-            ' inline-flex items-center gap-2 rounded-md  p-1 px-2 hover:bg-neutral-100 border-neutral-200'
+            ' inline-flex items-center gap-2 rounded-md  p-1 px-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 border-neutral-200'
           }
         >
           {isLiked ? (
@@ -170,7 +172,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
           aria-label={'공유하기'}
           onClick={() => sharePost()}
           className={
-            ' inline-flex items-center gap-2 rounded-md p-1 px-2  hover:bg-neutral-100 border-neutral-200'
+            ' inline-flex items-center gap-2 rounded-md p-1 px-2  hover:bg-neutral-100 border-neutral-200 dark:hover:bg-neutral-800'
           }
         >
           <MdIosShare size={20} />
