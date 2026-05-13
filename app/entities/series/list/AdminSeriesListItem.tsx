@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import { FaBookOpen, FaCalendar } from 'react-icons/fa';
+import { FaBookOpen, FaCalendar, FaPen, FaTrash } from 'react-icons/fa';
 import { Series } from '@/app/types/Series';
 
 interface AdminSeriesListItemProps {
@@ -17,10 +17,10 @@ const AdminSeriesListItem = ({
   return (
     <li
       className={
-        'h-[160px] bg-neutral-100/80 flex rounded-2xl overflow-hidden shadow-lg mb-4'
+        'group relative flex h-[180px] overflow-hidden rounded-2xl border border-neutral-200 bg-card-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-secondary/40 hover:shadow-lg dark:border-neutral-700 dark:bg-card-dark'
       }
     >
-      <div className={'w-[300px]'}>
+      <div className={'relative h-full w-[260px] flex-shrink-0 overflow-hidden'}>
         {series.thumbnailImage ? (
           <Image
             width={300}
@@ -28,50 +28,56 @@ const AdminSeriesListItem = ({
             src={series.thumbnailImage}
             alt={series.title}
             loading={'lazy'}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full bg-slate-200 flex items-center justify-center">
-            <FaBookOpen className="w-12 h-12 text-slate-400" />
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-neutral-800 dark:to-neutral-700">
+            <FaBookOpen className="h-12 w-12 text-emerald-300 dark:text-neutral-500" />
           </div>
         )}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent to-black/0 transition-opacity duration-300 group-hover:to-black/10" />
       </div>
-      <div className="p-5 flex flex-col w-full">
-        <h3 className="text-default text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+
+      <div className="flex w-full min-w-0 flex-col p-5">
+        <h3 className="mb-2 line-clamp-1 text-xl font-semibold text-default transition-colors group-hover:text-brand-secondary">
           {series.title}
         </h3>
 
-        <div className="flex items-center gap-2 text-sm text-slate-500 mb-3">
-          <span className="flex items-center gap-1">
-            <FaCalendar className="w-4 h-4" />
-            {new Date(series.date).toLocaleDateString()}
+        <div className="mb-3 flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400">
+          <span className="inline-flex items-center gap-1.5">
+            <FaCalendar className="h-3.5 w-3.5" />
+            {new Date(series.date).toLocaleDateString('ko-KR')}
           </span>
-          <span className="ml-auto flex items-center gap-1">
-            <FaBookOpen className="w-4 h-4" />
+          <span className="inline-flex items-center gap-1.5">
+            <FaBookOpen className="h-3.5 w-3.5" />
             {series.posts.length || 0} posts
           </span>
         </div>
 
-        <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-3">
-          {series.description || 'No description available'}
+        <p className="line-clamp-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {series.description || '설명이 없습니다.'}
         </p>
-        <ul className={'flex flex-grow items-end gap-2 w-full  justify-start '}>
+
+        <div className={'mt-auto flex items-center justify-end gap-2 pt-3'}>
           <button
             onClick={() => handleUpdateSeries(series)}
-            className={'bg-green-200 rounded-2xl cursor-pointer px-4'}
+            className={
+              'inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-300'
+            }
           >
-            시리즈 수정
+            <FaPen className="h-3 w-3" />
+            수정
           </button>
           <button
             onClick={() => handleDeleteClick(series.slug)}
-            disabled={true}
             className={
-              'disabled:bg-neutral-200 disabled:cursor-not-allowed bg-red-200 rounded-2xl cursor-pointer px-4'
+              'inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:border-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-300'
             }
           >
-            시리즈 삭제
+            <FaTrash className="h-3 w-3" />
+            삭제
           </button>
-        </ul>
+        </div>
       </div>
     </li>
   );
