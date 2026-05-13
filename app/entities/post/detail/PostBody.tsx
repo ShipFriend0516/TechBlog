@@ -3,12 +3,10 @@ import type { Element as HastElement, Root, RootContent } from 'hast';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
-import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
-import Overlay from '@/app/entities/common/Overlay/Overlay';
+import ImageZoomViewer from '@/app/entities/common/Overlay/Image/ImageZoomViewer';
 import Callout from '@/app/entities/post/detail/Callout';
 import OgLinkCard from '@/app/entities/post/detail/OgLinkCard';
 import TagBox from '@/app/entities/post/tags/TagBox';
-import useOverlay from '@/app/hooks/common/useOverlay';
 import useTheme from '@/app/hooks/useTheme';
 import MDEditor from '@uiw/react-md-editor';
 import {
@@ -33,6 +31,7 @@ interface Props {
 export interface SelectedImage {
   src: string;
   alt?: string;
+  rect: DOMRect;
 }
 
 const PostBody = ({ content, tags, loading }: Props) => {
@@ -41,12 +40,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
     null
   );
 
-  const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
-
-  const addImageClickHandler = createImageClickHandler(
-    setSelectedImage,
-    setOpenImageBox
-  );
+  const addImageClickHandler = createImageClickHandler(setSelectedImage);
   const addLazyLoad = createLazyLoadHandler();
 
   return (
@@ -61,18 +55,10 @@ const PostBody = ({ content, tags, loading }: Props) => {
         </div>
       ) : (
         <>
-          <Overlay
-            overlayOpen={openImageBox}
-            setOverlayOpen={setOpenImageBox}
-            maxWidth={'5xl'}
-            animate={false}
-          >
-            <ImageZoomOverlayContainer
-              selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage}
-              setOpenImageBox={setOpenImageBox}
-            />
-          </Overlay>
+          <ImageZoomViewer
+            image={selectedImage}
+            onClose={() => setSelectedImage(null)}
+          />
           <TagBox className={'-mt-4 mb-4'} tags={tags || []} />
           <MDEditor.Markdown
             style={{

@@ -5,7 +5,7 @@ import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import ImageZoomOverlayContainer from '@/app/entities/common/Overlay/Image/ImageZoomOverlayContainer';
+import ImageZoomViewer from '@/app/entities/common/Overlay/Image/ImageZoomViewer';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import Callout from '@/app/entities/post/detail/Callout';
 import DraftListOverlay from '@/app/entities/post/write/DraftListOverlay';
@@ -48,6 +48,7 @@ const calloutCommand: ICommand = {
 export interface SelectedImage {
   src: string;
   alt?: string;
+  rect: DOMRect;
 }
 
 const BlogForm = () => {
@@ -91,8 +92,6 @@ const BlogForm = () => {
   const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(
     null
   );
-  const { isOpen: openImageBox, setIsOpen: setOpenImageBox } = useOverlay();
-
   const { containerRef } = usePasteImageUpload({
     content: formData.content || '',
     setFormData,
@@ -119,8 +118,7 @@ const BlogForm = () => {
 
   // 이미지 클릭 핸들러 생성
   const addImageClickHandler = createImageClickHandler(
-    setSelectedImage,
-    setOpenImageBox
+    setSelectedImage
   );
 
   const handleFieldChange = (
@@ -278,18 +276,10 @@ const BlogForm = () => {
         />
       </Overlay>
 
-      <Overlay
-        overlayOpen={openImageBox}
-        setOverlayOpen={setOpenImageBox}
-        maxWidth={'5xl'}
-        animate={false}
-      >
-        <ImageZoomOverlayContainer
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-          setOpenImageBox={setOpenImageBox}
-        />
-      </Overlay>
+      <ImageZoomViewer
+        image={selectedImage}
+        onClose={() => setSelectedImage(null)}
+      />
 
       <div ref={containerRef}>
         <MDEditor

@@ -189,26 +189,22 @@ export const createLazyLoadHandler = () => {
   };
 };
 
-/**
- * 이미지 클릭 핸들러를 추가하는 함수 팩토리
- * @param setSelectedImage - 선택된 이미지 URL을 설정하는 함수
- * @param setOpenImageBox - 이미지 오버레이 열기 상태를 설정하는 함수
- */
 export const createImageClickHandler =
-  (
-    setSelectedImage: (image: SelectedImage | null) => void,
-    setOpenImageBox: (open: boolean) => void
-  ) =>
+  (setSelectedImage: (image: SelectedImage | null) => void) =>
   (node: any) => {
     if (node.type === 'element' && node.tagName === 'img') {
       const imageUrl = node.properties.src;
       if (imageUrl) {
-        node.properties.onClick = () => {
+        node.properties.style = { cursor: 'zoom-in' };
+        node.properties.onClick = (e: React.MouseEvent<HTMLImageElement>) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          // 아이콘 등 소형 이미지 무시 (100px 미만)
+          if (rect.width < 100 || rect.height < 100) return;
           setSelectedImage({
             src: imageUrl,
             alt: node.properties.alt || undefined,
+            rect,
           });
-          setOpenImageBox(true);
         };
       }
     }
