@@ -75,7 +75,7 @@ const PostRecommendationListItem: FC<PostRecommendationListItemProps> = ({
           </div>
         </div>
 
-        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-neutral-400 group-hover:text-brand-primary transition-colors overflow-hidden relative">
+        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-neutral-400 group-hover:text-primary-mountain transition-colors overflow-hidden relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
