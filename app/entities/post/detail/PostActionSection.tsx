@@ -23,7 +23,11 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
   const sharePost = async () => {
     const url = window.location.href;
     if (navigator.share) {
-      await navigator.share({ url });
+      try {
+        await navigator.share({ url });
+      } catch (e) {
+        if (e instanceof Error && e.name !== 'AbortError') throw e;
+      }
     } else {
       await navigator.clipboard.writeText(url);
       toast.success('링크가 복사되었습니다.');
