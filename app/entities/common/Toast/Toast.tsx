@@ -1,3 +1,4 @@
+import React from 'react';
 import { CiCircleCheck, CiCircleRemove, CiMail } from 'react-icons/ci';
 
 type ToastType = 'success' | 'error' | 'info';
@@ -9,7 +10,7 @@ interface ToastProps {
   removeToast: () => void;
 }
 
-const iconMap: Record<ToastType, JSX.Element> = {
+const iconMap: Record<ToastType, React.JSX.Element> = {
   success: <CiCircleCheck color={'green'} size={40} />,
   error: <CiCircleRemove color={'red'} size={40} />,
   info: <CiMail color={'#3b82f6'} size={40} />,
