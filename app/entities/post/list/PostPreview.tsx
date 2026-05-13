@@ -24,7 +24,7 @@ const PostPreview = ({
   const darkmodeStyle = `dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800 dark:shadow-neutral-800/40 dark:hover:shadow-neutral-800/80`;
 
   return (
-    <Link href={`/posts/${slug}`} className={'block mx-auto group rounded-2xl active:bg-gray-600/20'}>
+    <Link href={`/posts/${slug}`} className={'block mx-auto group rounded-2xl'}>
       <div
         className={`w-full h-full post-preview p-px rounded-2xl transition-all duration-300 origin-bottom hover:-translate-y-2 hover:shadow-xl active:scale-95 overflow-hidden ${lightmodeStyle} ${darkmodeStyle}`}
       >
