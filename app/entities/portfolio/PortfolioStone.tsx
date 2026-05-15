@@ -117,26 +117,30 @@ const PortfolioStone = ({
 
         <div className="relative z-10 flex gap-2">
           {project.demoUrl && (
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(project.demoUrl, '_blank', 'noopener,noreferrer');
+              }}
               className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGlobe size={12} />
               배포
-            </a>
+            </button>
           )}
           {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(project.githubUrl, '_blank', 'noopener,noreferrer');
+              }}
               className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGithub size={12} />
               코드
-            </a>
+            </button>
           )}
         </div>
       </div>
