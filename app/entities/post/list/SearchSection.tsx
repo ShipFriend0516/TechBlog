@@ -30,12 +30,12 @@ const SearchSection = ({
   const latest = useSearchQueryStore((state) => state.latestSearchQueries);
   const [series, setSeries] = useState<Series[] | null>([]);
 
-  const getSeries = async () => {
-    const data = await getAllSeriesData();
-    setSeries(data);
-  };
-
   useEffect(() => {
+    const getSeries = async () => {
+      const data = await getAllSeriesData();
+      setSeries(data);
+    };
+
     getSeries();
   }, []);
 

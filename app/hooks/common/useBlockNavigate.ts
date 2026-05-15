@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 interface PostForm {
   title: string;
@@ -6,13 +6,7 @@ interface PostForm {
 }
 
 export const useBlockNavigate = (formData: PostForm, alertMessage?: string) => {
-  const [isDirty, setIsDirty] = useState(false);
-
-  useEffect(() => {
-    if (formData.title || formData.content) {
-      setIsDirty(true);
-    }
-  }, [formData]);
+  const isDirty = !!(formData.title || formData.content);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {

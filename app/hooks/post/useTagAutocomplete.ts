@@ -21,6 +21,7 @@ const useTagAutocomplete = ({
   const [allTags, setAllTags] = useState<TagData[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [prevSuggestions, setPrevSuggestions] = useState<TagData[]>([]);
 
   useEffect(() => {
     fetch('/api/tags')
@@ -43,10 +44,11 @@ const useTagAutocomplete = ({
       .slice(0, 8);
   }, [allTags, tagInput, currentTags]);
 
-  useEffect(() => {
+  if (suggestions !== prevSuggestions) {
+    setPrevSuggestions(suggestions);
     setIsOpen(suggestions.length > 0);
     setHighlightedIndex(-1);
-  }, [suggestions]);
+  }
 
   return {
     suggestions,

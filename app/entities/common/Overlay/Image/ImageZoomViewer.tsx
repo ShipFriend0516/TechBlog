@@ -22,6 +22,15 @@ const ImageZoomViewer = ({ image, onClose }: ImageZoomViewerProps) => {
   const [visible, setVisible] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [prevSrc, setPrevSrc] = useState<string | null>(null);
+
+  const currentSrc = image?.src ?? null;
+  if (prevSrc !== currentSrc && currentSrc !== null) {
+    setPrevSrc(currentSrc);
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
+    setVisible(true);
+  }
 
   const containerRef = useRef<HTMLDivElement>(null);
   const dimsRef = useRef<{ startX: number; startY: number; startScale: number } | null>(null);
@@ -53,10 +62,6 @@ const ImageZoomViewer = ({ image, onClose }: ImageZoomViewerProps) => {
     const startScale = image.rect.width / tw;
 
     dimsRef.current = { startX, startY, startScale };
-
-    setZoom(1);
-    setOffset({ x: 0, y: 0 });
-    setVisible(true);
 
     // 원본 위치에 즉시 배치 후 중앙으로 spring 애니메이션
     x.set(startX);

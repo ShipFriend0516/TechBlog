@@ -13,11 +13,12 @@ const TRANSPARENT_PATHS = ['/atelier'];
 
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [sidebarOpenedAt, setSidebarOpenedAt] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
 
   const isTransparent = TRANSPARENT_PATHS.some((p) => pathname.startsWith(p));
+  const isSidebarOpen = sidebarOpenedAt === pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,18 +30,14 @@ const NavBar = () => {
   }, []);
 
   useEffect(() => {
-    setIsSidebarOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     document.body.style.overflow = isSidebarOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
   }, [isSidebarOpen]);
 
-  const handleSidebarOpen = () => setIsSidebarOpen(true);
-  const handleSidebarClose = () => setIsSidebarOpen(false);
+  const handleSidebarOpen = () => setSidebarOpenedAt(pathname);
+  const handleSidebarClose = () => setSidebarOpenedAt(null);
 
   const fixedStyle = isTransparent
     ? 'bg-transparent'

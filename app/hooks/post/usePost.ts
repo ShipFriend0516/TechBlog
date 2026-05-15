@@ -66,29 +66,47 @@ const usePost = (slug = '') => {
   };
 
   useEffect(() => {
+    // 시리즈
+    const getSeries = async () => {
+      try {
+        const data = await getAllSeriesData();
+        setSeriesList(data);
+        // 편집 모드(slug 존재)에서는 getPostDetail이 seriesId를 설정하므로 덮어쓰지 않음
+        if (!slug) {
+          setFormData((prev) => ({ ...prev, seriesId: data[0]._id }));
+        }
+        setUIState((prev) => ({ ...prev, seriesLoading: false }));
+      } catch (e) {
+        console.error('시리즈 조회 중 오류 발생', e);
+      }
+    };
+
     getSeries();
   }, []);
 
   useEffect(() => {
     if (slug) {
+      const getPostDetail = async () => {
+        try {
+          const response = await axios.get(`/api/posts/${slug}`);
+          const data = await response.data;
+          setFormData({
+            title: data.post.title || '',
+            subTitle: data.post.subTitle,
+            content: data.post.content,
+            seriesId: data.post.seriesId || '',
+            tags: data.post.tags || [],
+            isPrivate: data.post.isPrivate || false,
+            sendToSubscribers: false,
+          });
+        } catch (e) {
+          console.error('글 조회 중 오류 발생', e);
+        }
+      };
+
       getPostDetail();
     }
   }, [slug]);
-
-  // 시리즈
-  const getSeries = async () => {
-    try {
-      const data = await getAllSeriesData();
-      setSeriesList(data);
-      // 편집 모드(slug 존재)에서는 getPostDetail이 seriesId를 설정하므로 덮어쓰지 않음
-      if (!slug) {
-        setFormData((prev) => ({ ...prev, seriesId: data[0]._id }));
-      }
-      setUIState((prev) => ({ ...prev, seriesLoading: false }));
-    } catch (e) {
-      console.error('시리즈 조회 중 오류 발생', e);
-    }
-  };
 
   // Method
   const postBlog = async (post: PostBody) => {
@@ -173,24 +191,6 @@ const usePost = (slug = '') => {
     } catch (e) {
       console.error('글 발행 중 오류 발생', e);
       setUIState((prev) => ({ ...prev, submitLoading: false }));
-    }
-  };
-
-  const getPostDetail = async () => {
-    try {
-      const response = await axios.get(`/api/posts/${slug}`);
-      const data = await response.data;
-      setFormData({
-        title: data.post.title || '',
-        subTitle: data.post.subTitle,
-        content: data.post.content,
-        seriesId: data.post.seriesId || '',
-        tags: data.post.tags || [],
-        isPrivate: data.post.isPrivate || false,
-        sendToSubscribers: false,
-      });
-    } catch (e) {
-      console.error('글 조회 중 오류 발생', e);
     }
   };
 

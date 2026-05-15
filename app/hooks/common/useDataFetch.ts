@@ -1,17 +1,23 @@
 import axios, { AxiosError, AxiosRequestConfig, Method } from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export interface useDataFetchConfig<T = any> {
+export interface useDataFetchConfig<T = unknown> {
   url: string;
   method: Method;
-  body?: Record<string, any>;
+  body?: Record<string, unknown>;
   config?: AxiosRequestConfig;
   onSuccess?: (data: T) => void;
-  onError?: (error: any) => void;
+  onError?: (error: unknown) => void;
   onLoading?: () => void;
   onBeforeFetch?: () => void;
-  dependencies?: any[];
+  dependencies?: unknown[];
 }
+
+type FetchResult<T> = {
+  key: string;
+  data: T | null;
+  error: AxiosError | Error | null;
+};
 
 const useDataFetch = <T = never>({
   url,
@@ -24,9 +30,7 @@ const useDataFetch = <T = never>({
   onBeforeFetch,
   dependencies = [],
 }: useDataFetchConfig<T>) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<AxiosError | Error | null>(null);
-  const [data, setData] = useState<T | null>();
+  const [result, setResult] = useState<FetchResult<T>>({ key: '', data: null, error: null });
 
   const axiosConfig: AxiosRequestConfig = {
     method,
@@ -35,44 +39,39 @@ const useDataFetch = <T = never>({
     ...config,
   };
 
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      if (onBeforeFetch) {
-        onBeforeFetch();
-      }
-
-      const response = await axios(axiosConfig);
-      const data = response.data;
-
-      setData(data);
-      setLoading(false);
-      if (onSuccess) {
-        onSuccess(data);
-      }
-      if (onLoading) {
-        onLoading();
-      }
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        console.error('데이터를 Fetch 하는데에 실패했습니다.', e);
-        setError(e);
-        setLoading(false);
-        if (onError) {
-          onError(e);
-        }
-      } else {
-        console.error('Unknown Error:', e);
-      }
-    }
-  }, [url, ...dependencies]);
+  const depsKey = JSON.stringify(dependencies);
+  const currentKey = url + depsKey;
+  const loading = result.key !== currentKey;
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    let ignore = false;
+    onBeforeFetch?.();
 
-  return { data, loading, error };
+    axios(axiosConfig)
+      .then((response) => {
+        if (ignore) return;
+        const data = response.data as T;
+        setResult({ key: currentKey, data, error: null });
+        onSuccess?.(data);
+        onLoading?.();
+      })
+      .catch((e) => {
+        if (ignore) return;
+        if (axios.isAxiosError(e)) {
+          console.error('데이터를 Fetch 하는데에 실패했습니다.', e);
+          setResult({ key: currentKey, data: null, error: e });
+          onError?.(e);
+        } else {
+          console.error('Unknown Error:', e);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [url, depsKey]);
+
+  return { data: result.data, loading, error: loading ? null : result.error };
 };
 
 export default useDataFetch;

@@ -2,11 +2,12 @@
 import dynamic from 'next/dynamic';
 import animation from '@/app/public/assets/loadingAnimation1.json';
 
+const Lottie = dynamic(() => import('react-lottie-player'), { ssr: false });
+
 interface LoadingIndicatorProps {
   message?: string;
 }
 const LoadingIndicator = ({ message }: LoadingIndicatorProps) => {
-  const Lottie = dynamic(() => import('react-lottie-player'), { ssr: false });
 
   return (
     <div>

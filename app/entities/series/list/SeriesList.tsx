@@ -13,13 +13,13 @@ const SeriesList = () => {
   const [loading, setLoading] = useState(true);
   const cols = useGridColumns();
 
-  const getSeries = async () => {
-    const data = await getAllSeriesData();
-    setSeries(data);
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const getSeries = async () => {
+      const data = await getAllSeriesData();
+      setSeries(data);
+      setLoading(false);
+    };
+
     getSeries();
   }, []);
 

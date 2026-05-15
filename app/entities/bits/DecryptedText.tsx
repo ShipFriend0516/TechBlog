@@ -37,7 +37,19 @@ const DecryptedText = ({
     new Set()
   );
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+  const [prevIsHovering, setPrevIsHovering] = useState(isHovering);
   const containerRef = useRef<HTMLSpanElement>(null);
+
+  if (isHovering !== prevIsHovering) {
+    setPrevIsHovering(isHovering);
+    if (isHovering) {
+      setIsScrambling(true);
+      setRevealedIndices(new Set());
+    }
+  }
+
+  const currentDisplayText = isHovering ? displayText : text;
+  const isCurrentlyScrambling = isHovering && isScrambling;
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -124,7 +136,6 @@ const DecryptedText = ({
     };
 
     if (isHovering) {
-      setIsScrambling(true);
       interval = setInterval(() => {
         setRevealedIndices((prevRevealed) => {
           if (sequential) {
@@ -151,10 +162,6 @@ const DecryptedText = ({
           }
         });
       }, speed);
-    } else {
-      setDisplayText(text);
-      setRevealedIndices(new Set());
-      setIsScrambling(false);
     }
 
     return () => {
@@ -218,12 +225,12 @@ const DecryptedText = ({
       {...hoverProps}
       {...props}
     >
-      <span className="sr-only">{displayText}</span>
+      <span className="sr-only">{currentDisplayText}</span>
 
       <span aria-hidden="true">
-        {displayText.split('').map((char, index) => {
+        {currentDisplayText.split('').map((char, index) => {
           const isRevealedOrDone =
-            revealedIndices.has(index) || !isScrambling || !isHovering;
+            revealedIndices.has(index) || !isCurrentlyScrambling || !isHovering;
 
           return (
             <span
