@@ -82,7 +82,10 @@ const PostHeader = ({
             }`}
           >
             <div className={'items-center post-author flex'}>
-              <Profile profileThumbnail={'/images/profile/profile.jpg'} />
+              <Profile
+                profileThumbnail={'/images/profile/profile.jpg'}
+                username={author}
+              />
             </div>
             <span className={'post-date'}>
               {new Date(date).toLocaleDateString('ko-KR')}
