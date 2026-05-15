@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { BiFolder , BiCommentDetail } from 'react-icons/bi';
 import { FaChartBar } from 'react-icons/fa';
 import { FaBuffer } from 'react-icons/fa6';
@@ -18,10 +18,9 @@ import DecryptedText from '../entities/bits/DecryptedText';
 const AdminDashboard = () => {
   const { data: session } = useSession();
   const toast = useToast();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
 
   useEffect(() => {
-    setMounted(true);
     if (session) {
       toast.success('관리자 페이지에 오신 것을 환영합니다.');
     }
