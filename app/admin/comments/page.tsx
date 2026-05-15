@@ -54,29 +54,29 @@ const AdminCommentsPage = () => {
   }, [status, router]);
 
   useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/admin/comments');
+        const data = await response.json();
+
+        if (data.success) {
+          setIssuesWithComments(data.data);
+        } else {
+          setError(data.error || '댓글을 불러올 수 없습니다.');
+        }
+      } catch (err) {
+        setError('댓글을 불러오는 중 오류가 발생했습니다.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (status === 'authenticated') {
       fetchComments();
     }
   }, [status]);
-
-  const fetchComments = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/admin/comments');
-      const data = await response.json();
-
-      if (data.success) {
-        setIssuesWithComments(data.data);
-      } else {
-        setError(data.error || '댓글을 불러올 수 없습니다.');
-      }
-    } catch (err) {
-      setError('댓글을 불러오는 중 오류가 발생했습니다.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (status === 'loading' || loading) {
     return (
