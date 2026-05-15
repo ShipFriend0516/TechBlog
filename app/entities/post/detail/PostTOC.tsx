@@ -195,7 +195,7 @@ function TOCItem({
   const indent = (heading.type - 1) * 12;
 
   return (
-    <li style={{ paddingLeft: indent }}>
+    <li data-rail-item style={{ paddingLeft: indent }}>
       <button
         onClick={onClick}
         className={`
@@ -425,14 +425,13 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
 
             <ul ref={listRef} className="relative list-none">
               {headings.map((h, idx) => (
-                <li key={h.id} data-rail-item>
-                  <TOCItem
-                    heading={h}
-                    isActive={h.id === activeId}
-                    isPast={idx < activeIdx}
-                    onClick={() => scrollToHeading(h.id)}
-                  />
-                </li>
+                <TOCItem
+                  key={h.id}
+                  heading={h}
+                  isActive={h.id === activeId}
+                  isPast={idx < activeIdx}
+                  onClick={() => scrollToHeading(h.id)}
+                />
               ))}
             </ul>
           </div>
