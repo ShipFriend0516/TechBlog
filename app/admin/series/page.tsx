@@ -11,7 +11,7 @@ import useDataFetch, {
 import { Series } from '@/app/types/Series';
 const AdminSeriesPage = () => {
   const [seriesList, setSeriesList] = useState<Series[] | null>(null);
-  const getSeriesListConfig: useDataFetchConfig = {
+  const getSeriesListConfig: useDataFetchConfig<Series[]> = {
     url: '/api/series',
     method: 'GET',
     config: {
@@ -19,7 +19,7 @@ const AdminSeriesPage = () => {
         compact: 'true',
       },
     },
-    onSuccess: (data: Series[]) => {
+    onSuccess: (data) => {
       setSeriesList(data);
     },
   };
