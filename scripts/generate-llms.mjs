@@ -2,10 +2,10 @@
 // Vercel: 환경변수 자동 주입
 // 로컬: node --env-file=.env scripts/generate-llms.mjs 또는 pnpm build 전 .env 로드
 
-import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

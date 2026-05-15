@@ -3,10 +3,10 @@ import { FaChevronDown } from 'react-icons/fa';
 import Select from '@/app/entities/common/Select';
 import SeriesPostListItem from '@/app/entities/post/list/SeriesInnerPostListItem';
 import { Post } from '@/app/types/Post';
-import { Series } from '@/app/types/Series';
+import { SeriesDetail } from '@/app/types/Series';
 
 interface SeriesDetailPostListProps {
-  series: Series;
+  series: SeriesDetail;
   orderOption: 'latest' | 'oldest' | string;
   setOrderOption: (value: 'latest' | 'oldest' | string) => void;
   posts: Post[];

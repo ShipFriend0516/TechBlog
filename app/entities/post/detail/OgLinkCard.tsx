@@ -53,9 +53,14 @@ interface OgLinkCardProps {
 const OgLinkCard = ({ href }: OgLinkCardProps) => {
   const [data, setData] = useState<OGData | null | undefined>(undefined);
   const [imgError, setImgError] = useState(false);
+  const [prevHref, setPrevHref] = useState(href);
+
+  if (href !== prevHref) {
+    setPrevHref(href);
+    setImgError(false);
+  }
 
   useEffect(() => {
-    setImgError(false);
     fetchOGData(href).then(setData);
   }, [href]);
 

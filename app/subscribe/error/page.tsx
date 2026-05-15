@@ -14,11 +14,12 @@ const errorMessages: Record<string, string> = {
   server_error: '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
 };
 
-export default function ErrorPage({
-  searchParams,
-}: {
-  searchParams: { message?: string };
-}) {
+export default async function ErrorPage(
+  props: {
+    searchParams: Promise<{ message?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const errorMessage =
     errorMessages[searchParams.message || ''] ||
     '알 수 없는 오류가 발생했습니다.';

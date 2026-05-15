@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { Series } from '@/app/types/Series';
+import { SeriesDetail } from '@/app/types/Series';
 
 interface SeriesDetailHeaderProps {
-  series: Series;
+  series: SeriesDetail;
 }
 const SeriesDetailHeader = ({ series }: SeriesDetailHeaderProps) => {
   return (

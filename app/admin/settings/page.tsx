@@ -6,6 +6,8 @@ import { FiArrowLeft, FiRefreshCw } from 'react-icons/fi';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import useToast from '@/app/hooks/useToast';
 
+const SKELETON_WIDTHS = [72, 88, 65, 91, 78, 83, 69, 95];
+
 const SettingsPage = () => {
   const toast = useToast();
   const [llmsContent, setLlmsContent] = useState<string | null>(null);
@@ -87,7 +89,7 @@ const SettingsPage = () => {
           {llmsFetching ? (
             <div className="animate-pulse space-y-2">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="h-3.5 bg-gray-100 dark:bg-gray-800 rounded" style={{ width: `${60 + Math.random() * 35}%` }} />
+                <div key={i} className="h-3.5 bg-gray-100 dark:bg-gray-800 rounded" style={{ width: `${SKELETON_WIDTHS[i % SKELETON_WIDTHS.length]}%` }} />
               ))}
             </div>
           ) : llmsContent ? (

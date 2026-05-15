@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
@@ -36,7 +42,11 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  turbopack: {
+    root: __dirname,
+  },
   images: {
+    qualities: [30, 75],
     remotePatterns: [
       {
         protocol: 'https',
@@ -48,7 +58,7 @@ const nextConfig = {
         hostname: '*',
       },
     ],
-  }, // 빌드 시 RSS 피드를 생성하는 스크립트 실행
+  },
   async headers() {
     return [
       {
@@ -79,4 +89,4 @@ const nextConfig = {
   reactStrictMode: false,
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+export default withBundleAnalyzer(nextConfig);

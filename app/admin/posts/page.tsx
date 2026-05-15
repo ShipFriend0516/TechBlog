@@ -23,23 +23,23 @@ const AdminPostListPage = () => {
   const ITEMS_PER_PAGE = 8;
 
   useEffect(() => {
+    const getPosts = async () => {
+      const response = await axios.get('/api/posts', {
+        params: {
+          compact: 'true',
+          page: currentPage,
+          limit: ITEMS_PER_PAGE,
+          private: 'true',
+        },
+      });
+      const data = await response.data;
+      setPosts(data.posts);
+      setTotalItems(data.pagination.totalPosts);
+      setLoading(false);
+    };
+
     getPosts();
   }, [currentPage]);
-
-  const getPosts = async () => {
-    const response = await axios.get('/api/posts', {
-      params: {
-        compact: 'true',
-        page: currentPage,
-        limit: ITEMS_PER_PAGE,
-        private: 'true',
-      },
-    });
-    const data = await response.data;
-    setPosts(data.posts);
-    setTotalItems(data.pagination.totalPosts);
-    setLoading(false);
-  };
 
   const handleEdit = (slug: string) => {
     toast.success('글 수정 페이지로 이동합니다.');

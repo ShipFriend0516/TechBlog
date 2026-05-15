@@ -30,13 +30,23 @@ interface UseAtelierMessagesReturn {
   lastAppendedId: string | null;
 }
 
-// 메시지 맵 → ASC 정렬 배열
 const toSortedArray = (map: Map<string, AtelierMessage>): AtelierMessage[] => {
   return Array.from(map.values()).sort((a, b) => {
     const aTime = new Date(a.createdAt).getTime();
     const bTime = new Date(b.createdAt).getTime();
     return aTime - bTime;
   });
+};
+
+const computeOldestCursor = (map: Map<string, AtelierMessage>): string | null => {
+  let oldest: string | null = null;
+  map.forEach((msg) => {
+    if ((msg as OptimisticAtelierMessage).tempId) return;
+    if (!oldest || new Date(msg.createdAt) < new Date(oldest)) {
+      oldest = msg.createdAt;
+    }
+  });
+  return oldest;
 };
 
 const useAtelierMessages = (
@@ -60,48 +70,6 @@ const useAtelierMessages = (
   const isLoadingOlderRef = useRef(false);
   const hasMoreRef = useRef(false);
 
-  // 현재 가장 오래된 실제 메시지의 createdAt 을 계산
-  const computeOldestCursor = (
-    map: Map<string, AtelierMessage>
-  ): string | null => {
-    let oldest: string | null = null;
-    map.forEach((msg) => {
-      // optimistic 메시지는 _id 가 tempId 와 같으므로 제외
-      if ((msg as OptimisticAtelierMessage).tempId) return;
-      if (!oldest || new Date(msg.createdAt) < new Date(oldest)) {
-        oldest = msg.createdAt;
-      }
-    });
-    return oldest;
-  };
-
-  // 초기 로드 / 새로고침
-  const fetchInitial = useCallback(async () => {
-    setIsInitialLoading(true);
-    setError(null);
-    try {
-      const { data } = await axios.get<GetMessagesResponse>(
-        '/api/atelier/messages',
-        { params: { limit } }
-      );
-      const next = new Map<string, AtelierMessage>();
-      for (const m of data.messages) next.set(m._id, m);
-      setMessageMap(next);
-      const sorted = toSortedArray(next);
-      if (sorted.length > 0) {
-        setLastAppendedId(sorted[sorted.length - 1]._id);
-      } else {
-        setLastAppendedId(null);
-      }
-      setHasMore(data.hasMore);
-      oldestCursorRef.current = computeOldestCursor(next);
-    } catch (e) {
-      setError(e instanceof Error ? e : new Error('메시지를 불러오지 못했어요'));
-    } finally {
-      setIsInitialLoading(false);
-    }
-  }, [limit]);
-
   // ref 동기화
   useEffect(() => {
     isLoadingOlderRef.current = isLoadingOlder;
@@ -111,9 +79,52 @@ const useAtelierMessages = (
     hasMoreRef.current = hasMore;
   }, [hasMore]);
 
+  // 초기 로드 — setState는 .then/.catch/.finally 콜백 안에서만 호출
   useEffect(() => {
-    fetchInitial();
-  }, [fetchInitial]);
+    let cancelled = false;
+    axios
+      .get<GetMessagesResponse>('/api/atelier/messages', { params: { limit } })
+      .then(({ data }) => {
+        if (cancelled) return;
+        setError(null);
+        const next = new Map<string, AtelierMessage>();
+        for (const m of data.messages) next.set(m._id, m);
+        setMessageMap(next);
+        const sorted = toSortedArray(next);
+        setLastAppendedId(sorted.length > 0 ? sorted[sorted.length - 1]._id : null);
+        setHasMore(data.hasMore);
+        oldestCursorRef.current = computeOldestCursor(next);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        setError(e instanceof Error ? e : new Error('메시지를 불러오지 못했어요'));
+      })
+      .finally(() => {
+        if (!cancelled) setIsInitialLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [limit]);
+
+  // 새로고침 — 사용자 액션에서 호출되므로 동기 setState 허용
+  const refresh = useCallback(async () => {
+    setIsInitialLoading(true);
+    setError(null);
+    try {
+      const { data } = await axios.get<GetMessagesResponse>('/api/atelier/messages', { params: { limit } });
+      setError(null);
+      const next = new Map<string, AtelierMessage>();
+      for (const m of data.messages) next.set(m._id, m);
+      setMessageMap(next);
+      const sorted = toSortedArray(next);
+      setLastAppendedId(sorted.length > 0 ? sorted[sorted.length - 1]._id : null);
+      setHasMore(data.hasMore);
+      oldestCursorRef.current = computeOldestCursor(next);
+    } catch (e) {
+      setError(e instanceof Error ? e : new Error('메시지를 불러오지 못했어요'));
+    } finally {
+      setIsInitialLoading(false);
+    }
+  }, [limit]);
 
   // 10초 폴링 — 최신 메시지를 가져와 기존 맵에 병합
   useEffect(() => {
@@ -273,7 +284,7 @@ const useAtelierMessages = (
     removeMessage,
     getSnapshot,
     restoreMessage,
-    refresh: fetchInitial,
+    refresh,
     lastAppendedId,
   };
 };

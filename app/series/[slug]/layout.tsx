@@ -5,14 +5,15 @@ import { Series } from '@/app/types/Series';
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const baseUrl =
     process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
 

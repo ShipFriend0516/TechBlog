@@ -37,70 +37,66 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
   // Effect
 
   useEffect(() => {
-    handleViewCount();
-    getLikeCountAndIsLiked();
-  }, [postId, fingerprint]);
+    const handleViewCount = async () => {
+      try {
+        if (!postId || !fingerprint) {
+          return;
+        }
 
-  // View
+        // 미들웨어가 저장한 쿠키 우선, 없으면 document.referrer 폴백
+        const cookieReferrer = document.cookie
+          .split('; ')
+          .find((row) => row.startsWith('x-page-referrer='))
+          ?.split('=')[1];
+        const referrer = cookieReferrer
+          ? decodeURIComponent(cookieReferrer)
+          : document.referrer;
 
-  const handleViewCount = async () => {
-    try {
-      if (!postId || !fingerprint) {
-        return;
+        const response = await axios.post(
+          '/api/posts/view',
+          {
+            postId,
+            referrer,
+          },
+          {
+            headers: {
+              'X-Fingerprint': fingerprint,
+            },
+          }
+        );
+
+        setViewCount(response.data.viewCount);
+      } catch (error) {
+        console.error('조회수 증가 오류:', error);
       }
+    };
 
-      // 미들웨어가 저장한 쿠키 우선, 없으면 document.referrer 폴백
-      const cookieReferrer = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('x-page-referrer='))
-        ?.split('=')[1];
-      const referrer = cookieReferrer
-        ? decodeURIComponent(cookieReferrer)
-        : document.referrer;
+    const getLikeCountAndIsLiked = async () => {
+      try {
+        if (!postId || !fingerprint) {
+          return;
+        }
 
-      const response = await axios.post(
-        '/api/posts/view',
-        {
-          postId,
-          referrer,
-        },
-        {
+        const response = await axios.get('/api/posts/like', {
+          params: {
+            postId,
+          },
           headers: {
             'X-Fingerprint': fingerprint,
           },
-        }
-      );
+        });
 
-      setViewCount(response.data.viewCount);
-    } catch (error) {
-      console.error('조회수 증가 오류:', error);
-    }
-  };
-
-  // Like
-
-  const getLikeCountAndIsLiked = async () => {
-    try {
-      if (!postId || !fingerprint) {
-        return;
+        const { isLiked, likeCount } = response.data;
+        setLikeCount(likeCount);
+        setIsLiked(isLiked);
+      } catch (error) {
+        console.error('좋아요 수 가져오기 오류:', error);
       }
+    };
 
-      const response = await axios.get('/api/posts/like', {
-        params: {
-          postId,
-        },
-        headers: {
-          'X-Fingerprint': fingerprint,
-        },
-      });
-
-      const { isLiked, likeCount } = response.data;
-      setLikeCount(likeCount);
-      setIsLiked(isLiked);
-    } catch (error) {
-      console.error('좋아요 수 가져오기 오류:', error);
-    }
-  };
+    handleViewCount();
+    getLikeCountAndIsLiked();
+  }, [postId, fingerprint]);
 
   const handleLike = async () => {
     try {

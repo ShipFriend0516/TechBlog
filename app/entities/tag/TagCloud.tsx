@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { TagData, TagWithPosition } from '@/app/types/Tag';
 
 interface TagCloudProps {
@@ -21,42 +21,34 @@ const RADIUS = 200;
 const PARTICLE_COUNT = 80;
 const GOLDEN_RATIO = (1 + Math.sqrt(5)) / 2;
 
+const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
+  const phi = Math.acos(1 - (2 * (i + 0.5)) / PARTICLE_COUNT);
+  const theta = 2 * Math.PI * i * GOLDEN_RATIO;
+  const r = RADIUS * (0.8 + Math.random() * 0.4);
+  return {
+    id: i,
+    x: r * Math.sin(phi) * Math.cos(theta),
+    y: r * Math.sin(phi) * Math.sin(theta),
+    z: r * Math.cos(phi),
+    size: 2 + Math.random() * 2,
+  };
+});
+
 const TagCloud = ({ tags }: TagCloudProps) => {
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useSyncExternalStore(
+    (cb) => { window.addEventListener('resize', cb); return () => window.removeEventListener('resize', cb); },
+    () => window.innerWidth < 768,
+    () => false,
+  );
   const mousePosRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | undefined>(undefined);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
 
   useEffect(() => {
     return () => {
       if (rafRef.current !== undefined) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
-
-  // 입자 생성 — RADIUS, PARTICLE_COUNT가 상수이므로 의존성 없음
-  const particles = useMemo<Particle[]>(() => {
-    return Array.from({ length: PARTICLE_COUNT }, (_, i) => {
-      const phi = Math.acos(1 - (2 * (i + 0.5)) / PARTICLE_COUNT);
-      const theta = 2 * Math.PI * i * GOLDEN_RATIO;
-      const r = RADIUS * (0.8 + Math.random() * 0.4);
-
-      return {
-        id: i,
-        x: r * Math.sin(phi) * Math.cos(theta),
-        y: r * Math.sin(phi) * Math.sin(theta),
-        z: r * Math.cos(phi),
-        size: 2 + Math.random() * 2,
-      };
-    });
   }, []);
 
   // 마우스 위치 추적 — RAF로 throttle해 리렌더 횟수 제한

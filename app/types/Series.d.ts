@@ -11,3 +11,5 @@ export interface Series {
   createdAt: string;
   updatedAt: string;
 }
+
+export type SeriesDetail = Omit<Series, 'posts'> & { posts: Post[] };

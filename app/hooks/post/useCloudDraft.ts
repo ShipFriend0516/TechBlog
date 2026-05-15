@@ -1,24 +1,15 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { CloudDraft } from '@/app/types/Draft';
 
 const useCloudDraft = () => {
   const [cloudDrafts, setCloudDrafts] = useState<CloudDraft[]>([]);
   const [loading, setLoading] = useState(false);
-  const [autoSyncEnabled, setAutoSyncEnabled] = useState(false);
-  const draftIdRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (!draftIdRef.current) {
-      draftIdRef.current = uuidv4();
-    }
-  }, []);
-
-  useEffect(() => {
-    const savedSetting = localStorage.getItem('cloudDraftAutoSync');
-    setAutoSyncEnabled(savedSetting === 'true');
-  }, []);
+  const [autoSyncEnabled, setAutoSyncEnabled] = useState(
+    () => typeof window !== 'undefined' && localStorage.getItem('cloudDraftAutoSync') === 'true'
+  );
+  const draftIdRef = useRef<string | null>(uuidv4());
 
   const fetchCloudDrafts = async () => {
     try {

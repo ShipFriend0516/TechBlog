@@ -5,11 +5,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function UnsubscribedPage({
-  searchParams,
-}: {
-  searchParams: { message?: string };
-}) {
+export default async function UnsubscribedPage(
+  props: {
+    searchParams: Promise<{ message?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const isAlreadyUnsubscribed = searchParams.message === 'already_unsubscribed';
 
   return (

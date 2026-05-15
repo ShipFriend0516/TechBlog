@@ -1,15 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import useTheme from '@/app/hooks/useTheme';
 import Giscus from '@giscus/react';
 
+const subscribe = () => () => {};
+
 const Comments = () => {
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
 
   if (!mounted) return null;
 
