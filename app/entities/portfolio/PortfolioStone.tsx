@@ -27,15 +27,15 @@ const PortfolioStone = ({
   const portfolioDetailUrl = project.slug ? `/portfolio/${project.slug}` : null;
 
   return (
-    <Link
-      href={portfolioDetailUrl || '#'}
+    <div
       className={`
+                  relative
                   ${pastelColors[index % pastelColors.length]}
-                  rounded-2xl 
-                  shadow-lg 
+                  rounded-2xl
+                  shadow-lg
                   cursor-pointer
-                  transition-all 
-                  duration-300 
+                  transition-all
+                  duration-300
                   ease-out
                   overflow-hidden
                   ${isHovered ? 'shadow-2xl z-10 relative' : 'shadow-lg'}
@@ -46,6 +46,9 @@ const PortfolioStone = ({
       onMouseEnter={() => setHoveredIndex(index)}
       onMouseLeave={() => setHoveredIndex(null)}
     >
+      {portfolioDetailUrl && (
+        <Link href={portfolioDetailUrl} className="absolute inset-0 z-0" aria-label={project.title} />
+      )}
       <div className="w-full relative overflow-hidden">
         <div className="w-full h-48 bg-gradient-to-br from-white/20 to-white/5 flex items-center justify-center">
           {project.image ? (
@@ -100,36 +103,32 @@ const PortfolioStone = ({
           </div>
         )}
 
-        <div className="flex gap-2">
+        <div className="relative z-10 flex gap-2">
           {project.demoUrl && (
-            <Link
+            <a
               href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGlobe size={12} />
               배포
-            </Link>
+            </a>
           )}
           {project.githubUrl && (
-            <Link
+            <a
               href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGithub size={12} />
               코드
-            </Link>
-          )}
-          {project.slug && (
-            <Link
-              href={`/portfolio/${project.slug}`}
-              className="flex-1 bg-emerald-100 dark:bg-emerald-800 text-center hover:bg-emerald-200 dark:hover:bg-emerald-700 text-emerald-700 dark:text-emerald-200 px-3 py-2 rounded-lg transition-colors text-xs"
-            >
-              자세히
-            </Link>
+            </a>
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 export default PortfolioStone;
