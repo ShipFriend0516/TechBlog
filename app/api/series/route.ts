@@ -47,7 +47,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const populate = searchParams.get('populate') === 'true';
 
-    const query = Series.find({});
+    const query = Series.find({}).sort({ sortOrder: 1, date: -1 });
     if (populate) {
       query.populate('posts');
     }

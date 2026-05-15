@@ -2,15 +2,20 @@
 import { useState } from 'react';
 import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
-import { deleteSeries } from '@/app/entities/series/api/series';
+import { deleteSeries, reorderSeries } from '@/app/entities/series/api/series';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import AdminSeriesList from '@/app/entities/series/list/AdminSeriesList';
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
 import { Series } from '@/app/types/Series';
+
+type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
+
 const AdminSeriesPage = () => {
   const [seriesList, setSeriesList] = useState<Series[] | null>(null);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+
   const getSeriesListConfig: useDataFetchConfig<Series[]> = {
     url: '/api/series',
     method: 'GET',
@@ -27,10 +32,12 @@ const AdminSeriesPage = () => {
   const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedSeries, setSelectedSeries] = useState<Series | null>(null);
+
   const handleUpdateSeries = (series: Series) => {
     setCreateSeriesOpen(true);
     setSelectedSeries(series);
   };
+
   const handleCloseOverlay = () => {
     setCreateSeriesOpen(false);
     setSelectedSeries(null);
@@ -64,6 +71,20 @@ const AdminSeriesPage = () => {
     );
   };
 
+  const handleReorder = async (newList: Series[]) => {
+    setSeriesList(newList);
+    setSaveStatus('saving');
+    try {
+      await reorderSeries(newList.map((s) => s.slug));
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch (error) {
+      console.error('순서 저장 실패:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 3000);
+    }
+  };
+
   return (
     <section className={'mx-auto max-w-6xl px-4 py-6'}>
       <div className={'mb-6 flex items-start justify-between gap-4'}>
@@ -84,7 +105,7 @@ const AdminSeriesPage = () => {
         </button>
       </div>
       <div>
-        <div className={'mb-4 flex items-baseline gap-2'}>
+        <div className={'mb-4 flex items-center gap-3'}>
           <h2 className={'text-lg font-semibold text-default'}>
             등록된 시리즈 목록
           </h2>
@@ -95,12 +116,29 @@ const AdminSeriesPage = () => {
           >
             {seriesList?.length || 0}
           </span>
+          {saveStatus === 'saving' && (
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">
+              저장 중...
+            </span>
+          )}
+          {saveStatus === 'saved' && (
+            <span className="text-xs text-emerald-500">순서 저장됨</span>
+          )}
+          {saveStatus === 'error' && (
+            <span className="text-xs text-red-500">저장 실패</span>
+          )}
+          {!loading && seriesList && seriesList.length > 1 && saveStatus === 'idle' && (
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">
+              드래그하여 순서를 변경할 수 있습니다
+            </span>
+          )}
         </div>
         <AdminSeriesList
           handleUpdateSeries={handleUpdateSeries}
           handleDeleteClick={handleDeleteClick}
           seriesList={seriesList}
           loading={loading}
+          onReorder={handleReorder}
         />
       </div>
       <Overlay

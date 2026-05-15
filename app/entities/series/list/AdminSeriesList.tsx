@@ -1,17 +1,34 @@
 import React from 'react';
 import { FaBookOpen } from 'react-icons/fa';
-import AdminSeriesListItem from '@/app/entities/series/list/AdminSeriesListItem';
+import SortableAdminSeriesListItem from '@/app/entities/series/list/SortableAdminSeriesListItem';
 import { Series } from '@/app/types/Series';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 interface AdminSeriesListProps {
   seriesList: Series[] | null | undefined;
   loading: boolean;
   handleUpdateSeries: (series: Series) => void;
   handleDeleteClick: (slug: string) => void;
+  onReorder: (newList: Series[]) => void;
 }
 
 const SkeletonItem = () => (
   <li className="flex h-[180px] animate-pulse overflow-hidden rounded-2xl border border-neutral-200 bg-card-light dark:border-neutral-700 dark:bg-card-dark">
+    <div className="h-full w-8 flex-shrink-0 bg-neutral-100 dark:bg-neutral-800" />
     <div className="h-full w-[260px] flex-shrink-0 bg-neutral-200 dark:bg-neutral-700" />
     <div className="flex w-full flex-col gap-3 p-5">
       <div className="h-5 w-2/3 rounded bg-neutral-200 dark:bg-neutral-700" />
@@ -27,7 +44,26 @@ const AdminSeriesList = ({
   seriesList,
   handleUpdateSeries,
   handleDeleteClick,
+  onReorder,
 }: AdminSeriesListProps) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id || !seriesList) return;
+
+    const oldIndex = seriesList.findIndex((s) => s._id === active.id);
+    const newIndex = seriesList.findIndex((s) => s._id === over.id);
+    onReorder(arrayMove(seriesList, oldIndex, newIndex));
+  };
+
   if (loading) {
     return (
       <ul className="flex flex-col gap-4">
@@ -55,16 +91,27 @@ const AdminSeriesList = ({
   }
 
   return (
-    <ul className="flex flex-col gap-4">
-      {seriesList.map((series) => (
-        <AdminSeriesListItem
-          key={series._id}
-          series={series}
-          handleUpdateSeries={handleUpdateSeries}
-          handleDeleteClick={handleDeleteClick}
-        />
-      ))}
-    </ul>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={seriesList.map((s) => s._id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <ul className="flex flex-col gap-4">
+          {seriesList.map((series) => (
+            <SortableAdminSeriesListItem
+              key={series._id}
+              series={series}
+              handleUpdateSeries={handleUpdateSeries}
+              handleDeleteClick={handleDeleteClick}
+            />
+          ))}
+        </ul>
+      </SortableContext>
+    </DndContext>
   );
 };
 

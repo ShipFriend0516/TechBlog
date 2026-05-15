@@ -10,6 +10,7 @@ const seriesSchema = new Schema(
     order: [{ type: String }],
     postCount: { type: Number, required: true, default: 0 },
     thumbnailImage: { type: String, required: false, default: '' },
+    sortOrder: { type: Number, default: 0 },
   },
   {
     timestamps: true, // createdAt, updatedAt 자동 생성

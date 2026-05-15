@@ -41,3 +41,8 @@ export const deleteSeries = async (slug: string) => {
   const response = await axios.delete(`/api/series/${slug}`);
   return response.data;
 };
+
+export const reorderSeries = async (slugs: string[]) => {
+  const response = await axios.put('/api/series/reorder', { slugs });
+  return response.data;
+};

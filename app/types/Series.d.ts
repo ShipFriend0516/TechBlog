@@ -8,6 +8,7 @@ export interface Series {
   order?: string[];
   postCount: number;
   thumbnailImage?: string;
+  sortOrder?: number;
   createdAt: string;
   updatedAt: string;
 }
