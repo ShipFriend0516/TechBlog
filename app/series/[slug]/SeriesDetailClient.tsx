@@ -9,6 +9,7 @@ import SeriesDetailPostList from '@/app/entities/series/detail/SeriesDetailPostL
 import useDataFetch, {
   useDataFetchConfig,
 } from '@/app/hooks/common/useDataFetch';
+import { SeriesDetail } from '@/app/types/Series';
 
 interface SeriesDetailClientProps {
   slug: string;
@@ -19,12 +20,12 @@ const SeriesDetailClient = ({ slug }: SeriesDetailClientProps) => {
     'latest'
   );
 
-  const getSeriesDetailConfig: useDataFetchConfig = {
+  const getSeriesDetailConfig: useDataFetchConfig<SeriesDetail> = {
     url: `/api/series/${slug}`,
     method: 'GET',
   };
 
-  const { data: series, loading, error } = useDataFetch(getSeriesDetailConfig);
+  const { data: series, loading, error } = useDataFetch<SeriesDetail>(getSeriesDetailConfig);
   const posts =
     loading || !series?.posts
       ? []

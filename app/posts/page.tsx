@@ -30,7 +30,7 @@ const BlogList = () => {
   const [totalPosts, setTotalPosts] = useState(0);
   const ITEMS_PER_PAGE = 12;
 
-  const config = useMemo((): useDataFetchConfig => {
+  const config = useMemo((): useDataFetchConfig<{ posts: Post[]; pagination: PaginationData }> => {
     return {
       url: `/api/posts`,
       method: 'GET' as const,
