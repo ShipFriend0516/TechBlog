@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FaGithub, FaGlobe } from 'react-icons/fa';
 import { Project } from '@/app/types/Portfolio';
@@ -25,9 +26,16 @@ const PortfolioStone = ({
   scale,
 }: PortfolioStoneProps) => {
   const portfolioDetailUrl = project.slug ? `/portfolio/${project.slug}` : null;
+  const navigate = useRouter();
+  const navigateToDetail = () => {
+    if (portfolioDetailUrl) {
+      navigate.push(portfolioDetailUrl);
+    }
+  };
 
   return (
-    <div
+    <Link
+      href={portfolioDetailUrl || '#'}
       className={`
                   relative
                   ${pastelColors[index % pastelColors.length]}
@@ -47,7 +55,11 @@ const PortfolioStone = ({
       onMouseLeave={() => setHoveredIndex(null)}
     >
       {portfolioDetailUrl && (
-        <Link href={portfolioDetailUrl} className="absolute inset-0 z-0" aria-label={project.title} />
+        <h2
+          onClick={navigateToDetail}
+          className="absolute inset-0 z-0"
+          aria-label={project.title}
+        />
       )}
       <div className="w-full relative overflow-hidden">
         <div className="w-full h-48 bg-gradient-to-br from-white/20 to-white/5 flex items-center justify-center">
@@ -128,7 +140,7 @@ const PortfolioStone = ({
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 export default PortfolioStone;
