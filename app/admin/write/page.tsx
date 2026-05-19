@@ -9,7 +9,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const BlogWritePage = () => {
   return (
-    <section className={'py-6 px-2 max-w-8xl mx-auto'}>
+    <section className={'py-6 px-2 max-w-7xl mx-auto'}>
       <BlogForm />
     </section>
   );
