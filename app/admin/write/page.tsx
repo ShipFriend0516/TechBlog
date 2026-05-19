@@ -3,7 +3,7 @@ import BlogForm from '@/app/entities/post/write/BlogForm';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return {
-    title: '글쓰기',
+    title: 'Write a New Post',
   };
 };
 
