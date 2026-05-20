@@ -17,9 +17,11 @@ interface PostMetadataFormProps {
   clearDraft: () => void;
   autoSyncEnabled: boolean;
   onToggleAutoSync: (enabled: boolean) => void;
+  isEditMode?: boolean;
   formData: {
     title: string;
     subTitle: string;
+    slug: string;
     seriesId?: string;
     tags: string[];
     isPrivate: boolean;
@@ -36,11 +38,25 @@ const PostMetadataForm = ({
   clearDraft,
   autoSyncEnabled,
   onToggleAutoSync,
+  isEditMode = false,
   formData,
 }: PostMetadataFormProps) => {
   const [tagInput, setTagInput] = useState<string>('');
+  const [slugError, setSlugError] = useState<string>('');
 
-  const { title, subTitle, seriesId, tags, isPrivate, sendToSubscribers } =
+  const handleSlugChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/[가-힣]/.test(value)) {
+      setSlugError('한글은 입력할 수 없습니다. 영문, 숫자, 하이픈(-)만 사용하세요.');
+    } else if (value && !/^[a-zA-Z0-9-]+$/.test(value)) {
+      setSlugError('영문, 숫자, 하이픈(-)만 사용할 수 있습니다.');
+    } else {
+      setSlugError('');
+    }
+    onFieldChange('slug', value);
+  };
+
+  const { title, subTitle, slug, seriesId, tags, isPrivate, sendToSubscribers } =
     formData;
 
   const { suggestions, isOpen, highlightedIndex, setIsOpen, setHighlightedIndex } =
@@ -165,6 +181,25 @@ const PostMetadataForm = ({
           value={subTitle}
         />
       </div>
+      <div className="flex mb-1 gap-1 items-center">
+        <span className="font-bold text-default flex-shrink-0">
+          슬&nbsp;&nbsp;러&nbsp;&nbsp;그&nbsp;
+        </span>
+        <input
+          type="text"
+          placeholder={isEditMode ? '' : '영문, 숫자, 하이픈(-)만 입력 (예: my-post-title)'}
+          className={`inline min-w-12 px-2 py-1 outline-none text-default bg-transparent border-b text-sm flex-grow ${
+            slugError ? 'border-red-500' : 'border-gray-300'
+          } ${isEditMode ? 'opacity-60 cursor-not-allowed' : ''}`}
+          onChange={handleSlugChange}
+          value={slug}
+          disabled={isEditMode}
+          required
+        />
+      </div>
+      {slugError && (
+        <p className="text-xs text-red-500 mb-3 ml-16">{slugError}</p>
+      )}
 
       <div className={'flex justify-start items-center'}>
         <div className="flex flex-wrap mb-4 gap-1 items-center">

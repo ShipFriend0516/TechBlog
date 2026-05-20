@@ -185,6 +185,7 @@ const BlogForm = () => {
       setFormData({
         title: localData.title || '',
         subTitle: localData.subTitle || '',
+        slug: '',
         content: localData.content,
         seriesId: localData.seriesId || '',
         tags: localData.tags || [],
@@ -196,6 +197,7 @@ const BlogForm = () => {
       setFormData({
         title: cloudData.title || '',
         subTitle: cloudData.subTitle || '',
+        slug: '',
         content: cloudData.content,
         seriesId: cloudData.seriesId || '',
         tags: cloudData.tags || [],
@@ -252,6 +254,7 @@ const BlogForm = () => {
         clearDraft={openDeleteDraftOverlay}
         autoSyncEnabled={autoSyncEnabled}
         onToggleAutoSync={toggleAutoSync}
+        isEditMode={isEditMode}
       />
       <Overlay
         overlayOpen={createSeriesOpen}

@@ -12,6 +12,11 @@ export const validatePost = (
   if (!post.content?.trim()) {
     errors.push('내용은 필수입니다');
   }
+  if (!post.slug?.trim()) {
+    errors.push('슬러그는 필수입니다');
+  } else if (!/^[a-zA-Z0-9-]+$/.test(post.slug)) {
+    errors.push('슬러그는 영문, 숫자, 하이픈(-)만 사용할 수 있습니다');
+  }
 
   // 길이 제한 검사
   if (post.title && post.title.length > 100) {

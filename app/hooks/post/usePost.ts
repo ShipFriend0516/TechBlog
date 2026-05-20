@@ -12,6 +12,7 @@ import { Series } from '@/app/types/Series';
 interface FormData {
   title: string;
   subTitle: string;
+  slug: string;
   content: string | undefined;
   seriesId: string;
   tags: string[];
@@ -29,6 +30,7 @@ const usePost = (slug = '') => {
   const [formData, setFormData] = useState<FormData>({
     title: '',
     subTitle: '',
+    slug: '',
     content: '',
     seriesId: '',
     tags: [],
@@ -53,6 +55,7 @@ const usePost = (slug = '') => {
   const { draft, draftImages, updateDraft, clearDraft } = useDraft();
 
   const postBody: PostBody = {
+    slug: formData.slug,
     title: formData.title,
     subTitle: formData.subTitle,
     author: NICKNAME,
@@ -93,6 +96,7 @@ const usePost = (slug = '') => {
           setFormData({
             title: data.post.title || '',
             subTitle: data.post.subTitle,
+            slug: data.post.slug || '',
             content: data.post.content,
             seriesId: data.post.seriesId || '',
             tags: data.post.tags || [],
@@ -116,8 +120,12 @@ const usePost = (slug = '') => {
         toast.success('글이 성공적으로 발행되었습니다.');
         router.push('/posts');
       }
-    } catch (e) {
-      toast.error('글 발행 중 오류 발생했습니다.');
+    } catch (e: any) {
+      if (e.response?.status === 409) {
+        toast.error('이미 사용 중인 slug입니다. 다른 slug를 입력해주세요.');
+      } else {
+        toast.error('글 발행 중 오류 발생했습니다.');
+      }
       console.error('글 발행 중 오류 발생', e);
     }
   };
@@ -152,6 +160,7 @@ const usePost = (slug = '') => {
         setFormData({
           title: title || '',
           subTitle: subTitle || '',
+          slug: '',
           content: content,
           seriesId: seriesId || '',
           tags: tags || [],
@@ -208,6 +217,7 @@ const usePost = (slug = '') => {
     // Form data (individual values for backward compatibility)
     title: formData.title,
     subTitle: formData.subTitle,
+    slug: formData.slug,
     content: formData.content,
     seriesId: formData.seriesId,
     isPrivate: formData.isPrivate,

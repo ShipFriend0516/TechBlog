@@ -18,6 +18,6 @@ interface Post {
   isPrivate?: boolean;
   sendToSubscribers?: boolean;
 }
-type PostBody = Omit<Post, '_id' | 'slug' | 'date' | 'timeToRead' | 'comment'>;
+type PostBody = Omit<Post, '_id' | 'date' | 'timeToRead' | 'comment'>;
 
 export { Post, PostBody };
