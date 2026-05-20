@@ -4,7 +4,7 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ImageZoomViewer from '@/app/entities/common/Overlay/Image/ImageZoomViewer';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import Callout from '@/app/entities/post/detail/Callout';
@@ -43,6 +43,20 @@ const calloutCommand: ICommand = {
     api.replaceSelection(`<callout emoji="💡">${selected}</callout>`);
   },
 };
+
+const editorExtraCommands = [
+  calloutCommand,
+  commands.divider,
+  ...commands.getExtraCommands(),
+];
+
+const CalloutComponent = ({
+  emoji,
+  children,
+}: {
+  emoji?: string;
+  children?: React.ReactNode;
+}) => <Callout emoji={emoji}>{children}</Callout>;
 
 export interface SelectedImage {
   src: string;
@@ -115,17 +129,46 @@ const BlogForm = () => {
 
   useBlockNavigate({ title: formData.title, content: formData.content || '' });
 
-  // 이미지 클릭 핸들러 생성
-  const addImageClickHandler = createImageClickHandler(
-    setSelectedImage
+  const addImageClickHandler = useMemo(
+    () => createImageClickHandler(setSelectedImage),
+    []
   );
 
-  const handleFieldChange = (
+  const handleContentChange = useCallback((value: string | undefined) => {
+    setFormData({ content: value });
+  }, [setFormData]);
+
+  const editorPreviewOptions = useMemo(() => ({
+    wrapperElement: { 'data-color-mode': theme },
+    components: { callout: CalloutComponent } as any,
+    rehypeRewrite: (
+      node: Root | RootContent,
+      index?: number,
+      parent?: Root | HastElement
+    ) => {
+      asideToCallout(node);
+      renderYoutubeEmbed(node, index || 0, parent as HastElement | undefined);
+      addImageClickHandler(node);
+      addDescriptionUnderImage(node, index, parent as HastElement | undefined);
+    },
+  }), [theme, addImageClickHandler]);
+
+  const handleFieldChange = useCallback((
     field: string,
     value: string | boolean | string[]
   ) => {
     setFormData({ [field]: value });
-  };
+  }, [setFormData]);
+
+  const metadataFormData = useMemo(() => ({
+    title: formData.title,
+    subTitle: formData.subTitle,
+    slug: formData.slug,
+    seriesId: formData.seriesId,
+    tags: formData.tags,
+    isPrivate: formData.isPrivate,
+    sendToSubscribers: formData.sendToSubscribers,
+  }), [formData.title, formData.subTitle, formData.slug, formData.seriesId, formData.tags, formData.isPrivate, formData.sendToSubscribers]);
 
   // 로컬 + 클라우드 임시저장본 병합
   const getAllDrafts = (): DraftListItem[] => {
@@ -227,17 +270,17 @@ const BlogForm = () => {
     }
   };
 
-  // 임시저장본 불러오기 오버레이 열기
-  const openLoadDraftOverlay = () => {
+  const handleOpenCreateSeries = useCallback(() => setCreateSeriesOpen(true), []);
+
+  const openLoadDraftOverlay = useCallback(() => {
     setDraftListMode('load');
     setDraftListOpen(true);
-  };
+  }, []);
 
-  // 임시저장 삭제 오버레이 열기
-  const openDeleteDraftOverlay = () => {
+  const openDeleteDraftOverlay = useCallback(() => {
     setDraftListMode('delete');
     setDraftListOpen(true);
-  };
+  }, []);
 
   return (
     <div className={'px-2'}>
@@ -245,11 +288,11 @@ const BlogForm = () => {
         글 {slug ? '수정' : '작성'}
       </h1>
       <PostMetadataForm
-        formData={formData}
+        formData={metadataFormData}
         onFieldChange={handleFieldChange}
         seriesLoading={uiState.seriesLoading}
         series={seriesList}
-        onClickNewSeries={() => setCreateSeriesOpen(true)}
+        onClickNewSeries={handleOpenCreateSeries}
         onClickOverwrite={openLoadDraftOverlay}
         clearDraft={openDeleteDraftOverlay}
         autoSyncEnabled={autoSyncEnabled}
@@ -286,48 +329,13 @@ const BlogForm = () => {
       <div ref={containerRef}>
         <MDEditor
           value={formData.content}
-          onChange={(value) => setFormData({ content: value })}
-          extraCommands={[
-            calloutCommand,
-            commands.divider,
-            ...commands.getExtraCommands(),
-          ]}
+          onChange={handleContentChange}
+          extraCommands={editorExtraCommands}
           height={500}
           minHeight={500}
           visibleDragbar={false}
           data-color-mode={theme}
-          previewOptions={{
-            wrapperElement: {
-              'data-color-mode': theme,
-            },
-            components: {
-              callout: ({
-                emoji,
-                children,
-              }: {
-                emoji?: string;
-                children?: React.ReactNode;
-              }) => <Callout emoji={emoji}>{children}</Callout>,
-            } as any,
-            rehypeRewrite: (
-              node: Root | RootContent,
-              index?: number,
-              parent?: Root | HastElement
-            ) => {
-              asideToCallout(node);
-              renderYoutubeEmbed(
-                node,
-                index || 0,
-                parent as HastElement | undefined
-              );
-              addImageClickHandler(node);
-              addDescriptionUnderImage(
-                node,
-                index,
-                parent as HastElement | undefined
-              );
-            },
-          }}
+          previewOptions={editorPreviewOptions}
         />
       </div>
       <UploadImageContainer

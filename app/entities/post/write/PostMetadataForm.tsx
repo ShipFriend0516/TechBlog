@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import { CgMoveRight } from 'react-icons/cg';
 import { FaTrash } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
@@ -47,7 +47,9 @@ const PostMetadataForm = ({
   const handleSlugChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/[가-힣]/.test(value)) {
-      setSlugError('한글은 입력할 수 없습니다. 영문, 숫자, 하이픈(-)만 사용하세요.');
+      setSlugError(
+        '한글은 입력할 수 없습니다. 영문, 숫자, 하이픈(-)만 사용하세요.'
+      );
     } else if (value && !/^[a-zA-Z0-9-]+$/.test(value)) {
       setSlugError('영문, 숫자, 하이픈(-)만 사용할 수 있습니다.');
     } else {
@@ -56,11 +58,23 @@ const PostMetadataForm = ({
     onFieldChange('slug', value);
   };
 
-  const { title, subTitle, slug, seriesId, tags, isPrivate, sendToSubscribers } =
-    formData;
+  const {
+    title,
+    subTitle,
+    slug,
+    seriesId,
+    tags,
+    isPrivate,
+    sendToSubscribers,
+  } = formData;
 
-  const { suggestions, isOpen, highlightedIndex, setIsOpen, setHighlightedIndex } =
-    useTagAutocomplete({ tagInput, currentTags: tags });
+  const {
+    suggestions,
+    isOpen,
+    highlightedIndex,
+    setIsOpen,
+    setHighlightedIndex,
+  } = useTagAutocomplete({ tagInput, currentTags: tags });
   const selectOptions = series.map((s) => ({
     value: s._id,
     label: s.title,
@@ -93,7 +107,10 @@ const PostMetadataForm = ({
   };
 
   const handleTagRemove = (index: number) => {
-    onFieldChange('tags', tags.filter((_, i) => i !== index));
+    onFieldChange(
+      'tags',
+      tags.filter((_, i) => i !== index)
+    );
   };
 
   const handleSelectSuggestion = (tag: string) => {
@@ -181,13 +198,15 @@ const PostMetadataForm = ({
           value={subTitle}
         />
       </div>
-      <div className="flex mb-1 gap-1 items-center">
+      <div className="flex mb-4 gap-1 items-center">
         <span className="font-bold text-default flex-shrink-0">
           슬&nbsp;&nbsp;러&nbsp;&nbsp;그&nbsp;
         </span>
         <input
           type="text"
-          placeholder={isEditMode ? '' : '영문, 숫자, 하이픈(-)만 입력 (예: my-post-title)'}
+          placeholder={
+            isEditMode ? '' : '영문, 숫자, 하이픈(-)만 입력 (예: my-post-title)'
+          }
           className={`inline min-w-12 px-2 py-1 outline-none text-default bg-transparent border-b text-sm flex-grow ${
             slugError ? 'border-red-500' : 'border-gray-300'
           } ${isEditMode ? 'opacity-60 cursor-not-allowed' : ''}`}
@@ -315,4 +334,4 @@ const PostMetadataForm = ({
   );
 };
 
-export default PostMetadataForm;
+export default memo(PostMetadataForm);

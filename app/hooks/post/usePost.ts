@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getAllSeriesData } from '@/app/entities/series/api/series';
 import useDraft from '@/app/hooks/post/useDraft';
 import useToast from '@/app/hooks/useToast';
@@ -54,7 +54,7 @@ const usePost = (slug = '') => {
   const router = useRouter();
   const { draft, draftImages, updateDraft, clearDraft } = useDraft();
 
-  const postBody: PostBody = {
+  const postBody = useMemo<PostBody>(() => ({
     slug: formData.slug,
     title: formData.title,
     subTitle: formData.subTitle,
@@ -66,7 +66,7 @@ const usePost = (slug = '') => {
     tags: formData.tags,
     isPrivate: formData.isPrivate,
     sendToSubscribers: formData.sendToSubscribers,
-  };
+  }), [formData, profileImage, thumbnailImage]);
 
   useEffect(() => {
     // 시리즈
@@ -209,9 +209,9 @@ const usePost = (slug = '') => {
   };
 
   // Helper functions to update form data
-  const updateFormData = (updates: Partial<FormData>) => {
+  const updateFormData = useCallback((updates: Partial<FormData>) => {
     setFormData((prev) => ({ ...prev, ...updates }));
-  };
+  }, []);
 
   return {
     // Form data (individual values for backward compatibility)
