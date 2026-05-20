@@ -1,11 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 import { FaBook, FaSearch } from 'react-icons/fa';
 import { RiRestartLine } from 'react-icons/ri';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import SearchOverlayContainer from '@/app/entities/common/Overlay/Search/SearchOverlayContainer';
-import { getAllSeriesData } from '@/app/entities/series/api/series';
 import SeriesDropdownList from '@/app/entities/series/list/SeriesDropdownList';
 import useSearchQueryStore from '@/app/stores/useSearchQueryStore';
 import { Series } from '@/app/types/Series';
@@ -16,6 +15,7 @@ interface SearchSectionProps {
   resetSearchCondition: () => void;
   searchSeries: string;
   searchTag?: string;
+  series: Series[] | null;
 }
 
 const SearchSection = ({
@@ -24,20 +24,11 @@ const SearchSection = ({
   resetSearchCondition,
   searchSeries,
   searchTag,
+  series,
 }: SearchSectionProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
   const latest = useSearchQueryStore((state) => state.latestSearchQueries);
-  const [series, setSeries] = useState<Series[] | null>([]);
-
-  useEffect(() => {
-    const getSeries = async () => {
-      const data = await getAllSeriesData();
-      setSeries(data);
-    };
-
-    getSeries();
-  }, []);
 
   return (
     <div className="w-full max-w-6xl mx-auto">

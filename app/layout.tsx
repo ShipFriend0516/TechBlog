@@ -195,6 +195,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${pretendard.variable} font-sans antialiased min-h-screen flex flex-col justify-between`}
+        suppressHydrationWarning
       >
         <NavBar />
         <main className="flex-grow pb-20">{children}</main>

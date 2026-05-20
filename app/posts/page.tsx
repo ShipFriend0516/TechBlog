@@ -1,110 +1,52 @@
-'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useMemo, useState } from 'react';
-import Pagination from '@/app/entities/common/Pagination';
-import PostList from '@/app/entities/post/list/PostList';
-import SearchSection from '@/app/entities/post/list/SearchSection';
-import useDataFetch, {
-  useDataFetchConfig,
-} from '@/app/hooks/common/useDataFetch';
-import useURLSync from '@/app/hooks/common/useURLSync';
-import usePostSearch from '@/app/hooks/post/usePostSearch';
-import useToast from '@/app/hooks/useToast';
-import { Post } from '@/app/types/Post';
-import ErrorBox from '../entities/common/Error/ErrorBox';
+import PostSearchClient from '@/app/entities/post/list/PostSearchClient';
+import { getPostList, getSeriesList } from '@/app/entities/post/list/queries';
 
-interface PaginationData {
-  totalPosts: number;
+const ITEMS_PER_PAGE = 12;
+
+interface PageProps {
+  searchParams: Promise<{
+    query?: string;
+    series?: string;
+    tag?: string;
+    page?: string;
+  }>;
 }
 
-const BlogList = () => {
-  const { query, debouncedQuery, setQuery, addLatestQuery } = usePostSearch();
+// 서버 컴포넌트: searchParams로 URL 파라미터 수신 후 DB 직접 조회
+const BlogList = async ({ searchParams }: PageProps) => {
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
+  const seriesSlug = params.series || '';
+  const tag = params.tag || '';
+  const initialQuery = params.query || '';
 
-  const toast = useToast();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const seriesSlugParam = searchParams.get('series');
-  const tagParam = searchParams.get('tag');
-  const currentPage = Number(searchParams.get('page')) || 1;
-
-  const [totalPosts, setTotalPosts] = useState(0);
-  const ITEMS_PER_PAGE = 12;
-
-  const config = useMemo((): useDataFetchConfig<{ posts: Post[]; pagination: PaginationData }> => {
-    return {
-      url: `/api/posts`,
-      method: 'GET' as const,
-      config: {
-        params: {
-          query: debouncedQuery ? debouncedQuery.trim() : null,
-          series: seriesSlugParam,
-          tag: tagParam,
-          compact: 'true',
-          page: Number(searchParams.get('page')) || 1,
-        },
-      },
-      onBeforeFetch: () => {
-        if (debouncedQuery) {
-          addLatestQuery(debouncedQuery.trim());
-        }
-      },
-      onSuccess: (data: { posts: Post[]; pagination: PaginationData }) => {
-        setTotalPosts(data?.pagination.totalPosts);
-      },
-      dependencies: [debouncedQuery, seriesSlugParam, tagParam, currentPage],
-    };
-  }, [debouncedQuery, seriesSlugParam, tagParam, currentPage]);
-
-  const { data, loading, error } = useDataFetch<{
-    posts: Post[];
-    pagination: PaginationData;
-  }>(config);
-
-  const posts = data?.posts || [];
-
-  useURLSync({
-    baseURL: 'posts',
-    params: {
+  const [{ posts, totalPosts }, series] = await Promise.all([
+    getPostList({
+      query: initialQuery,
+      series: seriesSlug,
+      tag,
       page: currentPage,
-      series: seriesSlugParam,
-      query: query,
-      tag: tagParam,
-    },
-  });
-
-  if (error) {
-    console.error('Error fetching posts:', error);
-    toast.error('서버에 오류가 발생해 글을 불러올 수 없습니다.');
-  }
-
-  const resetSearchCondition = () => {
-    setQuery('');
-    router.push('/posts');
-  };
+      limit: ITEMS_PER_PAGE,
+    }),
+    getSeriesList(),
+  ]);
 
   return (
     <section>
       <h1 className={'text-4xl text-center font-bold mt-8'}>발행된 글</h1>
-      <SearchSection
-        query={query}
-        setQuery={setQuery}
-        resetSearchCondition={resetSearchCondition}
-        searchSeries={seriesSlugParam || ''}
-        searchTag={tagParam || ''}
-      />
-      <PostList
-        query={query}
-        loading={loading}
-        posts={posts}
-        resetSearchCondition={resetSearchCondition}
-      />
-      <ErrorBox error={error} />
-      <Pagination
-        totalItems={totalPosts}
-        itemsPerPage={ITEMS_PER_PAGE}
+      <PostSearchClient
+        key={`${seriesSlug}-${tag}-${currentPage}`}
+        initialQuery={initialQuery}
+        series={series}
+        searchSeries={seriesSlug}
+        searchTag={tag}
+        initialPosts={posts}
+        totalPosts={totalPosts}
         currentPage={currentPage}
+        itemsPerPage={ITEMS_PER_PAGE}
       />
     </section>
   );
 };
+
 export default BlogList;

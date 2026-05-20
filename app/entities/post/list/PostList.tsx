@@ -8,7 +8,7 @@ import { Post } from '@/app/types/Post';
 
 const PostList = (props: {
   query: string;
-  loading: boolean;
+  loading?: boolean;
   posts: Post[] | undefined;
   resetSearchCondition: () => void;
 }) => {
@@ -20,7 +20,7 @@ const PostList = (props: {
         'max-w-6xl mx-auto post-list my-4 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4'
       }
     >
-      {props.loading ? (
+      {props.loading === true ? (
         <PostsGridSkeleton gridCount={12} />
       ) : props.posts && props.posts.length > 0 ? (
         props.posts.map((post, index) => {
