@@ -33,7 +33,10 @@ async function getPostDetail(slug: string) {
   const post = await Post.findOne({ slug: decoded }).lean();
 
   if (!post) {
-    const legacyPost = await Post.findOne({ legacySlug: decoded }).lean();
+    const legacyPost = await Post.findOne(
+      { legacySlug: decoded },
+      { slug: 1 }
+    ).lean<{ slug: string }>();
     if (legacyPost) {
       permanentRedirect(`/posts/${legacyPost.slug}`);
     }
