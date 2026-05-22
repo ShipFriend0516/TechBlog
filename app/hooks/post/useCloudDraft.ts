@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { CloudDraft } from '@/app/types/Draft';
 
@@ -61,10 +61,10 @@ const useCloudDraft = () => {
     }
   };
 
-  const toggleAutoSync = (enabled: boolean) => {
+  const toggleAutoSync = useCallback((enabled: boolean) => {
     setAutoSyncEnabled(enabled);
     localStorage.setItem('cloudDraftAutoSync', enabled.toString());
-  };
+  }, []);
 
   const getCurrentDraftId = () => draftIdRef.current;
 

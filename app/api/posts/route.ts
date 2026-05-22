@@ -4,7 +4,6 @@ import { getServerSession } from 'next-auth';
 import { isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
-import { generateUniqueSlug } from '@/app/lib/utils/post';
 import Post from '@/app/models/Post';
 import Series from '@/app/models/Series';
 
@@ -123,6 +122,7 @@ export async function POST(req: Request) {
 
     await dbConnect();
     const {
+      slug,
       title,
       subTitle,
       author,
@@ -134,10 +134,27 @@ export async function POST(req: Request) {
       sendToSubscribers,
     } = await req.json();
 
-    if (!title || !content || !author || !content) {
+    if (!title || !content || !author || !slug) {
       return Response.json(
-        { success: false, error: '제목, 소제목, 작성자, 내용은 필수입니다' },
+        { success: false, error: '제목, 작성자, 내용, 슬러그는 필수입니다' },
         { status: 400 }
+      );
+    }
+
+    // slug 패턴 검사
+    if (!/^[a-zA-Z0-9-]+$/.test(slug)) {
+      return Response.json(
+        { success: false, error: 'slug는 영문, 숫자, 하이픈(-)만 허용됩니다' },
+        { status: 400 }
+      );
+    }
+
+    // slug 중복 검사
+    const existingPost = await Post.findOne({ slug });
+    if (existingPost) {
+      return Response.json(
+        { success: false, error: '이미 사용 중인 slug입니다. 다른 slug를 입력해주세요.' },
+        { status: 409 }
       );
     }
 
@@ -151,7 +168,7 @@ export async function POST(req: Request) {
     }
 
     const post = {
-      slug: await generateUniqueSlug(title, Post),
+      slug,
       title,
       subTitle,
       author,
