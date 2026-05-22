@@ -61,6 +61,12 @@ const postSchema = new Schema(
       required: false,
       default: false,
     },
+    legacySlug: {
+      type: [String],
+      required: false,
+      default: [],
+      index: true,
+    },
   },
   {
     timestamps: true, // createdAt, updatedAt 자동 생성

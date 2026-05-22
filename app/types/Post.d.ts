@@ -17,6 +17,7 @@ interface Post {
   tags?: string[];
   isPrivate?: boolean;
   sendToSubscribers?: boolean;
+  legacySlug?: string[];
 }
 type PostBody = Omit<Post, '_id' | 'date' | 'timeToRead' | 'comment'>;
 

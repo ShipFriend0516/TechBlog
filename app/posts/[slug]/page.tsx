@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { permanentRedirect } from 'next/navigation';
 import Comments from '@/app/entities/comment/Comments';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 import PostBreadcrumbJSONLd from '@/app/entities/post/detail/PostBreadcrumbJSONLd';
@@ -27,12 +28,15 @@ export const revalidate = 300; // 300초(5분)마다 재검증
 
 async function getPostDetail(slug: string) {
   await dbConnect();
+  const decoded = decodeURIComponent(slug);
 
-  const post = await Post.findOne({
-    slug: decodeURIComponent(slug),
-  }).lean();
+  const post = await Post.findOne({ slug: decoded }).lean();
 
   if (!post) {
+    const legacyPost = await Post.findOne({ legacySlug: decoded }).lean();
+    if (legacyPost) {
+      permanentRedirect(`/posts/${legacyPost.slug}`);
+    }
     throw new Error('Post not found');
   }
 
