@@ -19,7 +19,7 @@ const ContentSecurityPolicy = `
   frame-src https://utteranc.es https://giscus.app https://www.youtube.com https://www.youtu.be;
   frame-ancestors 'none';
   base-uri 'self';
-  form-action 'self';
+  form-action 'self' https://shipfriend.dev;
 `
   .replace(/\n/g, ' ')
   .trim();
