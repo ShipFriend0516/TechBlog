@@ -16,11 +16,18 @@ const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
 // 정적 생성할 경로 지정 - SSG
 export async function generateStaticParams() {
   await dbConnect();
-  const posts = await Post.find({}, 'slug').lean();
+  const posts = await Post.find({}, 'slug legacySlug').lean<
+    { slug: string; legacySlug?: string[] }[]
+  >();
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  const params: { slug: string }[] = [];
+  for (const post of posts) {
+    params.push({ slug: post.slug });
+    for (const legacy of post.legacySlug ?? []) {
+      params.push({ slug: legacy });
+    }
+  }
+  return params;
 }
 
 // ISR 활성화하기
