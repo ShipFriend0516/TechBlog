@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 
+const BASE_URL = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
+
 export const metadata: Metadata = {
   title: '태그 | ShipFriend TechBlog',
   description:
-    '블로그에서 사용된 태그들을 빠르게 탐색할 수 있습니다. 관심 있는 태그를 선택해 관련 글을 찾아보세요.',
+    'ShipFriend TechBlog의 태그 목록 페이지입니다. React, TypeScript, Next.js 등 개발 주제별 글을 탐색해보세요.',
   keywords: [
     'ShipFriend',
     '태그',
@@ -17,16 +19,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: '태그 | ShipFriend TechBlog',
     description:
-      '블로그에서 사용된 태그들을 빠르게 탐색할 수 있습니다. 관심 있는 태그를 선택해 관련 글을 찾아보세요.',
-    url:
-      (process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev') +
-      '/tags',
+      'ShipFriend TechBlog의 태그 목록 페이지입니다. React, TypeScript, Next.js 등 개발 주제별 글을 탐색해보세요.',
+    url: `${BASE_URL}/tags`,
     siteName: 'ShipFriend TechBlog',
     locale: 'ko_KR',
     type: 'website',
   },
   alternates: {
-    canonical: '/tags',
+    canonical: `${BASE_URL}/tags`,
   },
 };
 

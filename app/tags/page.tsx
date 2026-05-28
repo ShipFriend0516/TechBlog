@@ -32,9 +32,9 @@ const TagsPage = () => {
 
   return (
     <section className="w-full p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
-      <h1 className="text-3xl sm:text-4xl font-bold mt-4 text-center">태그</h1>
+      <h1 className="text-3xl sm:text-4xl font-bold mt-4 text-center">태그 목록</h1>
       <p className="text-base sm:text-lg text-weak mb-6 sm:mb-8 text-center">
-        블로그에서 사용된 태그들을 빠르게 탐색할 수 있습니다.
+        ShipFriend TechBlog의 태그를 탐색하고 관심 있는 주제의 글을 찾아보세요.
       </p>
 
       <div className="min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] relative">
