@@ -1,11 +1,25 @@
-import fs from 'fs';
-import path from 'path';
 import { Feed } from 'feed';
 
-export async function generateRssFeed(posts: any[]) {
-  const site_url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+export interface FeedPost {
+  title: string;
+  slug: string;
+  subTitle?: string;
+  content: string;
+  date: number | string | Date;
+}
 
-  const feedOptions = {
+/**
+ * 게시물 목록으로 RSS/Atom/JSON 피드 객체를 생성합니다.
+ * 서버리스 환경에서는 파일 시스템에 쓸 수 없으므로, 파일로 저장하지 않고
+ * 요청 시점에 직렬화(feed.rss2()/atom1()/json1())해서 응답합니다.
+ */
+export function buildFeed(posts: FeedPost[]) {
+  const site_url =
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
+    process.env.NEXTAUTH_URL ||
+    'http://localhost:3000';
+
+  const feed = new Feed({
     title: 'ShipFriend TechBlog',
     description:
       '개인 개발 블로그로, Nextjs로 개발되었습니다. 개발 관련 글을 작성합니다.',
@@ -20,9 +34,7 @@ export async function generateRssFeed(posts: any[]) {
       json: `${site_url}/feed.json`,
       atom: `${site_url}/atom.xml`,
     },
-  };
-
-  const feed = new Feed(feedOptions);
+  });
 
   posts.forEach((post) => {
     feed.addItem({
@@ -42,11 +54,5 @@ export async function generateRssFeed(posts: any[]) {
     });
   });
 
-  // public 디렉토리에 RSS 파일들을 생성합니다
-  const publicDir = path.join(process.cwd(), 'public');
-
-  fs.mkdirSync(publicDir, { recursive: true });
-  fs.writeFileSync(path.join(publicDir, 'rss.xml'), feed.rss2());
-  fs.writeFileSync(path.join(publicDir, 'atom.xml'), feed.atom1());
-  fs.writeFileSync(path.join(publicDir, 'feed.json'), feed.json1());
+  return feed;
 }

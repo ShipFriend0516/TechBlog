@@ -66,22 +66,6 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: '/rss.xml',
-        destination: '/api/rss',
-      },
-      {
-        source: '/atom.xml',
-        destination: '/api/rss',
-      },
-      {
-        source: '/feed.json',
-        destination: '/api/rss',
-      },
-    ];
-  },
   env: {
     DB_URI: process.env.DB_URI,
   },
