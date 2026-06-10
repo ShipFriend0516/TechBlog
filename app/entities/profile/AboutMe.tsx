@@ -41,9 +41,9 @@ const AboutMe = () => {
             <div className="h-1 w-20 bg-gray-900 dark:bg-gray-100 rounded-full"></div>
           </div>
           <p className="text-default text-base leading-relaxed">
-            Software Engineer로서 React, TypeScript를 주로 사용합니다. 항상
-            확장성에 대해서 고민하고, 성능 최적화에 관심이 많으며, 지속적인
-            학습과 성장을 추구합니다.
+            Software Engineer로서 문제의 레이어를 가리지 않는 사람이 되려
+            합니다. 항상 확장성에 대해 고민하고, 성능 최적화에 관심이 많으며,
+            지속적인 학습과 성장을 추구합니다.
           </p>
           <div className="flex gap-4 pt-2">
             <a
