@@ -18,6 +18,10 @@ export const authOptions: NextAuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
+      // GitHub이 2026-04부터 OAuth 콜백에 RFC 9207 iss 파라미터를 포함시키기 시작했다.
+      // next-auth(openid-client)는 iss가 오면 issuer 설정값과 대조하는데, 이게 없으면
+      // "issuer must be configured on the issuer" 에러로 로그인 콜백이 실패한다.
+      issuer: 'https://github.com/login/oauth',
     }),
   ],
   callbacks: {
