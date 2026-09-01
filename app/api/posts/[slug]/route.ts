@@ -1,7 +1,6 @@
 // app/api/posts/[slug]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 import Post from '@/app/models/Post';
@@ -42,8 +41,7 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ slug: str
   const params = await props.params;
   try {
     // 글 수정은 관리자 전용
-    const session = await getServerSession();
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -109,8 +107,7 @@ export async function DELETE(request: Request, props: { params: Promise<{ slug: 
   const params = await props.params;
   try {
     // 글 삭제는 관리자 전용
-    const session = await getServerSession();
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }

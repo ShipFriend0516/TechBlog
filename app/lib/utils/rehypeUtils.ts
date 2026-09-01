@@ -39,7 +39,7 @@ export const addDescriptionUnderImage = (
         type: 'element' as const,
         tagName: 'span',
         properties: {
-          className: 'image-description',
+          className: ['image-description'],
         },
         children: [
           {
@@ -126,7 +126,7 @@ export const createYoutubeIframe = (
       height: height.toString(),
       frameBorder: '0',
       allowFullScreen: true,
-      className: 'youtube-embed',
+      className: ['youtube-embed'],
     },
     children: [],
   };

@@ -1,14 +1,13 @@
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import CloudDraft from '@/app/models/CloudDraft';
 
 // GET /api/drafts - 사용자의 클라우드 임시저장본 조회
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession();
     // 클라우드 드래프트는 관리자 전용 기능
-    if (!isAdminSession(session) || !session?.user?.email) {
+    const session = await getAdminSession();
+    if (!session?.user?.email) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -36,9 +35,9 @@ export async function GET(req: Request) {
 // POST /api/drafts - 클라우드 임시저장본 생성 또는 업데이트
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession();
     // 관리자 전용
-    if (!isAdminSession(session) || !session?.user?.email) {
+    const session = await getAdminSession();
+    if (!session?.user?.email) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -132,9 +131,9 @@ export async function POST(req: Request) {
 // DELETE /api/drafts?draftId=xxx - 특정 클라우드 임시저장본 삭제
 export async function DELETE(req: Request) {
   try {
-    const session = await getServerSession();
     // 관리자 전용
-    if (!isAdminSession(session) || !session?.user?.email) {
+    const session = await getAdminSession();
+    if (!session?.user?.email) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

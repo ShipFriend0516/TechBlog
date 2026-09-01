@@ -1,9 +1,8 @@
 // DELETE /api/atelier/messages/[id] - 관리자 또는 소유자 소프트 삭제
 // PATCH  /api/atelier/messages/[id] - 관리자 전용 isPublic 토글
 // PUT    /api/atelier/messages/[id] - 소유자 또는 관리자 메시지 수정
-import { getServerSession } from 'next-auth';
 import { serializeAtelierMessage, LeanAtelierMessage } from '@/app/lib/atelierSerialize';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession, getSession, isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import AtelierMessage from '@/app/models/AtelierMessage';
 
@@ -16,7 +15,7 @@ export const DELETE = async (request: Request, props: RouteParams) => {
   try {
     await dbConnect();
 
-    const session = await getServerSession();
+    const session = await getSession();
     const isAdmin = isAdminSession(session);
 
     const { id } = params;
@@ -37,7 +36,7 @@ export const DELETE = async (request: Request, props: RouteParams) => {
 
     // 소유권 확인: admin OR 소유자
     let isOwner = false;
-    const sessionGithubId = (session?.user as { id?: string })?.id;
+    const sessionGithubId = session?.user?.id;
     if (sessionGithubId) {
       // 로그인 사용자: githubId로 비교
       isOwner = message.author?.githubId === sessionGithubId;
@@ -85,8 +84,7 @@ export const PATCH = async (request: Request, props: RouteParams) => {
     await dbConnect();
 
     // 관리자 전용
-    const session = await getServerSession();
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -146,7 +144,7 @@ export const PUT = async (request: Request, props: RouteParams) => {
   try {
     await dbConnect();
 
-    const session = await getServerSession();
+    const session = await getSession();
     const isAdmin = isAdminSession(session);
 
     const { id } = params;
@@ -197,7 +195,7 @@ export const PUT = async (request: Request, props: RouteParams) => {
 
     // 소유권 확인: admin OR 소유자
     let isOwner = false;
-    const sessionGithubId = (session?.user as { id?: string })?.id;
+    const sessionGithubId = session?.user?.id;
     if (sessionGithubId) {
       // 로그인 사용자: githubId로 비교
       isOwner = message.author?.githubId === sessionGithubId;
@@ -230,9 +228,7 @@ export const PUT = async (request: Request, props: RouteParams) => {
     }
 
     const fingerprint = request.headers.get('X-Fingerprint');
-    const githubId =
-      (session?.user as { id?: string })?.id || null;
-    const serialized = serializeAtelierMessage(updated, fingerprint, githubId);
+    const serialized = serializeAtelierMessage(updated, fingerprint, sessionGithubId || null);
 
     return Response.json(
       { success: true, message: serialized },

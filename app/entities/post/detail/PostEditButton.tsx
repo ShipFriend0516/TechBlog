@@ -4,9 +4,7 @@ import { SessionProvider, useSession } from 'next-auth/react';
 
 const EditButton = ({ slug }: { slug: string }) => {
   const { data: session } = useSession();
-  const isAdmin =
-    (session as (typeof session & { isAdmin?: boolean }) | null)?.isAdmin ===
-    true;
+  const isAdmin = session?.isAdmin === true;
 
   if (!isAdmin) return null;
 

@@ -75,7 +75,7 @@ TechBlog/
 ```text
    1 GITHUB_ID=your_github_client_id
    2 GITHUB_SECRET=your_github_client_secret
-   3 ADMIN_EMAIL=your_admin_email@example.com
+   3 ADMIN_GITHUB_ID=your_admin_github_numeric_id
    4 NEXTAUTH_SECRET=your_nextauth_secret
    5 NEXTAUTH_URL=http://localhost:3000
    6 DB_URI=your_mongodb_connection_string
@@ -83,3 +83,6 @@ TechBlog/
    8 NEXT_PUBLIC_URL=http://localhost:3000
    9 BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
 ```
+
+`ADMIN_GITHUB_ID`는 이메일이 아닌 GitHub 계정의 숫자 id다.
+`https://api.github.com/users/{GitHub 아이디}` 응답의 `id` 값을 그대로 넣으면 된다.
