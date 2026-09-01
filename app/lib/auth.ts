@@ -24,14 +24,16 @@ export const authOptions: NextAuthOptions = {
     async signIn() {
       return true;
     },
-    async jwt({ token, account }) {
-      if (account?.profile) {
-        const profile = account.profile as GitHubProfile;
-        token.githubLogin = profile.login;
-        token.githubId = profile.id;
-        token.githubBio = profile.bio;
-        token.githubCompany = profile.company;
-        token.githubLocation = profile.location;
+    async jwt({ token, profile }) {
+      // next-auth의 GitHub OAuth 플로우는 원본 프로필을 account가 아니라
+      // 이 콜백의 별도 인자(profile)로 전달한다 (로그인 시점에만 존재).
+      if (profile) {
+        const githubProfile = profile as unknown as GitHubProfile;
+        token.githubLogin = githubProfile.login;
+        token.githubId = githubProfile.id;
+        token.githubBio = githubProfile.bio;
+        token.githubCompany = githubProfile.company;
+        token.githubLocation = githubProfile.location;
       }
       return token;
     },
