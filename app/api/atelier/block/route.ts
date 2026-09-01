@@ -1,6 +1,5 @@
 // POST /api/atelier/block - 관리자 전용 사용자 차단 (fingerprint 또는 GitHub ID)
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import BlockedFingerprint from '@/app/models/BlockedFingerprint';
 
@@ -9,8 +8,7 @@ export const POST = async (request: Request) => {
     await dbConnect();
 
     // 관리자 전용
-    const session = await getServerSession();
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }

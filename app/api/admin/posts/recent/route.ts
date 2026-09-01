@@ -1,6 +1,5 @@
 // GET /api/admin/posts/recent - 관리자용 최근 게시글 조회
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import Post from '@/app/models/Post';
 
@@ -8,9 +7,8 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const session = await getServerSession();
     // 관리자 전용
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
