@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { portfolioData } from '@/app/api/portfolio/data';
+import { absoluteUrl, SITE_NAME, SITE_URL } from '@/app/lib/site';
 import PortfolioDetailClient from './PortfolioDetailClient';
 
 interface PortfolioDetailPageProps {
@@ -7,9 +8,6 @@ interface PortfolioDetailPageProps {
     slug: string;
   }>;
 }
-
-const baseUrl =
-  process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
 
 export async function generateMetadata(props: PortfolioDetailPageProps): Promise<Metadata> {
   const params = await props.params;
@@ -27,12 +25,12 @@ export async function generateMetadata(props: PortfolioDetailPageProps): Promise
     openGraph: {
       title: `${portfolio.title} | ShipFriend TechBlog`,
       description: portfolio.description,
-      url: `${baseUrl}/portfolio/${params.slug}`,
-      siteName: 'ShipFriend TechBlog',
+      url: `${SITE_URL}/portfolio/${params.slug}`,
+      siteName: SITE_NAME,
       locale: 'ko_KR',
       type: 'website',
       images: portfolio.mainImage
-        ? [{ url: `${baseUrl}${portfolio.mainImage}`, alt: portfolio.title }]
+        ? [{ url: absoluteUrl(portfolio.mainImage), alt: portfolio.title }]
         : undefined,
     },
     twitter: {
@@ -40,11 +38,11 @@ export async function generateMetadata(props: PortfolioDetailPageProps): Promise
       title: `${portfolio.title} | ShipFriend TechBlog`,
       description: portfolio.description,
       images: portfolio.mainImage
-        ? [`${baseUrl}${portfolio.mainImage}`]
+        ? [absoluteUrl(portfolio.mainImage)]
         : undefined,
     },
     alternates: {
-      canonical: `${baseUrl}/portfolio/${params.slug}`,
+      canonical: `${SITE_URL}/portfolio/${params.slug}`,
     },
   };
 }

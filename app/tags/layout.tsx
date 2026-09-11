@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-
-const BASE_URL = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
+import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, SITE_URL } from '@/app/lib/site';
 
 export const metadata: Metadata = {
   title: '태그 | ShipFriend TechBlog',
@@ -20,13 +19,21 @@ export const metadata: Metadata = {
     title: '태그 | ShipFriend TechBlog',
     description:
       'ShipFriend TechBlog의 태그 목록 페이지입니다. React, TypeScript, Next.js 등 개발 주제별 글을 탐색해보세요.',
-    url: `${BASE_URL}/tags`,
-    siteName: 'ShipFriend TechBlog',
+    url: `${SITE_URL}/tags`,
+    siteName: SITE_NAME,
     locale: 'ko_KR',
     type: 'website',
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '태그 | ShipFriend TechBlog',
+    description:
+      'ShipFriend TechBlog의 태그 목록 페이지입니다. React, TypeScript, Next.js 등 개발 주제별 글을 탐색해보세요.',
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   alternates: {
-    canonical: `${BASE_URL}/tags`,
+    canonical: `${SITE_URL}/tags`,
   },
 };
 

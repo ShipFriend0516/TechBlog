@@ -52,11 +52,12 @@ const NavBar = () => {
         className={`${fixedStyle} fixed h-16 top-0 px-4 w-screen inline-flex items-center justify-center z-40 backdrop-blur-sm`}
       >
         <div>
-          <Link href={'/'}>
+          <Link href={'/'} aria-label="ShipFriend TechBlog 홈">
             <Profile
               profileThumbnail={'/images/profile/profile.jpg'}
               username={'Jeongwoo Seo'}
             />
+            <span className="sr-only">ShipFriend TechBlog</span>
           </Link>
         </div>
         <ul

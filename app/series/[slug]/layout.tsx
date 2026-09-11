@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
+import {
+  absoluteUrl,
+  DEFAULT_SOCIAL_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+} from '@/app/lib/site';
 import SeriesModel from '@/app/models/Series';
 import { Series } from '@/app/types/Series';
 
@@ -14,9 +20,6 @@ export async function generateMetadata(
   }
 ): Promise<Metadata> {
   const params = await props.params;
-  const baseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
-
   try {
     await dbConnect();
     const slug = decodeURIComponent(params.slug);
@@ -35,15 +38,15 @@ export async function generateMetadata(
     const description =
       series.description ||
       `${series.title} 시리즈의 글 목록입니다. ShipFriend TechBlog에서 연재되는 시리즈입니다.`;
-    const url = `${baseUrl}/series/${params.slug}`;
+    const url = `${SITE_URL}/series/${encodeURIComponent(series.slug)}`;
 
     const images = series.thumbnailImage
-      ? [{ url: series.thumbnailImage, alt: series.title }]
+      ? [{ url: absoluteUrl(series.thumbnailImage), alt: series.title }]
       : [
           {
-            url: `${baseUrl}/images/profile/profile-banner.png`,
-            width: 512,
-            height: 512,
+            url: DEFAULT_SOCIAL_IMAGE,
+            width: 1424,
+            height: 752,
             alt: 'ShipFriend TechBlog',
           },
         ];
@@ -62,16 +65,22 @@ export async function generateMetadata(
         title,
         description,
         url,
-        siteName: 'ShipFriend TechBlog',
+        siteName: SITE_NAME,
         images,
         locale: 'ko_KR',
         type: 'website',
       },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: images.map((image) => image.url),
+      },
       alternates: {
-        canonical: `/series/${params.slug}`,
+        canonical: url,
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: '시리즈 | ShipFriend TechBlog',
       description: '시리즈 글 목록입니다.',

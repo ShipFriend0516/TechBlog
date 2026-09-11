@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { permanentRedirect } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import Comments from '@/app/entities/comment/Comments';
 import PostActionSection from '@/app/entities/post/detail/PostActionSection';
 import PostBreadcrumbJSONLd from '@/app/entities/post/detail/PostBreadcrumbJSONLd';
@@ -8,15 +8,19 @@ import PostJSONLd from '@/app/entities/post/detail/PostJSONLd';
 import PostRecommendation from '@/app/entities/post/detail/PostRecommendation';
 import SubscribeToast from '@/app/entities/post/detail/SubscribeToast';
 import dbConnect from '@/app/lib/dbConnect';
+import { absoluteUrl, SITE_NAME, SITE_URL } from '@/app/lib/site';
 import { stripMarkdown } from '@/app/lib/utils/stripMarkdown';
 import Post from '@/app/models/Post';
 
 const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
+const publicPostFilter = {
+  $or: [{ isPrivate: false }, { isPrivate: { $exists: false } }],
+};
 
 // 정적 생성할 경로 지정 - SSG
 export async function generateStaticParams() {
   await dbConnect();
-  const posts = await Post.find({}, 'slug legacySlug').lean<
+  const posts = await Post.find(publicPostFilter, 'slug legacySlug').lean<
     { slug: string; legacySlug?: string[] }[]
   >();
 
@@ -37,17 +41,20 @@ async function getPostDetail(slug: string) {
   await dbConnect();
   const decoded = decodeURIComponent(slug);
 
-  const post = await Post.findOne({ slug: decoded }).lean();
+  const post = await Post.findOne({
+    slug: decoded,
+    ...publicPostFilter,
+  }).lean();
 
   if (!post) {
     const legacyPost = await Post.findOne(
-      { legacySlug: decoded },
+      { legacySlug: decoded, ...publicPostFilter },
       { slug: 1 }
     ).lean<{ slug: string }>();
     if (legacyPost) {
       permanentRedirect(`/posts/${legacyPost.slug}`);
     }
-    throw new Error('Post not found');
+    notFound();
   }
 
   return { post: JSON.parse(JSON.stringify(post)) };
@@ -60,12 +67,11 @@ export const generateMetadata = async (
 ): Promise<Metadata> => {
   const params = await props.params;
   const { post } = await getPostDetail(params.slug);
-  const baseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
-  const postUrl = `${baseUrl}/posts/${post.slug}`;
+  const postUrl = `${SITE_URL}/posts/${encodeURIComponent(post.slug)}`;
   const description = post.subTitle
     ? stripMarkdown(post.subTitle, 160)
     : stripMarkdown(post.content, 160);
+  const imageUrl = absoluteUrl(post.thumbnailImage || defaultThumbnail);
 
   return {
     title: post.title,
@@ -78,22 +84,26 @@ export const generateMetadata = async (
       title: post.title,
       description,
       url: postUrl,
-      images: [post.thumbnailImage || defaultThumbnail],
+      siteName: SITE_NAME,
+      images: [imageUrl],
       type: 'article',
       locale: 'ko_KR',
       publishedTime: new Date(post.date).toISOString(),
+      modifiedTime: new Date(post.updatedAt || post.date).toISOString(),
       authors: [post.author],
+      tags: post.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description,
+      images: [imageUrl],
     },
     other: {
-      'application-name': 'ShipFriend TechBlog',
       author: post.author,
       publish_date: new Date(post.date).toISOString(),
       'article:tag':
         post.tags?.join(',') || 'technology,programming,web development',
-      'twitter:card': 'summary_large_image',
-      'twitter:title': post.title,
-      'twitter:description': description,
-      'twitter:image': String(post.thumbnailImage || defaultThumbnail),
     },
   };
 };

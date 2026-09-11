@@ -5,33 +5,38 @@ import React from 'react';
 import Footer from '@/app/entities/common/Footer';
 import NavBar from '@/app/entities/common/NavBar';
 import ToastProvider from '@/app/entities/common/Toast/ToastProvider';
+import {
+  DEFAULT_SOCIAL_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from '@/app/lib/site';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-const SITE_NAME = 'ShipFriend TechBlog';
-const SITE_DESCRIPTION = '문제 해결 경험과 개발 지식을 공유하는 개발 블로그입니다.';
-const SITE_URL = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
-
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: SITE_NAME,
   description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: 'ShipFriend', url: 'https://github.com/ShipFriend0516' }],
+  creator: 'ShipFriend',
+  publisher: SITE_NAME,
   icons: {
-    icon: '/favicon.ico',
-    apple: '/assets/apple-touch-icon.png',
-    shortcut: '/favicon-16.png',
-    other: [
+    icon: [
+      { url: '/favicon.ico' },
       {
-        rel: 'icon',
-        url: '/favicon-32.png',
+        url: '/assets/favicon-32x32.png',
         sizes: '32x32',
         type: 'image/png',
       },
       {
-        rel: 'icon',
-        url: '/favicon-16.png',
+        url: '/assets/favicon-16x16.png',
         sizes: '16x16',
         type: 'image/png',
       },
     ],
+    apple: '/assets/apple-touch-icon.png',
+    shortcut: '/assets/favicon-16x16.png',
   },
   keywords: [
     'ShipFriend',
@@ -51,7 +56,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     images: [
       {
-        url: `${SITE_URL}/images/profile/profile-banner.png`,
+        url: DEFAULT_SOCIAL_IMAGE,
         width: 1424,
         height: 752,
         alt: 'ShipFriend TechBlog Open Graph Image',
@@ -64,7 +69,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: [`${SITE_URL}/images/profile/profile-banner.png`],
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   alternates: {
     canonical: SITE_URL,
@@ -75,7 +80,6 @@ export const metadata: Metadata = {
     },
   },
   other: {
-    'application-name': 'ShipFriend TechBlog 🌱',
     author: 'ShipFriend',
     'article:tag': 'technology,programming,web development',
   },
@@ -150,46 +154,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteSchema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebSite',
-        '@id': `${SITE_URL}/#website`,
-        url: SITE_URL,
-        name: SITE_NAME,
-        description: SITE_DESCRIPTION,
-        inLanguage: 'ko-KR',
-        publisher: {
-          '@id': `${SITE_URL}/#organization`,
-        },
-      },
-      {
-        '@type': 'Organization',
-        '@id': `${SITE_URL}/#organization`,
-        name: SITE_NAME,
-        url: SITE_URL,
-        logo: {
-          '@type': 'ImageObject',
-          url: `${SITE_URL}/assets/apple-touch-icon.png`,
-        },
-        sameAs: ['https://github.com/ShipFriend0516'],
-      },
-    ],
-  };
-
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: preventFOUC,
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(siteSchema),
           }}
         />
       </head>
