@@ -1,4 +1,5 @@
 import { Feed } from 'feed';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/app/lib/site';
 
 export interface FeedPost {
   title: string;
@@ -14,40 +15,34 @@ export interface FeedPost {
  * 요청 시점에 직렬화(feed.rss2()/atom1()/json1())해서 응답합니다.
  */
 export function buildFeed(posts: FeedPost[]) {
-  const site_url =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXTAUTH_URL ||
-    'http://localhost:3000';
-
   const feed = new Feed({
-    title: 'ShipFriend TechBlog',
-    description:
-      '개인 개발 블로그로, Nextjs로 개발되었습니다. 개발 관련 글을 작성합니다.',
-    id: site_url,
-    link: site_url,
-    image: `${site_url}/favicon.png`,
-    favicon: `${site_url}/favicon.ico`,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    id: `${SITE_URL}/`,
+    link: `${SITE_URL}/`,
+    image: `${SITE_URL}/assets/android-chrome-512x512.png`,
+    favicon: `${SITE_URL}/favicon.ico`,
     copyright: `All rights reserved ${new Date().getFullYear()}`,
     generator: 'Feed for Next.js',
     feedLinks: {
-      rss2: `${site_url}/rss.xml`,
-      json: `${site_url}/feed.json`,
-      atom: `${site_url}/atom.xml`,
+      rss2: `${SITE_URL}/rss.xml`,
+      json: `${SITE_URL}/feed.json`,
+      atom: `${SITE_URL}/atom.xml`,
     },
   });
 
   posts.forEach((post) => {
     feed.addItem({
       title: post.title,
-      id: `${site_url}/posts/${post.slug}`,
-      link: `${site_url}/posts/${post.slug}`,
+      id: `${SITE_URL}/posts/${encodeURIComponent(post.slug)}`,
+      link: `${SITE_URL}/posts/${encodeURIComponent(post.slug)}`,
       description: post.subTitle,
       content: post.content,
       author: [
         {
           name: '개발자 서정우',
           email: 'sjw4371@naver.com',
-          link: site_url,
+          link: `${SITE_URL}/`,
         },
       ],
       date: new Date(post.date),

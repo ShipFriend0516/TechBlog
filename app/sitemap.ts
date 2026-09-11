@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import dbConnect from '@/app/lib/dbConnect';
+import { SITE_URL } from '@/app/lib/site';
 import Post from '@/app/models/Post';
 import Series from '@/app/models/Series';
 
@@ -15,10 +16,7 @@ function maxDateString(dates: (Date | string | undefined)[]): string {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXTAUTH_URL ||
-    'http://localhost:3000';
+  const baseUrl = SITE_URL;
 
   if (!process.env.DB_URI) {
     console.error('Database URI is not defined');
@@ -28,7 +26,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await dbConnect(process.env.DB_URI);
 
   // 포스트 URL 생성
-  const posts = await Post.find({}).sort({ updatedAt: -1 }).lean();
+  const posts = await Post.find({
+    $or: [{ isPrivate: false }, { isPrivate: { $exists: false } }],
+  })
+    .sort({ updatedAt: -1 })
+    .lean();
   const postsLastmod = posts.length
     ? maxDateString(posts.map((p) => p.updatedAt || p.date))
     : toDateString(new Date());

@@ -1,5 +1,12 @@
+import type { Metadata } from 'next';
 import LottiePlayer from '@/app/entities/common/Animation/LottiePlayer';
 import notfoundAnimation from '@/app/public/assets/notfound.json';
+
+export const metadata: Metadata = {
+  title: '페이지를 찾을 수 없음 | ShipFriend TechBlog',
+  robots: { index: false, follow: false },
+};
+
 const NotFound = () => {
   return (
     <div className={' relative mx-auto max-w-4xl'}>
