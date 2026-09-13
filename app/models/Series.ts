@@ -17,6 +17,8 @@ const seriesSchema = new Schema(
   }
 );
 
+seriesSchema.index({ sortOrder: 1, date: -1, _id: 1 });
+
 const Series = models.Series || model('Series', seriesSchema);
 
 export default Series;
