@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 import { FaBookOpen, FaCalendar } from 'react-icons/fa';
-import { Series } from '@/app/types/Series';
+import type { SeriesListItem } from '@/app/types/Series.d';
 
 interface SeriesPreviewProps {
-  item: Series;
+  item: SeriesListItem;
 }
 
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
@@ -30,6 +29,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
               src={item.thumbnailImage}
               alt={item.title}
               loading={'lazy'}
+              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 320px"
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200"
             />
           ) : (
@@ -47,11 +47,13 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
           <div className="flex items-center gap-2 text-sm text-weak mb-3">
             <span className="flex items-center gap-1">
               <FaCalendar className="w-4 h-4" />
-              {new Date(item.date).toLocaleDateString()}
+              {new Date(item.date).toLocaleDateString('ko-KR', {
+                timeZone: 'Asia/Seoul',
+              })}
             </span>
             <span className="ml-auto flex items-center gap-1">
               <FaBookOpen className="w-4 h-4" />
-              {item.posts.length || 0} posts
+              {item.postCount} posts
             </span>
           </div>
 

@@ -72,7 +72,7 @@ const Home = async () => {
           __html: JSON.stringify(siteSchema).replace(/<\//g, '<\\/'),
         }}
       />
-      <div className="w-full max-w-5xl mx-auto grid gap-12 p-4 md:p-6">
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 gap-12 p-4 md:p-6">
         <WelcomeClient />
         <HeroBanner />
         <AboutMe />
