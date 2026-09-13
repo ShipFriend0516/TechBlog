@@ -35,9 +35,9 @@ const Experience = () => {
         {experiences.map((exp) => (
           <div
             key={exp.company}
-            className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-neutral-800/50"
+            className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-4 gap-y-1 p-4 rounded-xl bg-gray-50 dark:bg-neutral-800/50 md:flex md:items-center md:gap-4"
           >
-            <div className="p-2.5 rounded-lg bg-primary-deep/10 dark:bg-primary-deep/20">
+            <div className="row-span-2 p-2.5 rounded-lg bg-primary-deep/10 dark:bg-primary-deep/20">
               {exp.type === 'work' ? (
                 <HiOutlineBriefcase className="w-5 h-5 text-primary dark:text-emerald-400" />
               ) : (
@@ -45,7 +45,7 @@ const Experience = () => {
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <h3 className="font-bold text-gray-900 dark:text-gray-100">
                   {exp.company}
                 </h3>
@@ -59,7 +59,7 @@ const Experience = () => {
                 {exp.role}
               </p>
             </div>
-            <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+            <span className="col-start-2 text-sm text-gray-500 dark:text-gray-400 md:whitespace-nowrap">
               {exp.period}
             </span>
           </div>
