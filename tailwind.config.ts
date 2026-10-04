@@ -188,6 +188,19 @@ const config: Config = {
           '0%, 100%': { boxShadow: '0 0 4px 1px rgba(244,114,182,0.6)' },
           '50%':      { boxShadow: '0 0 12px 4px rgba(244,114,182,0.9)' },
         },
+        // 글이 많은 태그(초거성)의 빛 번짐
+        tagGlow: {
+          // bg-clip-text 그라디언트 글자는 text-shadow 가 위에 덮이므로 drop-shadow 사용
+          '0%, 100%': { filter: 'drop-shadow(0 0 3px rgb(var(--accent) / 0.35))' },
+          '50%': {
+            filter:
+              'drop-shadow(0 0 6px rgb(var(--accent) / 0.75)) drop-shadow(0 0 14px rgb(var(--nebula) / 0.4))',
+          },
+        },
+        sparkle: {
+          '0%, 100%': { transform: 'scale(0.6) rotate(0deg)', opacity: '0.4' },
+          '50%': { transform: 'scale(1.1) rotate(90deg)', opacity: '1' },
+        },
         twinkle: {
           '0%, 100%': { opacity: '0.85' },
           '50%': { opacity: '0.35' },
@@ -218,6 +231,8 @@ const config: Config = {
         petalFloat: 'petalFloat var(--pd, 1.2s) ease-out var(--delay, 0s) infinite',
         flowerGlow: 'flowerGlow 2s ease-in-out infinite',
         twinkle: 'twinkle 4s ease-in-out infinite',
+        tagGlow: 'tagGlow 3s ease-in-out infinite',
+        sparkle: 'sparkle 2.4s ease-in-out infinite',
         arrowChase: 'arrowChase 1.1s cubic-bezier(0.5, 0, 0.4, 1) infinite',
       },
       backgroundImage: {

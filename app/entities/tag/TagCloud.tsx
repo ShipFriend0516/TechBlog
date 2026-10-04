@@ -21,6 +21,22 @@ const AUTO_SPEED = 0.0004; // rad/ms
 const DRAG_SENSITIVITY = 0.006;
 const CLICK_SUPPRESS_DISTANCE = 5;
 const MAX_TILT = Math.PI / 3;
+// 글 수 순위(태그는 개수 내림차순으로 들어옴)에 따른 별 등급
+const SUPERGIANT_RANK = 3;
+const BRIGHT_RANK = 10;
+
+type StarTier = 'supergiant' | 'bright' | 'normal';
+
+const TIER_CLASS: Record<StarTier, string> = {
+  supergiant:
+    'bg-gradient-to-r from-nebula-soft to-accent-strong bg-clip-text text-transparent motion-safe:animate-tagGlow',
+  bright:
+    'text-accent [text-shadow:0_0_10px_rgb(var(--accent)/0.35)] hover:text-accent-strong',
+  normal: 'text-fg-soft hover:text-accent',
+};
+
+const tierOf = (rank: number): StarTier =>
+  rank < SUPERGIANT_RANK ? 'supergiant' : rank < BRIGHT_RANK ? 'bright' : 'normal';
 
 // 시드 기반 난수 — SSR과 클라이언트 값이 달라지지 않도록 고정
 const mulberry32 = (seed: number) => () => {
@@ -73,6 +89,7 @@ const TagCloud = ({
       ...tag,
       point: fibonacciPoint(index, total),
       sizeFactor: Math.log(tag.count + 1) / Math.log(maxCount + 1),
+      tier: tierOf(index),
     }));
   }, [tags]);
 
@@ -287,10 +304,19 @@ const TagCloud = ({
           <Link
             href={`/posts?page=1&tag=${encodeURIComponent(base.tag)}`}
             draggable={false}
-            className="group flex items-baseline gap-1 font-bold whitespace-nowrap text-accent hover:text-accent focus-visible:text-accent transition-colors duration-300 rounded outline-offset-4"
+            className="group flex items-baseline gap-1 font-bold whitespace-nowrap transition-colors duration-300 rounded outline-offset-4"
             aria-label={`${base.tag} 태그 (${base.count}개 글)`}
           >
-            #{base.tag}
+            {base.tier === 'supergiant' && (
+              <span
+                aria-hidden="true"
+                className="inline-block text-[0.7em] text-accent-strong motion-safe:animate-sparkle"
+                style={{ animationDelay: `${i * 0.6}s` }}
+              >
+                ✦
+              </span>
+            )}
+            <span className={TIER_CLASS[base.tier]}>#{base.tag}</span>
             <span
               aria-hidden="true"
               className="text-[0.55em] font-medium opacity-0 group-hover:opacity-80 group-focus-visible:opacity-80 transition-opacity duration-200"
