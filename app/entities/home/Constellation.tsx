@@ -26,6 +26,7 @@ interface PlacedStar extends StarPost {
   y: number;
   r: number;
   bright: boolean;
+  twinkleDelay: number;
 }
 
 interface ConstellationProps {
@@ -34,7 +35,8 @@ interface ConstellationProps {
 }
 
 const Constellation = ({ stars, now }: ConstellationProps) => {
-  const [hovered, setHovered] = useState<PlacedStar | null>(null);
+  // 툴팁에 필요한 slug 만 상태로 — 별 레이어는 호버와 무관하게 메모된 채로 유지
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
   const { placed, years, seriesLines } = useMemo(() => {
     if (stars.length === 0) return { placed: [], years: [], seriesLines: [] };
@@ -60,6 +62,7 @@ const Constellation = ({ stars, now }: ConstellationProps) => {
       y: TOP + hash(star.slug) * (BOTTOM - TOP),
       r: 1.6 + 3.4 * Math.sqrt(star.view / maxView),
       bright: brightSlugs.has(star.slug),
+      twinkleDelay: hash(star.slug + 'd') * 4,
     }));
 
     const years: { year: number; x: number }[] = [];
@@ -80,85 +83,104 @@ const Constellation = ({ stars, now }: ConstellationProps) => {
     return { placed, years, seriesLines };
   }, [stars, now]);
 
-  if (placed.length === 0) return null;
+  const starMap = useMemo(
+    () => new Map(placed.map((star) => [star.slug, star])),
+    [placed]
+  );
+  const hovered = hoveredSlug ? starMap.get(hoveredSlug) ?? null : null;
 
-  return (
-    <div className="overflow-x-auto -mx-4 px-4 scrollbar-custom">
-      <div className="relative min-w-[640px]">
-        <svg
-          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-          className="w-full h-auto"
-          role="img"
-          aria-label={`지금까지 쓴 글 ${placed.length}개를 시간순으로 배치한 별자리`}
-        >
-          <defs>
-            <radialGradient id="star-glow">
-              <stop offset="0%" stopColor="rgb(var(--accent))" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="rgb(var(--accent))" stopOpacity="0" />
-            </radialGradient>
-          </defs>
+  // SVG 전체를 메모 — 호버로 바뀌는 건 아래 툴팁뿐
+  const chart = useMemo(() => {
+    const updateFromTarget = (target: EventTarget) =>
+      setHoveredSlug(
+        (target as Element).closest('[data-slug]')?.getAttribute('data-slug') ?? null
+      );
+    const clearHover = () => setHoveredSlug(null);
 
-          {years.map(({ year, x }) => (
-            <g key={year}>
-              <line
-                x1={x}
-                x2={x}
-                y1={TOP - 16}
-                y2={BOTTOM + 16}
-                stroke="rgb(var(--fg) / var(--hairline-alpha))"
-                strokeDasharray="2 6"
-              />
-              <text
-                x={x + 6}
-                y={HEIGHT - 12}
-                fontSize="12"
-                fill="rgb(var(--fg-muted))"
-              >
-                {year}
-              </text>
-            </g>
-          ))}
+    return (
+      <svg
+        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+        className="w-full h-auto"
+        role="img"
+        aria-label={`지금까지 쓴 글 ${placed.length}개를 시간순으로 배치한 별자리`}
+      >
+        <defs>
+          <radialGradient id="star-glow">
+            <stop offset="0%" stopColor="rgb(var(--accent))" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="rgb(var(--accent))" stopOpacity="0" />
+          </radialGradient>
+        </defs>
 
-          {seriesLines.map((points, i) => (
-            <polyline
-              key={i}
-              points={points}
-              fill="none"
-              stroke="rgb(var(--nebula) / 0.35)"
-              strokeWidth="1"
+        {years.map(({ year, x }) => (
+          <g key={year}>
+            <line
+              x1={x}
+              x2={x}
+              y1={TOP - 16}
+              y2={BOTTOM + 16}
+              stroke="rgb(var(--fg) / var(--hairline-alpha))"
+              strokeDasharray="2 6"
             />
-          ))}
+            <text x={x + 6} y={HEIGHT - 12} fontSize="12" fill="rgb(var(--fg-muted))">
+              {year}
+            </text>
+          </g>
+        ))}
 
+        {seriesLines.map((points, i) => (
+          <polyline
+            key={i}
+            points={points}
+            fill="none"
+            stroke="rgb(var(--nebula) / 0.35)"
+            strokeWidth="1"
+          />
+        ))}
+
+        {/* 이벤트는 부모 g 에서 위임 처리 — 별마다 핸들러를 만들지 않음 */}
+        <g
+          onPointerOver={(e) => updateFromTarget(e.target)}
+          onPointerLeave={clearHover}
+          onFocus={(e) => updateFromTarget(e.target)}
+          onBlur={clearHover}
+        >
           {placed.map((star) => (
             <a
               key={star.slug}
               href={`/posts/${star.slug}`}
+              data-slug={star.slug}
               aria-label={`${star.title}, ${formatDate(star.date)}`}
-              onMouseEnter={() => setHovered(star)}
-              onMouseLeave={() => setHovered(null)}
-              onFocus={() => setHovered(star)}
-              onBlur={() => setHovered(null)}
-              className="outline-none"
+              className="group outline-none"
             >
               {/* 작은 별도 쉽게 가리킬 수 있도록 투명한 히트 영역 */}
               <circle cx={star.x} cy={star.y} r={10} fill="transparent" />
               {star.bright && (
                 <circle cx={star.x} cy={star.y} r={star.r * 4} fill="url(#star-glow)" />
               )}
+              {/* 호버 강조는 CSS(group-hover)로 처리 */}
               <circle
                 cx={star.x}
                 cy={star.y}
-                r={hovered?.slug === star.slug ? star.r + 1.5 : star.r}
+                r={star.r}
                 fill={star.bright ? 'rgb(var(--accent-strong))' : 'rgb(var(--fg-soft))'}
-                className={star.bright ? '' : 'motion-safe:animate-twinkle'}
-                style={{
-                  animationDelay: `${hash(star.slug + 'd') * 4}s`,
-                  transition: 'r 150ms',
-                }}
+                className={`[transform-box:fill-box] origin-center transition-transform duration-150 group-hover:scale-150 group-focus-visible:scale-150 ${
+                  star.bright ? '' : 'motion-safe:animate-twinkle'
+                }`}
+                style={{ animationDelay: `${star.twinkleDelay}s` }}
               />
             </a>
           ))}
-        </svg>
+        </g>
+      </svg>
+    );
+  }, [placed, years, seriesLines]);
+
+  if (placed.length === 0) return null;
+
+  return (
+    <div className="overflow-x-auto -mx-4 px-4 scrollbar-custom">
+      <div className="relative min-w-[640px]">
+        {chart}
 
         {hovered && (
           <div
