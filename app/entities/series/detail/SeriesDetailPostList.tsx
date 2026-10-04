@@ -29,7 +29,7 @@ const SeriesDetailPostList = ({
         <h2 className={'inline-flex items-center gap-1 md:text-lg '}>
           <BiBook />
           시리즈 내 포스트
-          <span className={'text-weak'}>
+          <span className={'text-fg-soft'}>
             ({series.posts ? series.posts.length : 0})
           </span>
         </h2>
@@ -60,7 +60,7 @@ const SeriesDetailPostList = ({
             />
           ))
         ) : (
-          <p className={'py-4 text-gray-500'}>👻 포스트가 없습니다.</p>
+          <p className={'py-4 text-fg-muted'}>👻 포스트가 없습니다.</p>
         )}
       </ul>
     </div>

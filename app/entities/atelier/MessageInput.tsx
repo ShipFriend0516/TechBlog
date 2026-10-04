@@ -86,10 +86,10 @@ const MessageInput = ({
           type="button"
           onClick={() => handleTabClick(false)}
           className={`px-3 py-1 text-xs rounded-lg transition-colors ${
-            !isPreviewing
-              ? 'bg-brand-primary text-white'
-              : 'text-weak hover:text-foreground'
-          }`}
+ !isPreviewing
+ ? 'bg-accent text-on-accent'
+ : 'text-fg-soft hover:text-fg'
+ }`}
         >
           작성
         </button>
@@ -97,10 +97,10 @@ const MessageInput = ({
           type="button"
           onClick={() => handleTabClick(true)}
           className={`px-3 py-1 text-xs rounded-lg transition-colors ${
-            isPreviewing
-              ? 'bg-brand-primary text-white'
-              : 'text-weak hover:text-foreground'
-          }`}
+ isPreviewing
+ ? 'bg-accent text-on-accent'
+ : 'text-fg-soft hover:text-fg'
+ }`}
         >
           미리보기
         </button>
@@ -119,7 +119,7 @@ const MessageInput = ({
       {/* 입력 영역 + 전송 버튼 */}
       <div className="flex gap-2 items-stretch">
         {isPreviewing ? (
-          <div className="flex-1 min-h-[4.75rem] rounded-xl border border-border p-3 text-sm overflow-y-auto">
+          <div className="flex-1 min-h-[4.75rem] rounded-xl border p-3 text-sm overflow-y-auto">
             {input.trim() ? (
               <MarkdownPreview
                 source={input}
@@ -127,7 +127,7 @@ const MessageInput = ({
                 wrapperElement={{ 'data-color-mode': isAdmin ? 'dark' : 'light' }}
               />
             ) : (
-              <span className="text-weak">내용이 없어요</span>
+              <span className="text-fg-soft">내용이 없어요</span>
             )}
           </div>
         ) : (
@@ -140,10 +140,10 @@ const MessageInput = ({
             onKeyDown={handleKeyDown}
             disabled={disabled}
             className={`flex-1 resize-none rounded-xl border bg-transparent p-3 text-sm outline-none focus:ring-1 transition-all disabled:opacity-50 ${
-              isOverLimit
-                ? 'border-red-500 focus:ring-red-500'
-                : 'border-border focus:ring-brand-primary'
-            }`}
+ isOverLimit
+ ? 'border-red-500 focus:ring-red-500'
+ : 'border-border focus:ring-accent'
+ }`}
             rows={2}
             placeholder={placeholder ?? '생각을 던져보세요... (Enter)'}
           />
@@ -152,7 +152,7 @@ const MessageInput = ({
           type="button"
           onClick={handleSend}
           disabled={!input.trim() || disabled || isSending || isOverLimit}
-          className="px-4 rounded-xl bg-brand-primary text-white text-sm font-medium hover:opacity-90 disabled:opacity-30 transition-opacity"
+          className="px-4 rounded-xl bg-accent text-on-accent text-sm font-medium hover:opacity-90 disabled:opacity-30 transition-opacity"
         >
           {isSending ? (
             <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />

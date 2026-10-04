@@ -8,11 +8,11 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
   const [windowWidth, setWindowWidth] = useState<number>(1024); // 기본값 설정
 
   const pastelColors = [
-    'bg-emerald-200 dark:bg-emerald-900',
+    'bg-accent-subtle ',
     'bg-blue-200 dark:bg-blue-900',
     'bg-amber-200 dark:bg-amber-900',
     'bg-purple-200 dark:bg-purple-900',
-    'bg-teal-200 dark:bg-teal-900',
+    'bg-accent-subtle ',
     'bg-rose-200 dark:bg-rose-900',
   ];
 
@@ -46,7 +46,7 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
     <div className="min-h-full px-8">
       <div className="max-w-7xl mx-auto">
         {!projects || projects.length === 0 ? (
-          <p className="text-center text-gray-500 dark:text-gray-400">
+          <p className="text-center text-fg-muted">
             프로젝트가 없습니다.
           </p>
         ) : null}
@@ -99,7 +99,7 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
           })}
         </div>
 
-        <p className="text-center text-slate-500 dark:text-slate-400 mt-6 text-sm">
+        <p className="text-center text-fg-muted mt-6 text-sm">
           프로젝트 카드에 마우스를 올려보세요 - 주변 카드들이 밀려납니다
         </p>
       </div>

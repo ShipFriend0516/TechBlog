@@ -32,13 +32,13 @@ const PostHeader = ({
   return (
     <div
       className={
-        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center  text-white'
+        'post-header h-[220px] md:h-[292px] relative overflow-hidden w-full text-center text-white'
       }
     >
       {backgroundThumbnail && (
         <div
           className={
-            'image-container h-full absolute z-10 w-full top-0 blur bg-gray-400/40'
+            'image-container h-full absolute z-10 w-full top-0 blur bg-fg-faint/40'
           }
         >
           <Image
@@ -56,7 +56,7 @@ const PostHeader = ({
           />
         </div>
       )}
-      <div className="relative flex justify-center items-center h-full z-20 bg-gray-400/40  px-6">
+      <div className="relative flex justify-center items-center h-full z-20 bg-fg-faint/40 px-6">
         <div>
           <h1
             className={
@@ -71,15 +71,15 @@ const PostHeader = ({
           </h1>
           <h2
             className={`md:text-2xl font-bold mb-4 transition-opacity duration-500 line-clamp-1 ${
-              isTypingComplete ? 'opacity-100' : 'opacity-0'
-            }`}
+ isTypingComplete ? 'opacity-100' : 'opacity-0'
+ }`}
           >
             {subTitle}
           </h2>
           <div
             className={`inline-flex items-center transition-opacity duration-500 gap-2 md:gap-0 ${
-              isTypingComplete ? 'opacity-100' : 'opacity-0'
-            }`}
+ isTypingComplete ? 'opacity-100' : 'opacity-0'
+ }`}
           >
             <div className={'items-center post-author flex'}>
               <Profile

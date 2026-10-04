@@ -152,7 +152,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
   return (
     <section
       className={
-        'relative flex  justify-between items-center border-t border-neutral-200 w-full max-w-3xl px-4 py-4 mx-auto'
+        'relative flex justify-between items-center border-t border-hairline w-full max-w-3xl px-4 py-4 mx-auto'
       }
     >
       <div className={'left-tools inline-flex items-center gap-2'}>
@@ -161,7 +161,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
           aria-label={'좋아요'}
           onClick={isLiked ? handleUnlike : handleLike}
           className={
-            ' inline-flex items-center gap-2 rounded-md  p-1 px-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 border-neutral-200'
+            ' inline-flex items-center gap-2 rounded-md p-1 px-2 hover:bg-raised border-hairline'
           }
         >
           {isLiked ? (
@@ -176,7 +176,7 @@ const PostActionSection = ({ postId }: PostActionSectionProps) => {
           aria-label={'공유하기'}
           onClick={() => sharePost()}
           className={
-            ' inline-flex items-center gap-2 rounded-md p-1 px-2  hover:bg-neutral-100 border-neutral-200 dark:hover:bg-neutral-800'
+            ' inline-flex items-center gap-2 rounded-md p-1 px-2 hover:bg-raised border-hairline '
           }
         >
           <MdIosShare size={20} />

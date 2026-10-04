@@ -13,7 +13,7 @@ const LoadingIndicator = ({ message }: LoadingIndicatorProps) => {
     <div>
       <Lottie animationData={animation} speed={0.7} loop play />
       {message && (
-        <p className={'text-gray-400 text-center text-lg'}>{message}</p>
+        <p className={'text-fg-muted text-center text-lg'}>{message}</p>
       )}
     </div>
   );

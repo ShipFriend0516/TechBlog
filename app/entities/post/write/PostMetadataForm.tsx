@@ -175,31 +175,31 @@ const PostMetadataForm = ({
   return (
     <>
       <div className="flex mb-4 gap-1 items-center">
-        <span className=" font-bold text-default flex-shrink-0">
+        <span className="font-bold text-fg flex-shrink-0">
           제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목&nbsp;
         </span>
         <input
           type="text"
           placeholder="제목"
-          className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
+          className="inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b border-hairline text-sm flex-grow"
           onChange={handleTitleChange}
           value={title}
         />
       </div>
       <div className="flex mb-4 gap-1 items-center">
-        <span className=" font-bold text-default flex-shrink-0">
+        <span className="font-bold text-fg flex-shrink-0">
           소&nbsp;&nbsp;제&nbsp;&nbsp;목&nbsp;
         </span>
         <input
           type="text"
           placeholder="소제목"
-          className="inline min-w-12 px-2 py-1 outline-none text-default  bg-transparent border-b border-gray-300 text-sm flex-grow"
+          className="inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b border-hairline text-sm flex-grow"
           onChange={handleSubTitleChange}
           value={subTitle}
         />
       </div>
       <div className="flex mb-4 gap-1 items-center">
-        <span className="font-bold text-default flex-shrink-0">
+        <span className="font-bold text-fg flex-shrink-0">
           슬&nbsp;&nbsp;러&nbsp;&nbsp;그&nbsp;
         </span>
         <input
@@ -207,9 +207,9 @@ const PostMetadataForm = ({
           placeholder={
             isEditMode ? '' : '영문, 숫자, 하이픈(-)만 입력 (예: my-post-title)'
           }
-          className={`inline min-w-12 px-2 py-1 outline-none text-default bg-transparent border-b text-sm flex-grow ${
-            slugError ? 'border-red-500' : 'border-gray-300'
-          } ${isEditMode ? 'opacity-60 cursor-not-allowed' : ''}`}
+          className={`inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b text-sm flex-grow ${
+ slugError ? 'border-red-500' : 'border-hairline'
+ } ${isEditMode ? 'opacity-60 cursor-not-allowed' : ''}`}
           onChange={handleSlugChange}
           value={slug}
           disabled={isEditMode}
@@ -228,7 +228,7 @@ const PostMetadataForm = ({
           {(tags || []).map((tag, index) => (
             <span
               key={index}
-              className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold cursor-pointer hover:animate-blink duration-75"
+              className="inline-block bg-raised text-fg rounded-full px-3 py-1 text-sm font-semibold cursor-pointer hover:animate-blink duration-75"
               onClick={() => handleTagRemove(index)}
             >
               {tag}
@@ -238,7 +238,7 @@ const PostMetadataForm = ({
             <input
               type="text"
               placeholder="태그를 입력하세요"
-              className="inline min-w-12 px-2 py-1 outline-none text-default bg-transparent border-b border-gray-300 text-sm"
+              className="inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b border-hairline text-sm"
               onChange={handleTagInputChange}
               onKeyDown={handleTagInputKeyDown}
               onBlur={handleTagInputBlur}
@@ -255,9 +255,9 @@ const PostMetadataForm = ({
         </div>
       </div>
 
-      <div className={'flex items-center w-full gap-2  mb-4'}>
+      <div className={'flex items-center w-full gap-2 mb-4'}>
         <div className={'w-1/2 flex justify-start items-center gap-6'}>
-          <label className={'inline-flex items-center text-nowrap  gap-2 '}>
+          <label className={'inline-flex items-center text-nowrap gap-2 '}>
             <span className={'font-bold'}>시&nbsp;&nbsp;리&nbsp;&nbsp;즈</span>
             {seriesLoading ? (
               <div>loading...</div>
@@ -276,14 +276,14 @@ const PostMetadataForm = ({
                 'inline-flex items-center text-nowrap gap-2 cursor-pointer'
               }
             >
-              <span className={'font-bold text-default'}>
+              <span className={'font-bold text-fg'}>
                 비&nbsp;&nbsp;&nbsp;&nbsp;공&nbsp;&nbsp;&nbsp;&nbsp;개
               </span>
               <input
                 type="checkbox"
                 checked={isPrivate}
                 onChange={handlePublicChange}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 accent-accent bg-raised rounded focus:ring-accent focus:ring-2"
               />
             </label>
           </div>
@@ -292,13 +292,13 @@ const PostMetadataForm = ({
             <label
               className={`inline-flex items-center text-nowrap gap-2 cursor-pointer ${isPrivate ? 'opacity-50' : ''}`}
             >
-              <span className={'font-bold text-default'}>구독자에게 발행</span>
+              <span className={'font-bold text-fg'}>구독자에게 발행</span>
               <input
                 type="checkbox"
                 checked={sendToSubscribers}
                 onChange={handleSendToSubscribersChange}
                 disabled={isPrivate}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 disabled:opacity-50"
+                className="w-4 h-4 accent-accent bg-raised rounded focus:ring-accent focus:ring-2 disabled:opacity-50"
               />
             </label>
           </div>
@@ -306,13 +306,13 @@ const PostMetadataForm = ({
 
         <button
           onClick={onClickNewSeries}
-          className="flex items-center gap-2 py-1 px-2 bg-slate-100 text-green-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-gray-200 dark:bg-gray-800 dark:text-green-200 dark:border-gray-700"
+          className="flex items-center gap-2 py-1 px-2 bg-raised text-accent-strong font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-hairline"
         >
           새로운 시리즈 <FaPlus />
         </button>
         <button
           onClick={onClickOverwrite}
-          className="flex items-center gap-2 py-1 px-2 bg-slate-100 text-blue-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-gray-200 dark:bg-gray-800 dark:text-blue-200 dark:border-gray-700"
+          className="flex items-center gap-2 py-1 px-2 bg-raised text-blue-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-hairline dark:text-blue-200"
         >
           임시저장본
           <CgMoveRight />
@@ -320,7 +320,7 @@ const PostMetadataForm = ({
 
         <button
           onClick={clearDraft}
-          className="flex items-center gap-2 py-1 px-2 bg-slate-100 text-red-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-gray-200 dark:bg-gray-800 dark:text-red-200 dark:border-gray-700"
+          className="flex items-center gap-2 py-1 px-2 bg-raised text-red-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-hairline dark:text-red-200"
         >
           임시저장 삭제
           <FaTrash />

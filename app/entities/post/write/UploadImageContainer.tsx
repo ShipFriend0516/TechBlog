@@ -105,24 +105,24 @@ const UploadImageContainer = ({
     <div className={'w-full mt-4'}>
       <div className={'flex justify-between my-1'}>
         <div>
-          <span className={'text-xl font-bold text-black dark:text-white'}>
+          <span className={'text-xl font-bold text-fg '}>
             업로드된 이미지
           </span>
           {isUploading ? (
             <p
-              className={'text-sm text-emerald-600 font-semibold animate-pulse'}
+              className={'text-sm text-accent font-semibold animate-pulse'}
             >
               업로드 중... ({uploadProgress.current}/{uploadProgress.total})
             </p>
           ) : (
-            <p className={'text-gray-600 dark:text-gray-400'}>
+            <p className={'text-fg-soft '}>
               클릭하여 링크 복사
             </p>
           )}
         </div>
         <div
           className={
-            'cursor-pointer relative w-12 h-12 bg-emerald-500  rounded-md overflow-hidden'
+            'cursor-pointer relative w-12 h-12 bg-accent rounded-md overflow-hidden'
           }
         >
           <FaImage
@@ -136,7 +136,7 @@ const UploadImageContainer = ({
             placeholder={'이미지 업로드'}
             onChange={uploadToBlob}
             className={
-              'w-full h-full file:hidden text-transparent  px-2 hover:bg-emerald-600'
+              'w-full h-full file:hidden text-transparent px-2 hover:bg-accent-strong'
             }
             accept={'image/*'}
             disabled={isUploading}
@@ -145,25 +145,25 @@ const UploadImageContainer = ({
       </div>
 
       <ul
-        className={`w-full border border-gray-400 px-4 py-4 whitespace-nowrap space-x-4 overflow-x-scroll gap-2 min-h-40 transition-colors ${
-          isDragging
-            ? 'border-primary-bangladesh border-dashed border-2'
-            : 'bg-gray-100 dark:bg-gray-800'
-        } ${isUploading ? 'opacity-70 pointer-events-none' : ''}`}
+        className={`w-full px-4 py-4 whitespace-nowrap space-x-4 overflow-x-scroll gap-2 min-h-40 transition-colors ${
+ isDragging
+ ? 'border-accent/40 border-dashed border-2'
+ : 'bg-raised '
+ } ${isUploading ? 'opacity-70 pointer-events-none' : ''}`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         {uploadedImages.length === 0 && !isUploading && (
-          <div className="pointer-events-none text-sm text-gray-500 dark:text-gray-400">
+          <div className="pointer-events-none text-sm text-fg-muted">
             {isDragging
               ? '떨어뜨려!!'
               : '업로드된 이미지가 없습니다. 드래그&드랍으로 이미지를 추가하세요.'}
           </div>
         )}
         {isUploading && uploadedImages.length === 0 && (
-          <div className="pointer-events-none text-sm text-emerald-600 font-semibold">
+          <div className="pointer-events-none text-sm text-accent font-semibold">
             이미지를 업로드하는 중입니다...
           </div>
         )}

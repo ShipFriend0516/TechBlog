@@ -66,27 +66,27 @@ const Pagination: React.FC<PaginationProps> = ({
           <Link
             href={createPageUrl(1)}
             className={`flex items-center justify-center w-10 h-10 rounded-md ${
-              currentPage === 1
-                ? 'text-gray-400 cursor-not-allowed'
-                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-            }`}
+ currentPage === 1
+ ? 'text-fg-muted cursor-not-allowed'
+ : 'hover:bg-raised '
+ }`}
             onClick={(e) => currentPage === 1 && e.preventDefault()}
           >
             <span className="sr-only">처음 페이지</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
-              viewBox="0 0 20 20"
+              viewBox="0 20"
               fill="currentColor"
             >
               <path
                 fillRule="evenodd"
-                d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414z"
+                d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 010-1.414l5-5a1 111.414 1.414L11.414 10l4.293 4.293a1 010 1.414z"
                 clipRule="evenodd"
               />
               <path
                 fillRule="evenodd"
-                d="M9.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z"
+                d="M9.707 15.707a1 1 0 01-1.414 0l-5-5a1 010-1.414l5-5a1 111.414 1.414L5.414 10l4.293 4.293a1 010 1.414z"
                 clipRule="evenodd"
               />
             </svg>
@@ -98,22 +98,22 @@ const Pagination: React.FC<PaginationProps> = ({
           <Link
             href={createPageUrl(currentPage - 1)}
             className={`flex items-center justify-center w-10 h-10 rounded-md ${
-              currentPage === 1
-                ? 'text-gray-400 cursor-not-allowed'
-                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-            }`}
+ currentPage === 1
+ ? 'text-fg-muted cursor-not-allowed'
+ : 'hover:bg-raised '
+ }`}
             onClick={(e) => currentPage === 1 && e.preventDefault()}
           >
             <span className="sr-only">이전 페이지</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
-              viewBox="0 0 20 20"
+              viewBox="0 20"
               fill="currentColor"
             >
               <path
                 fillRule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 01-1.414 1.414l-4-4a1 010-1.414l4-4a1 011.414 0z"
                 clipRule="evenodd"
               />
             </svg>
@@ -126,10 +126,10 @@ const Pagination: React.FC<PaginationProps> = ({
             <Link
               href={createPageUrl(pageNumber)}
               className={`flex items-center justify-center w-10 h-10 rounded-md ${
-                pageNumber === currentPage
-                  ? 'bg-emerald-500 text-white'
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-              }`}
+ pageNumber === currentPage
+ ? 'bg-accent text-on-accent'
+ : 'hover:bg-raised '
+ }`}
             >
               {pageNumber}
             </Link>
@@ -141,22 +141,22 @@ const Pagination: React.FC<PaginationProps> = ({
           <Link
             href={createPageUrl(currentPage + 1)}
             className={`flex items-center justify-center w-10 h-10 rounded-md ${
-              currentPage === totalPages
-                ? 'text-gray-400 cursor-not-allowed'
-                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-            }`}
+ currentPage === totalPages
+ ? 'text-fg-muted cursor-not-allowed'
+ : 'hover:bg-raised '
+ }`}
             onClick={(e) => currentPage === totalPages && e.preventDefault()}
           >
             <span className="sr-only">다음 페이지</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
-              viewBox="0 0 20 20"
+              viewBox="0 20"
               fill="currentColor"
             >
               <path
                 fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 011.414-1.414l4 4a1 010 1.414l-4 01-1.414 0z"
                 clipRule="evenodd"
               />
             </svg>
@@ -168,27 +168,27 @@ const Pagination: React.FC<PaginationProps> = ({
           <Link
             href={createPageUrl(totalPages)}
             className={`flex items-center justify-center w-10 h-10 rounded-md ${
-              currentPage === totalPages
-                ? 'text-gray-400 cursor-not-allowed'
-                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-            }`}
+ currentPage === totalPages
+ ? 'text-fg-muted cursor-not-allowed'
+ : 'hover:bg-raised '
+ }`}
             onClick={(e) => currentPage === totalPages && e.preventDefault()}
           >
             <span className="sr-only">마지막 페이지</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
-              viewBox="0 0 20 20"
+              viewBox="0 20"
               fill="currentColor"
             >
               <path
                 fillRule="evenodd"
-                d="M4.293 15.707a1 1 0 001.414 0l5-5a1 1 0 000-1.414l-5-5a1 1 0 00-1.414 1.414L8.586 10 4.293 14.293a1 1 0 000 1.414z"
+                d="M4.293 15.707a1 1 0 001.414 0l5-5a1 000-1.414l-5-5a1 00-1.414 1.414L8.586 10 4.293 14.293a1 000 1.414z"
                 clipRule="evenodd"
               />
               <path
                 fillRule="evenodd"
-                d="M10.293 15.707a1 1 0 001.414 0l5-5a1 1 0 000-1.414l-5-5a1 1 0 00-1.414 1.414L14.586 10l-4.293 4.293a1 1 0 000 1.414z"
+                d="M10.293 15.707a1 1 0 001.414 0l5-5a1 000-1.414l-5-5a1 00-1.414 1.414L14.586 10l-4.293 4.293a1 000 1.414z"
                 clipRule="evenodd"
               />
             </svg>

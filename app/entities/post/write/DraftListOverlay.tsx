@@ -41,13 +41,13 @@ const DraftListOverlay = ({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl">
-      <h2 className="text-2xl font-bold mb-4 text-default">
+    <div className="bg-surface rounded-lg p-6 max-w-2xl">
+      <h2 className="text-2xl font-bold mb-4 text-fg">
         {mode === 'load' ? '임시저장본 불러오기' : '임시저장 삭제'}
       </h2>
 
       {drafts.length === 0 ? (
-        <p className="text-gray-500 text-center py-8">
+        <p className="text-fg-muted text-center py-8">
           저장된 임시글이 없습니다.
         </p>
       ) : (
@@ -61,20 +61,20 @@ const DraftListOverlay = ({
                 key={draft.id}
                 onClick={() => !isCurrentDraft && handleItemClick(draft)}
                 className={`
-                  border rounded-lg p-4 transition-all
-                  ${draft.source === 'local' ? 'border-blue-300' : 'border-green-300'}
-                  ${isCurrentDraft
-                    ? 'opacity-50 cursor-not-allowed'
-                    : mode === 'load'
-                      ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700'
-                      : ''
-                  }
-                `}
+ border rounded-lg p-4 transition-all
+ ${draft.source === 'local' ? 'border-blue-300' : 'border-accent/40'}
+ ${isCurrentDraft
+ ? 'opacity-50 cursor-not-allowed'
+ : mode === 'load'
+ ? 'cursor-pointer hover:bg-surface '
+ : ''
+ }
+ `}
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-default">
+                      <h3 className="font-semibold text-fg">
                         {draft.title || '제목 없음'}
                       </h3>
                       {isCurrentDraft && (
@@ -84,18 +84,18 @@ const DraftListOverlay = ({
                       )}
                     </div>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-fg-muted">
                         {formatDate(draft.date)}
                       </span>
                       <span
                         className={`
-                          text-xs px-2 py-1 rounded
-                          ${
-                            draft.source === 'local'
-                              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
-                              : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200'
-                          }
-                        `}
+ text-xs px-2 py-1 rounded
+ ${
+ draft.source === 'local'
+ ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
+ : 'bg-accent-subtle text-accent '
+ }
+ `}
                       >
                         {draft.source === 'local' ? '로컬' : '클라우드'}
                       </span>
@@ -105,7 +105,7 @@ const DraftListOverlay = ({
                   {mode === 'delete' && onDeleteDraft && (
                     <button
                       onClick={(e) => handleDelete(draft, e)}
-                      className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                      className="ml-4 px-3 py-1 bg-danger text-white rounded hover:bg-danger/90 transition-colors"
                     >
                       삭제
                     </button>

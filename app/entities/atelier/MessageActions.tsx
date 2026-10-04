@@ -45,7 +45,7 @@ const MessageActions = ({
   };
 
   return (
-    <div className="relative inline-flex items-center gap-1 whitespace-nowrap bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md border border-border rounded-full px-2 py-1 shadow-sm">
+    <div className="relative inline-flex items-center gap-1 whitespace-nowrap bg-surface/70 backdrop-blur-md rounded-full px-2 py-1 shadow-sm">
       {isPickerOpen ? (
         <>
           {ATELIER_EMOJIS.map((emoji) => (
@@ -53,7 +53,7 @@ const MessageActions = ({
               key={emoji}
               type="button"
               onClick={() => handleSelectEmoji(emoji)}
-              className="text-lg leading-none px-1.5 py-0.5 rounded-full hover:bg-brand-primary/10 transition-colors"
+              className="text-lg leading-none px-1.5 py-0.5 rounded-full hover:bg-accent/10 transition-colors"
               aria-label={`${emoji} 반응 추가`}
             >
               {emoji}
@@ -62,7 +62,7 @@ const MessageActions = ({
           <button
             type="button"
             onClick={closePicker}
-            className="text-xs text-weak hover:text-foreground transition-colors px-1.5 py-0.5 rounded ml-0.5"
+            className="text-xs text-fg-soft hover:text-fg transition-colors px-1.5 py-0.5 rounded ml-0.5"
             aria-label="닫기"
           >
             ✕
@@ -73,7 +73,7 @@ const MessageActions = ({
           <button
             type="button"
             onClick={openPicker}
-            className="text-xs text-weak hover:text-brand-primary transition-colors px-1.5 py-0.5 rounded"
+            className="text-xs text-fg-soft hover:text-accent transition-colors px-1.5 py-0.5 rounded"
             aria-label="반응 추가"
           >
             😊
@@ -81,7 +81,7 @@ const MessageActions = ({
           <button
             type="button"
             onClick={onReply}
-            className="text-xs text-weak hover:text-brand-primary transition-colors px-1.5 py-0.5 rounded"
+            className="text-xs text-fg-soft hover:text-accent transition-colors px-1.5 py-0.5 rounded"
           >
             답글
           </button>
@@ -90,7 +90,7 @@ const MessageActions = ({
             <button
               type="button"
               onClick={onEdit}
-              className="text-xs text-weak hover:text-brand-primary transition-colors px-1.5 py-0.5 rounded"
+              className="text-xs text-fg-soft hover:text-accent transition-colors px-1.5 py-0.5 rounded"
             >
               수정
             </button>
@@ -100,7 +100,7 @@ const MessageActions = ({
             <button
               type="button"
               onClick={onDelete}
-              className="text-xs text-weak hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
+              className="text-xs text-fg-soft hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
             >
               삭제
             </button>
@@ -111,7 +111,7 @@ const MessageActions = ({
               <button
                 type="button"
                 onClick={onTogglePublic}
-                className="text-xs text-weak hover:text-brand-primary transition-colors px-1.5 py-0.5 rounded"
+                className="text-xs text-fg-soft hover:text-accent transition-colors px-1.5 py-0.5 rounded"
               >
                 {message.isPublic ? '비공개' : '공개'}
               </button>
@@ -119,7 +119,7 @@ const MessageActions = ({
                 <button
                   type="button"
                   onClick={onBlock}
-                  className="text-xs text-weak hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
+                  className="text-xs text-fg-soft hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
                 >
                   차단
                 </button>

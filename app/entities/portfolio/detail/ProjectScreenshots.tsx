@@ -23,14 +23,14 @@ const ProjectScreenshots = ({
         <div className="flex gap-2">
           <button
             onClick={handlePreviousImage}
-            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors "
+            className="w-10 h-10 rounded-full border border-hairline flex items-center justify-center hover:bg-raised transition-colors"
             aria-label="이전 썸네일"
           >
             <IoMdArrowDropleft size={18} />
           </button>
           <button
             onClick={handleNextImage}
-            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+            className="w-10 h-10 rounded-full border border-hairline flex items-center justify-center hover:bg-raised transition-colors"
             aria-label="다음 썸네일"
           >
             <IoMdArrowDropright size={18} />
@@ -42,7 +42,7 @@ const ProjectScreenshots = ({
         {images.map((image, index) => (
           <div
             key={index}
-            className={`relative h-24 bg-gray-100 rounded cursor-pointer overflow-hidden transition-all ${currentImageIndex === index ? 'ring-2 ring-emerald-500 ring-offset-2' : 'hover:opacity-80'}`}
+            className={`relative h-24 bg-raised rounded cursor-pointer overflow-hidden transition-all ${currentImageIndex === index ? 'ring-2 ring-accent ring-offset-2' : 'hover:opacity-80'}`}
             onClick={() => selectThumbnail(index)}
           >
             <Image

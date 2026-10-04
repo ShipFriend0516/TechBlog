@@ -9,8 +9,8 @@ interface SeriesPreviewProps {
 }
 
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
-  const lightmodeStyle = `bg-white text-black hover:shadow-neutral-200/80`;
-  const darkmodeStyle = `dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800 dark:shadow-neutral-800/40 dark:hover:shadow-neutral-800/80`;
+  const lightmodeStyle = `bg-surface text-fg `;
+  const darkmodeStyle = `    `;
 
   return (
     <Link
@@ -33,18 +33,18 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200"
             />
           ) : (
-            <div className="w-full h-full bg-slate-200 flex items-center justify-center">
-              <FaBookOpen className="w-12 h-12 text-slate-400" />
+            <div className="w-full h-full bg-raised flex items-center justify-center">
+              <FaBookOpen className="w-12 h-12 text-fg-muted" />
             </div>
           )}
         </div>
 
         <div className="p-5">
-          <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+          <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-accent-strong transition-colors">
             {item.title}
           </h3>
 
-          <div className="flex items-center gap-2 text-sm text-weak mb-3">
+          <div className="flex items-center gap-2 text-sm text-fg-soft mb-3">
             <span className="flex items-center gap-1">
               <FaCalendar className="w-4 h-4" />
               {new Date(item.date).toLocaleDateString()}
@@ -55,7 +55,7 @@ const SeriesPreview = ({ item }: SeriesPreviewProps) => {
             </span>
           </div>
 
-          <p className="text-sm text-weak line-clamp-3">
+          <p className="text-sm text-fg-soft line-clamp-3">
             {item.description || 'No description available'}
           </p>
         </div>

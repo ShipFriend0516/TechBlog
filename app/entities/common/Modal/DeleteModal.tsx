@@ -25,7 +25,7 @@ const DeleteModal = ({
             <svg
               className="w-6 h-6 text-red-500"
               fill="none"
-              viewBox="0 0 24 24"
+              viewBox="0 24"
               stroke="currentColor"
               strokeWidth={1.8}
             >
@@ -37,21 +37,21 @@ const DeleteModal = ({
             </svg>
           </div>
           <div>
-            <h2 className="text-base font-semibold text-default">{title}</h2>
-            <p className="mt-1 text-sm text-weak">{message}</p>
+            <h2 className="text-base font-semibold text-fg">{title}</h2>
+            <p className="mt-1 text-sm text-fg-soft">{message}</p>
           </div>
         </div>
 
         <div className="flex gap-2">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium border border-border text-weak hover:bg-foreground/50 transition-colors"
+            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium border text-fg-soft hover:bg-fg/50 transition-colors"
           >
             취소
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors"
+            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium bg-danger text-white hover:bg-danger/90 transition-colors"
           >
             삭제
           </button>

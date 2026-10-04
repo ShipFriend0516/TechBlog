@@ -54,8 +54,8 @@ const SeriesList = () => {
 const NoSeriesFound = () => {
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center">
-      <FaBookOpen className="w-12 h-12 text-slate-400 mb-4" />
-      <h3 className="text-xl font-semibold text-slate-700">No Series Found</h3>
+      <FaBookOpen className="w-12 h-12 text-fg-muted mb-4" />
+      <h3 className="text-xl font-semibold text-fg">No Series Found</h3>
     </div>
   );
 };

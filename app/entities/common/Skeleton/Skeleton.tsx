@@ -11,7 +11,7 @@ const Skeleton = ({
 }: SkeletonProps) => {
   const bgColorClass = useCustomBackground
     ? ''
-    : 'bg-gray-200/80 dark:bg-neutral-700/80';
+    : 'bg-raised/80 ';
 
   return (
     <div

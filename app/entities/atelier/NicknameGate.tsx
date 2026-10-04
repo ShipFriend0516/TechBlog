@@ -37,18 +37,18 @@ const NicknameGate = ({ onClose }: NicknameGateProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="w-full max-w-sm rounded-2xl border border-border bg-white dark:bg-neutral-900 p-6 shadow-xl">
-        <h2 className="text-lg font-semibold text-foreground mb-1">
+      <div className="w-full max-w-sm rounded-2xl bg-surface p-6 shadow-xl">
+        <h2 className="text-lg font-semibold text-fg mb-1">
           로그인이 필요해요
         </h2>
-        <p className="text-xs text-weak mb-4">
+        <p className="text-xs text-fg-soft mb-4">
           GitHub 계정으로 로그인하면 댓글을 남길 수 있어요.
         </p>
 
         <button
           type="button"
           onClick={handleGithubLogin}
-          className="inline-flex items-center justify-center gap-2 w-full rounded-xl border border-border text-sm text-foreground py-2 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+          className="inline-flex items-center justify-center gap-2 w-full rounded-xl border text-sm text-fg py-2 hover:bg-surface transition-colors"
         >
           <FaGithub />
           GitHub으로 로그인
@@ -64,13 +64,13 @@ const NicknameGate = ({ onClose }: NicknameGateProps) => {
             minLength={3}
             maxLength={20}
             autoFocus
-            className="rounded-xl border border-border bg-transparent px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-primary"
+            className="rounded-xl border bg-transparent px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-accent"
           />
           {error && <p className="text-xs text-red-500">{error}</p>}
 
           <button
             type="submit"
-            className="rounded-xl bg-brand-primary text-white text-sm font-medium py-2 hover:opacity-90 transition-opacity"
+            className="rounded-xl bg-accent text-on-accent text-sm font-medium py-2 hover:opacity-90 transition-opacity"
           >
             확인
           </button>
@@ -81,7 +81,7 @@ const NicknameGate = ({ onClose }: NicknameGateProps) => {
           <button
             type="button"
             onClick={handleClose}
-            className="w-full mt-2 text-xs text-weak hover:underline"
+            className="w-full mt-2 text-xs text-fg-soft hover:underline"
           >
             닫기
           </button>

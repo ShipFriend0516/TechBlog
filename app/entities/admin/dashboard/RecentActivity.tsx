@@ -43,15 +43,15 @@ const RecentActivity = () => {
   if (loading) {
     return (
       <div className="py-4 animate-pulse">
-        <div className="h-7 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-6" />
+        <div className="h-7 w-24 bg-raised rounded mb-6" />
         <ul className="space-y-2">
           {[...Array(5)].map((_, i) => (
             <li
               key={i}
-              className="flex items-center justify-between px-4 py-3 border border-gray-100 dark:border-gray-700 rounded-lg"
+              className="flex items-center justify-between px-4 py-3 border border-hairline rounded-lg"
             >
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded flex-1 mr-4" />
-              <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+              <div className="h-4 bg-raised rounded flex-1 mr-4" />
+              <div className="h-3 w-16 bg-raised rounded shrink-0" />
             </li>
           ))}
         </ul>
@@ -62,7 +62,7 @@ const RecentActivity = () => {
   if (error) {
     return (
       <div className="py-4">
-        <h3 className="text-xl font-semibold mb-4 dark:text-white">최근 활동</h3>
+        <h3 className="text-xl font-semibold mb-4">최근 활동</h3>
         <div className="text-red-500">{error}</div>
       </div>
     );
@@ -70,23 +70,23 @@ const RecentActivity = () => {
 
   return (
     <div className="py-4">
-      <h3 className="text-xl font-semibold mb-6 dark:text-white">최근 활동</h3>
+      <h3 className="text-xl font-semibold mb-6">최근 활동</h3>
       {posts.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400 text-sm">최근 게시글이 없습니다.</p>
+        <p className="text-fg-muted text-sm">최근 게시글이 없습니다.</p>
       ) : (
         <ul className="space-y-2">
           {posts.map((post) => (
             <li
               key={post._id}
-              className="flex items-center justify-between px-4 py-3 border border-gray-100 dark:border-gray-700 dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+              className="flex items-center justify-between px-4 py-3 border border-hairline rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
             >
               <Link
                 href={`/posts/${post.slug}`}
-                className="font-medium dark:text-gray-200 hover:text-brand-primary dark:hover:text-brand-secondary transition-colors truncate mr-4"
+                className="font-medium hover:text-accent transition-colors truncate mr-4"
               >
                 {post.title}
               </Link>
-              <span className="text-xs text-gray-400 dark:text-gray-500 shrink-0">
+              <span className="text-xs text-fg-muted shrink-0">
                 {formatDate(post.date)}
               </span>
             </li>

@@ -9,7 +9,7 @@ const PortfolioPage = () => {
       }
     >
       <h1 className="text-4xl text-center font-bold mt-8 mb-4">포트폴리오</h1>
-      <p className="text-sm mb-8 text-center text-gray-600 dark:text-gray-400">
+      <p className="text-sm mb-8 text-center text-fg-soft">
         참여한 프로젝트 모아보기
       </p>
       <PortfolioStoneGrid projects={projects} />

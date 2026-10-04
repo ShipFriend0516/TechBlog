@@ -11,7 +11,7 @@ const Profile = ({ profileThumbnail, username }: Props) => {
     <div className={'flex items-center text-nowrap mr-2 sm:mr-0'}>
       <div
         className={
-          'w-8 h-8 aspect-square rounded-full bg-gray-300 overflow-hidden'
+          'w-8 h-8 aspect-square rounded-full bg-fg/10 overflow-hidden'
         }
       >
         {profileThumbnail && (

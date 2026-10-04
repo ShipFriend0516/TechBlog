@@ -58,27 +58,27 @@ function MobilePanel({
       {/* Panel */}
       <div
         className={`
-          fixed bottom-0 left-0 right-0 z-50 md:hidden
-          bg-white dark:bg-neutral-900
-          border-t border-border dark:border-neutral-800
-          rounded-t-2xl shadow-2xl
-          transition-transform duration-300 ease-out
-          max-h-[60vh] flex flex-col
-          ${isOpen ? 'translate-y-0' : 'translate-y-full'}
-        `}
+ fixed bottom-0 left-0 right-0 z-50 md:hidden
+ bg-surface 
+ border-t 
+ rounded-t-2xl shadow-2xl
+ transition-transform duration-300 ease-out
+ max-h-[60vh] flex flex-col
+ ${isOpen ? 'translate-y-0' : 'translate-y-full'}
+ `}
       >
         {/* Handle */}
         <div className="flex justify-center pt-3 pb-1 shrink-0">
-          <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600" />
+          <div className="w-10 h-1 rounded-full bg-fg/10" />
         </div>
 
         {/* Progress bar */}
-        <div className="h-0.5 mx-4 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden shrink-0">
+        <div className="h-0.5 mx-4 bg-raised rounded-full overflow-hidden shrink-0">
           <div
             className="h-full rounded-full transition-all duration-500 ease-out"
             style={{
               width: `${progressPct}%`,
-              background: 'linear-gradient(90deg, #03624c, #2cc295)',
+              background: 'linear-gradient(90deg, rgb(var(--nebula)), rgb(var(--accent)))',
             }}
           />
         </div>
@@ -87,13 +87,13 @@ function MobilePanel({
         <div className="flex items-center justify-between px-4 py-3 shrink-0">
           <div className="flex items-center gap-2">
             <ForestIcon />
-            <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">
+            <span className="text-xs font-bold text-fg-muted uppercase tracking-widest">
               목차
             </span>
           </div>
           <span
             className="text-xs font-bold tabular-nums"
-            style={{ color: '#03624c' }}
+            style={{ color: 'rgb(var(--accent))' }}
           >
             {progressPct}%
           </span>
@@ -125,9 +125,9 @@ function ForestIcon() {
     <svg
       width="13"
       height="13"
-      viewBox="0 0 24 24"
+      viewBox="0 24"
       fill="none"
-      stroke="#03624c"
+      stroke="rgb(var(--accent))"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -145,15 +145,15 @@ function BookIcon() {
     <svg
       width="18"
       height="18"
-      viewBox="0 0 24 24"
+      viewBox="0 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      <path d="M4 19.5A2.5 2.5 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 1 4 19.5v-15A2.5 6.5 2z" />
     </svg>
   );
 }
@@ -183,32 +183,32 @@ function TOCItem({
       <button
         onClick={onClick}
         className={`
-          w-full flex items-center gap-2.5 px-2 py-[5px] rounded-md text-left
-          text-[12.5px] leading-snug whitespace-nowrap overflow-hidden text-ellipsis
-          transition-all duration-150 group relative 
-          ${
-            isActive
-              ? 'font-semibold'
-              : isPast
-                ? 'text-neutral-500 dark:text-neutral-400'
-                : 'text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'
-          }
-        `}
-        style={isActive ? { color: '#03624c' } : {}}
+ w-full flex items-center gap-2.5 px-2 py-[5px] rounded-md text-left
+ text-[12.5px] leading-snug whitespace-nowrap overflow-hidden text-ellipsis
+ transition-all duration-150 group relative 
+ ${
+ isActive
+ ? 'font-semibold'
+ : isPast
+ ? 'text-fg-muted '
+ : 'text-fg-muted hover:text-fg '
+ }
+ `}
+        style={isActive ? { color: 'rgb(var(--accent))' } : {}}
       >
         {/* Rail dot */}
         <span
-          className="shrink-0 rounded-full border-2 border-white dark:border-neutral-900 relative z-10 transition-all duration-200"
+          className="shrink-0 rounded-full relative z-10 transition-all duration-200"
           style={{
             width: isActive ? 10 : heading.type === 1 ? 8 : 7,
             height: isActive ? 10 : heading.type === 1 ? 8 : 7,
             background: isActive
-              ? '#03624c'
+              ? 'rgb(var(--accent))'
               : isPast
-                ? '#03624c'
-                : 'var(--rail, #d1d5db)',
+                ? 'rgb(var(--accent))'
+                : 'rgb(var(--fg-faint))',
             opacity: isPast && !isActive ? 0.45 : 1,
-            boxShadow: isActive ? '0 0 0 3px rgba(3,98,76,0.15)' : 'none',
+            boxShadow: isActive ? '0 0 0 3px rgb(var(--accent) / 0.2)' : 'none',
           }}
         />
 
@@ -219,7 +219,7 @@ function TOCItem({
         {isActive && (
           <span
             className="ml-auto shrink-0 w-1.5 h-1.5 rounded-full"
-            style={{ background: '#03624c' }}
+            style={{ background: 'rgb(var(--accent))' }}
           />
         )}
       </button>
@@ -271,7 +271,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
         }
       },
       {
-        rootMargin: '-80px 0px -60% 0px',
+        rootMargin: '-80px 0px -60%',
         threshold: 0,
       }
     );
@@ -324,8 +324,8 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
     <>
       {/* ── Mobile FAB ─────────────────────────────────── */}
       <button
-        className="fixed bottom-5 right-5 md:hidden z-30 flex items-center gap-2 pl-3 pr-4 py-3 rounded-full shadow-xl text-white text-sm font-semibold transition-all duration-200 active:scale-95"
-        style={{ background: '#03624c' }}
+        className="fixed bottom-5 right-5 md:hidden z-30 flex items-center gap-2 pl-3 pr-4 py-3 rounded-full shadow-glow-md text-on-accent text-sm font-semibold transition-all duration-200 active:scale-95"
+        style={{ background: 'rgb(var(--accent))' }}
         onClick={() => setIsMobileOpen(true)}
         aria-label="목차 열기"
       >
@@ -345,45 +345,39 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
       {/* ── Desktop Sidebar ────────────────────────────── */}
       <div
         className={`
-          post-toc hidden 2xl:block
-          fixed top-24 right-8 w-[260px] max-h-[calc(100vh-6rem)]
-          overflow-y-auto overflow-x-hidden
-          text-sm z-10 select-none
-          transition-all duration-300 ease-out
-          ${isTocVisible ? 'opacity-100 translate-y-0' : 'opacity-0 pointer-events-none -translate-y-2'}
-        `}
+ post-toc hidden 2xl:block
+ fixed top-24 right-8 w-[260px] max-h-[calc(100vh-6rem)]
+ overflow-y-auto overflow-x-hidden
+ text-sm z-10 select-none
+ transition-all duration-300 ease-out
+ ${isTocVisible ? 'opacity-100 translate-y-0' : 'opacity-0 pointer-events-none -translate-y-2'}
+ `}
       >
         <div
-          className="
-            bg-white/85 dark:bg-neutral-800/85
-            backdrop-blur-md
-            border border-black/[0.06] dark:border-white/[0.07]
-            rounded-xl shadow-sm
-            overflow-hidden
-          "
+          className="bg-surface/85 backdrop-blur-md rounded-2xl overflow-hidden"
         >
           {/* Top progress bar */}
-          <div className="h-[3px] bg-neutral-200 dark:bg-neutral-700">
+          <div className="h-[3px] bg-raised">
             <div
               className="h-full rounded-r-full transition-all duration-500 ease-out"
               style={{
                 width: `${progressPct}%`,
-                background: 'linear-gradient(90deg,#03624c,#2cc295)',
+                background: 'linear-gradient(90deg, rgb(var(--nebula)), rgb(var(--accent)))',
               }}
             />
           </div>
 
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-100 dark:border-neutral-700/60">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-hairline">
             <div className="flex items-center gap-2">
               <ForestIcon />
-              <span className="text-[11px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">
+              <span className="text-[11px] font-bold text-fg-muted uppercase tracking-widest">
                 목차
               </span>
             </div>
             <span
               className="text-[11px] font-bold tabular-nums transition-all duration-300"
-              style={{ color: '#03624c' }}
+              style={{ color: 'rgb(var(--accent))' }}
             >
               {progressPct}%
             </span>
@@ -393,7 +387,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
           <div className="relative py-2">
             {/* Rail background line */}
             <div
-              className="absolute left-[26px] top-3 bottom-3 w-[1.5px] rounded-full bg-neutral-200 dark:bg-neutral-700"
+              className="absolute left-[26px] top-3 bottom-3 w-[1.5px] rounded-full bg-raised"
               aria-hidden
             />
             {/* Rail fill (done portion) */}
@@ -401,7 +395,7 @@ const PostTOC = ({ postContent }: { postContent: string }) => {
               ref={railFillRef}
               className="absolute left-[26px] top-3 w-[1.5px] rounded-full transition-all duration-400 ease-out"
               style={{
-                background: 'linear-gradient(180deg,#03624c,#2cc295)',
+                background: 'linear-gradient(180deg, rgb(var(--nebula)), rgb(var(--accent)))',
                 height: 0,
               }}
               aria-hidden

@@ -37,17 +37,17 @@ const PortfolioStone = ({
     <Link
       href={portfolioDetailUrl || '#'}
       className={`
-                  relative
-                  ${pastelColors[index % pastelColors.length]}
-                  rounded-2xl
-                  shadow-lg
-                  cursor-pointer
-                  transition-all
-                  duration-300
-                  ease-out
-                  overflow-hidden
-                  ${isHovered ? 'shadow-2xl z-10 relative' : 'shadow-lg'}
-                `}
+ relative
+ ${pastelColors[index % pastelColors.length]}
+ rounded-2xl
+ shadow-lg
+ cursor-pointer
+ transition-all
+ duration-300
+ ease-out
+ overflow-hidden
+ ${isHovered ? 'shadow-2xl z-10 relative' : 'shadow-lg'}
+ `}
       style={{
         transform: `translate(${translateX}px, ${translateY}px) ${isHovered ? 'scale(1.15)' : 'scale(1)'} ${scale ? `scale(${scale})` : ''}`,
       }}
@@ -79,26 +79,26 @@ const PortfolioStone = ({
 
           {project.demoUrl ? (
             <span className="absolute top-4 right-4 flex w-3 h-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex rounded-full w-3 h-3 bg-green-400 shadow-[0_0_6px_2px_rgba(74,222,128,0.6)]" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-strong opacity-75" />
+              <span className="relative inline-flex rounded-full w-3 h-3 bg-accent-strong shadow-[0_0_6px_2px_rgba(74,222,128,0.6)]" />
             </span>
           ) : (
             <div
               className={`
-                      absolute top-4 right-4 w-3 h-3 rounded-full bg-white/50
-                      transition-all duration-300
-                      ${isHovered ? 'scale-150' : 'scale-100'}
-                    `}
+ absolute top-4 right-4 w-3 h-3 rounded-full bg-white/50
+ transition-all duration-300
+ ${isHovered ? 'scale-150' : 'scale-100'}
+ `}
             />
           )}
         </div>
       </div>
 
-      <div className="p-4 md:p-6 h-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm">
-        <h3 className="text-lg md:text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 line-clamp-1">
+      <div className="p-4 md:p-6 h-full bg-surface/90 backdrop-blur-sm">
+        <h3 className="text-lg md:text-xl font-bold mb-2 text-fg line-clamp-1">
           {project.title}
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 md:mb-4 line-clamp-2">
+        <p className="text-sm text-fg-soft mb-3 md:mb-4 line-clamp-2">
           {project.description}
         </p>
 
@@ -107,7 +107,7 @@ const PortfolioStone = ({
             {project.tags.slice(0, 3).map((tag, tagIndex) => (
               <span
                 key={tagIndex}
-                className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                className="text-xs px-2 py-1 bg-raised rounded-full text-fg whitespace-nowrap"
               >
                 {tag}
               </span>
@@ -123,7 +123,7 @@ const PortfolioStone = ({
                 e.stopPropagation();
                 window.open(project.demoUrl, '_blank', 'noopener,noreferrer');
               }}
-              className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
+              className="flex-1 inline-flex items-center justify-center gap-1 bg-raised hover:bg-fg/10 text-fg px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGlobe size={12} />
               배포
@@ -136,7 +136,7 @@ const PortfolioStone = ({
                 e.stopPropagation();
                 window.open(project.githubUrl, '_blank', 'noopener,noreferrer');
               }}
-              className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg transition-colors text-xs"
+              className="flex-1 inline-flex items-center justify-center gap-1 bg-raised hover:bg-fg/10 text-fg px-3 py-2 rounded-lg transition-colors text-xs"
             >
               <FaGithub size={12} />
               코드

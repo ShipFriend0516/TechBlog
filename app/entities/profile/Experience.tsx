@@ -35,31 +35,31 @@ const Experience = () => {
         {experiences.map((exp) => (
           <div
             key={exp.company}
-            className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-neutral-800/50"
+            className="flex items-center gap-4 p-4 rounded-xl bg-surface"
           >
-            <div className="p-2.5 rounded-lg bg-primary-deep/10 dark:bg-primary-deep/20">
+            <div className="p-2.5 rounded-lg bg-accent/10">
               {exp.type === 'work' ? (
-                <HiOutlineBriefcase className="w-5 h-5 text-primary dark:text-emerald-400" />
+                <HiOutlineBriefcase className="w-5 h-5 text-accent" />
               ) : (
-                <HiOutlineAcademicCap className="w-5 h-5 text-primary dark:text-emerald-400" />
+                <HiOutlineAcademicCap className="w-5 h-5 text-accent" />
               )}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="font-bold text-gray-900 dark:text-gray-100">
+                <h3 className="font-bold text-fg">
                   {exp.company}
                 </h3>
                 {exp.current && (
-                  <span className="text-xs px-2 py-0.5 bg-neutral-400/10 dark:bg-neutral-400/20 text-primary-bangladesh dark:text-primary-mountain rounded-full font-medium">
+                  <span className="text-xs px-2 py-0.5 bg-fg-faint/10 text-accent rounded-full font-medium">
                     현재
                   </span>
                 )}
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-fg-soft">
                 {exp.role}
               </p>
             </div>
-            <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+            <span className="text-sm text-fg-muted whitespace-nowrap">
               {exp.period}
             </span>
           </div>

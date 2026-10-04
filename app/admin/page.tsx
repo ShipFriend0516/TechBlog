@@ -33,7 +33,7 @@ const AdminDashboard = () => {
         <header className="mb-8 h-96 flex flex-col gap-4 justify-center items-center">
           <div>
             <h1 className="text-3xl font-bold mb-2">관리자 대시보드</h1>
-            <p className="text-gray-200">로그인이 필요한 기능입니다.</p>
+            <p className="text-fg-muted">로그인이 필요한 기능입니다.</p>
           </div>
           <GithubLogin signIn={signIn} />
         </header>
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
               animateOn="view"
             />
           </h1>
-          <p className=" text-default">
+          <p className="text-fg">
             <DecryptedText
               text={`${session.user?.name}님, 환영합니다`}
               speed={120}
@@ -115,7 +115,7 @@ const AdminDashboard = () => {
           </p>
         </div>
         <button
-          className="right-0 px-4 py-1 bg-red-500 text-white rounded-md shadow-md hover:bg-red-700 transition-all"
+          className="right-0 px-4 py-1 bg-danger text-white rounded-md shadow-md hover:bg-danger/90 transition-all"
           onClick={() => signOut()}
         >
           로그아웃
@@ -131,13 +131,13 @@ const AdminDashboard = () => {
           {[...Array(7)].map((_, i) => (
             <div
               key={i}
-              className="border border-gray-200 dark:border-gray-700 border-l-4 border-l-gray-300 dark:border-l-gray-600 rounded-lg p-6"
+              className="border-l-4 border-l-accent/40 bg-surface rounded-lg p-6"
             >
               <div className="flex items-center mb-3">
-                <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded" />
-                <div className="h-5 w-36 bg-gray-200 dark:bg-gray-700 rounded ml-2" />
+                <div className="w-8 h-8 bg-raised rounded" />
+                <div className="h-5 w-36 bg-raised rounded ml-2" />
               </div>
-              <div className="h-4 w-44 bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="h-4 w-44 bg-raised rounded" />
             </div>
           ))}
         </div>
@@ -148,15 +148,15 @@ const AdminDashboard = () => {
               key={index}
               href={item.link}
               prefetch={false}
-              className={`border border-gray-200 dark:border-gray-700 border-l-4 ${item.accent} rounded-lg p-6 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 hover:-translate-y-1`}
+              className={`border border-hairline border-l-4 ${item.accent} rounded-lg p-6 hover:bg-surface transition-all duration-200 hover:-translate-y-1`}
             >
               <div className="flex items-center mb-3">
-                <div className="p-2 text-gray-600 dark:text-gray-400 rounded-lg">
+                <div className="p-2 text-fg-soft rounded-lg">
                   {item.icon}
                 </div>
-                <h2 className="text-lg font-semibold ml-2 dark:text-gray-100">{item.title}</h2>
+                <h2 className="text-lg font-semibold ml-2">{item.title}</h2>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
+              <p className="text-sm text-fg-muted">{item.description}</p>
             </Link>
           ))}
         </div>

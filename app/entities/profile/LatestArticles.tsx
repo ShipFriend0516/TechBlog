@@ -17,7 +17,7 @@ const LatestArticles = ({ posts, totalCount }: LatestArticlesProps) => {
           <Link
             href={`/posts/${post.slug}`}
             key={post._id}
-            className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100 dark:from-primary-rich rounded-2xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-[1.02]"
+            className="group cursor-pointer bg-gradient-to-br from-surface to-raised rounded-2xl overflow-hidden transition-all duration-300 border border-hairline hover:scale-[1.02]"
           >
             <div className="relative h-44 overflow-hidden">
               <Image
@@ -28,14 +28,14 @@ const LatestArticles = ({ posts, totalCount }: LatestArticlesProps) => {
                   '/images/placeholder/thumbnail_example2.webp'
                 }
                 alt={`Article ${post.title}`}
-                className="object-cover bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform duration-500 group-hover:scale-110 bg-gray-500"
+                className="object-cover bg-[position:50%_20%] bg-cover bg-no-repeat w-full h-full transition-transform duration-500 group-hover:scale-110 bg-fg-muted"
               />
             </div>
             <div className="p-5">
-              <h3 className="text-lg font-bold mb-2 text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors">
+              <h3 className="text-lg font-bold mb-2 text-fg line-clamp-2 group-hover:text-fg-soft transition-colors">
                 {post.title}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">
+              <p className="text-sm text-fg-soft line-clamp-3 leading-relaxed">
                 {post.subTitle && post.subTitle.slice(0, 80)}
               </p>
             </div>

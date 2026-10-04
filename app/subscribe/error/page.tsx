@@ -25,15 +25,15 @@ export default async function ErrorPage(
     '알 수 없는 오류가 발생했습니다.';
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-surface px-4">
+      <div className="max-w-md w-full bg-surface rounded-lg shadow-lg p-8 text-center">
         <div className="mb-6">
           <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 dark:bg-red-900">
             <svg
               className="h-10 w-10 text-red-600 dark:text-red-400"
               fill="none"
               stroke="currentColor"
-              viewBox="0 0 24 24"
+              viewBox="0 24"
             >
               <path
                 strokeLinecap="round"
@@ -45,16 +45,16 @@ export default async function ErrorPage(
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 className="text-2xl font-bold text-fg mb-4">
           오류가 발생했습니다
         </h1>
 
-        <p className="text-gray-600 dark:text-gray-300 mb-8">{errorMessage}</p>
+        <p className="text-fg-soft mb-8">{errorMessage}</p>
 
         <div className="space-y-3">
           <Link
             href="/"
-            className="block w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 rounded-md font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+            className="block w-full bg-fg text-base px-6 py-3 rounded-md font-medium hover:bg-fg/80 transition-colors"
           >
             홈으로 돌아가기
           </Link>

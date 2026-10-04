@@ -35,7 +35,7 @@ const SearchSection = ({
       {seriesOpen && (
         <div
           className={
-            'fixed top-0 left-0 w-screen h-screen z-40 bg-neutral-800/10'
+            'fixed top-0 left-0 w-screen h-screen z-40 bg-fg/10'
           }
           aria-label={'배경 클릭시 드롭다운 닫기'}
           onClick={() => setSeriesOpen(false)}
@@ -44,10 +44,10 @@ const SearchSection = ({
       <nav className="flex items-center justify-between py-4 px-4">
         <div className="flex items-center space-x-6">
           {/* 시리즈 드롭다운 */}
-          <div className="relative ">
+          <div className="relative">
             <button
               onClick={() => setSeriesOpen(!seriesOpen)}
-              className="flex items-center space-x-2 hover:text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-100 "
+              className="flex items-center space-x-2 hover:text-fg-soft px-3 py-2 rounded-lg hover:bg-raised"
             >
               <FaBook size={20} className={'flex-shrink-0'} />
               <span className={'flex-shrink-0'}>시리즈</span>
@@ -72,7 +72,7 @@ const SearchSection = ({
           {(query || searchSeries || searchTag) && (
             <div
               className={
-                'bg-neutral-600  rounded-lg px-2 text-sm py-0.5 text-white'
+                'bg-fg-muted rounded-lg px-2 text-sm py-0.5 text-base'
               }
             >
               {searchSeries && (
@@ -93,7 +93,7 @@ const SearchSection = ({
           {(query || searchSeries || searchTag) && (
             <button
               onClick={resetSearchCondition}
-              className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
+              className="p-2 hover:bg-raised hover:text-fg rounded-full transition-colors"
               aria-label="검색 초기화"
               title="검색 초기화"
             >
@@ -102,7 +102,7 @@ const SearchSection = ({
           )}
           <button
             onClick={() => setSearchOpen(!searchOpen)}
-            className="p-2 hover:bg-gray-100 hover:text-black rounded-full transition-colors"
+            className="p-2 hover:bg-raised hover:text-fg rounded-full transition-colors"
             aria-label="검색 오버레이 열기 버튼"
             title="검색 오버레이 열기"
           >

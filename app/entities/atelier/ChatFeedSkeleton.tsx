@@ -24,8 +24,8 @@ const SkeletonBubble = ({
       {/* 아바타 + 닉네임 (상대방 메시지) */}
       {!mine && (
         <div className="flex items-center gap-1.5 px-0 ml-1">
-          <div className="-ml-1 w-4 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
-          <div className="w-12 h-3 rounded bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+          <div className="-ml-1 w-4 h-4 rounded-full bg-raised animate-pulse" />
+          <div className="w-12 h-3 rounded bg-raised animate-pulse" />
         </div>
       )}
 
@@ -35,20 +35,20 @@ const SkeletonBubble = ({
           <div
             key={i}
             className={`h-9 ${w} rounded-2xl ${
-              mine ? 'rounded-tr-sm' : 'rounded-tl-sm'
-            } bg-neutral-200 dark:bg-neutral-700 animate-pulse`}
+ mine ? 'rounded-tr-sm' : 'rounded-tl-sm'
+ } bg-raised animate-pulse`}
           />
         ))}
       </div>
 
       {/* 시간 */}
-      <div className="w-8 h-2.5 rounded bg-neutral-200 dark:bg-neutral-700 animate-pulse mx-1" />
+      <div className="w-8 h-2.5 rounded bg-raised animate-pulse mx-1" />
     </div>
   );
 };
 
 const ChatFeedSkeleton = () => (
-  <div className="flex flex-col gap-4 h-full overflow-hidden border border-border rounded-2xl p-4">
+  <div className="flex flex-col gap-4 h-full overflow-hidden border rounded-2xl p-4">
     {SKELETON_ITEMS.map((item, i) => (
       <SkeletonBubble key={i} mine={item.mine} widths={item.widths} />
     ))}

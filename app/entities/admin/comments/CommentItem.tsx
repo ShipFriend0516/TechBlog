@@ -20,7 +20,7 @@ interface CommentItemProps {
 
 const CommentItem = ({ comment }: CommentItemProps) => {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-sm">
+    <div className="bg-surface p-4 rounded-lg shadow-sm">
       <div className="flex items-start gap-3 mb-3">
         {/* eslint-disable-next-line @next/next/no-img-element -- GitHub 아바타 외부 URL */}
         <img
@@ -30,14 +30,14 @@ const CommentItem = ({ comment }: CommentItemProps) => {
         />
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-gray-800">
+            <span className="font-semibold text-fg">
               {comment.user.login}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-fg-muted">
               {formatDate(new Date(comment.created_at).getTime())}
             </span>
           </div>
-          <div className="mt-2 text-gray-700 whitespace-pre-wrap">
+          <div className="mt-2 text-fg whitespace-pre-wrap">
             {comment.body}
           </div>
           <a

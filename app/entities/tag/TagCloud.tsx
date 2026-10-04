@@ -247,7 +247,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
       className="relative w-full h-[420px] md:h-[600px] overflow-hidden cursor-grab select-none touch-pan-y"
     >
       {/* 그라데이션 배경 */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-primary-caribbean/5 via-transparent to-transparent dark:from-primary-mountain/10 dark:via-transparent dark:to-transparent" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-accent/5 via-transparent to-transparent dark:via-transparent dark:to-transparent" />
 
       {/* 입자들 — 중앙(left/top 50%) 기준으로 translate */}
       {particles.map((particle, i) => (
@@ -257,7 +257,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
             particleRefs.current[i] = el;
           }}
           aria-hidden="true"
-          className="absolute left-1/2 top-1/2 rounded-full pointer-events-none bg-slate-500 dark:bg-primary-mountain"
+          className="absolute left-1/2 top-1/2 rounded-full pointer-events-none bg-fg-muted"
           style={{
             width: `${particle.size}px`,
             height: `${particle.size}px`,
@@ -283,10 +283,7 @@ const TagCloud = ({ tags }: TagCloudProps) => {
           <Link
             href={`/posts?page=1&tag=${encodeURIComponent(base.tag)}`}
             draggable={false}
-            className="group flex items-baseline gap-1 font-bold whitespace-nowrap
-                      text-primary-bangladesh hover:text-primary-mountain focus-visible:text-primary-mountain
-                      dark:text-primary-caribbean dark:hover:text-primary-mountain
-                      transition-colors duration-300 rounded outline-offset-4"
+            className="group flex items-baseline gap-1 font-bold whitespace-nowrap text-accent hover:text-accent focus-visible:text-accent transition-colors duration-300 rounded outline-offset-4"
             aria-label={`${base.tag} 태그 (${base.count}개 글)`}
           >
             #{base.tag}

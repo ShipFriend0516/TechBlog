@@ -7,11 +7,11 @@ interface ProjectLinksProps {
 const ProjectLinks = ({ portfolio }: ProjectLinksProps) => {
   return (
     <div className="flex flex-wrap justify-between items-center">
-      <div className="flex flex-wrap gap-3 text-gray-600">
+      <div className="flex flex-wrap gap-3 text-fg-soft">
         {portfolio.technologies.map((tech, index) => (
           <span
             key={index}
-            className="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs"
+            className="inline-block bg-raised rounded-full px-3 py-1 text-xs"
           >
             {tech}
           </span>
@@ -25,7 +25,7 @@ const ProjectLinks = ({ portfolio }: ProjectLinksProps) => {
             href={portfolio.links?.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-3 py-1 text-default hover:opacity-75 rounded-md  transition-colors"
+            className="inline-flex items-center gap-2 px-3 py-1 text-fg hover:opacity-75 rounded-md transition-colors"
             aria-label="GitHub 저장소"
           >
             <FaGithub size={18} />
@@ -37,7 +37,7 @@ const ProjectLinks = ({ portfolio }: ProjectLinksProps) => {
             href={portfolio.links?.deployUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-3 py-1 text-default hover:opacity-75 rounded-md transition-colors"
+            className="inline-flex items-center gap-2 px-3 py-1 text-fg hover:opacity-75 rounded-md transition-colors"
             aria-label="배포 사이트"
           >
             <FaGlobe size={18} />

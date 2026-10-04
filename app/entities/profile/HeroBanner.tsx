@@ -16,7 +16,7 @@ const HeroBanner = () => {
           height={'720'}
           alt="Hero image"
           loading={'eager'}
-          className="object-cover bg-gray-100 w-full h-full transition-transform duration-700 group-hover:scale-105"
+          className="object-cover bg-raised w-full h-full transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent"></div>
         <div className="absolute top-0 left-0 p-6 md:p-10 w-full h-full flex flex-col gap-3 text-white">
@@ -52,10 +52,10 @@ const HeroBanner = () => {
           <RiDoubleQuotesR size={24} color="darkgray" />
         </div>
         <div>
-          <p className="md:text-lg text-default w-full mx-auto text-left mt-4">
+          <p className="md:text-lg text-fg w-full mx-auto text-left mt-4">
             안녕하세요, 개발자 서정우입니다.
           </p>
-          <p className="md:text-lg text-default w-full mx-auto text-left mb-4">
+          <p className="md:text-lg text-fg w-full mx-auto text-left mb-4">
             {instruction}
           </p>
         </div>

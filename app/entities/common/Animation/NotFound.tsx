@@ -22,7 +22,7 @@ const NotFound = ({ message, className, redirect }: NotFoundProps) => {
         />
         <div
           className={
-            'text-medium-m text-gray-500 text-center flex flex-col gap-0.5'
+            'text-medium-m text-fg-muted text-center flex flex-col gap-0.5'
           }
         >
           {message?.split('\n').map((text) => <p key={text}>{text}</p>)}
@@ -30,7 +30,7 @@ const NotFound = ({ message, className, redirect }: NotFoundProps) => {
         {redirect && (
           <Link
             className={
-              'bg-green-100 hover:bg-green-100/80 text-white text-semibold-r rounded-xl px-4 py-1 mt-2'
+              'bg-accent-subtle hover:bg-accent/20 text-accent text-semibold-r rounded-xl px-4 py-1 mt-2'
             }
             href={redirect.path}
           >

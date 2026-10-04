@@ -21,7 +21,7 @@ const IconButton = ({
     <button
       onClick={onClick}
       className={
-        className || 'p-2 fill-current hover:bg-gray-200/50 rounded-md'
+        className || 'p-2 fill-current hover:bg-fg/10 rounded-md'
       }
       {...props}
     >

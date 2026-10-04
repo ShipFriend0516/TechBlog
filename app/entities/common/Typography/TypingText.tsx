@@ -43,7 +43,7 @@ const TypingText = ({
     <p className={`typing-text ${className ?? ''}`.trim()}>
       {displayTitle}
       {!isTypingComplete && (
-        <span className="inline-block w-1 h-8 ml-1 bg-black animate-blink" />
+        <span className="inline-block w-1 h-8 ml-1 bg-accent animate-blink" />
       )}
     </p>
   );

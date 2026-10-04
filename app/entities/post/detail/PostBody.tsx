@@ -64,8 +64,8 @@ const PostBody = ({ content, tags, loading }: Props) => {
           <TagBox className={'-mt-4 mb-4'} tags={tags || []} />
           <MDEditor.Markdown
             style={{
-              backgroundColor: 'var(--background)',
-              color: 'var(--text-primary)',
+              backgroundColor: 'transparent',
+              color: 'rgb(var(--fg))',
             }}
             className={''}
             source={content}

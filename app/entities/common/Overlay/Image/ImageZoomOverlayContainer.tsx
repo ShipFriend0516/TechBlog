@@ -17,7 +17,7 @@ const ImageZoomOverlayContainer = ({
   return (
     <div
       className={
-        'w-full zoomBox p-2 rounded-2xl bg-black shadow-lg shadow-gray-200/20'
+        'w-full zoomBox p-2 rounded-2xl bg-black shadow-lg '
       }
     >
       <button

@@ -67,7 +67,7 @@ const AdminPostListPage = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <div className=" rounded-lg shadow">
+      <div className="rounded-lg shadow">
         <div className="p-4 border-b">
           <h1 className="text-2xl font-bold">게시글 관리</h1>
         </div>

@@ -55,17 +55,17 @@ type TabKey = (typeof TABS)[number]['key'];
 /* ─── 스켈레톤 ─── */
 function PostSkeletonList() {
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-pulse">
-      <div className="h-8 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+    <div className="bg-surface rounded-xl overflow-hidden animate-pulse">
+      <div className="h-8 border-b border-hairline bg-surface" />
       <ul>
         {[...Array(20)].map((_, i) => (
-          <li key={i} className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 flex items-center gap-3">
-            <div className="h-3.5 w-4 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-            <div className="h-3.5 flex-1 bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-            <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-            <div className="h-3 w-10 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-            <div className="h-3.5 w-14 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+          <li key={i} className="px-4 py-2.5 border-b border-hairline last:border-b-0 flex items-center gap-3">
+            <div className="h-3.5 w-4 bg-raised rounded shrink-0" />
+            <div className="h-3.5 flex-1 bg-raised rounded" />
+            <div className="h-3 w-16 bg-raised rounded shrink-0" />
+            <div className="h-3 w-20 bg-raised rounded shrink-0" />
+            <div className="h-3 w-10 bg-raised rounded shrink-0" />
+            <div className="h-3.5 w-14 bg-raised rounded shrink-0" />
           </li>
         ))}
       </ul>
@@ -75,16 +75,16 @@ function PostSkeletonList() {
 
 function ReferrerSkeletonList() {
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-pulse">
-      <div className="h-8 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+    <div className="bg-surface rounded-xl overflow-hidden animate-pulse">
+      <div className="h-8 border-b border-hairline bg-surface" />
       <ul>
         {[...Array(10)].map((_, i) => (
-          <li key={i} className="px-4 py-3 border-b border-gray-50 dark:border-gray-800 last:border-b-0 flex items-center gap-4">
-            <div className="h-3.5 w-4 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-            <div className="h-3.5 flex-1 bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-3 w-40 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-            <div className="h-3.5 w-12 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-            <div className="h-2 w-24 bg-gray-200 dark:bg-gray-700 rounded-full shrink-0" />
+          <li key={i} className="px-4 py-3 border-b border-hairline last:border-b-0 flex items-center gap-4">
+            <div className="h-3.5 w-4 bg-raised rounded shrink-0" />
+            <div className="h-3.5 flex-1 bg-raised rounded" />
+            <div className="h-3 w-40 bg-raised rounded shrink-0" />
+            <div className="h-3.5 w-12 bg-raised rounded shrink-0" />
+            <div className="h-2 w-24 bg-raised rounded-full shrink-0" />
           </li>
         ))}
       </ul>
@@ -94,9 +94,9 @@ function ReferrerSkeletonList() {
 
 function WeeklySkeletonChart() {
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 p-6 animate-pulse">
-      <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded mb-4" />
-      <div className="h-56 bg-gray-100 dark:bg-gray-800 rounded" />
+    <div className="bg-surface rounded-xl p-6 animate-pulse">
+      <div className="h-4 w-32 bg-raised rounded mb-4" />
+      <div className="h-56 bg-raised rounded" />
     </div>
   );
 }
@@ -105,8 +105,8 @@ function WeeklySkeletonChart() {
 function ReferrerList({ referrers }: { referrers: ReferrerItem[] }) {
   const total = referrers.reduce((sum, r) => sum + r.count, 0);
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-      <div className="flex items-center gap-4 px-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-700">
+    <div className="bg-surface rounded-xl overflow-hidden">
+      <div className="flex items-center gap-4 px-4 py-2 text-xs font-medium text-fg-muted border-b border-hairline">
         <span className="w-4 shrink-0" />
         <span className="flex-1">유입경로</span>
         <span className="w-48 shrink-0 text-left">URL</span>
@@ -118,24 +118,24 @@ function ReferrerList({ referrers }: { referrers: ReferrerItem[] }) {
           const percent = total > 0 ? (item.count / total) * 100 : 0;
           const isDirect = item.source === '직접 방문';
           return (
-            <li key={item.source} className="px-4 py-3 border-b border-gray-50 dark:border-gray-800 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 flex items-center gap-4">
-              <span className="text-xs text-gray-400 dark:text-gray-500 w-4 shrink-0 text-right">{i + 1}</span>
-              <span className="flex-1 text-sm font-medium dark:text-gray-200 truncate">{item.source}</span>
+            <li key={item.source} className="px-4 py-3 border-b border-hairline last:border-b-0 hover:bg-surface transition-colors duration-150 flex items-center gap-4">
+              <span className="text-xs text-fg-muted w-4 shrink-0 text-right">{i + 1}</span>
+              <span className="flex-1 text-sm font-medium truncate">{item.source}</span>
               <span className="w-48 shrink-0 truncate">
                 {isDirect ? (
-                  <span className="text-xs text-gray-300 dark:text-gray-600">—</span>
+                  <span className="text-xs text-fg-faint">—</span>
                 ) : (
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary dark:bg-brand-secondary/10 dark:text-brand-secondary">
+                  <span className="text-xs px-1.5 py-0.5 rounded bg-accent/10 text-accent">
                     {item.source}
                   </span>
                 )}
               </span>
-              <span className="text-sm font-semibold w-16 shrink-0 text-right dark:text-gray-200">{item.count.toLocaleString()}</span>
+              <span className="text-sm font-semibold w-16 shrink-0 text-right">{item.count.toLocaleString()}</span>
               <div className="w-28 shrink-0 flex items-center gap-2">
-                <div className="flex-1 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
-                  <div className="h-full rounded-full bg-brand-primary dark:bg-brand-secondary" style={{ width: `${percent.toFixed(1)}%` }} />
+                <div className="flex-1 h-1.5 rounded-full bg-raised overflow-hidden">
+                  <div className="h-full rounded-full bg-accent" style={{ width: `${percent.toFixed(1)}%` }} />
                 </div>
-                <span className="text-xs text-gray-400 dark:text-gray-500 w-10 text-right shrink-0">{percent.toFixed(1)}%</span>
+                <span className="text-xs text-fg-muted w-10 text-right shrink-0">{percent.toFixed(1)}%</span>
               </div>
             </li>
           );
@@ -211,8 +211,8 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 p-6">
-        <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
+      <div className="bg-surface rounded-xl p-6">
+        <p className="text-xs text-fg-muted mb-4">
           최근 14일 일별 조회수 — 막대를 클릭하면 해당 일의 상세 통계를 확인할 수 있습니다.
         </p>
         <ResponsiveContainer width="100%" height={220}>
@@ -220,21 +220,21 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
             data={chartData}
             margin={{ top: 4, right: 8, left: -16, bottom: 0 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.5} vertical={false} />
-            <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }} tickLine={false} axisLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} tickLine={false} axisLine={false} allowDecimals={false} />
+            <CartesianGrid strokeDasharray="3" stroke="rgb(var(--fg) / 0.08)" strokeOpacity={0.5} vertical={false} />
+            <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'rgb(var(--fg-muted))' }} tickLine={false} axisLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: 'rgb(var(--fg-muted))' }} tickLine={false} axisLine={false} allowDecimals={false} />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#111827',
+                backgroundColor: 'rgb(var(--overlay))',
                 border: 'none',
                 borderRadius: '6px',
                 fontSize: '12px',
-                color: '#fff',
+                color: 'rgb(var(--fg))',
                 padding: '6px 10px',
               }}
               formatter={(value) => [`${Number(value).toLocaleString()}회`, '조회수']}
-              itemStyle={{ color: '#10b981' }}
-              labelStyle={{ color: '#9ca3af', marginBottom: 2 }}
+              itemStyle={{ color: 'rgb(var(--accent))' }}
+              labelStyle={{ color: 'rgb(var(--fg-muted))', marginBottom: 2 }}
               cursor={{ fill: 'rgba(0,100,0,0.05)' }}
             />
             <Bar
@@ -253,7 +253,7 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
                     width={width}
                     height={height}
                     rx={4}
-                    fill={isSelected ? '#006400' : '#10b981'}
+                    fill={isSelected ? 'rgb(var(--nebula))' : 'rgb(var(--accent))'}
                     opacity={isDimmed ? 0.35 : 1}
                     style={{ cursor: 'pointer' }}
                   />
@@ -266,30 +266,30 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
 
       {/* 폴백 UI */}
       {!selectedDate && (
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 px-6 py-12 flex flex-col items-center gap-2 text-center">
-          <FiBarChart2 size={28} className="text-gray-300 dark:text-gray-600" />
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-300">막대를 클릭해서 일별 통계를 확인해보세요</p>
-          <p className="text-xs text-gray-400 dark:text-gray-500">조회 글 순위와 유입경로를 날짜별로 볼 수 있습니다.</p>
+        <div className="bg-surface rounded-xl px-6 py-12 flex flex-col items-center gap-2 text-center">
+          <FiBarChart2 size={28} className="text-fg-faint" />
+          <p className="text-sm font-medium text-fg-soft">막대를 클릭해서 일별 통계를 확인해보세요</p>
+          <p className="text-xs text-fg-muted">조회 글 순위와 유입경로를 날짜별로 볼 수 있습니다.</p>
         </div>
       )}
 
       {/* 선택된 날 상세 */}
       {selectedDate && (
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div className="bg-surface rounded-xl overflow-hidden">
           {/* 헤더: 날짜 + 탭 토글 + 닫기 */}
-          <div className="px-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+          <div className="px-4 border-b border-hairline flex items-center justify-between">
             <div className="flex items-center">
-              <span className="text-sm font-medium dark:text-gray-200 pr-4">{selectedDateLabel}</span>
+              <span className="text-sm font-medium pr-4">{selectedDateLabel}</span>
               <div className="flex">
                 {(['posts', 'referrer'] as const).map((v) => (
                   <button
                     key={v}
                     onClick={() => handleDetailViewChange(v)}
                     className={`px-4 py-3 text-sm font-medium transition-colors ${
-                      detailView === v
-                        ? 'border-b-2 border-brand-primary text-brand-primary dark:border-brand-secondary dark:text-brand-secondary'
-                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                    }`}
+ detailView === v
+ ? 'border-b-2 border-accent/40 text-accent '
+ : 'text-fg-muted hover:text-fg '
+ }`}
                   >
                     {v === 'posts' ? '조회 글' : '유입경로'}
                   </button>
@@ -298,7 +298,7 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
             </div>
             <button
               onClick={() => { setSelectedDate(null); setDailyPosts([]); setDailyReferrers([]); }}
-              className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+              className="text-xs text-fg-muted hover:text-fg-soft transition-colors"
             >
               닫기
             </button>
@@ -309,30 +309,30 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
             postsLoading ? (
               <ul className="animate-pulse">
                 {[...Array(5)].map((_, i) => (
-                  <li key={i} className="px-4 py-3 border-b border-gray-50 dark:border-gray-800 last:border-b-0 flex items-center gap-3">
-                    <div className="h-3.5 w-4 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-                    <div className="h-3.5 flex-1 bg-gray-200 dark:bg-gray-700 rounded" />
-                    <div className="h-3.5 w-12 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
+                  <li key={i} className="px-4 py-3 border-b border-hairline last:border-b-0 flex items-center gap-3">
+                    <div className="h-3.5 w-4 bg-raised rounded shrink-0" />
+                    <div className="h-3.5 flex-1 bg-raised rounded" />
+                    <div className="h-3.5 w-12 bg-raised rounded shrink-0" />
                   </li>
                 ))}
               </ul>
             ) : dailyPosts.length === 0 ? (
-              <p className="px-4 py-6 text-sm text-gray-400 dark:text-gray-500">조회 데이터가 없습니다.</p>
+              <p className="px-4 py-6 text-sm text-fg-muted">조회 데이터가 없습니다.</p>
             ) : (
               <>
-                <div className="flex items-center gap-3 px-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 border-b border-gray-50 dark:border-gray-800">
+                <div className="flex items-center gap-3 px-4 py-2 text-xs font-medium text-fg-muted border-b border-hairline">
                   <span className="w-4 shrink-0" />
                   <span className="flex-1">제목</span>
                   <span className="w-16 shrink-0 text-right">조회수</span>
                 </div>
                 <ul>
                   {dailyPosts.map((post, i) => (
-                    <li key={post.postId} className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 flex items-center gap-3">
-                      <span className="text-xs text-gray-400 dark:text-gray-500 w-4 shrink-0 text-right">{i + 1}</span>
-                      <Link href={`/posts/${post.slug}`} className="flex-1 text-sm font-medium truncate dark:text-gray-200 hover:text-brand-primary dark:hover:text-brand-secondary transition-colors">
+                    <li key={post.postId} className="px-4 py-2.5 border-b border-hairline last:border-b-0 hover:bg-surface transition-colors duration-150 flex items-center gap-3">
+                      <span className="text-xs text-fg-muted w-4 shrink-0 text-right">{i + 1}</span>
+                      <Link href={`/posts/${post.slug}`} className="flex-1 text-sm font-medium truncate hover:text-accent transition-colors">
                         {post.title}
                       </Link>
-                      <span className="text-sm font-semibold w-16 shrink-0 text-right dark:text-gray-200">{post.views.toLocaleString()}</span>
+                      <span className="text-sm font-semibold w-16 shrink-0 text-right">{post.views.toLocaleString()}</span>
                     </li>
                   ))}
                 </ul>
@@ -345,19 +345,19 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
             referrersLoading ? (
               <ul className="animate-pulse">
                 {[...Array(5)].map((_, i) => (
-                  <li key={i} className="px-4 py-3 border-b border-gray-50 dark:border-gray-800 last:border-b-0 flex items-center gap-4">
-                    <div className="h-3.5 w-4 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-                    <div className="h-3.5 flex-1 bg-gray-200 dark:bg-gray-700 rounded" />
-                    <div className="h-3.5 w-12 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
-                    <div className="h-2 w-24 bg-gray-200 dark:bg-gray-700 rounded-full shrink-0" />
+                  <li key={i} className="px-4 py-3 border-b border-hairline last:border-b-0 flex items-center gap-4">
+                    <div className="h-3.5 w-4 bg-raised rounded shrink-0" />
+                    <div className="h-3.5 flex-1 bg-raised rounded" />
+                    <div className="h-3.5 w-12 bg-raised rounded shrink-0" />
+                    <div className="h-2 w-24 bg-raised rounded-full shrink-0" />
                   </li>
                 ))}
               </ul>
             ) : dailyReferrers.length === 0 ? (
-              <p className="px-4 py-6 text-sm text-gray-400 dark:text-gray-500">유입경로 데이터가 없습니다.</p>
+              <p className="px-4 py-6 text-sm text-fg-muted">유입경로 데이터가 없습니다.</p>
             ) : (
               <>
-                <div className="flex items-center gap-4 px-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 border-b border-gray-50 dark:border-gray-800">
+                <div className="flex items-center gap-4 px-4 py-2 text-xs font-medium text-fg-muted border-b border-hairline">
                   <span className="w-4 shrink-0" />
                   <span className="flex-1">유입경로</span>
                   <span className="w-16 shrink-0 text-right">건수</span>
@@ -368,23 +368,23 @@ function WeeklyChart({ daily }: { daily: DailyView[] }) {
                     const percent = referrerTotal > 0 ? (item.count / referrerTotal) * 100 : 0;
                     const isDirect = item.source === '직접 방문';
                     return (
-                      <li key={item.source} className="px-4 py-2.5 border-b border-gray-50 dark:border-gray-800 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 flex items-center gap-4">
-                        <span className="text-xs text-gray-400 dark:text-gray-500 w-4 shrink-0 text-right">{i + 1}</span>
-                        <span className="flex-1 text-sm font-medium dark:text-gray-200 truncate flex items-center gap-1.5">
+                      <li key={item.source} className="px-4 py-2.5 border-b border-hairline last:border-b-0 hover:bg-surface transition-colors duration-150 flex items-center gap-4">
+                        <span className="text-xs text-fg-muted w-4 shrink-0 text-right">{i + 1}</span>
+                        <span className="flex-1 text-sm font-medium truncate flex items-center gap-1.5">
                           {isDirect ? (
                             item.source
                           ) : (
-                            <span className="text-xs px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary dark:bg-brand-secondary/10 dark:text-brand-secondary">
+                            <span className="text-xs px-1.5 py-0.5 rounded bg-accent/10 text-accent">
                               {item.source}
                             </span>
                           )}
                         </span>
-                        <span className="text-sm font-semibold w-16 shrink-0 text-right dark:text-gray-200">{item.count.toLocaleString()}</span>
+                        <span className="text-sm font-semibold w-16 shrink-0 text-right">{item.count.toLocaleString()}</span>
                         <div className="w-28 shrink-0 flex items-center gap-2">
-                          <div className="flex-1 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
-                            <div className="h-full rounded-full bg-brand-primary dark:bg-brand-secondary" style={{ width: `${percent.toFixed(1)}%` }} />
+                          <div className="flex-1 h-1.5 rounded-full bg-raised overflow-hidden">
+                            <div className="h-full rounded-full bg-accent" style={{ width: `${percent.toFixed(1)}%` }} />
                           </div>
-                          <span className="text-xs text-gray-400 dark:text-gray-500 w-10 text-right shrink-0">{percent.toFixed(1)}%</span>
+                          <span className="text-xs text-fg-muted w-10 text-right shrink-0">{percent.toFixed(1)}%</span>
                         </div>
                       </li>
                     );
@@ -457,24 +457,24 @@ const AnalyticsContent = () => {
     <div className="max-w-6xl mx-auto p-6">
       {/* 헤더 */}
       <div className="mb-8">
-        <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors mb-3">
+        <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-fg-muted hover:text-fg transition-colors mb-3">
           <FiArrowLeft size={16} />
           대시보드
         </Link>
-        <h1 className="text-3xl font-bold dark:text-white">방문자 및 조회수 분석</h1>
+        <h1 className="text-3xl font-bold">방문자 및 조회수 분석</h1>
       </div>
 
       {/* 탭 */}
-      <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6">
+      <div className="flex border-b border-hairline mb-6">
         {TABS.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => handleTabChange(key)}
             className={`px-5 py-3 text-sm font-medium transition-colors ${
-              tab === key
-                ? 'border-b-2 border-brand-primary text-brand-primary dark:border-brand-secondary dark:text-brand-secondary'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-            }`}
+ tab === key
+ ? 'border-b-2 border-accent/40 text-accent '
+ : 'text-fg-muted hover:text-fg '
+ }`}
           >
             {label}
           </button>
@@ -492,15 +492,15 @@ const AnalyticsContent = () => {
         <WeeklyChart daily={daily} />
       ) : tab === 'referrer' ? (
         referrers.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400 text-sm">{emptyMessage}</p>
+          <p className="text-fg-muted text-sm">{emptyMessage}</p>
         ) : (
           <ReferrerList referrers={referrers} />
         )
       ) : posts.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400 text-sm">{emptyMessage}</p>
+        <p className="text-fg-muted text-sm">{emptyMessage}</p>
       ) : (
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-          <div className="flex items-center gap-3 px-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-700">
+        <div className="bg-surface rounded-xl overflow-hidden">
+          <div className="flex items-center gap-3 px-4 py-2 text-xs font-medium text-fg-muted border-b border-hairline">
             <span className="w-4 shrink-0" />
             <span className="flex-1">제목</span>
             <span className="w-20 shrink-0 text-center">시리즈</span>
@@ -520,7 +520,7 @@ const AnalyticsContent = () => {
                     <>
                       {post.totalViews!.toLocaleString()}
                       {post.todayViews > 0 && (
-                        <span className="text-brand-secondary ml-1">(+{post.todayViews})</span>
+                        <span className="text-accent ml-1">(+{post.todayViews})</span>
                       )}
                     </>
                   ) : (

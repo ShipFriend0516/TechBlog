@@ -10,9 +10,9 @@ const DividerWithText = ({ text, className = '' }: DividerWithTextProps) => {
       role="separator"
       aria-label={text}
     >
-      <div className="h-px flex-1 bg-gray-300" />
-      <span className="shrink-0 text-sm text-gray-500">{text}</span>
-      <div className="h-px flex-1 bg-gray-300" />
+      <div className="h-px flex-1 bg-fg/10" />
+      <span className="shrink-0 text-sm text-fg-muted">{text}</span>
+      <div className="h-px flex-1 bg-fg/10" />
     </div>
   );
 };

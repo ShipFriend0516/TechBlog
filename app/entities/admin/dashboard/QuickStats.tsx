@@ -98,15 +98,15 @@ const QuickStats = () => {
   if (loading) {
     return (
       <div className="py-4 animate-pulse">
-        <div className="h-7 w-28 bg-gray-200 dark:bg-gray-700 rounded mb-6" />
+        <div className="h-7 w-28 bg-raised rounded mb-6" />
         <div className="grid grid-cols-2 gap-4 mb-6">
           {[...Array(2)].map((_, i) => (
             <div
               key={i}
-              className="border border-gray-200 dark:border-gray-700 rounded-lg p-5"
+              className="border border-hairline rounded-lg p-5"
             >
-              <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded mb-3" />
-              <div className="h-12 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="h-4 w-20 bg-raised rounded mb-3" />
+              <div className="h-12 w-32 bg-raised rounded" />
             </div>
           ))}
         </div>
@@ -114,10 +114,10 @@ const QuickStats = () => {
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
-              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+              className="border border-hairline rounded-lg p-4"
             >
-              <div className="h-3 w-14 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
-              <div className="h-8 w-10 bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="h-3 w-14 bg-raised rounded mb-2" />
+              <div className="h-8 w-10 bg-raised rounded" />
             </div>
           ))}
         </div>
@@ -128,7 +128,7 @@ const QuickStats = () => {
   if (error || !stats) {
     return (
       <div className="py-4">
-        <h3 className="text-xl font-semibold mb-4 dark:text-white">
+        <h3 className="text-xl font-semibold mb-4">
           블로그 통계
         </h3>
         <div className="text-red-500">
@@ -148,25 +148,25 @@ const QuickStats = () => {
 
   return (
     <div className="py-4">
-      <h3 className="text-xl font-semibold mb-6 dark:text-white">
+      <h3 className="text-xl font-semibold mb-6">
         블로그 통계
       </h3>
 
       {/* 조회수 강조 섹션 */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <div className="border border-hairline rounded-lg p-5">
+          <p className="text-sm text-fg-muted mb-2">
             전체 조회수
           </p>
-          <p className="text-5xl font-bold tracking-tight dark:text-white">
+          <p className="text-5xl font-bold tracking-tight">
             {totalViewsCount.toLocaleString()}
           </p>
         </div>
-        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <div className="border border-hairline rounded-lg p-5">
+          <p className="text-sm text-fg-muted mb-2">
             오늘 조회수
           </p>
-          <p className="text-5xl font-bold tracking-tight dark:text-white">
+          <p className="text-5xl font-bold tracking-tight">
             {todayViewsCount.toLocaleString()}
           </p>
         </div>
@@ -177,12 +177,12 @@ const QuickStats = () => {
         {secondaryStats.map(({ label, value }) => (
           <div
             key={label}
-            className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+            className="border border-hairline rounded-lg p-4"
           >
-            <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">
+            <p className="text-xs text-fg-muted mb-1">
               {label}
             </p>
-            <p className="text-2xl font-semibold dark:text-white">
+            <p className="text-2xl font-semibold">
               {value.toLocaleString()}
             </p>
           </div>

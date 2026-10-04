@@ -8,13 +8,13 @@ const BlogFormSkeleton = () => {
       </h1>
       <div className="mb-6">
         <div className="flex mb-4 gap-1 items-center">
-          <span className="font-bold text-default flex-shrink-0">
+          <span className="font-bold text-fg flex-shrink-0">
             <Skeleton className="h-8 w-20" />
           </span>
           <Skeleton className="h-8 flex-grow" />
         </div>
         <div className="flex mb-4 gap-1 items-center">
-          <span className="font-bold text-default flex-shrink-0">
+          <span className="font-bold text-fg flex-shrink-0">
             <Skeleton className="h-8 w-20" />
           </span>
           <Skeleton className="h-8 flex-grow" />

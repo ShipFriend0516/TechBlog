@@ -100,13 +100,13 @@ const ThreadPanel = ({
   };
 
   return (
-    <div className="ml-4 mt-1 w-[90%] rounded-xl border border-border bg-neutral-50/60 dark:bg-neutral-900/60 backdrop-blur-sm p-3 flex flex-col gap-2">
+    <div className="ml-4 mt-1 w-[90%] rounded-xl bg-surface/60 backdrop-blur-sm p-3 flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs text-weak">답글</span>
+        <span className="text-xs text-fg-soft">답글</span>
         <button
           type="button"
           onClick={handleClose}
-          className="text-xs text-weak hover:text-brand-primary"
+          className="text-xs text-fg-soft hover:text-accent"
         >
           닫기
         </button>
@@ -122,16 +122,16 @@ const ThreadPanel = ({
             <div key={i} className={`flex flex-col gap-0.5 ${item.mine ? 'items-end' : 'items-start'}`}>
               {!item.mine && (
                 <div className="flex items-center gap-1 ml-0.5">
-                  <div className="w-3 h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
-                  <div className="w-10 h-2 rounded bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+                  <div className="w-3 h-3 rounded-full bg-raised animate-pulse" />
+                  <div className="w-10 h-2 rounded bg-raised animate-pulse" />
                 </div>
               )}
-              <div className={`h-7 ${item.w} rounded-xl bg-neutral-200 dark:bg-neutral-700 animate-pulse`} />
+              <div className={`h-7 ${item.w} rounded-xl bg-raised animate-pulse`} />
             </div>
           ))}
         </div>
       ) : replies.length === 0 ? (
-        <p className="text-xs text-weak">아직 답글이 없어요</p>
+        <p className="text-xs text-fg-soft">아직 답글이 없어요</p>
       ) : (
         <div className="flex flex-col gap-2">
           {replies.map((reply) => {
@@ -141,8 +141,8 @@ const ThreadPanel = ({
               <div
                 key={reply._id}
                 className={`flex flex-col gap-0.5 ${
-                  isMine ? 'items-end' : 'items-start'
-                }`}
+ isMine ? 'items-end' : 'items-start'
+ }`}
               >
                 <div className="flex items-center gap-1.5">
                   {!isMine && avatar && (
@@ -155,19 +155,19 @@ const ThreadPanel = ({
                       unoptimized
                     />
                   )}
-                  <span className="text-[10px] text-weak">
+                  <span className="text-[10px] text-fg-soft">
                     {reply.author.nickname}
                   </span>
                 </div>
                 <div
                   className={`max-w-[85%] rounded-xl px-3 py-1.5 text-xs break-words ${
-                    reply.role === 'owner'
-                      ? 'bg-brand-primary/80 text-white'
-                      : 'bg-white/80 dark:bg-neutral-800/80 border border-border text-foreground'
-                  }`}
+ reply.role === 'owner'
+ ? 'bg-accent/80 text-on-accent'
+ : 'bg-surface/80 text-fg'
+ }`}
                 >
                   {reply.isDeleted ? (
-                    <span className="italic text-weak">[삭제된 메시지]</span>
+                    <span className="italic text-fg-soft">[삭제된 메시지]</span>
                   ) : (
                     <MarkdownPreview
                       source={reply.content}

@@ -14,13 +14,13 @@ const EmojiPicker = ({ onSelect, onClose }: EmojiPickerProps) => {
   };
 
   return (
-    <div className="inline-flex items-center gap-1 rounded-full border border-border bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md px-2 py-1 shadow-md">
+    <div className="inline-flex items-center gap-1 rounded-full bg-surface/90 backdrop-blur-md px-2 py-1 shadow-md">
       {ATELIER_EMOJIS.map((emoji) => (
         <button
           key={emoji}
           type="button"
           onClick={() => handleSelect(emoji)}
-          className="text-lg leading-none px-1.5 py-0.5 rounded-full hover:bg-brand-primary/10 transition-colors"
+          className="text-lg leading-none px-1.5 py-0.5 rounded-full hover:bg-accent/10 transition-colors"
           aria-label={`${emoji} 반응 추가`}
         >
           {emoji}

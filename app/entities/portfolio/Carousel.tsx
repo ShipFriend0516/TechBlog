@@ -72,7 +72,7 @@ const Carousel = ({ slides }: CarouselProps) => {
     </div>,
     <div
       key={2}
-      className="bg-green-500 h-full flex items-center justify-center text-white text-xl md:text-2xl"
+      className="bg-accent h-full flex items-center justify-center text-on-accent text-xl md:text-2xl"
     >
       Slide 2
     </div>,
@@ -124,7 +124,7 @@ const Carousel = ({ slides }: CarouselProps) => {
       >
         {/* 메인 슬라이드 컨테이너 */}
         <div
-          className="flex transition-transform duration-500 ease-in-out "
+          className="flex transition-transform duration-500 ease-in-out"
           style={{
             transform: `translateX(-${currentIndex * (100 / currentSlides.length)}%)`,
             width: `${currentSlides.length * 100}%`,
@@ -205,8 +205,8 @@ const Carousel = ({ slides }: CarouselProps) => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors duration-200 ${
-                index === currentIndex ? 'bg-emerald-500' : 'bg-gray-400'
-              }`}
+ index === currentIndex ? 'bg-accent' : 'bg-fg-faint'
+ }`}
               aria-label={`슬라이드 ${index + 1}번으로 이동`}
             />
           ))}
@@ -222,7 +222,7 @@ const Carousel = ({ slides }: CarouselProps) => {
       <div className="flex md:hidden justify-center space-x-4 mt-4">
         <button
           onClick={prevSlide}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full transition-colors duration-200"
+          className="bg-raised hover:bg-fg/15 text-fg p-3 rounded-full transition-colors duration-200"
           aria-label="이전 슬라이드"
         >
           <FaArrowLeft size={14} />
@@ -230,7 +230,7 @@ const Carousel = ({ slides }: CarouselProps) => {
 
         <button
           onClick={nextSlide}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full transition-colors duration-200"
+          className="bg-raised hover:bg-fg/15 text-fg p-3 rounded-full transition-colors duration-200"
           aria-label="다음 슬라이드"
         >
           <FaArrowRight size={14} />

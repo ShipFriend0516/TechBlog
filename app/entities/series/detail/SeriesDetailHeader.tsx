@@ -8,7 +8,7 @@ const SeriesDetailHeader = ({ series }: SeriesDetailHeaderProps) => {
   return (
     <div
       className={
-        'relative aspect-[5/2] flex items-center justify-between overflow-hidden rounded-lg  mb-4'
+        'relative aspect-[5/2] flex items-center justify-between overflow-hidden rounded-lg mb-4'
       }
     >
       {series.thumbnailImage && (
@@ -22,7 +22,7 @@ const SeriesDetailHeader = ({ series }: SeriesDetailHeaderProps) => {
       )}
       <div
         className={
-          'absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral-700 to-transparent bg-opacity-90 pt-12 px-6 pb-6'
+          'absolute bottom-0 left-0 right-0 bg-gradient-to-t from-fg-faint to-transparent bg-opacity-90 pt-12 px-6 pb-6'
         }
       >
         <h1 className={'text-3xl text-white font-bold'}>{series.title}</h1>

@@ -101,11 +101,11 @@ const ImageZoomViewer = ({ image, onClose }: ImageZoomViewerProps) => {
           style={{ x, y, scale }}
         >
           <button
-            className="absolute -top-3 -right-3 z-10 flex items-center justify-center w-7 h-7 rounded-full bg-white/90 text-gray-800 shadow-md hover:bg-white transition-colors cursor-pointer"
+            className="absolute -top-3 -right-3 z-10 flex items-center justify-center w-7 h-7 rounded-full bg-surface/90 text-fg shadow-md hover:bg-surface transition-colors cursor-pointer"
             onClick={handleClose}
             aria-label="닫기"
           >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <svg width="12" height="12" viewBox="0 12" fill="none">
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </button>

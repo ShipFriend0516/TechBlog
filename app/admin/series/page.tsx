@@ -89,15 +89,15 @@ const AdminSeriesPage = () => {
     <section className={'mx-auto max-w-6xl px-4 py-6'}>
       <div className={'mb-6 flex items-start justify-between gap-4'}>
         <div>
-          <h1 className={'text-3xl font-bold text-default'}>시리즈 관리</h1>
-          <p className={'mt-1 text-sm text-weak'}>
+          <h1 className={'text-3xl font-bold text-fg'}>시리즈 관리</h1>
+          <p className={'mt-1 text-sm text-fg-soft'}>
             시리즈를 추가, 수정, 삭제할 수 있습니다.
           </p>
         </div>
         <button
           onClick={() => setCreateSeriesOpen(true)}
           className={
-            'inline-flex shrink-0 items-center gap-2 rounded-lg bg-brand-secondary px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-600'
+            'inline-flex shrink-0 items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-on-accent shadow-sm transition-colors hover:bg-accent-strong'
           }
         >
           <span className={'text-lg leading-none'}>+</span>
@@ -106,29 +106,29 @@ const AdminSeriesPage = () => {
       </div>
       <div>
         <div className={'mb-4 flex items-center gap-3'}>
-          <h2 className={'text-lg font-semibold text-default'}>
+          <h2 className={'text-lg font-semibold text-fg'}>
             등록된 시리즈 목록
           </h2>
           <span
             className={
-              'rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300'
+              'rounded-full bg-raised px-2 py-0.5 text-xs font-medium text-fg-soft '
             }
           >
             {seriesList?.length || 0}
           </span>
           {saveStatus === 'saving' && (
-            <span className="text-xs text-neutral-400 dark:text-neutral-500">
+            <span className="text-xs text-fg-muted">
               저장 중...
             </span>
           )}
           {saveStatus === 'saved' && (
-            <span className="text-xs text-emerald-500">순서 저장됨</span>
+            <span className="text-xs text-accent">순서 저장됨</span>
           )}
           {saveStatus === 'error' && (
             <span className="text-xs text-red-500">저장 실패</span>
           )}
           {!loading && seriesList && seriesList.length > 1 && saveStatus === 'idle' && (
-            <span className="text-xs text-neutral-400 dark:text-neutral-500">
+            <span className="text-xs text-fg-muted">
               드래그하여 순서를 변경할 수 있습니다
             </span>
           )}

@@ -8,7 +8,7 @@ interface TagBoxProps {
 const TagBox = ({
   tags,
   className,
-  tagCloudClassName = 'bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold',
+  tagCloudClassName = 'bg-raised text-fg rounded-full px-3 py-1 text-sm font-semibold',
   limit,
 }: TagBoxProps) => {
   return (
@@ -18,7 +18,7 @@ const TagBox = ({
         {tags.slice(0, limit).map((tag, index) => (
           <span
             key={index}
-            className={`inline-block  ${tagCloudClassName} mr-1`}
+            className={`inline-block ${tagCloudClassName} mr-1`}
           >
             {tag}
           </span>

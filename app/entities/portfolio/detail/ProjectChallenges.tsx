@@ -10,7 +10,7 @@ const ProjectChallenges = ({ challenges }: ProjectChallengesProps) => {
   return (
     <div className="mb-8">
       <h2 className="text-2xl font-semibold">프로젝트 문제해결</h2>
-      <p className="text-weak leading-relaxed">
+      <p className="text-fg-soft leading-relaxed">
         이 섹션에서는 프로젝트 진행 중 발생한 문제와 해결 방법을 공유합니다.
       </p>
       {challenges.map((problem, index) => (
@@ -26,7 +26,7 @@ const ProjectChallenges = ({ challenges }: ProjectChallengesProps) => {
           ) : (
             <h3 className="text-lg font-semibold">{problem.title}</h3>
           )}
-          <p className="text-weak">{problem.description}</p>
+          <p className="text-fg-soft">{problem.description}</p>
         </div>
       ))}
     </div>

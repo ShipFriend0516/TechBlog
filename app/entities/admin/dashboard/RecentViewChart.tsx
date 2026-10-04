@@ -24,7 +24,7 @@ const DailyViewsChart = ({ data }: { data: DailyView[] }) => {
 
   return (
     <div className="mt-6">
-      <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
+      <p className="text-xs text-fg-muted mb-3">
         최근 14일 조회수
       </p>
       <ResponsiveContainer width="100%" height={140}>
@@ -33,49 +33,49 @@ const DailyViewsChart = ({ data }: { data: DailyView[] }) => {
           margin={{ top: 8, right: 8, left: -24, bottom: 0 }}
         >
           <CartesianGrid
-            strokeDasharray="3 3"
-            stroke="#e5e7eb"
+            strokeDasharray="3"
+            stroke="rgb(var(--fg) / 0.08)"
             strokeOpacity={0.5}
           />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 11, fill: '#9ca3af' }}
+            tick={{ fontSize: 11, fill: 'rgb(var(--fg-muted))' }}
             tickLine={false}
             axisLine={false}
             interval={3}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: '#9ca3af' }}
+            tick={{ fontSize: 11, fill: 'rgb(var(--fg-muted))' }}
             tickLine={false}
             axisLine={false}
             allowDecimals={false}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#111827',
+              backgroundColor: 'rgb(var(--overlay))',
               border: 'none',
               borderRadius: '6px',
               fontSize: '12px',
-              color: '#fff',
+              color: 'rgb(var(--fg))',
               padding: '6px 10px',
             }}
-            itemStyle={{ color: '#fb923c' }}
+            itemStyle={{ color: 'rgb(var(--accent))' }}
             formatter={(value) => [
               `${Number(value).toLocaleString()}회`,
               '조회수',
             ]}
-            cursor={{ stroke: '#fb923c', strokeWidth: 1, strokeOpacity: 0.4 }}
+            cursor={{ stroke: 'rgb(var(--accent))', strokeWidth: 1, strokeOpacity: 0.4 }}
           />
           <Line
             type="monotone"
             dataKey="조회수"
-            stroke="#fb923c"
+            stroke="rgb(var(--accent))"
             strokeWidth={2}
-            dot={<Dot r={3} fill="#fb923c" stroke="#fed7aa" strokeWidth={1} />}
+            dot={<Dot r={3} fill="rgb(var(--accent))" stroke="rgb(var(--accent-strong))" strokeWidth={1} />}
             activeDot={{
               r: 5,
-              fill: '#fb923c',
-              stroke: '#fff',
+              fill: 'rgb(var(--accent))',
+              stroke: 'rgb(var(--surface))',
               strokeWidth: 2,
             }}
           />

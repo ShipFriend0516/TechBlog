@@ -37,7 +37,7 @@ const Overlay = ({
         className="fixed flex justify-center items-center w-screen h-screen top-0 left-0 inset-0 bg-black bg-opacity-50 z-50"
       >
         <div
-          className={`${animate ? 'animate-popUp' : ''} container bg-opacity-90 text-overlay rounded-lg mx-auto ${isMaxWidthTypeNumber ? `max-w-[${maxWidth}px]` : `max-w-${maxWidth}`}`}
+          className={`${animate ? 'animate-popUp' : ''} container bg-opacity-90 text-fg rounded-lg mx-auto ${isMaxWidthTypeNumber ? `max-w-[${maxWidth}px]` : `max-w-${maxWidth}`}`}
         >
           {children}
         </div>

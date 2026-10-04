@@ -16,10 +16,10 @@ const ProgressBar = ({ duration }: ProgressBarProps) => {
   }, [duration]);
 
   return (
-    <div className={'absolute left-0 bottom-0 h-1 z-50  progressBar w-full'}>
+    <div className={'absolute left-0 bottom-0 h-1 z-50 progressBar w-full'}>
       <div
         ref={progressRef}
-        className={'expand w-full origin-left bg-gray-50 h-full'}
+        className={'expand w-full origin-left bg-surface h-full'}
         aria-label={'프로그레스바 진행'}
       ></div>
     </div>

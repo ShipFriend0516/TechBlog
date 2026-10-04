@@ -174,8 +174,8 @@ const MessageBubble = ({
 
   // 버블 자체 스타일 — 소유자 여부에 따라 색을 분리
   const bubbleCls = isOwner
-    ? 'rounded-2xl rounded-tr-sm bg-brand-primary/80 dark:bg-primary-rich backdrop-blur-sm text-white shadow-md'
-    : 'rounded-2xl rounded-tl-sm bg-white/60 dark:bg-neutral-800/60 backdrop-blur-sm text-foreground border border-border shadow-sm';
+    ? 'rounded-2xl rounded-tr-sm bg-accent/80 backdrop-blur-sm text-on-accent shadow-md'
+    : 'rounded-2xl rounded-tl-sm bg-surface/60 backdrop-blur-sm text-fg shadow-sm';
 
   return (
     <div
@@ -206,15 +206,15 @@ const MessageBubble = ({
               href={`https://github.com/${message.author.githubId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-brand-primary hover:underline cursor-pointer z-10"
+              className="text-xs text-accent hover:underline cursor-pointer z-10"
             >
               {nickname}
             </a>
           ) : (
-            <span className="text-xs text-weak">{nickname}</span>
+            <span className="text-xs text-fg-soft">{nickname}</span>
           )}
           {isOwner && (
-            <span className="text-[10px] text-brand-primary border border-brand-primary/40 rounded-full px-1">
+            <span className="text-[10px] text-accent border border-accent/40 rounded-full px-1">
               주인
             </span>
           )}
@@ -229,7 +229,7 @@ const MessageBubble = ({
         <div className="max-w-[75%] relative pt-8 -mt-8">
           {isAdmin && !message.isPublic && (
             <PiEyeSlash
-              className={`absolute top-1/2 translate-y-1/2 text-weak ${isMine ? '-left-5' : '-right-5'}`}
+              className={`absolute top-1/2 translate-y-1/2 text-fg-soft ${isMine ? '-left-5' : '-right-5'}`}
               size={14}
               title="비공개"
             />
@@ -239,26 +239,26 @@ const MessageBubble = ({
               className={`${bubbleCls} ${message.effect ? EFFECT_REGISTRY[message.effect]?.ringClass ?? '' : ''} px-4 py-2.5 text-sm leading-relaxed break-words`}
             >
               {message.isDeleted ? (
-                <span className="italic text-weak">[삭제된 메시지]</span>
+                <span className="italic text-fg-soft">[삭제된 메시지]</span>
               ) : isEditing ? (
                 <div className="flex flex-col gap-2">
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="w-full min-h-[80px] p-2 rounded bg-white/80 dark:bg-neutral-700/80 text-foreground border border-border resize-none focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
+                    className="w-full min-h-[80px] p-2 rounded bg-surface/80 text-fg resize-none focus:outline-none focus:ring-2 focus:ring-accent/50"
                   />
                   <div className="flex gap-2 justify-end">
                     <button
                       type="button"
                       onClick={handleCancelEdit}
-                      className="text-xs px-3 py-1 rounded border border-border hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                      className="text-xs px-3 py-1 rounded border hover:bg-raised transition-colors"
                     >
                       취소
                     </button>
                     <button
                       type="button"
                       onClick={handleSaveEdit}
-                      className="text-xs px-3 py-1 rounded bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors"
+                      className="text-xs px-3 py-1 rounded bg-accent text-on-accent hover:bg-accent/90 transition-colors"
                     >
                       저장
                     </button>
@@ -328,17 +328,17 @@ const MessageBubble = ({
         <button
           type="button"
           onClick={handleToggleThread}
-          className="text-xs text-brand-primary hover:underline px-1"
+          className="text-xs text-accent hover:underline px-1"
         >
           답글 {message.threadCount}개 {isThreadOpen ? '숨기기' : '보기'}
         </button>
       )}
 
       {(showTime || message.isEdited) && (
-        <span className="text-xs text-weak px-1">
+        <span className="text-xs text-fg-soft px-1">
           {showTime && formatTime(message.createdAt)}
           {message.isEdited && (
-            <span className="text-[10px] text-weak italic ml-1">(수정됨)</span>
+            <span className="text-[10px] text-fg-soft italic ml-1">(수정됨)</span>
           )}
         </span>
       )}

@@ -25,7 +25,7 @@ const PostWriteButtons = ({
     <div className={'w-full flex justify-center my-6 gap-2'}>
       <Link href={'/admin'}>
         <button
-          className={buttonStyle + 'text-black bg-gray-200 hover:bg-red-500 '}
+          className={buttonStyle + 'text-fg bg-raised hover:bg-danger '}
         >
           <FaChevronLeft />
           나가기
@@ -33,7 +33,7 @@ const PostWriteButtons = ({
       </Link>
       <button
         onClick={saveToDraft}
-        className={buttonStyle + 'bg-blue-500 hover:bg-blue-700 text-white '}
+        className={buttonStyle + 'bg-raised hover:bg-overlay text-fg '}
       >
         <FaHome />
         저장
@@ -42,7 +42,7 @@ const PostWriteButtons = ({
         onClick={saveToCloud}
         className={
           buttonStyle +
-          'text-white bg-primary-mountain/80 hover:bg-primary-mountain '
+          'text-on-accent bg-accent/80 hover:bg-accent '
         }
       >
         <FaCloud />
@@ -52,7 +52,7 @@ const PostWriteButtons = ({
         disabled={submitLoading}
         className={
           buttonStyle +
-          'bg-primary-bangladesh/80  hover:bg-primary-bangladesh text-white'
+          'bg-accent/80 hover:bg-accent text-on-accent'
         }
         onClick={(e) => {
           e.preventDefault();

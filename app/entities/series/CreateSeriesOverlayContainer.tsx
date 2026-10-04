@@ -82,20 +82,20 @@ const CreateSeriesOverlayContainer = ({
   const showThumbnailPreview = seriesThumbnail.trim().length > 0 && !thumbnailError;
 
   const inputClass =
-    'w-full rounded-lg border border-neutral-300 bg-white px-3.5 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-brand-secondary focus:ring-2 focus:ring-brand-secondary/30 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500';
+    'w-full rounded-lg bg-surface px-3.5 py-2.5 text-sm text-fg placeholder:text-fg-muted outline-none transition-colors focus:border-accent/40 focus:ring-2 focus:ring-accent/30 ';
 
   return (
-    <div className="mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="flex items-start justify-between gap-4 border-b border-neutral-200 px-6 py-5 dark:border-neutral-800">
+    <div className="mx-auto w-full max-w-lg overflow-hidden rounded-2xl bg-surface shadow-2xl">
+      <div className="flex items-start justify-between gap-4 border-b border-hairline px-6 py-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-brand-secondary dark:bg-emerald-900/30 dark:text-emerald-300">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-subtle text-accent">
             <FaBookOpen className="h-4 w-4" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
+            <h2 className="text-lg font-semibold text-fg">
               {isEditMode ? '시리즈 수정' : '새 시리즈 만들기'}
             </h2>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            <p className="text-xs text-fg-muted">
               {isEditMode
                 ? '시리즈의 정보를 수정합니다.'
                 : '제목은 필수 항목입니다.'}
@@ -105,7 +105,7 @@ const CreateSeriesOverlayContainer = ({
         <button
           onClick={close}
           aria-label="닫기"
-          className="rounded-full p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
+          className="rounded-full p-1.5 text-fg-muted transition-colors hover:bg-raised hover:text-fg"
         >
           <IoCloseOutline className="h-5 w-5" />
         </button>
@@ -113,7 +113,7 @@ const CreateSeriesOverlayContainer = ({
 
       <div className="space-y-5 px-6 py-6">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <label className="text-sm font-medium text-fg">
             시리즈 이름
             <span className="ml-1 text-red-500">*</span>
           </label>
@@ -127,7 +127,7 @@ const CreateSeriesOverlayContainer = ({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <label className="text-sm font-medium text-fg">
             시리즈 설명
           </label>
           <textarea
@@ -139,7 +139,7 @@ const CreateSeriesOverlayContainer = ({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <label className="text-sm font-medium text-fg">
             썸네일 이미지
           </label>
           <input
@@ -153,8 +153,8 @@ const CreateSeriesOverlayContainer = ({
             value={seriesThumbnail || ''}
           />
           {showThumbnailPreview && (
-            <div className="mt-2 overflow-hidden rounded-lg border border-neutral-200 dark:border-neutral-700">
-              <div className="relative h-32 w-full bg-neutral-100 dark:bg-neutral-800">
+            <div className="mt-2 overflow-hidden rounded-lg border border-hairline">
+              <div className="relative h-32 w-full bg-raised">
                 <Image
                   src={seriesThumbnail}
                   alt="썸네일 미리보기"
@@ -174,17 +174,17 @@ const CreateSeriesOverlayContainer = ({
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 border-t border-neutral-200 bg-neutral-50 px-6 py-4 dark:border-neutral-800 dark:bg-neutral-900/60">
+      <div className="flex justify-end gap-2 border-t border-hairline bg-surface px-6 py-4">
         <button
           onClick={close}
-          className="rounded-lg px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-200 dark:text-neutral-300 dark:hover:bg-neutral-800"
+          className="rounded-lg px-4 py-2 text-sm font-medium text-fg transition-colors hover:bg-fg/10"
         >
           취소
         </button>
         <button
           onClick={isEditMode ? editSeries : postSeries}
           disabled={isSubmitDisabled}
-          className="rounded-lg bg-brand-secondary px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-500 dark:disabled:bg-neutral-700 dark:disabled:text-neutral-500"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-on-accent shadow-sm transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-fg/10 disabled:text-fg-muted"
         >
           {isEditMode ? '저장' : '생성'}
         </button>

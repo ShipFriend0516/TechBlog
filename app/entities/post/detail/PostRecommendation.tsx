@@ -38,10 +38,10 @@ const PostRecommendation = ({
 
   return (
     <div className={'max-w-[768px] mt-4 mx-4 md:mx-auto px-2'}>
-      <div className="text-[13px] font-bold tracking-[0.12em] uppercase text-neutral-500">
+      <div className="text-[13px] font-bold tracking-[0.12em] uppercase text-fg-muted">
         You might also like
       </div>
-      <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white mt-1 mb-[18px]">
+      <h2 className="text-xl font-bold tracking-tight text-fg mt-1 mb-[18px]">
         이런 글은 어떠세요?
       </h2>
 

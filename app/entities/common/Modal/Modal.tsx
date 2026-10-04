@@ -24,7 +24,7 @@ const Modal = ({ onClose, children, className = '' }: ModalProps) => {
       }}
     >
       <div
-        className={`animate-popUp bg-background border border-border rounded-2xl shadow-xl w-full max-w-sm mx-4 ${className}`}
+        className={`animate-popUp bg-base rounded-2xl shadow-xl w-full max-w-sm mx-4 ${className}`}
       >
         {children}
       </div>

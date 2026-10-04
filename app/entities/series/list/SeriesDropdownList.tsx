@@ -11,7 +11,7 @@ const SeriesDropdownList = ({
   setSeriesOpen,
 }: SearchDropdownListProps) => {
   return (
-    <div className="bg-overlay absolute left-0 mt-2 w-64 z-50 text-overlay">
+    <div className="bg-overlay absolute left-0 mt-2 w-64 z-50 text-fg">
       <div className="py-2">
         {series?.map((s) => (
           <SeriesDropdownItem

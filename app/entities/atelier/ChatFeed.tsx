@@ -149,11 +149,11 @@ const ChatFeed = ({
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col h-full overflow-y-auto border border-border rounded-2xl p-4 scrollbar-custom overflow-x-hidden"
+      className="relative flex flex-col h-full overflow-y-auto border rounded-2xl p-4 scrollbar-custom overflow-x-hidden"
     >
       {rootMessages.length === 0 ? (
         <div className="flex items-center justify-center py-8">
-          <p className="text-weak text-sm">아직 아무것도 없어요</p>
+          <p className="text-fg-soft text-sm">아직 아무것도 없어요</p>
         </div>
       ) : (
         rootMessages.map((message, idx, arr) => {

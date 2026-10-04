@@ -83,36 +83,36 @@ const IssueCard = ({ issue, comments }: IssueCardProps) => {
   const slug = extractSlugFromTitle(issue.title);
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-surface rounded-lg shadow-md overflow-hidden">
       <div
-        className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
+        className="p-6 cursor-pointer hover:bg-surface transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex justify-between items-start">
           <div className="flex-1">
-            <h2 className="text-xl font-semibold mb-2 text-gray-800">
+            <h2 className="text-xl font-semibold mb-2 text-fg">
               {postTitle}
             </h2>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center gap-4 text-sm text-fg-soft">
               <span className="flex items-center gap-1">
                 <svg
                   className="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
-                  viewBox="0 0 24 24"
+                  viewBox="0 24"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 012-2h14a2 012 2v8a2 01-2 2h-3l-4 4z"
                   />
                 </svg>
                 {comments.length}개의 댓글
               </span>
               <Link
                 href={`/posts/${slug}`}
-                className="text-green-600 hover:text-green-800 hover:underline font-medium"
+                className="text-accent hover:text-accent-strong hover:underline font-medium"
                 onClick={(e) => e.stopPropagation()}
               >
                 글 보러가기 →
@@ -129,7 +129,7 @@ const IssueCard = ({ issue, comments }: IssueCardProps) => {
             </div>
           </div>
           <button
-            className="ml-4 text-gray-500 hover:text-gray-700"
+            className="ml-4 text-fg-muted hover:text-fg"
             onClick={(e) => {
               e.stopPropagation();
               setIsExpanded(!isExpanded);
@@ -139,7 +139,7 @@ const IssueCard = ({ issue, comments }: IssueCardProps) => {
               className={`w-6 h-6 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
-              viewBox="0 0 24 24"
+              viewBox="0 24"
             >
               <path
                 strokeLinecap="round"
@@ -153,7 +153,7 @@ const IssueCard = ({ issue, comments }: IssueCardProps) => {
       </div>
 
       {isExpanded && (
-        <div className="border-t border-gray-200 bg-gray-50">
+        <div className="border-t border-hairline bg-surface">
           <div className="p-6 space-y-4">
             {comments.map((comment) => (
               <CommentItem key={comment.id} comment={comment} />

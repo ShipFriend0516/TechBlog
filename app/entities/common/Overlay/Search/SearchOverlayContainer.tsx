@@ -16,17 +16,17 @@ const SearchOverlayContainer = (props: {
     <div className="bg-overlay rounded-lg px-5 p-4">
       <div className="flex mb-4">
         <div className={'flex flex-grow items-center space-x-4 relative'}>
-          <FaSearch size={20} className="text-gray-400" />
+          <FaSearch size={20} className="text-fg-muted" />
           <input
             type="text"
             placeholder="검색어를 입력하세요..."
-            className="w-full p-2 outline-none text-default dark:text-black"
+            className="w-full p-2 outline-none text-fg"
             autoFocus
             onChange={(e) => props.setQuery(e.target.value)}
             value={props.value}
           />
           <button
-            className={`${props.value ? 'block' : 'hidden'} p-2 text-gray-400 absolute right-2`}
+            className={`${props.value ? 'block' : 'hidden'} p-2 text-fg-muted absolute right-2`}
             onClick={emptyInput}
           >
             <FaX />
@@ -34,15 +34,15 @@ const SearchOverlayContainer = (props: {
         </div>
         <button
           onClick={props.onCancel}
-          className="text-gray-500 hover:text-gray-700 p-2"
+          className="text-fg-muted hover:text-fg p-2"
         >
           ESC
         </button>
       </div>
 
       <div className="space-y-4">
-        <div className="text-sm text-gray-500">최근 검색어</div>
-        <div className="flex flex-wrap gap-2 text-default dark:text-black">
+        <div className="text-sm text-fg-muted">최근 검색어</div>
+        <div className="flex flex-wrap gap-2 text-fg">
           {props.tags.map((tag) => (
             <Tag key={tag} content={tag} onClick={() => props.setQuery(tag)} />
           ))}

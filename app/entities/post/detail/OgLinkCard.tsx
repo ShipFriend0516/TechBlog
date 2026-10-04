@@ -30,7 +30,7 @@ const fetchOGData = async (href: string): Promise<OGData | null> => {
 
 /* ── Skeleton ─────────────────────────────────────────────────── */
 const OgLinkCardSkeleton = () => (
-  <div className="mb-4 flex h-[120px] overflow-hidden rounded-xl border border-border bg-neutral-50 dark:bg-card animate-pulse">
+  <div className="mb-4 flex h-[120px] overflow-hidden rounded-xl bg-surface animate-pulse">
     {/* Left text area */}
     <div className="flex flex-1 flex-col justify-between p-4">
       <div className="flex flex-col gap-2">
@@ -40,7 +40,7 @@ const OgLinkCardSkeleton = () => (
       <Skeleton className="h-[18px] w-[80px] rounded-full" />
     </div>
     {/* Right image placeholder */}
-    <div className="hidden h-full w-[229px] shrink-0 bg-neutral-200/80 dark:bg-neutral-700/80 sm:block" />
+    <div className="hidden h-full w-[229px] shrink-0 bg-raised/80 sm:block" />
   </div>
 );
 
@@ -74,13 +74,13 @@ const OgLinkCard = ({ href }: OgLinkCardProps) => {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="my-4 flex items-center gap-2 break-all text-sm text-primary-bangladesh underline underline-offset-2 transition-opacity hover:opacity-70 dark:text-primary-mountain"
+        className="my-4 flex items-center gap-2 break-all text-sm text-accent underline underline-offset-2 transition-opacity hover:opacity-70"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="14"
           height="14"
-          viewBox="0 0 24 24"
+          viewBox="0 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -88,8 +88,8 @@ const OgLinkCard = ({ href }: OgLinkCardProps) => {
           strokeLinejoin="round"
           className="shrink-0"
         >
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          <path d="M10 13a5 5 0 7.54.54l3-3a5 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0-7.54-.54l-3 3a5 7.07 7.07l1.71-1.71" />
         </svg>
         {href}
       </a>
@@ -107,10 +107,10 @@ const OgLinkCard = ({ href }: OgLinkCardProps) => {
       rel="noopener noreferrer"
       className={[
         'og-link-card group mb-4 flex overflow-hidden rounded-xl border transition-all duration-250',
-        'border-border bg-neutral-50',
+        'border-border bg-surface',
         'hover:-translate-y-0.5 hover:shadow-lg',
-        'dark:border-neutral-800/60 dark:bg-neutral-800',
-        'dark:hover:border-neutral-700',
+        ' ',
+        '',
         showImage ? 'h-[120px]' : 'min-h-[80px]',
       ].join(' ')}
     >
@@ -119,12 +119,12 @@ const OgLinkCard = ({ href }: OgLinkCardProps) => {
         {/* Title + description */}
         <div className="flex flex-col gap-1.5 min-w-0">
           {title && (
-            <p className="!mb-0 line-clamp-2 text-sm font-semibold leading-snug text-foreground">
+            <p className="!mb-0 line-clamp-2 text-sm font-semibold leading-snug text-fg">
               {title}
             </p>
           )}
           {description && (
-            <p className="!mb-0 line-clamp-1 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+            <p className="!mb-0 line-clamp-1 text-xs leading-relaxed text-fg-muted">
               {description}
             </p>
           )}
@@ -133,7 +133,7 @@ const OgLinkCard = ({ href }: OgLinkCardProps) => {
         {/* Footer — domain pill + external arrow */}
         <div className="flex items-center justify-between">
           {siteLabel && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-caribbean/10 px-2.5 py-0.5 text-[11px] font-medium text-primary-bangladesh dark:bg-primary-mountain/10 dark:text-primary-mountain">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-2.5 py-0.5 text-[11px] font-medium text-accent">
               {favicon && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -151,13 +151,13 @@ const OgLinkCard = ({ href }: OgLinkCardProps) => {
             xmlns="http://www.w3.org/2000/svg"
             width="13"
             height="13"
-            viewBox="0 0 24 24"
+            viewBox="0 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="ml-auto shrink-0 text-neutral-400 dark:text-neutral-500"
+            className="ml-auto shrink-0 text-fg-muted"
           >
             <path d="M7 17L17 7" />
             <path d="M7 7h10v10" />

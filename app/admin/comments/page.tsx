@@ -84,7 +84,7 @@ const AdminCommentsPage = () => {
         <h1 className="text-3xl font-bold mb-6">댓글 관리</h1>
         <div className="text-center py-10">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <p className="mt-4 text-gray-600">댓글을 불러오는 중...</p>
+          <p className="mt-4 text-fg-soft">댓글을 불러오는 중...</p>
         </div>
       </div>
     );
@@ -107,15 +107,15 @@ const AdminCommentsPage = () => {
         <h1 className="text-3xl font-bold">댓글 관리</h1>
         <Link
           href="/admin"
-          className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-all"
+          className="px-4 py-2 bg-fg-muted text-base rounded-md hover:bg-fg/80 transition-all"
         >
           대시보드로 돌아가기
         </Link>
       </div>
 
       {issuesWithComments.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <p className="text-gray-500 text-lg">아직 댓글이 없습니다.</p>
+        <div className="bg-surface rounded-lg shadow-md p-8 text-center">
+          <p className="text-fg-muted text-lg">아직 댓글이 없습니다.</p>
         </div>
       ) : (
         <div className="space-y-4">

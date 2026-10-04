@@ -42,9 +42,9 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
 
       {/* 사이드바 */}
       <div
-        className={`fixed top-0 right-0 z-50 flex h-full w-64 flex-col bg-background shadow-xl transition-transform duration-300 sm:hidden ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 z-50 flex h-full w-64 flex-col bg-base shadow-xl transition-transform duration-300 sm:hidden ${
+ isOpen ? 'translate-x-0' : 'translate-x-full'
+ }`}
       >
         {/* 닫기 버튼 */}
         <div className={'flex h-16 items-center justify-end px-4'}>
@@ -79,15 +79,15 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
 
         {/* 구독 폼 */}
         <DividerWithText text="Subscription" className="text-xs mx-6 mt-12" />
-        <div className={'px-6 py-6 dark:border-gray-700'}>
+        <div className={'px-6 py-6 '}>
           {isSubmitted ? (
             <div className={'flex flex-col gap-2'}>
-              <p className={'text-xs text-green-600 dark:text-green-400'}>
+              <p className={'text-xs text-accent '}>
                 인증 이메일이 발송되었습니다!
               </p>
               <button
                 onClick={handleReset}
-                className={'text-xs text-gray-500 underline'}
+                className={'text-xs text-fg-muted underline'}
               >
                 다시 입력하기
               </button>
@@ -96,7 +96,7 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
             <form className={'flex flex-col gap-3'} onSubmit={handleSubmit}>
               <input
                 className={
-                  'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-gray-500'
+                  'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-accent'
                 }
                 placeholder={'닉네임'}
                 value={nickname}
@@ -106,7 +106,7 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
               <input
                 type="email"
                 className={
-                  'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-gray-500'
+                  'border-b bg-transparent px-2 py-1 text-sm outline-none focus:border-accent'
                 }
                 placeholder={'이메일'}
                 value={email}
@@ -116,7 +116,7 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
               <button
                 type="submit"
                 className={
-                  'mt-1 rounded-md border border-current py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition disabled:opacity-50'
+                  'mt-1 rounded-md border border-current py-2 text-sm hover:bg-raised transition disabled:opacity-50'
                 }
                 disabled={isLoading}
               >

@@ -38,17 +38,17 @@ const SeriesPostListItem = ({
   return (
     <li className="relative w-full border-b mx-auto h-32 sm:h-40 md:h-48 group hover:scale-105 z-0 hover:z-50 transition-transform duration-300">
       <Link href={`/posts/${slug}`} className="block h-full" title={title}>
-        <div className="relative flex items-center bg-white hover:bg-neutral-100/80 dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow duration-200 border-neutral-400 overflow-hidden h-full">
+        <div className="relative flex items-center bg-surface hover:bg-raised/80 shadow-sm hover:shadow-md transition-shadow duration-200 border-hairline overflow-hidden h-full">
           <div className="flex flex-col justify-between flex-1 w-2/3 h-full p-3 sm:p-4 md:p-6">
             <div>
-              <h3 className="inline-flex items-center gap-1 sm:gap-2 text-sm sm:text-lg md:text-xl font-semibold text-wrap text-gray-800 dark:text-white line-clamp-2">
+              <h3 className="inline-flex items-center gap-1 sm:gap-2 text-sm sm:text-lg md:text-xl font-semibold text-wrap text-fg line-clamp-2">
                 {title}
                 {isPrivate && <FaEyeSlash />}
               </h3>
-              <h4 className="hidden md:block font-light text-xs sm:text-sm md:text-base text-neutral-800 dark:text-neutral-400">
+              <h4 className="hidden md:block font-light text-xs sm:text-sm md:text-base text-fg">
                 {subTitle}
               </h4>
-              <p className="line-clamp-2 md:line-clamp-3 text-xs sm:text-sm   leading-relaxed text-weak">
+              <p className="line-clamp-2 md:line-clamp-3 text-xs sm:text-sm leading-relaxed text-fg-soft">
                 {content
                   .slice(0, 500)
                   .replaceAll(allInOneRegex, '')
@@ -56,7 +56,7 @@ const SeriesPostListItem = ({
               </p>
             </div>
 
-            <div className="w-full font-light flex sm:items-center text-xs text-weak gap-1 sm:gap-0">
+            <div className="w-full font-light flex sm:items-center text-xs text-fg-soft gap-1 sm:gap-0">
               <span className="mr-0 sm:mr-3">{formattedDate}</span>
               <span className="flex items-center">
                 <svg
@@ -81,7 +81,7 @@ const SeriesPostListItem = ({
                 {tags.map((tag, index) => (
                   <span
                     key={index}
-                    className={`inline-block bg-gray-200 text-gray-700 rounded-full px-1.5 sm:px-2 py-0.5 text-xs font-semibold mr-1`}
+                    className={`inline-block bg-raised text-fg rounded-full px-1.5 sm:px-2 py-0.5 text-xs font-semibold mr-1`}
                   >
                     {tag}
                   </span>
@@ -90,7 +90,7 @@ const SeriesPostListItem = ({
             </div>
           </div>
           <div className="flex items-center relative rounded-tr-none rounded-br-none overflow-hidden flex-shrink-0 w-1/3 h-full p-2 sm:p-3 md:p-4">
-            <div className="rounded-lg overflow-hidden relative w-full h-full shadow-inner group-hover:shadow-nb-neutral-300 transition-shadow duration-300 border border-neutral-overlay dark:border-neutral-700">
+            <div className="rounded-lg overflow-hidden relative w-full h-full shadow-inner transition-shadow duration-300 border">
               {thumbnailImage ? (
                 <Image
                   src={thumbnailImage}
@@ -100,8 +100,8 @@ const SeriesPostListItem = ({
                   loading="lazy"
                 />
               ) : (
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-400 text-xs">
+                <div className="w-full h-full bg-raised flex items-center justify-center">
+                  <span className="text-fg-muted text-xs">
                     <MdOutlineImageNotSupported />
                   </span>
                 </div>

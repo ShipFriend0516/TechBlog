@@ -44,31 +44,31 @@ const SettingsPage = () => {
       <div className="mb-8">
         <Link
           href="/admin"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors mb-3"
+          className="inline-flex items-center gap-1.5 text-sm text-fg-muted hover:text-fg transition-colors mb-3"
         >
           <FiArrowLeft size={16} />
           대시보드
         </Link>
-        <h1 className="text-3xl font-bold dark:text-white">블로그 설정 관리</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        <h1 className="text-3xl font-bold">블로그 설정 관리</h1>
+        <p className="text-sm text-fg-muted mt-1">
           블로그 운영에 필요한 설정을 관리합니다.
         </p>
       </div>
 
       {/* llms.txt 섹션 */}
-      <section className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+      <section className="bg-surface rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-hairline">
           <div className="flex items-center gap-2">
-            <HiOutlineDocumentText size={20} className="text-gray-500 dark:text-gray-400" />
+            <HiOutlineDocumentText size={20} className="text-fg-muted" />
             <div>
-              <h2 className="text-base font-semibold dark:text-white">llms.txt</h2>
-              <p className="text-xs text-gray-400 dark:text-gray-500">
+              <h2 className="text-base font-semibold">llms.txt</h2>
+              <p className="text-xs text-fg-muted">
                 AI 크롤러용 블로그 소개 파일 —{' '}
                 <a
                   href="/llms.txt"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-brand-primary dark:text-brand-secondary hover:underline"
+                  className="text-accent hover:underline"
                 >
                   /llms.txt
                 </a>
@@ -78,7 +78,7 @@ const SettingsPage = () => {
           <button
             onClick={handleRegenerateLlms}
             disabled={llmsLoading}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-brand-primary text-white hover:bg-brand-primary/90 dark:bg-brand-secondary dark:text-gray-900 dark:hover:bg-brand-secondary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-accent text-on-accent hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <FiRefreshCw size={14} className={llmsLoading ? 'animate-spin' : ''} />
             {llmsLoading ? '재생성 중...' : '재생성'}
@@ -89,15 +89,15 @@ const SettingsPage = () => {
           {llmsFetching ? (
             <div className="animate-pulse space-y-2">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="h-3.5 bg-gray-100 dark:bg-gray-800 rounded" style={{ width: `${SKELETON_WIDTHS[i % SKELETON_WIDTHS.length]}%` }} />
+                <div key={i} className="h-3.5 bg-raised rounded" style={{ width: `${SKELETON_WIDTHS[i % SKELETON_WIDTHS.length]}%` }} />
               ))}
             </div>
           ) : llmsContent ? (
-            <pre className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap font-mono bg-gray-50 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto">
+            <pre className="text-xs text-fg-soft leading-relaxed whitespace-pre-wrap font-mono bg-surface rounded-lg p-4 overflow-x-auto">
               {llmsContent}
             </pre>
           ) : (
-            <p className="text-sm text-gray-400 dark:text-gray-500 py-4 text-center">
+            <p className="text-sm text-fg-muted py-4 text-center">
               llms.txt 파일이 없습니다. 재생성 버튼을 눌러 생성하세요.
             </p>
           )}

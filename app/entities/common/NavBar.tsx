@@ -42,8 +42,8 @@ const NavBar = () => {
   const fixedStyle = isTransparent
     ? 'bg-transparent'
     : isFixed
-      ? 'bg-white bg-opacity-20'
-      : 'bg-background';
+      ? 'bg-surface bg-opacity-20'
+      : 'bg-base';
 
   return (
     <nav>

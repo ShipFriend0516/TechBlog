@@ -7,7 +7,7 @@ interface LoadingSpinnerProps {
 
 const LoadingSpinner = ({ content, size }: LoadingSpinnerProps) => {
   return (
-    <div className=" text-primary" role="status">
+    <div className="text-accent" role="status">
       <AiOutlineLoading3Quarters
         className={'animate-spin'}
         style={{ fontSize: size }}

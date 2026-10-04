@@ -7,14 +7,14 @@ const PostListItem = (props: {
   handleDelete: () => void;
 }) => {
   return (
-    <div className="p-4 hover:bg-gray-700/50">
+    <div className="p-4 hover:bg-fg/50">
       <div className="flex justify-between items-start">
         <div className="flex-1">
           <h2 className="text-lg font-semibold">{props.post.title}</h2>
           {props.post.subTitle && (
-            <p className="text-sm text-gray-500 mt-1">{props.post.subTitle}</p>
+            <p className="text-sm text-fg-muted mt-1">{props.post.subTitle}</p>
           )}
-          <div className="flex gap-4 mt-2 text-sm text-gray-600">
+          <div className="flex gap-4 mt-2 text-sm text-fg-soft">
             <span>작성자: {props.post.author}</span>
             <span>
               작성일: {new Date(props.post.date).toLocaleDateString()}

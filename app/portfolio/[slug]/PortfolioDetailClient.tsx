@@ -45,7 +45,7 @@ const PortfolioDetailClient = ({ params }: PortfolioDetailClientProps) => {
   if (loading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-hairline"></div>
       </div>
     );
   }
@@ -65,7 +65,7 @@ const PortfolioDetailClient = ({ params }: PortfolioDetailClientProps) => {
             <h1 className="text-xl md:text-4xl font-bold">{portfolio.title}</h1>
             <Link
               href="/portfolio"
-              className="text-weak hover:text-default flex items-center gap-2 transition-colors"
+              className="text-fg-soft hover:text-fg flex items-center gap-2 transition-colors"
             >
               <FaArrowLeft size={18} />
               <span className={'hidden lg:inline'}>목록으로 돌아가기</span>
@@ -74,7 +74,7 @@ const PortfolioDetailClient = ({ params }: PortfolioDetailClientProps) => {
           <ProjectLinks portfolio={portfolio} />
         </div>
 
-        <div className="w-full min-h-[500px] h-[500px] relative mb-8 bg-gray-100 rounded-lg overflow-hidden">
+        <div className="w-full min-h-[500px] h-[500px] relative mb-8 bg-raised rounded-lg overflow-hidden">
           {portfolio.images.length > 0 && (
             <Image
               src={portfolio.images[currentImageIndex]}
@@ -88,7 +88,7 @@ const PortfolioDetailClient = ({ params }: PortfolioDetailClientProps) => {
           <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 hover:opacity-100 transition-opacity">
             <button
               onClick={handlePreviousImage}
-              className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg hover:bg-white transition-colors dark:text-black"
+              className="w-12 h-12 rounded-full bg-surface/80 flex items-center justify-center shadow-lg hover:bg-surface transition-colors"
               aria-label="이전 이미지"
             >
               <IoMdArrowDropleft size={24} />
@@ -96,7 +96,7 @@ const PortfolioDetailClient = ({ params }: PortfolioDetailClientProps) => {
 
             <button
               onClick={handleNextImage}
-              className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg hover:bg-white transition-colors dark:text-black"
+              className="w-12 h-12 rounded-full bg-surface/80 flex items-center justify-center shadow-lg hover:bg-surface transition-colors"
               aria-label="다음 이미지"
             >
               <IoMdArrowDropright size={24} />
