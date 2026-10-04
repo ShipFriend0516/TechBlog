@@ -1,163 +1,192 @@
 'use client';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import AdminPageHeader from '@/app/entities/admin/common/AdminPageHeader';
 import DeleteModal from '@/app/entities/common/Modal/DeleteModal';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import { deleteSeries, reorderSeries } from '@/app/entities/series/api/series';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
 import AdminSeriesList from '@/app/entities/series/list/AdminSeriesList';
-import useDataFetch, {
-  useDataFetchConfig,
-} from '@/app/hooks/common/useDataFetch';
+import useDataFetch from '@/app/hooks/common/useDataFetch';
+import useToast from '@/app/hooks/useToast';
 import { Series } from '@/app/types/Series';
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
-const AdminSeriesPage = () => {
-  const [seriesList, setSeriesList] = useState<Series[] | null>(null);
-  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+const SERIES_REQUEST_CONFIG = { params: { compact: 'true' } };
 
-  const getSeriesListConfig: useDataFetchConfig<Series[]> = {
+const SaveStatusText = ({
+  status,
+  canReorder,
+}: {
+  status: SaveStatus;
+  canReorder: boolean;
+}) => {
+  switch (status) {
+    case 'saving':
+      return <span className="text-xs text-fg-muted">저장 중...</span>;
+    case 'saved':
+      return <span className="text-xs text-accent">순서 저장됨</span>;
+    case 'error':
+      return <span className="text-xs text-danger">저장 실패 — 이전 순서로 되돌렸습니다</span>;
+    default:
+      return canReorder ? (
+        <span className="text-xs text-fg-muted">
+          드래그(또는 키보드)로 순서를 변경할 수 있습니다
+        </span>
+      ) : null;
+  }
+};
+
+const AdminSeriesPage = () => {
+  const toast = useToast();
+  const [reloadKey, setReloadKey] = useState(0);
+  // 서버에서 받은 목록 위에 로컬 변경(삭제/정렬)을 덮어쓴다
+  const [localList, setLocalList] = useState<Series[] | null>(null);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+  const [overlayOpen, setOverlayOpen] = useState(false);
+  const [editingSeries, setEditingSeries] = useState<Series | null>(null);
+  const [deleteTargetSlug, setDeleteTargetSlug] = useState<string | null>(null);
+  const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const { data, loading } = useDataFetch<Series[]>({
     url: '/api/series',
     method: 'GET',
-    config: {
-      params: {
-        compact: 'true',
-      },
-    },
-    onSuccess: (data) => {
-      setSeriesList(data);
-    },
-  };
-  const { loading } = useDataFetch<Series[]>(getSeriesListConfig);
-  const [createSeriesOpen, setCreateSeriesOpen] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [selectedSeries, setSelectedSeries] = useState<Series | null>(null);
+    config: SERIES_REQUEST_CONFIG,
+    dependencies: [reloadKey],
+    onSuccess: () => setLocalList(null),
+  });
+  const seriesList = localList ?? data;
+  const deleteTarget = deleteTargetSlug
+    ? seriesList?.find((series) => series.slug === deleteTargetSlug) ?? null
+    : null;
 
-  const handleUpdateSeries = (series: Series) => {
-    setCreateSeriesOpen(true);
-    setSelectedSeries(series);
-  };
+  useEffect(() => {
+    return () => {
+      if (statusTimerRef.current) clearTimeout(statusTimerRef.current);
+    };
+  }, []);
 
-  const handleCloseOverlay = () => {
-    setCreateSeriesOpen(false);
-    setSelectedSeries(null);
+  const flashSaveStatus = (status: SaveStatus, resetAfter: number) => {
+    setSaveStatus(status);
+    if (statusTimerRef.current) clearTimeout(statusTimerRef.current);
+    statusTimerRef.current = setTimeout(() => setSaveStatus('idle'), resetAfter);
   };
 
-  const handleDeleteSeries = async (slug: string) => {
-    if (!seriesList) return;
+  const openCreateOverlay = () => {
+    setEditingSeries(null);
+    setOverlayOpen(true);
+  };
+
+  // 리스트 아이템(memo)에 전달되므로 참조를 고정
+  const handleUpdateSeries = useCallback((series: Series) => {
+    setEditingSeries(series);
+    setOverlayOpen(true);
+  }, []);
+
+  // 바깥 클릭/닫기/저장 등 어떤 경로로 닫혀도 편집 대상을 초기화
+  const handleOverlayOpenChange = useCallback((open: boolean) => {
+    setOverlayOpen(open);
+    if (!open) setEditingSeries(null);
+  }, []);
+
+  const handleCloseOverlay = useCallback(
+    () => handleOverlayOpenChange(false),
+    [handleOverlayOpenChange]
+  );
+
+  const handleSeriesSaved = useCallback(() => {
+    setReloadKey((key) => key + 1);
+  }, []);
+
+  const handleDeleteClick = useCallback((slug: string) => {
+    setDeleteTargetSlug(slug);
+  }, []);
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget || !seriesList) return;
+    const { slug } = deleteTarget;
+    setDeleteTargetSlug(null);
+
     try {
-      const data = await deleteSeries(slug);
-      if (data.success) {
-        console.log('시리즈 삭제 성공:', data);
-      } else {
-        console.error('시리즈 삭제 실패:', data);
-      }
+      const result = await deleteSeries(slug);
+      if (!result.success) throw new Error(result.error);
+      setLocalList(seriesList.filter((series) => series.slug !== slug));
+      toast.success('시리즈가 삭제되었습니다.');
     } catch (error) {
       console.error('시리즈 삭제 중 오류 발생:', error);
+      toast.error('시리즈 삭제에 실패했습니다.');
     }
-
-    const updatedSeriesList = seriesList.filter(
-      (series) => series.slug !== slug
-    );
-    setSeriesList(updatedSeriesList);
-    setShowDeleteDialog(false);
-    setSelectedSeries(null);
-  };
-
-  const handleDeleteClick = (slug: string) => {
-    setShowDeleteDialog(true);
-    setSelectedSeries(
-      seriesList?.find((series) => series.slug === slug) || null
-    );
   };
 
   const handleReorder = async (newList: Series[]) => {
-    setSeriesList(newList);
+    const previousList = seriesList;
+    setLocalList(newList);
     setSaveStatus('saving');
     try {
       await reorderSeries(newList.map((s) => s.slug));
-      setSaveStatus('saved');
-      setTimeout(() => setSaveStatus('idle'), 2000);
+      flashSaveStatus('saved', 2000);
     } catch (error) {
       console.error('순서 저장 실패:', error);
-      setSaveStatus('error');
-      setTimeout(() => setSaveStatus('idle'), 3000);
+      setLocalList(previousList ?? null);
+      flashSaveStatus('error', 3000);
     }
   };
 
   return (
     <section className={'mx-auto max-w-6xl px-4 py-6'}>
-      <div className={'mb-6 flex items-start justify-between gap-4'}>
-        <div>
-          <h1 className={'text-3xl font-bold text-fg'}>시리즈 관리</h1>
-          <p className={'mt-1 text-sm text-fg-soft'}>
-            시리즈를 추가, 수정, 삭제할 수 있습니다.
-          </p>
-        </div>
-        <button
-          onClick={() => setCreateSeriesOpen(true)}
-          className={
-            'inline-flex shrink-0 items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-on-accent shadow-sm transition-colors hover:bg-accent-strong'
-          }
-        >
-          <span className={'text-lg leading-none'}>+</span>
-          시리즈 추가
-        </button>
-      </div>
+      <AdminPageHeader
+        title="시리즈 관리"
+        description="시리즈를 추가, 수정, 삭제할 수 있습니다."
+        actions={
+          <button
+            onClick={openCreateOverlay}
+            className={
+              'inline-flex shrink-0 items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-on-accent shadow-sm transition-colors hover:bg-accent-strong'
+            }
+          >
+            <span className={'text-lg leading-none'}>+</span>
+            시리즈 추가
+          </button>
+        }
+      />
       <div>
-        <div className={'mb-4 flex items-center gap-3'}>
-          <h2 className={'text-lg font-semibold text-fg'}>
-            등록된 시리즈 목록
-          </h2>
+        <div className={'mb-4 flex flex-wrap items-center gap-3'}>
+          <h2 className={'text-lg font-semibold text-fg'}>등록된 시리즈 목록</h2>
           <span
             className={
-              'rounded-full bg-raised px-2 py-0.5 text-xs font-medium text-fg-soft '
+              'rounded-full bg-raised px-2 py-0.5 text-xs font-medium text-fg-soft'
             }
           >
             {seriesList?.length || 0}
           </span>
-          {saveStatus === 'saving' && (
-            <span className="text-xs text-fg-muted">
-              저장 중...
-            </span>
-          )}
-          {saveStatus === 'saved' && (
-            <span className="text-xs text-accent">순서 저장됨</span>
-          )}
-          {saveStatus === 'error' && (
-            <span className="text-xs text-red-500">저장 실패</span>
-          )}
-          {!loading && seriesList && seriesList.length > 1 && saveStatus === 'idle' && (
-            <span className="text-xs text-fg-muted">
-              드래그하여 순서를 변경할 수 있습니다
-            </span>
-          )}
+          <span aria-live="polite">
+            <SaveStatusText
+              status={saveStatus}
+              canReorder={!loading && !!seriesList && seriesList.length > 1}
+            />
+          </span>
         </div>
         <AdminSeriesList
           handleUpdateSeries={handleUpdateSeries}
           handleDeleteClick={handleDeleteClick}
           seriesList={seriesList}
-          loading={loading}
+          loading={loading && !seriesList}
           onReorder={handleReorder}
         />
       </div>
-      <Overlay
-        overlayOpen={createSeriesOpen}
-        setOverlayOpen={setCreateSeriesOpen}
-      >
+      <Overlay overlayOpen={overlayOpen} setOverlayOpen={handleOverlayOpenChange}>
         <CreateSeriesOverlayContainer
-          setCreateSeriesOpen={setCreateSeriesOpen}
+          setCreateSeriesOpen={handleOverlayOpenChange}
           handleCloseOverlay={handleCloseOverlay}
-          series={selectedSeries || undefined}
+          onSaved={handleSeriesSaved}
+          series={editingSeries ?? undefined}
         />
       </Overlay>
-      {showDeleteDialog && (
+      {deleteTarget && (
         <DeleteModal
-          message={
-            '이 시리즈를 삭제하시겠습니까? 이 작업은 영구적으로 영향을 미치는 작업입니다.'
-          }
-          onCancel={() => setShowDeleteDialog(false)}
-          onConfirm={() => handleDeleteSeries(selectedSeries?.slug || '')}
+          message={`'${deleteTarget.title}' 시리즈를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`}
+          onCancel={() => setDeleteTargetSlug(null)}
+          onConfirm={handleDeleteConfirm}
         />
       )}
     </section>
