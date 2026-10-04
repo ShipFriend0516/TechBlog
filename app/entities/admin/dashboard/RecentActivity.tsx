@@ -30,42 +30,47 @@ const RecentActivitySkeleton = () => (
   </div>
 );
 
+const loadRecentPosts = async (signal: AbortSignal): Promise<RecentPost[]> => {
+  const response = await fetch('/api/admin/posts/recent', { signal });
+  const data = await response.json();
+  if (!data.success) {
+    throw new Error(data.error || '최근 게시글을 불러올 수 없습니다.');
+  }
+  return data.posts;
+};
+
 const RecentActivity = () => {
   const [posts, setPosts] = useState<RecentPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchRecentPosts = useCallback(async (signal?: AbortSignal) => {
-    try {
-      const response = await fetch('/api/admin/posts/recent', { signal });
-      const data = await response.json();
-
-      if (data.success) {
-        setPosts(data.posts);
-        setError(null);
-      } else {
-        setError(data.error || '최근 게시글을 불러올 수 없습니다.');
-      }
-    } catch (err) {
-      if (signal?.aborted) return;
-      setError('최근 게시글을 불러오는 중 오류가 발생했습니다.');
-      console.error(err);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, []);
+  const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchRecentPosts(controller.signal);
+    loadRecentPosts(controller.signal)
+      .then((nextPosts) => {
+        setPosts(nextPosts);
+        setError(null);
+      })
+      .catch((err) => {
+        if (controller.signal.aborted) return;
+        setError(
+          err instanceof Error ? err.message : '최근 게시글을 불러오는 중 오류가 발생했습니다.'
+        );
+        console.error(err);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
     return () => controller.abort();
-  }, [fetchRecentPosts]);
+  }, [reloadToken]);
 
   const handleRetry = useCallback(() => {
     setLoading(true);
     setError(null);
-    fetchRecentPosts();
-  }, [fetchRecentPosts]);
+    setReloadToken((token) => token + 1);
+  }, []);
 
   if (loading) return <RecentActivitySkeleton />;
 

@@ -79,64 +79,71 @@ const QuickStatsSkeleton = () => (
   </div>
 );
 
+// 상태를 건드리지 않는 순수 로더 — effect 에서는 결과를 받아 setState 만 수행
+const loadStats = async (
+  signal: AbortSignal
+): Promise<{ stats: Stats; daily: DailyView[] }> => {
+  const [blogStatsRes, subscriberStatsRes, dailyRes] = await Promise.all([
+    fetch('/api/admin/stats', { signal }),
+    fetch('/api/admin/subscribers', { signal }),
+    fetch('/api/admin/stats/daily', { signal }),
+  ]);
+
+  if (!blogStatsRes.ok || !subscriberStatsRes.ok) {
+    throw new Error('통계를 불러오는 중 오류가 발생했습니다.');
+  }
+
+  const [blogData, subscriberData, dailyData] = await Promise.all([
+    blogStatsRes.json(),
+    subscriberStatsRes.json(),
+    dailyRes.ok ? dailyRes.json() : null,
+  ]);
+
+  if (!blogData.success || !subscriberData.success) {
+    throw new Error('통계를 불러올 수 없습니다.');
+  }
+
+  return {
+    stats: {
+      ...blogData.stats,
+      activeSubscribers: subscriberData.stats.activeSubscribers,
+    },
+    daily: dailyData?.success ? dailyData.daily : [],
+  };
+};
+
 const QuickStats = () => {
   const [stats, setStats] = useState<Stats | null>(null);
   const [dailyViews, setDailyViews] = useState<DailyView[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 상태 갱신은 모두 await 이후에 일어나도록 유지 (effect 내 동기 setState 방지)
-  const fetchStats = useCallback(async (signal?: AbortSignal) => {
-    try {
-      const [blogStatsRes, subscriberStatsRes, dailyRes] = await Promise.all([
-        fetch('/api/admin/stats', { signal }),
-        fetch('/api/admin/subscribers', { signal }),
-        fetch('/api/admin/stats/daily', { signal }),
-      ]);
-
-      if (!blogStatsRes.ok || !subscriberStatsRes.ok) {
-        throw new Error('통계 불러오기 실패');
-      }
-
-      const [blogData, subscriberData, dailyData] = await Promise.all([
-        blogStatsRes.json(),
-        subscriberStatsRes.json(),
-        dailyRes.ok ? dailyRes.json() : null,
-      ]);
-
-      if (blogData.success && subscriberData.success) {
-        setError(null);
-        setStats({
-          ...blogData.stats,
-          activeSubscribers: subscriberData.stats.activeSubscribers,
-        });
-      } else {
-        setError('통계를 불러올 수 없습니다.');
-      }
-
-      if (dailyData?.success) {
-        setDailyViews(dailyData.daily);
-      }
-    } catch (err) {
-      if (signal?.aborted) return;
-      setError('통계를 불러오는 중 오류가 발생했습니다.');
-      console.error(err);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, []);
+  const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchStats(controller.signal);
+    loadStats(controller.signal)
+      .then(({ stats: nextStats, daily }) => {
+        setStats(nextStats);
+        setDailyViews(daily);
+        setError(null);
+      })
+      .catch((err) => {
+        if (controller.signal.aborted) return;
+        setError(err instanceof Error ? err.message : '통계를 불러오는 중 오류가 발생했습니다.');
+        console.error(err);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
     return () => controller.abort();
-  }, [fetchStats]);
+  }, [reloadToken]);
 
   const handleRetry = useCallback(() => {
     setLoading(true);
     setError(null);
-    fetchStats();
-  }, [fetchStats]);
+    setReloadToken((token) => token + 1);
+  }, []);
 
   if (loading) return <QuickStatsSkeleton />;
 

@@ -21,6 +21,15 @@ const getLatestCommentTime = ({ issue, comments }: IssueWithComments) =>
     new Date(issue.updated_at).getTime()
   );
 
+const loadComments = async (signal: AbortSignal): Promise<IssueWithComments[]> => {
+  const response = await fetch('/api/admin/comments', { signal });
+  const data = await response.json();
+  if (!data.success) {
+    throw new Error(data.error || '댓글을 불러올 수 없습니다.');
+  }
+  return data.data;
+};
+
 const CommentsSkeleton = () => (
   <div className="space-y-4 animate-pulse">
     {[...Array(4)].map((_, i) => (
@@ -43,45 +52,40 @@ const AdminCommentsPage = () => {
   // 입력 중에는 리스트 필터링을 낮은 우선순위로 처리해 타이핑이 끊기지 않도록 한다
   const deferredKeyword = useDeferredValue(keyword);
 
-  const fetchComments = useCallback(async (signal?: AbortSignal) => {
-    try {
-      const response = await fetch('/api/admin/comments', { signal });
-      const data = await response.json();
-
-      if (data.success) {
-        setIssuesWithComments(data.data);
-        setError(null);
-      } else {
-        setError(data.error || '댓글을 불러올 수 없습니다.');
-      }
-    } catch (err) {
-      if (signal?.aborted) return;
-      setError('댓글을 불러오는 중 오류가 발생했습니다.');
-      console.error(err);
-    } finally {
-      if (!signal?.aborted) {
-        setLoading(false);
-        setRefreshing(false);
-      }
-    }
-  }, []);
+  const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchComments(controller.signal);
+    loadComments(controller.signal)
+      .then((data) => {
+        setIssuesWithComments(data);
+        setError(null);
+      })
+      .catch((err) => {
+        if (controller.signal.aborted) return;
+        setError(
+          err instanceof Error ? err.message : '댓글을 불러오는 중 오류가 발생했습니다.'
+        );
+        console.error(err);
+      })
+      .finally(() => {
+        if (controller.signal.aborted) return;
+        setLoading(false);
+        setRefreshing(false);
+      });
     return () => controller.abort();
-  }, [fetchComments]);
+  }, [reloadToken]);
 
   const handleRefresh = useCallback(() => {
     setRefreshing(true);
-    fetchComments();
-  }, [fetchComments]);
+    setReloadToken((token) => token + 1);
+  }, []);
 
   const handleRetry = useCallback(() => {
     setLoading(true);
     setError(null);
-    fetchComments();
-  }, [fetchComments]);
+    setReloadToken((token) => token + 1);
+  }, []);
 
   // 최근 댓글 순 정렬은 데이터가 바뀔 때만 수행
   const sortedIssues = useMemo(
