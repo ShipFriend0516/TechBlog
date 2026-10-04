@@ -81,7 +81,7 @@ const Home = async () => {
         }}
       />
       <WelcomeClient />
-      <div className="w-full max-w-6xl mx-auto flex flex-col gap-24 md:gap-32 px-4 md:px-8 pb-12">
+      <div className="w-full max-w-6xl mx-auto flex flex-col gap-16 md:gap-32 px-4 md:px-8 md:pb-12">
         <HomeHero tags={tags.slice(0, HERO_TAG_LIMIT)} />
         <PostsSection latest={latest} popular={popular} />
         <SeriesRail series={series} />
