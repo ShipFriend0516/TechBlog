@@ -134,14 +134,17 @@ const pretendard = localFont({
 
 const preventFOUC = `
 (function() {
-  const savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme || 'light';
+  let savedTheme = 'dark';
+  try {
+    savedTheme = JSON.parse(localStorage.getItem('theme-storage')).state.theme || 'dark';
+  } catch (e) {}
   const isDark = savedTheme === 'dark';
   if (isDark) {
     document.documentElement.classList.add('dark');
   } else {
     document.documentElement.classList.remove('dark');
   }
-  document.documentElement.style.backgroundColor = isDark ? '#1e201e' : '#ffffff';
+  document.documentElement.style.backgroundColor = isDark ? '#060a09' : '#f2f5f4';
 })();
 `;
 

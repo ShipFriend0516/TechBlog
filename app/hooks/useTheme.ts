@@ -10,10 +10,10 @@ const useTheme = () => {
   useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
-      document.documentElement.style.backgroundColor = '#1e201e';
+      document.documentElement.style.backgroundColor = '#060a09';
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.style.backgroundColor = '#ffffff';
+      document.documentElement.style.backgroundColor = '#f2f5f4';
     }
   }, [theme]);
 
