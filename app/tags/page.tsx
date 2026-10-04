@@ -1,34 +1,19 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
 import TagCloud from '@/app/entities/tag/TagCloud';
+import { getTagStats } from '@/app/lib/tags';
 import { TagData } from '@/app/types/Tag';
 
-const TagsPage = () => {
-  const [tags, setTags] = useState<TagData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export const revalidate = 300;
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const response = await fetch('/api/tags');
-        if (!response.ok) {
-          throw new Error('태그 목록을 불러오는데 실패했습니다');
-        }
-        const data = await response.json();
-        setTags(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : '알 수 없는 오류');
-        console.error('Failed to fetch tags:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+const TagsPage = async () => {
+  let tags: TagData[] = [];
+  let failed = false;
 
-    fetchTags();
-  }, []);
+  try {
+    tags = await getTagStats();
+  } catch (error) {
+    failed = true;
+    console.error('Failed to fetch tags:', error);
+  }
 
   return (
     <section className="w-full p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
@@ -38,22 +23,15 @@ const TagsPage = () => {
       </p>
 
       <div className="min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] relative">
-        {loading ? (
-          <div className="flex justify-center items-center h-full">
-            <SVGLoadingSpinner />
-          </div>
-        ) : error ? (
-          <div className="flex flex-col justify-center items-center h-full text-center">
-            <p className="text-semantic-error text-lg mb-4">⚠️ {error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-primary-mountain transition-colors"
-            >
-              다시 시도
-            </button>
+        {failed ? (
+          <div className="flex flex-col justify-center items-center h-[400px] text-center">
+            <p className="text-semantic-error text-lg">
+              ⚠️ 태그 목록을 불러오는데 실패했습니다
+            </p>
+            <p className="text-weak mt-2">잠시 후 새로고침해 주세요.</p>
           </div>
         ) : tags.length === 0 ? (
-          <div className="flex justify-center items-center h-full text-weak">
+          <div className="flex justify-center items-center h-[400px] text-weak">
             <p className="text-lg">아직 태그가 없습니다</p>
           </div>
         ) : (

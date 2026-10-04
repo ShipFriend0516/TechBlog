@@ -1,18 +1,9 @@
-import dbConnect from '@/app/lib/dbConnect';
-import Post from '@/app/models/Post';
+import { getTagStats } from '@/app/lib/tags';
 
 // GET /api/tags
 export async function GET() {
   try {
-    await dbConnect();
-
-    const tagStats = await Post.aggregate([
-      { $match: { isPrivate: { $ne: true } } },
-      { $unwind: '$tags' },
-      { $group: { _id: '$tags', count: { $sum: 1 } } },
-      { $sort: { count: -1 } },
-      { $project: { tag: '$_id', count: 1, _id: 0 } },
-    ]);
+    const tagStats = await getTagStats();
 
     return Response.json(tagStats, {
       status: 200,
