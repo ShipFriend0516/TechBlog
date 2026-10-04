@@ -1,17 +1,30 @@
 import type { Metadata } from 'next';
-import dbConnect from '@/app/lib/dbConnect';
+import ConnectSection from '@/app/entities/home/ConnectSection';
+import HomeHero from '@/app/entities/home/HomeHero';
+import MeSection from '@/app/entities/home/MeSection';
+import PostsSection from '@/app/entities/home/PostsSection';
+import SeriesRail from '@/app/entities/home/SeriesRail';
+import TrajectorySection from '@/app/entities/home/TrajectorySection';
+import WelcomeClient from '@/app/entities/profile/WelcomeClient';
+import {
+  getAtelierPreview,
+  getBlogStats,
+  getLatestPosts,
+  getNow,
+  getPopularPosts,
+  getSeriesList,
+  getStarPosts,
+} from '@/app/lib/home';
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
 } from '@/app/lib/site';
-import Post from '@/app/models/Post';
-import { Post as PostType } from '@/app/types/Post';
-import AboutMe from './entities/profile/AboutMe';
-import Experience from './entities/profile/Experience';
-import HeroBanner from './entities/profile/HeroBanner';
-import LatestArticles from './entities/profile/LatestArticles';
-import WelcomeClient from './entities/profile/WelcomeClient';
+import { getTagStats } from '@/app/lib/tags';
+
+export const revalidate = 300;
+
+const HERO_TAG_LIMIT = 24;
 
 export const metadata: Metadata = {
   title: SITE_NAME,
@@ -48,22 +61,17 @@ const siteSchema = {
 };
 
 const Home = async () => {
-  await dbConnect();
-  const publicFilter = {
-    $or: [{ isPrivate: false }, { isPrivate: { $exists: false } }],
-  };
-
-  const [rawPosts, totalCount] = await Promise.all([
-    Post.find(publicFilter)
-      .select('slug title _id subTitle thumbnailImage')
-      .sort({ date: -1 })
-      .limit(3)
-      .lean(),
-    Post.countDocuments(publicFilter),
-  ]);
-
-  const posts = rawPosts as unknown as PostType[];
-
+  const [latest, popular, series, stars, stats, tags, now, messages] =
+    await Promise.all([
+      getLatestPosts(5),
+      getPopularPosts(5),
+      getSeriesList(8),
+      getStarPosts(),
+      getBlogStats(),
+      getTagStats(),
+      getNow(),
+      getAtelierPreview(3),
+    ]);
   return (
     <>
       <script
@@ -72,12 +80,14 @@ const Home = async () => {
           __html: JSON.stringify(siteSchema).replace(/<\//g, '<\\/'),
         }}
       />
-      <div className="w-full max-w-5xl mx-auto grid gap-12 p-4 md:p-6">
-        <WelcomeClient />
-        <HeroBanner />
-        <AboutMe />
-        <Experience />
-        <LatestArticles posts={posts} totalCount={totalCount} />
+      <WelcomeClient />
+      <div className="w-full max-w-6xl mx-auto flex flex-col gap-24 md:gap-32 px-4 md:px-8 pb-12">
+        <HomeHero tags={tags.slice(0, HERO_TAG_LIMIT)} />
+        <PostsSection latest={latest} popular={popular} />
+        <SeriesRail series={series} />
+        <TrajectorySection stars={stars} stats={stats} now={stats.generatedAt} />
+        <MeSection now={now} />
+        <ConnectSection messages={messages} />
       </div>
     </>
   );

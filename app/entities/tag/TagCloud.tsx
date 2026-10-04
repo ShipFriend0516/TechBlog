@@ -6,6 +6,7 @@ import { TagData } from '@/app/types/Tag';
 
 interface TagCloudProps {
   tags: TagData[];
+  className?: string;
 }
 
 interface Vec3 {
@@ -56,7 +57,10 @@ const rotate = (v: Vec3, rotX: number, rotY: number): Vec3 => {
   };
 };
 
-const TagCloud = ({ tags }: TagCloudProps) => {
+const TagCloud = ({
+  tags,
+  className = 'h-[420px] md:h-[600px]',
+}: TagCloudProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const tagRefs = useRef<(HTMLDivElement | null)[]>([]);
   const particleRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -244,10 +248,10 @@ const TagCloud = ({ tags }: TagCloudProps) => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[420px] md:h-[600px] overflow-hidden cursor-grab select-none touch-pan-y"
+      className={`relative w-full overflow-hidden cursor-grab select-none touch-pan-y ${className}`}
     >
       {/* 그라데이션 배경 */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-accent/5 via-transparent to-transparent dark:via-transparent dark:to-transparent" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-accent/5 via-transparent to-transparent" />
 
       {/* 입자들 — 중앙(left/top 50%) 기준으로 translate */}
       {particles.map((particle, i) => (

@@ -1,0 +1,182 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { formatDate } from '@/app/lib/utils/format';
+import { StarPost } from '@/app/types/Home';
+
+const WIDTH = 1000;
+const HEIGHT = 280;
+const PAD_X = 32;
+const TOP = 36;
+const BOTTOM = 228;
+const BRIGHT_COUNT = 5;
+
+// slug 기반 고정 난수 — 새로고침해도 별 위치가 같도록
+const hash = (value: string) => {
+  let h = 2166136261;
+  for (let i = 0; i < value.length; i++) {
+    h ^= value.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0) / 4294967295;
+};
+
+interface PlacedStar extends StarPost {
+  x: number;
+  y: number;
+  r: number;
+  bright: boolean;
+}
+
+interface ConstellationProps {
+  stars: StarPost[];
+  now: number;
+}
+
+const Constellation = ({ stars, now }: ConstellationProps) => {
+  const [hovered, setHovered] = useState<PlacedStar | null>(null);
+
+  const { placed, years, seriesLines } = useMemo(() => {
+    if (stars.length === 0) return { placed: [], years: [], seriesLines: [] };
+
+    const firstYear = new Date(stars[0].date).getFullYear();
+    const start = new Date(firstYear, 0, 1).getTime();
+    const span = Math.max(now - start, 1);
+    const toX = (date: number) =>
+      PAD_X + ((date - start) / span) * (WIDTH - PAD_X * 2);
+
+    const maxView = Math.max(...stars.map((s) => s.view), 1);
+    const brightSlugs = new Set(
+      [...stars]
+        .sort((a, b) => b.view - a.view)
+        .slice(0, BRIGHT_COUNT)
+        .filter((s) => s.view > 0)
+        .map((s) => s.slug)
+    );
+
+    const placed: PlacedStar[] = stars.map((star) => ({
+      ...star,
+      x: toX(star.date),
+      y: TOP + hash(star.slug) * (BOTTOM - TOP),
+      r: 1.6 + 3.4 * Math.sqrt(star.view / maxView),
+      bright: brightSlugs.has(star.slug),
+    }));
+
+    const years: { year: number; x: number }[] = [];
+    for (let y = firstYear; y <= new Date(now).getFullYear(); y++) {
+      years.push({ year: y, x: toX(new Date(y, 0, 1).getTime()) });
+    }
+
+    // 같은 시리즈의 글은 선으로 이어 하나의 별자리로
+    const groups = new Map<string, PlacedStar[]>();
+    placed.forEach((star) => {
+      if (!star.seriesId) return;
+      groups.set(star.seriesId, [...(groups.get(star.seriesId) ?? []), star]);
+    });
+    const seriesLines = [...groups.values()]
+      .filter((group) => group.length > 1)
+      .map((group) => group.map((s) => `${s.x},${s.y}`).join(' '));
+
+    return { placed, years, seriesLines };
+  }, [stars, now]);
+
+  if (placed.length === 0) return null;
+
+  return (
+    <div className="overflow-x-auto -mx-4 px-4 scrollbar-custom">
+      <div className="relative min-w-[640px]">
+        <svg
+          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+          className="w-full h-auto"
+          role="img"
+          aria-label={`지금까지 쓴 글 ${placed.length}개를 시간순으로 배치한 별자리`}
+        >
+          <defs>
+            <radialGradient id="star-glow">
+              <stop offset="0%" stopColor="rgb(var(--accent))" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="rgb(var(--accent))" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+
+          {years.map(({ year, x }) => (
+            <g key={year}>
+              <line
+                x1={x}
+                x2={x}
+                y1={TOP - 16}
+                y2={BOTTOM + 16}
+                stroke="rgb(var(--fg) / var(--hairline-alpha))"
+                strokeDasharray="2 6"
+              />
+              <text
+                x={x + 6}
+                y={HEIGHT - 12}
+                fontSize="12"
+                fill="rgb(var(--fg-muted))"
+              >
+                {year}
+              </text>
+            </g>
+          ))}
+
+          {seriesLines.map((points, i) => (
+            <polyline
+              key={i}
+              points={points}
+              fill="none"
+              stroke="rgb(var(--nebula) / 0.35)"
+              strokeWidth="1"
+            />
+          ))}
+
+          {placed.map((star) => (
+            <a
+              key={star.slug}
+              href={`/posts/${star.slug}`}
+              aria-label={`${star.title}, ${formatDate(star.date)}`}
+              onMouseEnter={() => setHovered(star)}
+              onMouseLeave={() => setHovered(null)}
+              onFocus={() => setHovered(star)}
+              onBlur={() => setHovered(null)}
+              className="outline-none"
+            >
+              {/* 작은 별도 쉽게 가리킬 수 있도록 투명한 히트 영역 */}
+              <circle cx={star.x} cy={star.y} r={10} fill="transparent" />
+              {star.bright && (
+                <circle cx={star.x} cy={star.y} r={star.r * 4} fill="url(#star-glow)" />
+              )}
+              <circle
+                cx={star.x}
+                cy={star.y}
+                r={hovered?.slug === star.slug ? star.r + 1.5 : star.r}
+                fill={star.bright ? 'rgb(var(--accent-strong))' : 'rgb(var(--fg-soft))'}
+                className={star.bright ? '' : 'motion-safe:animate-twinkle'}
+                style={{
+                  animationDelay: `${hash(star.slug + 'd') * 4}s`,
+                  transition: 'r 150ms',
+                }}
+              />
+            </a>
+          ))}
+        </svg>
+
+        {hovered && (
+          <div
+            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded-xl bg-overlay px-3 py-2 shadow-glow-sm text-xs whitespace-nowrap"
+            style={{
+              left: `${(hovered.x / WIDTH) * 100}%`,
+              top: `calc(${(hovered.y / HEIGHT) * 100}% - 12px)`,
+            }}
+          >
+            <p className="font-semibold text-fg max-w-[240px] truncate">{hovered.title}</p>
+            <p className="mt-0.5 text-fg-muted tabular-nums">
+              {formatDate(hovered.date)} · 조회 {hovered.view.toLocaleString()}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Constellation;
