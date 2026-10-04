@@ -16,7 +16,9 @@ export async function GET(req: Request) {
     const seriesSlug = searchParams.get('series') || '';
     const tagParam = searchParams.get('tag') || '';
     const isCompact = searchParams.get('compact') === 'true';
-    const isCanViewPrivate = searchParams.get('private') === 'true';
+    // 비공개 글 조회는 관리자 세션에서만 허용
+    const isCanViewPrivate =
+      searchParams.get('private') === 'true' && !!(await getAdminSession());
 
     // const sortBy: 'date' | 'view' | string = searchParams.get('sort') || 'date';
 
@@ -74,7 +76,7 @@ export async function GET(req: Request) {
 
     if (isCompact) {
       q = q.select(
-        'slug title _id subTitle author date tags thumbnailImage seriesId timeToRead createdAt updatedAt'
+        'slug title _id subTitle author date tags thumbnailImage seriesId timeToRead createdAt updatedAt isPrivate'
       );
     }
 
@@ -96,7 +98,10 @@ export async function GET(req: Request) {
       {
         status: 200,
         headers: {
-          'Cache-Control': 'public, max-age=300, s-maxage=900',
+          // 비공개 글이 포함된 관리자 응답은 공유 캐시에 저장하지 않는다
+          'Cache-Control': isCanViewPrivate
+            ? 'private, no-store'
+            : 'public, max-age=300, s-maxage=900',
         },
       }
     );
