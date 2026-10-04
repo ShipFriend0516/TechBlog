@@ -136,31 +136,29 @@ const DecryptedText = ({
     };
 
     if (isHovering) {
+      // 진행 상태는 effect 지역 변수로 관리 — 상태 업데이트 함수 안에서 다른 상태를 바꾸지 않음
+      let revealed = new Set<number>();
       interval = setInterval(() => {
-        setRevealedIndices((prevRevealed) => {
-          if (sequential) {
-            if (prevRevealed.size < text.length) {
-              const nextIndex = getNextIndex(prevRevealed);
-              const newRevealed = new Set(prevRevealed);
-              newRevealed.add(nextIndex);
-              setDisplayText(shuffleText(text, newRevealed));
-              return newRevealed;
-            } else {
-              clearInterval(interval);
-              setIsScrambling(false);
-              return prevRevealed;
-            }
+        if (sequential) {
+          if (revealed.size < text.length) {
+            const nextRevealed = new Set(revealed);
+            nextRevealed.add(getNextIndex(revealed));
+            revealed = nextRevealed;
+            setRevealedIndices(nextRevealed);
+            setDisplayText(shuffleText(text, nextRevealed));
           } else {
-            setDisplayText(shuffleText(text, prevRevealed));
-            currentIteration++;
-            if (currentIteration >= maxIterations) {
-              clearInterval(interval);
-              setIsScrambling(false);
-              setDisplayText(text);
-            }
-            return prevRevealed;
+            clearInterval(interval);
+            setIsScrambling(false);
           }
-        });
+        } else {
+          setDisplayText(shuffleText(text, revealed));
+          currentIteration++;
+          if (currentIteration >= maxIterations) {
+            clearInterval(interval);
+            setIsScrambling(false);
+            setDisplayText(text);
+          }
+        }
       }, speed);
     }
 
@@ -181,13 +179,15 @@ const DecryptedText = ({
   useEffect(() => {
     if (animateOn !== 'view' && animateOn !== 'both') return;
 
+    if (hasAnimated) return;
+
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setIsHovering(true);
-          setHasAnimated(true);
-        }
-      });
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setIsHovering(true);
+        setHasAnimated(true);
+        // 한 번 재생하면 더 관찰할 필요 없음
+        observer.disconnect();
+      }
     };
 
     const observerOptions = {
@@ -205,9 +205,7 @@ const DecryptedText = ({
       observer.observe(currentRef);
     }
 
-    return () => {
-      if (currentRef) observer.unobserve(currentRef);
-    };
+    return () => observer.disconnect();
   }, [animateOn, hasAnimated]);
 
   const hoverProps =
