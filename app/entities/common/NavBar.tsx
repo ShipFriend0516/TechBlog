@@ -80,6 +80,9 @@ const NavBar = () => {
           <li className={'hidden sm:block'}>
             <Link href="/portfolio">Portfolio</Link>
           </li>
+          <li className={'hidden sm:block'}>
+            <Link href="/about">About</Link>
+          </li>
           <li>
             <IconButton
               onClick={toggleTheme}

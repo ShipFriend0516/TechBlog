@@ -75,6 +75,9 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
           <li>
             <Link href="/portfolio">Portfolio</Link>
           </li>
+          <li>
+            <Link href="/about">About</Link>
+          </li>
         </ul>
 
         {/* 구독 폼 */}

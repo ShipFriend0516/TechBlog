@@ -70,6 +70,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/portfolio`,
     },
     {
+      url: `${baseUrl}/about`,
+    },
+    {
       url: `${baseUrl}/series`,
       lastModified: seriesLastmod,
     },
