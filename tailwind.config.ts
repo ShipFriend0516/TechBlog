@@ -1,61 +1,7 @@
 import type { Config } from 'tailwindcss';
 
-// Blog Theme Palette
-const blogTheme = {
-  // Primary Brand Colors
-  brand: {
-    primary: '#006400', // Deep Green - 브랜드 메인 컬러 (코드, 강조)
-    secondary: '#10b981', // Emerald 500 - 액센트 컬러
-  },
-
-  primary: {
-    rich: '#082626',
-    dark: '#032221',
-    bangladesh: '#03624c',
-    mountain: '#2cc295',
-    caribbean: '#00df81',
-  },
-
-  // Neutral Palette - 전체적인 톤 관리
-  neutral: {
-    50: '#f9fafb', // 라이트 배경
-    100: '#f3f4f6', // 카드 배경 (light)
-    200: '#e5e7eb', // 구분선, 테두리
-    300: '#d1d5db', // 비활성 요소
-    400: '#9ca3af', // 플레이스홀더
-    500: '#6b7280', // 부제목, 메타 정보
-    600: '#4b5563', // 본문 텍스트 (light)
-    700: '#374151', // 제목 (light)
-    800: '#1f2937', // 카드 배경 (dark)
-    900: '#111827', // 진한 배경, 제목 (dark)
-  },
-
-  // Semantic Colors
-  semantic: {
-    success: '#10b981', // 성공 메시지
-    error: '#ef4444', // 에러 메시지
-    warning: '#f59e0b', // 경고 메시지
-    info: '#3b82f6', // 정보 메시지
-  },
-
-  // Special Effects
-  effects: {
-    shadow: {
-      sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-      md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-      lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-      xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-      '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-    },
-    blur: {
-      glass: 'blur(8px)', // 글래스모피즘
-    },
-    opacity: {
-      overlay: '0.4', // 오버레이 투명도
-      disabled: '0.5', // 비활성화 요소
-    },
-  },
-};
+// Space + Minimal 디자인 토큰 — 실제 값은 app/globals.css 의 CSS 변수에 정의
+const token = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
 
 const config: Config = {
   content: [
@@ -72,31 +18,53 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        default: 'var(--text-default)',
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-        overlay: 'var(--bg-overlay)',
-        weak: 'var(--text-weak)',
+        // Surface — bg 대신 base 로 명명 (bg-base)
+        base: token('base'),
+        surface: token('surface'),
+        raised: token('raised'),
+        overlay: token('overlay'),
 
-        // Theme Palette
-        primary: blogTheme.primary,
-        brand: blogTheme.brand,
-        semantic: blogTheme.semantic,
-      },
-      textColor: {
-        overlay: 'var(--text-overlay)',
-      },
-      backgroundColor: {
-        card: {
-          light: blogTheme.neutral[100],
-          dark: blogTheme.neutral[800],
+        // Text
+        fg: {
+          DEFAULT: token('fg'),
+          soft: token('fg-soft'),
+          muted: token('fg-muted'),
+          faint: token('fg-faint'),
         },
+
+        // Accent — 클릭 가능한 요소에만 사용
+        accent: {
+          DEFAULT: token('accent'),
+          strong: token('accent-strong'),
+          subtle: 'rgb(var(--accent) / var(--accent-subtle-alpha))',
+        },
+        'on-accent': token('on-accent'),
+
+        // Nebula — 배경, 히어로, 썸네일 같은 장식에만 사용
+        nebula: {
+          DEFAULT: token('nebula'),
+          soft: token('nebula-soft'),
+          subtle: 'rgb(var(--nebula) / var(--nebula-subtle-alpha))',
+          haze: 'rgb(var(--nebula) / var(--nebula-haze-alpha))',
+        },
+
+        hairline: 'rgb(var(--fg) / var(--hairline-alpha))',
+
+        // Semantic
+        danger: token('danger'),
+        warning: token('warning'),
+        info: token('info'),
       },
       borderColor: {
-        DEFAULT: blogTheme.neutral[200],
-        dark: blogTheme.neutral[700],
+        DEFAULT: 'rgb(var(--fg) / var(--hairline-alpha))',
       },
-      boxShadow: blogTheme.effects.shadow,
+      boxShadow: {
+        'glow-sm': 'var(--glow-sm)',
+        'glow-md': 'var(--glow-md)',
+      },
+      transitionTimingFunction: {
+        'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
       fontFamily: {
         sans: ['var(--font-pretendard)', 'sans-serif'],
       },
