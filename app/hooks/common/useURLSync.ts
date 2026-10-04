@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 interface useURLSyncConfig {
   baseURL: string;
-  params: Record<string, any> | Record<string, any[]>;
+  params: Record<string, unknown>;
 }
 
 /**

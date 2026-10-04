@@ -73,7 +73,7 @@ export async function sendNewPostEmail(
       unsubscribeUrl
     );
 
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: subscriber.email,
       subject: `새 글: ${post.title}`,
@@ -108,7 +108,7 @@ export async function sendUnsubscribeConfirmation(
   try {
     const html = getUnsubscribeEmailHTML(nickname);
 
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
       subject: '구독이 취소되었습니다',

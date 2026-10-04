@@ -4,7 +4,7 @@ import dbConnect from '@/app/lib/dbConnect';
 import CloudDraft from '@/app/models/CloudDraft';
 
 // GET /api/drafts - 사용자의 클라우드 임시저장본 조회
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const session = await getServerSession();
     // 클라우드 드래프트는 관리자 전용 기능

@@ -2,7 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import { Feed } from 'feed';
 
-export async function generateRssFeed(posts: any[]) {
+export interface RssPost {
+  title: string;
+  slug: string;
+  subTitle?: string;
+  content: string;
+  date: string | Date;
+}
+
+export async function generateRssFeed(posts: RssPost[]) {
   const site_url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
   const feedOptions = {

@@ -32,9 +32,9 @@ export async function PUT(request: Request) {
     await Series.bulkWrite(operations);
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || '순서 저장에 실패했습니다.' },
+      { error: (error as Error).message || '순서 저장에 실패했습니다.' },
       { status: 500 }
     );
   }

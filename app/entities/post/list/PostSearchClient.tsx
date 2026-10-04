@@ -53,7 +53,7 @@ const PostSearchClient = ({
 
   // debouncedQuery 변경 시 클라이언트 리패치
   useEffect(() => {
-    const getPosts = async (page: number) => {
+    const getPosts = async () => {
       setLoading(true);
       try {
         const response = await axios.get('/api/posts', {
@@ -104,7 +104,7 @@ const PostSearchClient = ({
     }
 
     addLatestQuery(debouncedQuery.trim());
-    getPosts(1);
+    getPosts();
   }, [debouncedQuery, searchSeries, searchTag]);
 
   const handleResetSearchCondition = () => {

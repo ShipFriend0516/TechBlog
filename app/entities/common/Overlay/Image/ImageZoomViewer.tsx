@@ -109,6 +109,7 @@ const ImageZoomViewer = ({ image, onClose }: ImageZoomViewerProps) => {
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </button>
+          {/* eslint-disable-next-line @next/next/no-img-element -- 크기를 알 수 없는 원본 이미지 확대 */}
           <img
             src={image.src}
             alt={image.alt ?? '확대된 이미지'}

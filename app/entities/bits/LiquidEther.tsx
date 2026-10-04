@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars -- React Bits 기반 WebGL 시뮬레이션 코드로 타입 정의 범위가 넓어 파일 단위로 예외 처리 */
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 

@@ -44,8 +44,8 @@ const usePost = (slug = '') => {
     errors: [],
   });
 
-  const [profileImage, setProfileImage] = useState<string | StaticImport>();
-  const [thumbnailImage, setThumbnailImage] = useState<string | StaticImport>();
+  const [profileImage] = useState<string | StaticImport>();
+  const [thumbnailImage] = useState<string | StaticImport>();
   const [seriesList, setSeriesList] = useState<Series[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
@@ -120,8 +120,8 @@ const usePost = (slug = '') => {
         toast.success('글이 성공적으로 발행되었습니다.');
         router.push('/posts');
       }
-    } catch (e: any) {
-      if (e.response?.status === 409) {
+    } catch (e) {
+      if (axios.isAxiosError(e) && e.response?.status === 409) {
         toast.error('이미 사용 중인 slug입니다. 다른 slug를 입력해주세요.');
       } else {
         toast.error('글 발행 중 오류 발생했습니다.');

@@ -22,6 +22,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm">
       <div className="flex items-start gap-3 mb-3">
+        {/* eslint-disable-next-line @next/next/no-img-element -- GitHub 아바타 외부 URL */}
         <img
           src={comment.user.avatar_url}
           alt={comment.user.login}

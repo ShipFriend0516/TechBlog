@@ -139,9 +139,9 @@ export async function DELETE(request: Request, props: { params: Promise<{ slug: 
     return NextResponse.json({
       message: '포스트가 성공적으로 삭제되었습니다.',
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || '포스트 삭제에 실패했습니다.' },
+      { error: (error as Error).message || '포스트 삭제에 실패했습니다.' },
       { status: 500 }
     );
   }

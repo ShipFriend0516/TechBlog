@@ -4,7 +4,7 @@ interface AutoSyncConfig {
   enabled: boolean;
   intervalMs: number;
   onSync: () => Promise<void>;
-  deps: any[];
+  deps: unknown[];
 }
 
 const useAutoSync = ({ enabled, intervalMs, onSync, deps }: AutoSyncConfig) => {

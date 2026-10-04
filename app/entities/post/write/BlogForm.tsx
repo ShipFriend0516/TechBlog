@@ -28,7 +28,7 @@ import {
   createImageClickHandler,
 } from '@/app/lib/utils/rehypeUtils';
 import { CloudDraft, DraftListItem, LocalDraft } from '@/app/types/Draft';
-import { commands, ICommand } from '@uiw/react-md-editor';
+import { commands, ICommand, MDEditorProps } from '@uiw/react-md-editor';
 import LoadingSpinner from '../../common/Loading/LoadingSpinner';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
@@ -90,7 +90,6 @@ const BlogForm = () => {
   // 클라우드 임시저장 훅
   const {
     cloudDrafts,
-    loading: cloudLoading,
     autoSyncEnabled,
     fetchCloudDrafts,
     saveToCloud,
@@ -140,7 +139,9 @@ const BlogForm = () => {
 
   const editorPreviewOptions = useMemo(() => ({
     wrapperElement: { 'data-color-mode': theme },
-    components: { callout: CalloutComponent } as any,
+    components: {
+      callout: CalloutComponent,
+    } as unknown as NonNullable<MDEditorProps['previewOptions']>['components'],
     rehypeRewrite: (
       node: Root | RootContent,
       index?: number,
@@ -214,7 +215,7 @@ const BlogForm = () => {
       });
       await fetchCloudDrafts();
       toast.success('클라우드에 저장되었습니다.');
-    } catch (error) {
+    } catch {
       toast.error('클라우드 저장 실패');
     }
   }
@@ -265,7 +266,7 @@ const BlogForm = () => {
         await deleteCloudDraft(draftId);
       }
       toast.success('임시저장이 삭제되었습니다.');
-    } catch (error) {
+    } catch {
       toast.error('삭제 실패');
     }
   };

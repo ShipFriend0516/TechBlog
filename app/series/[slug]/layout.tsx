@@ -71,7 +71,7 @@ export async function generateMetadata(
         canonical: `/series/${params.slug}`,
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: '시리즈 | ShipFriend TechBlog',
       description: '시리즈 글 목록입니다.',

@@ -33,9 +33,9 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(series, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || '시리즈 생성에 실패했습니다.' },
+      { error: (error as Error).message || '시리즈 생성에 실패했습니다.' },
       { status: 500 }
     );
   }
@@ -59,9 +59,9 @@ export async function GET(request: Request) {
         'Cache-Control': 'public, max-age=30, s-maxage=30',
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || '시리즈 목록을 불러오는데 실패했습니다.' },
+      { error: (error as Error).message || '시리즈 목록을 불러오는데 실패했습니다.' },
       { status: 500 }
     );
   }

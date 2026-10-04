@@ -2,14 +2,26 @@
  * MDEditor rehypeRewrite에서 사용하는 유틸리티 함수들
  */
 
-import { Element, Root, RootContent } from 'hast';
+import { Element, Root, RootContent, Text } from 'hast';
 import { SelectedImage } from '../../entities/post/detail/PostBody';
+
+type HastNode = Root | RootContent;
+
+const isAnchor = (node: RootContent): node is Element =>
+  node.type === 'element' && node.tagName === 'a';
+
+const isText = (node: RootContent): node is Text => node.type === 'text';
+
+const getHref = (aTag: Element) => {
+  const href = aTag.properties?.href;
+  return typeof href === 'string' ? href : undefined;
+};
 
 /**
  * aside 태그를 callout 커스텀 컴포넌트 노드로 변환
  * 첫 번째 텍스트 노드를 emoji prop으로 추출하고 나머지는 children으로 유지
  */
-export const asideToCallout = (node: any) => {
+export const asideToCallout = (node: HastNode) => {
   if (node.type === 'element' && node.tagName === 'aside') {
     const firstChild = node.children[0];
     let emoji = '';
@@ -28,7 +40,7 @@ export const asideToCallout = (node: any) => {
  * 이미지의 alt 속성을 이미지 아래에 설명 텍스트로 추가
  */
 export const addDescriptionUnderImage = (
-  node: any,
+  node: HastNode,
   index?: number,
   parent?: Element
 ) => {
@@ -67,17 +79,15 @@ export const addDescriptionUnderImage = (
  * YouTube 링크를 감지하고 embed iframe으로 변환
  */
 export const renderYoutubeEmbed = (
-  node: any,
+  node: HastNode,
   index?: number,
   parent?: Element
 ) => {
   if (node.type === 'element' && node.tagName === 'p' && node.children) {
-    const aTag = node.children.find(
-      (node: any) => node.type === 'element' && node.tagName === 'a'
-    );
+    const aTag = node.children.find(isAnchor);
     if (!aTag) return;
 
-    const href = aTag.properties?.href;
+    const href = getHref(aTag);
     const isYoutubeLink =
       href &&
       (href.startsWith('https://www.youtube.com/watch') ||
@@ -137,17 +147,15 @@ export const createYoutubeIframe = (
  * 실제 렌더링은 PostBody의 components prop에서 OgLinkCard 컴포넌트가 담당
  */
 export const renderOpenGraph = (
-  node: any,
+  node: HastNode,
   index?: number,
   parent?: Element
 ) => {
   if (node.type === 'element' && node.tagName === 'p' && node.children) {
-    const aTag = node.children.find(
-      (node: any) => node.type === 'element' && node.tagName === 'a'
-    );
+    const aTag = node.children.find(isAnchor);
     if (!aTag) return;
 
-    const href = aTag.properties?.href;
+    const href = getHref(aTag);
     if (!href || !(href.startsWith('/') || href.startsWith('http'))) return;
 
     const ogNode = {
@@ -165,7 +173,7 @@ export const renderOpenGraph = (
       // 링크 텍스트가 URL 자체인 경우(bare URL, [url](url)) → <p> 대체
       // 커스텀 텍스트인 경우([text](url)) → <p> 유지 후 카드 삽입
       const linkText =
-        aTag.children?.find((c: any) => c.type === 'text')?.value ?? '';
+        aTag.children?.find(isText)?.value ?? '';
       const isUrlOnlyLink = linkText === href;
       if (isUrlOnlyLink) {
         parent.children.splice(index, 1, ogNode);
@@ -191,18 +199,19 @@ export const createLazyLoadHandler = () => {
 
 export const createImageClickHandler =
   (setSelectedImage: (image: SelectedImage | null) => void) =>
-  (node: any) => {
+  (node: HastNode) => {
     if (node.type === 'element' && node.tagName === 'img') {
+      const props = node.properties as Record<string, unknown>;
       const imageUrl = node.properties.src;
       if (imageUrl) {
-        node.properties.style = { cursor: 'zoom-in' };
-        node.properties.onClick = (e: React.MouseEvent<HTMLImageElement>) => {
+        props.style = { cursor: 'zoom-in' };
+        props.onClick = (e: React.MouseEvent<HTMLImageElement>) => {
           const rect = e.currentTarget.getBoundingClientRect();
           // 아이콘 등 소형 이미지 무시 (100px 미만)
           if (rect.width < 100 || rect.height < 100) return;
           setSelectedImage({
-            src: imageUrl,
-            alt: node.properties.alt || undefined,
+            src: String(imageUrl),
+            alt: node.properties.alt ? String(node.properties.alt) : undefined,
             rect,
           });
         };

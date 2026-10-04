@@ -1,7 +1,7 @@
 'use client';
 import type { Element as HastElement, Root, RootContent } from 'hast';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import LoadingIndicator from '@/app/entities/common/Loading/LoadingIndicator';
 import ImageZoomViewer from '@/app/entities/common/Overlay/Image/ImageZoomViewer';
 import Callout from '@/app/entities/post/detail/Callout';
@@ -21,6 +21,8 @@ import {
 const PostTOC = dynamic(() => import('@/app/entities/post/detail/PostTOC'), {
   ssr: false,
 });
+
+type MarkdownComponents = ComponentProps<typeof MDEditor.Markdown>['components'];
 
 interface Props {
   content: string;
@@ -81,7 +83,7 @@ const PostBody = ({ content, tags, loading }: Props) => {
                   emoji?: string;
                   children?: React.ReactNode;
                 }) => <Callout emoji={emoji}>{children}</Callout>,
-              } as any
+              } as unknown as MarkdownComponents
             }
             rehypeRewrite={(
               node: Root | RootContent,

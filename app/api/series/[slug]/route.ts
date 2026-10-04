@@ -28,9 +28,9 @@ export async function GET(request: Request, props: { params: Promise<{ slug: str
         'Cache-Control': 'public, max-age=60, s-maxage=60',
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || '시리즈 조회에 실패했습니다.' },
+      { error: (error as Error).message || '시리즈 조회에 실패했습니다.' },
       { status: 500 }
     );
   }
@@ -69,9 +69,9 @@ export async function PUT(request: Request, props: { params: Promise<{ slug: str
     }
 
     return NextResponse.json(updatedSeries);
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || '시리즈 수정에 실패했습니다.' },
+      { error: (error as Error).message || '시리즈 수정에 실패했습니다.' },
       { status: 500 }
     );
   }
@@ -100,9 +100,9 @@ export async function DELETE(request: Request, props: { params: Promise<{ slug: 
     return NextResponse.json({
       message: '시리즈가 성공적으로 삭제되었습니다.',
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || '시리즈 삭제에 실패했습니다.' },
+      { error: (error as Error).message || '시리즈 삭제에 실패했습니다.' },
       { status: 500 }
     );
   }

@@ -39,12 +39,6 @@ export async function GET() {
     for (let i = 13; i >= 0; i--) {
       const d = new Date(now);
       d.setDate(d.getDate() - i);
-      const dateStr = d.toLocaleDateString('ko-KR', {
-        timeZone: 'Asia/Seoul',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      }).replace(/\. /g, '-').replace('.', '');
       // YYYY-MM-DD 형식으로 변환
       const parts = d.toISOString().slice(0, 10);
       const found = views.find((v) => v._id === parts);

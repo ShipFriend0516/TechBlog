@@ -17,7 +17,6 @@ const PostPreview = ({
   date,
   profileImage,
   thumbnailImage,
-  tags,
 }: Omit<Post, 'content'>) => {
   const [isLoading, setIsLoading] = useState(true);
   const lightmodeStyle = `bg-white text-black hover:shadow-neutral-200/80 `;
