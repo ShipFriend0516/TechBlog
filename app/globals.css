@@ -402,6 +402,15 @@ article.post .post-body table tbody tr:last-child td {
   outline: none !important;
 }
 
+/* 스크롤은 되지만 스크롤바는 숨김 */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* Custom Scrollbar */
 .scrollbar-custom {
   scrollbar-width: thin;
