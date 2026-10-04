@@ -3,6 +3,12 @@
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import React from 'react';
+import {
+  FiChevronLeft,
+  FiChevronRight,
+  FiChevronsLeft,
+  FiChevronsRight,
+} from 'react-icons/fi';
 
 interface PaginationProps {
   totalItems: number;
@@ -73,23 +79,7 @@ const Pagination: React.FC<PaginationProps> = ({
             onClick={(e) => currentPage === 1 && e.preventDefault()}
           >
             <span className="sr-only">처음 페이지</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 010-1.414l5-5a1 111.414 1.414L11.414 10l4.293 4.293a1 010 1.414z"
-                clipRule="evenodd"
-              />
-              <path
-                fillRule="evenodd"
-                d="M9.707 15.707a1 1 0 01-1.414 0l-5-5a1 010-1.414l5-5a1 111.414 1.414L5.414 10l4.293 4.293a1 010 1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <FiChevronsLeft className="w-5 h-5" aria-hidden />
           </Link>
         </li>
 
@@ -105,18 +95,7 @@ const Pagination: React.FC<PaginationProps> = ({
             onClick={(e) => currentPage === 1 && e.preventDefault()}
           >
             <span className="sr-only">이전 페이지</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 01-1.414 1.414l-4-4a1 010-1.414l4-4a1 011.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <FiChevronLeft className="w-5 h-5" aria-hidden />
           </Link>
         </li>
 
@@ -148,18 +127,7 @@ const Pagination: React.FC<PaginationProps> = ({
             onClick={(e) => currentPage === totalPages && e.preventDefault()}
           >
             <span className="sr-only">다음 페이지</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 011.414-1.414l4 4a1 010 1.414l-4 01-1.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <FiChevronRight className="w-5 h-5" aria-hidden />
           </Link>
         </li>
 
@@ -175,23 +143,7 @@ const Pagination: React.FC<PaginationProps> = ({
             onClick={(e) => currentPage === totalPages && e.preventDefault()}
           >
             <span className="sr-only">마지막 페이지</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4.293 15.707a1 1 0 001.414 0l5-5a1 000-1.414l-5-5a1 00-1.414 1.414L8.586 10 4.293 14.293a1 000 1.414z"
-                clipRule="evenodd"
-              />
-              <path
-                fillRule="evenodd"
-                d="M10.293 15.707a1 1 0 001.414 0l5-5a1 000-1.414l-5-5a1 00-1.414 1.414L14.586 10l-4.293 4.293a1 000 1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <FiChevronsRight className="w-5 h-5" aria-hidden />
           </Link>
         </li>
       </ul>
