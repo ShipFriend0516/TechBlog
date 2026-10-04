@@ -13,8 +13,8 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
-    company: 'CJ올리브영',
-    role: 'AI플랫폼팀 Intern, Software Engineer',
+    company: 'CJ올리브영 글로벌엔지니어링센터',
+    role: 'AI플랫폼 Software Engineer',
     period: '2025.09 ~',
     type: 'work',
     current: true,
