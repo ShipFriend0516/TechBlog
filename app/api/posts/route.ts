@@ -1,7 +1,6 @@
 // GET /api/posts - 모든 글 조회 (페이지네이션 지원)
 import { QuerySelector } from 'mongoose';
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import { getThumbnailInMarkdown } from '@/app/lib/utils/parse';
 import Post from '@/app/models/Post';
@@ -113,10 +112,8 @@ export async function GET(req: Request) {
 // POST /api/posts - 글 작성 API
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession();
-
     // 글 작성은 관리자 전용
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return new Response('Unauthorized', { status: 401 });
     }
 

@@ -1,14 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import Series from '@/app/models/Series';
 
 export async function PUT(request: Request) {
   try {
-    const session = await getServerSession();
-
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return new Response('Unauthorized', { status: 401 });
     }
 

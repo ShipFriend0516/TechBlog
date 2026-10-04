@@ -39,7 +39,7 @@ const shipfriend: PortfolioItem = {
       url: '/posts/%EB%8B%A4%ED%81%AC%EB%AA%A8%EB%93%9C-fouc-%EA%B9%9C%EB%B9%A1%EC%9E%84-%ED%98%84%EC%83%81-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0',
     },
   ],
-  mainImage: '/plane.png',
+  mainImage: '/images/projects/shipfriend/main.webp',
   images: [
     '/images/projects/shipfriend/bloglist.webp',
     '/images/projects/shipfriend/blog-detail.webp',

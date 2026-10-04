@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import Series from '@/app/models/Series';
 import '@/app/models/Post';
@@ -39,10 +38,8 @@ export async function GET(request: Request, props: { params: Promise<{ slug: str
 export async function PUT(request: Request, props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   try {
-    const session = await getServerSession();
-
     // 시리즈 수정은 관리자 전용
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return new Response('Unauthorized', { status: 401 });
     }
 
@@ -80,10 +77,8 @@ export async function PUT(request: Request, props: { params: Promise<{ slug: str
 export async function DELETE(request: Request, props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   try {
-    const session = await getServerSession();
-
     // 시리즈 삭제는 관리자 전용
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return new Response('Unauthorized', { status: 401 });
     }
 

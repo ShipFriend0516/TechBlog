@@ -1,60 +1,53 @@
-import fs from 'fs';
-import path from 'path';
 import { Feed } from 'feed';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/app/lib/site';
 
-export interface RssPost {
+export interface FeedPost {
   title: string;
   slug: string;
   subTitle?: string;
   content: string;
-  date: string | Date;
+  date: number | string | Date;
 }
 
-export async function generateRssFeed(posts: RssPost[]) {
-  const site_url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
-
-  const feedOptions = {
-    title: 'ShipFriend TechBlog',
-    description:
-      '개인 개발 블로그로, Nextjs로 개발되었습니다. 개발 관련 글을 작성합니다.',
-    id: site_url,
-    link: site_url,
-    image: `${site_url}/favicon.png`,
-    favicon: `${site_url}/favicon.ico`,
+/**
+ * 게시물 목록으로 RSS/Atom/JSON 피드 객체를 생성합니다.
+ * 서버리스 환경에서는 파일 시스템에 쓸 수 없으므로, 파일로 저장하지 않고
+ * 요청 시점에 직렬화(feed.rss2()/atom1()/json1())해서 응답합니다.
+ */
+export function buildFeed(posts: FeedPost[]) {
+  const feed = new Feed({
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    id: `${SITE_URL}/`,
+    link: `${SITE_URL}/`,
+    image: `${SITE_URL}/assets/android-chrome-512x512.png`,
+    favicon: `${SITE_URL}/favicon.ico`,
     copyright: `All rights reserved ${new Date().getFullYear()}`,
     generator: 'Feed for Next.js',
     feedLinks: {
-      rss2: `${site_url}/rss.xml`,
-      json: `${site_url}/feed.json`,
-      atom: `${site_url}/atom.xml`,
+      rss2: `${SITE_URL}/rss.xml`,
+      json: `${SITE_URL}/feed.json`,
+      atom: `${SITE_URL}/atom.xml`,
     },
-  };
-
-  const feed = new Feed(feedOptions);
+  });
 
   posts.forEach((post) => {
     feed.addItem({
       title: post.title,
-      id: `${site_url}/posts/${post.slug}`,
-      link: `${site_url}/posts/${post.slug}`,
+      id: `${SITE_URL}/posts/${encodeURIComponent(post.slug)}`,
+      link: `${SITE_URL}/posts/${encodeURIComponent(post.slug)}`,
       description: post.subTitle,
       content: post.content,
       author: [
         {
           name: '개발자 서정우',
           email: 'sjw4371@naver.com',
-          link: site_url,
+          link: `${SITE_URL}/`,
         },
       ],
       date: new Date(post.date),
     });
   });
 
-  // public 디렉토리에 RSS 파일들을 생성합니다
-  const publicDir = path.join(process.cwd(), 'public');
-
-  fs.mkdirSync(publicDir, { recursive: true });
-  fs.writeFileSync(path.join(publicDir, 'rss.xml'), feed.rss2());
-  fs.writeFileSync(path.join(publicDir, 'atom.xml'), feed.atom1());
-  fs.writeFileSync(path.join(publicDir, 'feed.json'), feed.json1());
+  return feed;
 }

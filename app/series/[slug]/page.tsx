@@ -42,7 +42,13 @@ const SeriesDetailPage = async (props: SeriesDetailPageProps) => {
   }
 
   const raw = await Series.findOne({ slug })
-    .populate({ path: 'posts', options: { sort: { date: 1 } } })
+    .populate({
+      path: 'posts',
+      match: {
+        $or: [{ isPrivate: false }, { isPrivate: { $exists: false } }],
+      },
+      options: { sort: { date: 1 } },
+    })
     .lean();
 
   if (!raw) notFound();

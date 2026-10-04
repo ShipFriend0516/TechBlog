@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_URL } from '@/app/lib/site';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
+  alternates: { canonical: `${SITE_URL}/subscribe/error` },
 };
 
 const errorMessages: Record<string, string> = {

@@ -1,21 +1,21 @@
-'use client';
-import { SessionProvider } from 'next-auth/react';
-import { Suspense } from 'react';
-import ProtectedRoute from '@/app/entities/common/Layout/ProtectedRoute';
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
+import type { Metadata } from 'next';
+import AdminLayoutClient from './AdminLayoutClient';
+
+export const metadata: Metadata = {
+  title: '관리자 | ShipFriend TechBlog',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
+};
 
 interface AdminPageLayoutProps {
   children: React.ReactNode;
 }
 
 const AdminPageLayout = ({ children }: AdminPageLayoutProps) => {
-  return (
-    <SessionProvider>
-      <ProtectedRoute>
-        <Suspense fallback={<SVGLoadingSpinner />}>{children}</Suspense>
-      </ProtectedRoute>
-    </SessionProvider>
-  );
+  return <AdminLayoutClient>{children}</AdminLayoutClient>;
 };
 
 export default AdminPageLayout;

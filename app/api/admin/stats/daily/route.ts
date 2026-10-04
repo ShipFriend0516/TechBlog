@@ -1,6 +1,5 @@
 // GET /api/admin/stats/daily - 최근 14일간 일별 조회수
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import View from '@/app/models/View';
 
@@ -8,9 +7,8 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const session = await getServerSession();
     // 관리자 전용
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return Response.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
 

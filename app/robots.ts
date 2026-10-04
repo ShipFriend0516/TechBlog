@@ -1,13 +1,13 @@
 // app/robots.ts
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/app/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseURL = process.env.NEXT_PUBLIC_DEPLOYMENT_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
   return {
     rules: {
       userAgent: '*',
-      disallow: ['/admin/', '/private/', '/api/'],
+      disallow: ['/admin', '/private', '/api'],
     },
-    sitemap: [`${baseURL}/sitemap.xml`, `${baseURL}/rss.xml`],
+    sitemap: [`${SITE_URL}/sitemap.xml`, `${SITE_URL}/rss.xml`],
   };
 }

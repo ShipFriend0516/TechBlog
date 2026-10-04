@@ -1,14 +1,13 @@
 // GET  /api/atelier/messages - 커서 기반 역방향 무한 스크롤
 // POST /api/atelier/messages - 메시지 전송 (관리자 / 방문자 자동 분기)
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
 import { decodeCursor, encodeCursor } from '@/app/lib/atelierCursor';
 import { parseEffect } from '@/app/lib/atelierEffects';
 import {
   LeanAtelierMessage,
   serializeAtelierMessage,
 } from '@/app/lib/atelierSerialize';
-import { isAdminSession } from '@/app/lib/authz';
+import { getSession, isAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import { checkRateLimit } from '@/app/lib/rateLimit';
 import AtelierMessage from '@/app/models/AtelierMessage';
@@ -21,7 +20,7 @@ export const GET = async (request: NextRequest) => {
   try {
     await dbConnect();
 
-    const session = await getServerSession();
+    const session = await getSession();
     const isAdmin = isAdminSession(session);
 
     const cursorParam = request.nextUrl.searchParams.get('cursor');
@@ -47,8 +46,7 @@ export const GET = async (request: NextRequest) => {
     }
 
     const viewerFingerprint = request.headers.get('X-Fingerprint') || null;
-    const viewerGithubId =
-      (session?.user as { id?: string })?.id || null;
+    const viewerGithubId = session?.user?.id || null;
 
     // hasMore 판정을 위해 limit + 1 조회
     const docs = (await AtelierMessage.find(query)
@@ -99,7 +97,7 @@ export const POST = async (request: Request) => {
     await dbConnect();
 
     const fingerprint = request.headers.get('X-Fingerprint') || '';
-    const session = await getServerSession();
+    const session = await getSession();
     const isAdmin = isAdminSession(session);
 
     const body = (await request.json()) as unknown;
@@ -196,8 +194,6 @@ export const POST = async (request: Request) => {
       };
     } else if (session?.user) {
       // GitHub 로그인 방문자
-      const githubLogin = (session.user as { githubLogin?: string })
-        .githubLogin;
       role = 'visitor';
       author = {
         nickname:
@@ -205,7 +201,9 @@ export const POST = async (request: Request) => {
           (typeof nickname === 'string' && nickname.trim()) ||
           '익명',
         avatarUrl: session.user.image || undefined,
-        githubId: githubLogin,
+        // DELETE/PUT의 소유권 확인은 session.user.id(GitHub 숫자 id)와 비교하므로
+        // githubLogin(계정명)이 아닌 id를 저장해야 한다.
+        githubId: session.user.id,
         fingerprint,
       };
     } else {

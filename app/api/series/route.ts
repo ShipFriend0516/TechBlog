@@ -1,16 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { isAdminSession } from '@/app/lib/authz';
+import { getAdminSession } from '@/app/lib/authz';
 import dbConnect from '@/app/lib/dbConnect';
 import { createPostSlug } from '@/app/lib/utils/post';
 import Series from '@/app/models/Series';
 
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession();
-
     // 시리즈 생성은 관리자 전용
-    if (!isAdminSession(session)) {
+    if (!(await getAdminSession())) {
       return new Response('Unauthorized', { status: 401 });
     }
 
