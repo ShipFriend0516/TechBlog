@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FiArrowLeft, FiRefreshCw } from 'react-icons/fi';
 import { HiOutlineDocumentText } from 'react-icons/hi';
+import NowEditor from '@/app/entities/admin/settings/NowEditor';
 import useToast from '@/app/hooks/useToast';
 
 const SKELETON_WIDTHS = [72, 88, 65, 91, 78, 83, 69, 95];
@@ -54,6 +55,8 @@ const SettingsPage = () => {
           블로그 운영에 필요한 설정을 관리합니다.
         </p>
       </div>
+
+      <NowEditor />
 
       {/* llms.txt 섹션 */}
       <section className="bg-surface rounded-xl overflow-hidden">
