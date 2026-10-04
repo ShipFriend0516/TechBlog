@@ -1,18 +1,7 @@
+import { memo } from 'react';
+import { FiExternalLink } from 'react-icons/fi';
 import { formatDate } from '@/app/lib/utils/format';
-
-interface GitHubUser {
-  login: string;
-  avatar_url: string;
-}
-
-interface GitHubComment {
-  id: number;
-  user: GitHubUser;
-  created_at: string;
-  updated_at: string;
-  body: string;
-  html_url: string;
-}
+import { GitHubComment } from '@/app/types/Admin';
 
 interface CommentItemProps {
   comment: GitHubComment;
@@ -20,33 +9,36 @@ interface CommentItemProps {
 
 const CommentItem = ({ comment }: CommentItemProps) => {
   return (
-    <div className="bg-surface p-4 rounded-lg shadow-sm">
-      <div className="flex items-start gap-3 mb-3">
+    <div className="bg-raised/40 p-4 rounded-lg">
+      <div className="flex items-start gap-3">
         {/* eslint-disable-next-line @next/next/no-img-element -- GitHub 아바타 외부 URL */}
         <img
           src={comment.user.avatar_url}
           alt={comment.user.login}
+          loading="lazy"
           className="w-10 h-10 rounded-full"
         />
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-fg">
-              {comment.user.login}
-            </span>
-            <span className="text-sm text-fg-muted">
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="font-semibold text-fg">{comment.user.login}</span>
+            <time
+              dateTime={comment.created_at}
+              className="text-sm text-fg-muted"
+            >
               {formatDate(new Date(comment.created_at).getTime())}
-            </span>
+            </time>
           </div>
-          <div className="mt-2 text-fg whitespace-pre-wrap">
+          <div className="mt-2 text-fg whitespace-pre-wrap break-words">
             {comment.body}
           </div>
           <a
             href={comment.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mt-2 text-sm text-blue-600 hover:text-blue-800 hover:underline"
+            className="inline-flex items-center gap-1 mt-2 text-sm text-info hover:underline"
           >
-            GitHub에서 보기 →
+            GitHub에서 보기
+            <FiExternalLink size={12} aria-hidden />
           </a>
         </div>
       </div>
@@ -54,4 +46,4 @@ const CommentItem = ({ comment }: CommentItemProps) => {
   );
 };
 
-export default CommentItem;
+export default memo(CommentItem);

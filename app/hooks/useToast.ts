@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import useToastStore from '@/app/stores/useToastStore';
 
 const DEFAULT_DURATION = 5000;
@@ -9,7 +9,9 @@ interface ToastOptions {
 }
 
 const useToast = () => {
-  const { createToast, removeToast } = useToastStore();
+  // 액션만 선택 구독 — toasts 배열 변경 시 사용처가 리렌더링되지 않도록 한다
+  const createToast = useToastStore((state) => state.createToast);
+  const removeToast = useToastStore((state) => state.removeToast);
   const timerIDs = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const toast = useCallback(
@@ -59,7 +61,7 @@ const useToast = () => {
     [toast]
   );
 
-  return { success, error, info };
+  return useMemo(() => ({ success, error, info }), [success, error, info]);
 };
 
 export default useToast;

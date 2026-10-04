@@ -1,15 +1,17 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 interface ProtectedRouteProps {
-  children: React.ReactNode;
+  children: ReactNode;
+  // 세션 확인 중 노출할 UI (빈 화면 대신 로딩 표시)
+  fallback?: ReactNode;
 }
 
 // 관리자 이메일과 일치하는 세션만 자식 콘텐츠 렌더링
 // NextAuth signIn 콜백이 모든 GitHub 사용자를 허용하도록 변경되었기 때문에,
 // 세션 존재 여부만 체크하면 비관리자도 통과할 수 있다. 반드시 email 까지 검사.
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ children, fallback = null }: ProtectedRouteProps) => {
   const session = useSession();
   const isAdmin = session.data?.isAdmin === true;
 
@@ -34,7 +36,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   // 관리자 확인 전까지는 콘텐츠 비노출
   if (session.status !== 'authenticated' || !isAdmin) {
-    return null;
+    return <>{fallback}</>;
   }
 
   return <>{children}</>;

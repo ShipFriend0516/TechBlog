@@ -108,4 +108,4 @@ const AdminSeriesListItem = ({
   );
 };
 
-export default AdminSeriesListItem;
+export default React.memo(AdminSeriesListItem);

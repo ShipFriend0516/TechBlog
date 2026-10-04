@@ -12,7 +12,7 @@ interface AdminLayoutClientProps {
 const AdminLayoutClient = ({ children }: AdminLayoutClientProps) => {
   return (
     <SessionProvider>
-      <ProtectedRoute>
+      <ProtectedRoute fallback={<SVGLoadingSpinner message="권한 확인 중..." />}>
         <Suspense fallback={<SVGLoadingSpinner />}>{children}</Suspense>
       </ProtectedRoute>
     </SessionProvider>

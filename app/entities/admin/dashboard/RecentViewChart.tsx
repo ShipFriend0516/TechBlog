@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import {
   CartesianGrid,
   Dot,
@@ -8,19 +9,20 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-
-interface DailyView {
-  date: string;
-  count: number;
-}
+import { formatShortDate } from '@/app/lib/utils/format';
+import { DailyView } from '@/app/types/Admin';
 
 const DailyViewsChart = ({ data }: { data: DailyView[] }) => {
-  if (data.length === 0) return null;
+  const chartData = useMemo(
+    () =>
+      data.map((d) => ({
+        date: formatShortDate(d.date),
+        조회수: d.count,
+      })),
+    [data]
+  );
 
-  const chartData = data.map((d) => ({
-    date: `${new Date(d.date).getMonth() + 1}/${new Date(d.date).getDate()}`,
-    조회수: d.count,
-  }));
+  if (data.length === 0) return null;
 
   return (
     <div className="mt-6">
@@ -85,4 +87,4 @@ const DailyViewsChart = ({ data }: { data: DailyView[] }) => {
   );
 };
 
-export default DailyViewsChart;
+export default memo(DailyViewsChart);

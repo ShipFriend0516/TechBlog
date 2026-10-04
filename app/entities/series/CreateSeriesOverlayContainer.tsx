@@ -10,12 +10,15 @@ interface CreateSeriesOverlayContainerProps {
   setCreateSeriesOpen: (open: boolean) => void;
   series?: Series;
   handleCloseOverlay?: () => void;
+  // 생성/수정 성공 시 호출 (목록 갱신 등)
+  onSaved?: () => void;
 }
 
 const CreateSeriesOverlayContainer = ({
   setCreateSeriesOpen,
   series,
   handleCloseOverlay,
+  onSaved,
 }: CreateSeriesOverlayContainerProps) => {
   const isEditMode = !!series;
   const [seriesTitle, setSeriesTitle] = useState<string>(
@@ -28,6 +31,7 @@ const CreateSeriesOverlayContainer = ({
     isEditMode ? series?.thumbnailImage || '' : ''
   );
   const [thumbnailError, setThumbnailError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const toast = useToast();
 
   const close = () => {
@@ -39,6 +43,7 @@ const CreateSeriesOverlayContainer = ({
   };
 
   const postSeries = async () => {
+    setSubmitting(true);
     try {
       const data = await createSeries({
         title: seriesTitle,
@@ -47,6 +52,7 @@ const CreateSeriesOverlayContainer = ({
       });
       if (data._id) {
         toast.success('시리즈가 성공적으로 생성되었습니다.');
+        onSaved?.();
       } else {
         toast.error('시리즈 생성 중 오류가 발생했습니다.');
       }
@@ -54,11 +60,13 @@ const CreateSeriesOverlayContainer = ({
       toast.error('시리즈 생성 중 오류가 발생했습니다.');
       console.error('시리즈 생성 중 오류 발생', e);
     } finally {
-      setCreateSeriesOpen(false);
+      setSubmitting(false);
+      close();
     }
   };
 
   const editSeries = async () => {
+    setSubmitting(true);
     try {
       if (isEditMode) {
         const result = await updateSeries(series.slug, {
@@ -68,17 +76,19 @@ const CreateSeriesOverlayContainer = ({
         });
         if (result._id) {
           toast.success('시리즈가 성공적으로 수정되었습니다.');
+          onSaved?.();
         }
       }
     } catch (e) {
       toast.error('시리즈 수정 중 오류가 발생했습니다.');
       console.error('시리즈 수정 중 오류 발생', e);
     } finally {
+      setSubmitting(false);
       close();
     }
   };
 
-  const isSubmitDisabled = seriesTitle.trim().length === 0;
+  const isSubmitDisabled = submitting || seriesTitle.trim().length === 0;
   const showThumbnailPreview = seriesThumbnail.trim().length > 0 && !thumbnailError;
 
   const inputClass =
@@ -186,7 +196,7 @@ const CreateSeriesOverlayContainer = ({
           disabled={isSubmitDisabled}
           className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-on-accent shadow-sm transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-fg/10 disabled:text-fg-muted"
         >
-          {isEditMode ? '저장' : '생성'}
+          {submitting ? '처리 중...' : isEditMode ? '저장' : '생성'}
         </button>
       </div>
     </div>
