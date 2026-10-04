@@ -230,45 +230,6 @@ article.post h3 {
   margin-bottom: 1rem;
 }
 
-/* Footer Style */
-
-footer {
-  max-width: 100vw;
-}
-
-section.footer {
-  max-width: 1024px;
-  /*width: 100%;*/
-  margin: 0 auto;
-}
-
-section.footer > div.footer-col {
-  padding: 1.5em;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: 2em;
-}
-
-section.footer > div.footer-col b {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-section.footer input {
-  background-color: rgb(var(--raised));
-  border-radius: 6px;
-}
-
-section.footer a:hover {
-  color: rgb(var(--accent-strong));
-}
-
-section.footer a:disabled,
-section.footer .disabled {
-  color: rgb(var(--fg-faint));
-}
-
 .transition-slow {
   transition: all 0.3s;
   transition-delay: unset;
