@@ -51,16 +51,16 @@ const PostsSection = ({ latest, popular }: PostsSectionProps) => {
         action={{ href: '/posts', label: '전체 글' }}
       />
       <div className="grid lg:grid-cols-[1fr_320px] gap-10 lg:gap-12">
-        <div>
+        <div className="min-w-0">
           <FeaturedCard post={featured} />
           <ul className="mt-4">
             {rest.map((post) => (
               <li key={post.slug}>
                 <Link
                   href={`/posts/${post.slug}`}
-                  className="group flex items-baseline justify-between gap-4 rounded-xl px-3 py-3.5 -mx-3 transition-colors hover:bg-surface"
+                  className="group flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4 rounded-xl px-3 py-3.5 -mx-3 transition-colors hover:bg-surface"
                 >
-                  <span className="font-medium truncate transition-colors group-hover:text-accent">
+                  <span className="font-medium leading-snug line-clamp-2 break-keep sm:leading-normal sm:line-clamp-1 sm:break-normal transition-colors group-hover:text-accent">
                     {post.title}
                   </span>
                   <span className="shrink-0 text-[13px] text-fg-muted tabular-nums">
@@ -73,7 +73,7 @@ const PostsSection = ({ latest, popular }: PostsSectionProps) => {
         </div>
 
         {popular.length > 0 && (
-          <aside>
+          <aside className="min-w-0">
             <p className="text-sm font-semibold text-fg-soft mb-4">많이 읽은 글</p>
             <ol className="flex flex-col gap-1">
               {popular.map((post, i) => (

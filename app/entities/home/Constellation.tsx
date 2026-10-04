@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatDate } from '@/app/lib/utils/format';
 import { StarPost } from '@/app/types/Home';
 
@@ -37,6 +37,7 @@ interface ConstellationProps {
 const Constellation = ({ stars, now }: ConstellationProps) => {
   // 툴팁에 필요한 slug 만 상태로 — 별 레이어는 호버와 무관하게 메모된 채로 유지
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   const { placed, years, seriesLines } = useMemo(() => {
     if (stars.length === 0) return { placed: [], years: [], seriesLines: [] };
@@ -175,11 +176,17 @@ const Constellation = ({ stars, now }: ConstellationProps) => {
     );
   }, [placed, years, seriesLines]);
 
+  // 좁은 화면에서 가로 스크롤이 생기면 최근 글(오른쪽 끝)부터 보이도록
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (scroller) scroller.scrollLeft = scroller.scrollWidth;
+  }, [placed.length]);
+
   if (placed.length === 0) return null;
 
   return (
-    <div className="overflow-x-auto -mx-4 px-4 scrollbar-custom">
-      <div className="relative min-w-[640px]">
+    <div ref={scrollerRef} className="overflow-x-auto -mx-4 px-4 scrollbar-custom">
+      <div className="relative min-w-[560px] md:min-w-[640px]">
         {chart}
 
         {hovered && (

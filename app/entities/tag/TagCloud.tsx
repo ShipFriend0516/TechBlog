@@ -21,6 +21,9 @@ const AUTO_SPEED = 0.0004; // rad/ms
 const DRAG_SENSITIVITY = 0.006;
 const CLICK_SUPPRESS_DISTANCE = 5;
 const MAX_TILT = Math.PI / 3;
+// 이 폭보다 좁은 컨테이너(모바일)에서는 태그 글자를 비례 축소해 겹침 완화
+const FULL_SCALE_WIDTH = 480;
+const MIN_TAG_SCALE = 0.75;
 // 글 수 순위(태그는 개수 내림차순으로 들어옴)에 따른 별 등급
 const SUPERGIANT_RANK = 3;
 const BRIGHT_RANK = 10;
@@ -115,6 +118,7 @@ const TagCloud = ({
 
     let radiusX = 240;
     let radiusY = 200;
+    let tagScale = 1;
     let rotX = 0.25;
     let rotY = 0;
     let velocityY = reducedMotion ? 0 : AUTO_SPEED;
@@ -130,6 +134,7 @@ const TagCloud = ({
       // 라벨이 가로로 길어서 가로 반지름을 더 크게 쓰는 타원체 (태그 폭 여유 확보)
       radiusX = Math.max(110, Math.min(width * 0.36, 440));
       radiusY = Math.max(110, Math.min(height * 0.42, 270));
+      tagScale = Math.max(MIN_TAG_SCALE, Math.min(1, width / FULL_SCALE_WIDTH));
     };
 
     const draw = () => {
@@ -140,7 +145,7 @@ const TagCloud = ({
         const depth = (z + 1) / 2; // 0(뒤) ~ 1(앞)
         const focused = el.dataset.active === 'true';
 
-        const scale = (0.7 + depth * 0.55) * (focused ? 1.25 : 1);
+        const scale = (0.7 + depth * 0.55) * (focused ? 1.25 : 1) * tagScale;
         el.style.transform = `translate(-50%, -50%) translate3d(${x * radiusX}px, ${y * radiusY}px, 0) scale(${scale})`;
         el.style.opacity = String(focused ? 1 : 0.35 + depth * 0.65);
         el.style.zIndex = String(focused ? 200 : Math.round(depth * 100));
