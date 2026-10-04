@@ -31,7 +31,6 @@ export interface StarPost {
 
 export interface BlogStats {
   postCount: number;
-  totalViews: number;
   firstPostDate: number | null;
   // 통계를 계산한 시각 — 렌더 중 Date.now() 호출을 피하려고 데이터에 포함
   generatedAt: number;

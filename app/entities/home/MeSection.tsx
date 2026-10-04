@@ -22,7 +22,7 @@ const MeSection = ({ now }: { now: NowData }) => (
           <div>
             <p className="text-lg font-bold">서정우</p>
             <p className="text-sm text-fg-muted">
-              Software Engineer · CJ올리브영 AI플랫폼
+              Software Engineer
             </p>
           </div>
         </div>

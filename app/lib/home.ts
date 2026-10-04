@@ -97,14 +97,12 @@ export const getStarPosts = async (): Promise<StarPost[]> => {
 
 export const getBlogStats = async (): Promise<BlogStats> => {
   await dbConnect();
-  const [postCount, totalViews, firstPost] = await Promise.all([
+  const [postCount, firstPost] = await Promise.all([
     Post.countDocuments(PUBLIC_FILTER),
-    View.estimatedDocumentCount(),
     Post.findOne(PUBLIC_FILTER).select('date').sort({ date: 1 }).lean(),
   ]);
   return {
     postCount,
-    totalViews,
     firstPostDate: (firstPost as { date?: number } | null)?.date ?? null,
     generatedAt: Date.now(),
   };

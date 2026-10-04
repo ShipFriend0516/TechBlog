@@ -17,7 +17,6 @@ const TrajectorySection = ({ stars, stats, now }: TrajectorySectionProps) => {
 
   const items = [
     { value: stats.postCount.toLocaleString(), label: '개의 글' },
-    { value: stats.totalViews.toLocaleString(), label: '번 읽힘' },
     { value: days.toLocaleString(), label: '일째 기록 중' },
   ];
 
