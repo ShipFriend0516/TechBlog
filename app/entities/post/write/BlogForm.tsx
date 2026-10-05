@@ -5,11 +5,15 @@ import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { FiInbox, FiTrash2 } from 'react-icons/fi';
+import AdminPageHeader from '@/app/entities/admin/common/AdminPageHeader';
 import ImageZoomViewer from '@/app/entities/common/Overlay/Image/ImageZoomViewer';
 import Overlay from '@/app/entities/common/Overlay/Overlay';
 import Callout from '@/app/entities/post/detail/Callout';
+import AutoSyncToggle from '@/app/entities/post/write/AutoSyncToggle';
 import DraftListOverlay from '@/app/entities/post/write/DraftListOverlay';
 import PostMetadataForm from '@/app/entities/post/write/PostMetadataForm';
+import PostTitleFields from '@/app/entities/post/write/PostTitleFields';
 import PostWriteButtons from '@/app/entities/post/write/PostWriteButtons';
 import UploadImageContainer from '@/app/entities/post/write/UploadImageContainer';
 import CreateSeriesOverlayContainer from '@/app/entities/series/CreateSeriesOverlayContainer';
@@ -162,14 +166,12 @@ const BlogForm = () => {
   }, [setFormData]);
 
   const metadataFormData = useMemo(() => ({
-    title: formData.title,
-    subTitle: formData.subTitle,
     slug: formData.slug,
     seriesId: formData.seriesId,
     tags: formData.tags,
     isPrivate: formData.isPrivate,
     sendToSubscribers: formData.sendToSubscribers,
-  }), [formData.title, formData.subTitle, formData.slug, formData.seriesId, formData.tags, formData.isPrivate, formData.sendToSubscribers]);
+  }), [formData.slug, formData.seriesId, formData.tags, formData.isPrivate, formData.sendToSubscribers]);
 
   // 로컬 + 클라우드 임시저장본 병합
   const getAllDrafts = (): DraftListItem[] => {
@@ -284,22 +286,87 @@ const BlogForm = () => {
   }, []);
 
   return (
-    <div className={'px-2'}>
-      <h1 className={'text-2xl text-center mb-4'}>
-        글 {slug ? '수정' : '작성'}
-      </h1>
-      <PostMetadataForm
-        formData={metadataFormData}
-        onFieldChange={handleFieldChange}
-        seriesLoading={uiState.seriesLoading}
-        series={seriesList}
-        onClickNewSeries={handleOpenCreateSeries}
-        onClickOverwrite={openLoadDraftOverlay}
-        clearDraft={openDeleteDraftOverlay}
-        autoSyncEnabled={autoSyncEnabled}
-        onToggleAutoSync={toggleAutoSync}
-        isEditMode={isEditMode}
+    <div>
+      <AdminPageHeader
+        title={isEditMode ? '글 수정' : '새 글 작성'}
+        description={
+          isEditMode ? `/posts/${slug}` : '본문은 왼쪽, 발행 옵션은 오른쪽에서 설정합니다.'
+        }
+        actions={
+          <>
+            <AutoSyncToggle
+              enabled={autoSyncEnabled}
+              onToggle={toggleAutoSync}
+            />
+            <button
+              type="button"
+              onClick={openLoadDraftOverlay}
+              className={headerButtonStyle}
+            >
+              <FiInbox />
+              임시저장본
+            </button>
+            <button
+              type="button"
+              onClick={openDeleteDraftOverlay}
+              aria-label="임시저장 삭제"
+              title="임시저장 삭제"
+              className={`${headerButtonStyle} hover:text-danger`}
+            >
+              <FiTrash2 />
+            </button>
+          </>
+        }
       />
+
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <div className="min-w-0 space-y-4">
+          <PostTitleFields
+            title={formData.title}
+            subTitle={formData.subTitle}
+            onFieldChange={handleFieldChange}
+          />
+          <div ref={containerRef} className="overflow-hidden rounded-xl border">
+            <MDEditor
+              value={formData.content}
+              onChange={handleContentChange}
+              extraCommands={editorExtraCommands}
+              height={640}
+              minHeight={500}
+              visibleDragbar={false}
+              data-color-mode={theme}
+              previewOptions={editorPreviewOptions}
+            />
+          </div>
+          <UploadImageContainer
+            uploadedImages={uploadedImages}
+            setUploadedImages={setUploadedImages}
+            onClick={handleLinkCopy}
+          />
+        </div>
+
+        <aside className="lg:sticky lg:top-20 lg:self-start">
+          <PostMetadataForm
+            formData={metadataFormData}
+            onFieldChange={handleFieldChange}
+            seriesLoading={uiState.seriesLoading}
+            series={seriesList}
+            onClickNewSeries={handleOpenCreateSeries}
+            isEditMode={isEditMode}
+          />
+        </aside>
+      </div>
+
+      <PostWriteButtons
+        slug={slug}
+        postBody={postBody}
+        submitHandler={submitHandler}
+        submitLoading={uiState.submitLoading}
+        saveToDraft={saveToDraft}
+        saveToCloud={handleSaveToCloud}
+        errors={uiState.errors}
+      />
+
       <Overlay
         overlayOpen={createSeriesOpen}
         setOverlayOpen={setCreateSeriesOpen}
@@ -327,32 +394,6 @@ const BlogForm = () => {
         onClose={() => setSelectedImage(null)}
       />
 
-      <div ref={containerRef}>
-        <MDEditor
-          value={formData.content}
-          onChange={handleContentChange}
-          extraCommands={editorExtraCommands}
-          height={500}
-          minHeight={500}
-          visibleDragbar={false}
-          data-color-mode={theme}
-          previewOptions={editorPreviewOptions}
-        />
-      </div>
-      <UploadImageContainer
-        uploadedImages={uploadedImages}
-        setUploadedImages={setUploadedImages}
-        onClick={handleLinkCopy}
-      />
-      <ErrorBox errors={uiState.errors} />
-      <PostWriteButtons
-        slug={slug}
-        postBody={postBody}
-        submitHandler={submitHandler}
-        submitLoading={uiState.submitLoading}
-        saveToDraft={saveToDraft}
-        saveToCloud={handleSaveToCloud}
-      />
       {isEditMode && uiState.seriesLoading && (
         <LoadingBackdrop>
           <div className="animate-slideUp w-[240px] h-[120px] bg-surface rounded-2xl flex flex-col gap-4 justify-center items-center">
@@ -365,25 +406,15 @@ const BlogForm = () => {
   );
 };
 
+const headerButtonStyle =
+  'inline-flex items-center gap-1.5 rounded-lg bg-raised px-3 py-2 text-sm font-medium text-fg-soft hover:text-fg transition-colors';
+
 const LoadingBackdrop = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <div className="absolute top-0 left-0 w-screen h-screen bg-black/30 flex justify-center items-center backdrop-blur-[4px]">
+    <div className="fixed inset-0 z-50 bg-black/30 flex justify-center items-center backdrop-blur-[4px]">
       {children}
     </div>
   );
 };
 
-const ErrorBox = ({ errors }: { errors: string[] | null }) => {
-  if (!errors) return null;
-
-  return (
-    <div className={'mt-2'}>
-      {errors.slice(0, 3).map((error, index) => (
-        <p key={index} className={'text-sm text-red-500'}>
-          {error}
-        </p>
-      ))}
-    </div>
-  );
-};
 export default BlogForm;

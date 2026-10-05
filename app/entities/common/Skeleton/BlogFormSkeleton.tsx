@@ -2,58 +2,34 @@ import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 
 const BlogFormSkeleton = () => {
   return (
-    <div className={'px-16'}>
-      <h1 className={'text-2xl text-center mb-4'}>
-        <Skeleton className="h-8 w-32 mx-auto" />
-      </h1>
-      <div className="mb-6">
-        <div className="flex mb-4 gap-1 items-center">
-          <span className="font-bold text-fg flex-shrink-0">
-            <Skeleton className="h-8 w-20" />
-          </span>
-          <Skeleton className="h-8 flex-grow" />
+    <div className="px-4 pt-6 max-w-7xl mx-auto">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-20" />
+          <Skeleton className="h-9 w-40" />
+          <Skeleton className="h-4 w-64" />
         </div>
-        <div className="flex mb-4 gap-1 items-center">
-          <span className="font-bold text-fg flex-shrink-0">
-            <Skeleton className="h-8 w-20" />
-          </span>
-          <Skeleton className="h-8 flex-grow" />
-        </div>
-        <div className="flex justify-start items-center">
-          <div className="flex flex-wrap mb-4 gap-1 items-center">
-            <span className="w-12 font-bold mr-3 flex-shrink text-nowrap flex-nowrap">
-              <Skeleton className="h-8 w-16" />
-            </span>
-            <Skeleton className="h-8 w-32 rounded-full" />
-            <Skeleton className="h-8 w-24 rounded-full" />
-            <Skeleton className="h-8 w-28 rounded-full" />
-          </div>
-        </div>
-        <div className="flex items-center w-full gap-2 mb-4">
-          <div className="w-1/2 flex justify-start items-center gap-6">
-            <div className="inline-flex items-center text-nowrap gap-2">
-              <Skeleton className="h-8 w-16" />
-              <Skeleton className="h-10 w-40" />
-            </div>
-            <div className="flex items-center gap-2">
-              <Skeleton className="h-5 w-20" />
-              <Skeleton className="h-4 w-4" />
-            </div>
-          </div>
-          <Skeleton className="h-8 w-32 rounded-full" />
-          <Skeleton className="h-8 w-28 rounded-full" />
-          <Skeleton className="h-8 w-32 rounded-full" />
+        <div className="flex gap-2">
+          <Skeleton className="h-9 w-24 rounded-lg" />
+          <Skeleton className="h-9 w-28 rounded-lg" />
+          <Skeleton className="h-9 w-10 rounded-lg" />
         </div>
       </div>
-      <div className="mb-4">
-        <Skeleton className="h-[500px] w-full rounded-lg" />
-      </div>
-      <div className="mb-4">
-        <Skeleton className="h-32 w-full rounded-lg" />
-      </div>
-      <div className="flex justify-end gap-2 mt-6">
-        <Skeleton className="h-10 w-24 rounded-md" />
-        <Skeleton className="h-10 w-24 rounded-md" />
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <div className="space-y-4">
+          <Skeleton className="h-10 w-2/3" />
+          <Skeleton className="h-7 w-1/2" />
+          <Skeleton className="h-[640px] w-full rounded-xl" />
+          <Skeleton className="h-44 w-full rounded-xl" />
+        </div>
+        <div className="space-y-6 rounded-xl border p-5 self-start">
+          <Skeleton className="h-4 w-16" />
+          <Skeleton className="h-9 w-full rounded-lg" />
+          <Skeleton className="h-9 w-full rounded-lg" />
+          <Skeleton className="h-16 w-full rounded-lg" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
       </div>
     </div>
   );

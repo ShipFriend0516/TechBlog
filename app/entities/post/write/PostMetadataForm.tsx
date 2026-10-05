@@ -1,11 +1,9 @@
 import { ChangeEvent, memo, useState } from 'react';
-import { CgMoveRight } from 'react-icons/cg';
-import { FaTrash } from 'react-icons/fa';
-import { FaPlus } from 'react-icons/fa6';
+import { FiPlus, FiX } from 'react-icons/fi';
 import Select from '@/app/entities/common/Select';
 import useTagAutocomplete from '@/app/hooks/post/useTagAutocomplete';
 import { Series } from '@/app/types/Series';
-import AutoSyncToggle from './AutoSyncToggle';
+import Switch from './Switch';
 import TagAutocompleteDropdown from './TagAutocompleteDropdown';
 
 interface PostMetadataFormProps {
@@ -13,14 +11,8 @@ interface PostMetadataFormProps {
   seriesLoading: boolean;
   series: Series[];
   onClickNewSeries: () => void;
-  onClickOverwrite: () => void;
-  clearDraft: () => void;
-  autoSyncEnabled: boolean;
-  onToggleAutoSync: (enabled: boolean) => void;
   isEditMode?: boolean;
   formData: {
-    title: string;
-    subTitle: string;
     slug: string;
     seriesId?: string;
     tags: string[];
@@ -29,15 +21,13 @@ interface PostMetadataFormProps {
   };
 }
 
+const labelStyle = 'mb-1.5 block text-xs font-medium text-fg-muted';
+
 const PostMetadataForm = ({
   onFieldChange,
   seriesLoading,
   series,
   onClickNewSeries,
-  onClickOverwrite,
-  clearDraft,
-  autoSyncEnabled,
-  onToggleAutoSync,
   isEditMode = false,
   formData,
 }: PostMetadataFormProps) => {
@@ -59,8 +49,6 @@ const PostMetadataForm = ({
   };
 
   const {
-    title,
-    subTitle,
     slug,
     seriesId,
     tags,
@@ -84,14 +72,6 @@ const PostMetadataForm = ({
     : series.length > 0
       ? series[0]._id
       : '';
-
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onFieldChange('title', e.target.value);
-  };
-
-  const handleSubTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onFieldChange('subTitle', e.target.value);
-  };
 
   const handleSeriesChange = (value: string) => {
     onFieldChange('seriesId', value);
@@ -160,85 +140,96 @@ const PostMetadataForm = ({
     }
   };
 
-  const handlePublicChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newIsPrivate = e.target.checked;
+  const handlePrivateChange = (newIsPrivate: boolean) => {
     onFieldChange('isPrivate', newIsPrivate);
     if (newIsPrivate) {
       onFieldChange('sendToSubscribers', false);
     }
   };
 
-  const handleSendToSubscribersChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onFieldChange('sendToSubscribers', e.target.checked);
+  const handleSendToSubscribersChange = (checked: boolean) => {
+    onFieldChange('sendToSubscribers', checked);
   };
 
   return (
-    <>
-      <div className="flex mb-4 gap-1 items-center">
-        <span className="font-bold text-fg flex-shrink-0">
-          제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목&nbsp;
-        </span>
-        <input
-          type="text"
-          placeholder="제목"
-          className="inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b border-hairline text-sm flex-grow"
-          onChange={handleTitleChange}
-          value={title}
-        />
-      </div>
-      <div className="flex mb-4 gap-1 items-center">
-        <span className="font-bold text-fg flex-shrink-0">
-          소&nbsp;&nbsp;제&nbsp;&nbsp;목&nbsp;
-        </span>
-        <input
-          type="text"
-          placeholder="소제목"
-          className="inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b border-hairline text-sm flex-grow"
-          onChange={handleSubTitleChange}
-          value={subTitle}
-        />
-      </div>
-      <div className="flex mb-4 gap-1 items-center">
-        <span className="font-bold text-fg flex-shrink-0">
-          슬&nbsp;&nbsp;러&nbsp;&nbsp;그&nbsp;
-        </span>
-        <input
-          type="text"
-          placeholder={
-            isEditMode ? '' : '영문, 숫자, 하이픈(-)만 입력 (예: my-post-title)'
-          }
-          className={`inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b text-sm flex-grow ${
- slugError ? 'border-red-500' : 'border-hairline'
- } ${isEditMode ? 'opacity-60 cursor-not-allowed' : ''}`}
-          onChange={handleSlugChange}
-          value={slug}
-          disabled={isEditMode}
-          required
-        />
-      </div>
-      {slugError && (
-        <p className="text-xs text-red-500 mb-3 ml-16">{slugError}</p>
-      )}
+    <div className="rounded-xl border bg-surface p-5 space-y-6">
+      <h2 className="text-sm font-semibold text-fg">발행 설정</h2>
 
-      <div className={'flex justify-start items-center'}>
-        <div className="flex flex-wrap mb-4 gap-1 items-center">
-          <span className="w-12 font-bold mr-3 flex-shrink text-nowrap flex-nowrap">
-            태그 입력
-          </span>
+      <div>
+        <label htmlFor="post-slug" className={labelStyle}>
+          슬러그
+        </label>
+        <div
+          className={`flex items-center rounded-lg bg-raised px-3 text-sm focus-within:ring-2 ${
+            slugError ? 'ring-2 ring-danger/60' : 'focus-within:ring-accent/40'
+          } ${isEditMode ? 'opacity-60' : ''}`}
+        >
+          <span className="text-fg-faint select-none">/posts/</span>
+          <input
+            id="post-slug"
+            type="text"
+            placeholder={isEditMode ? '' : 'my-post-title'}
+            className="min-w-0 flex-1 bg-transparent py-2 text-fg outline-none placeholder:text-fg-faint disabled:cursor-not-allowed"
+            onChange={handleSlugChange}
+            value={slug}
+            disabled={isEditMode}
+            required
+          />
+        </div>
+        <p className={`mt-1.5 text-xs ${slugError ? 'text-danger' : 'text-fg-muted'}`}>
+          {slugError ||
+            (isEditMode
+              ? '발행된 글의 슬러그는 바꿀 수 없습니다.'
+              : '영문, 숫자, 하이픈(-)만 사용할 수 있습니다.')}
+        </p>
+      </div>
+
+      <div>
+        <div className="mb-1.5 flex items-center justify-between">
+          <span className="text-xs font-medium text-fg-muted">시리즈</span>
+          <button
+            type="button"
+            onClick={onClickNewSeries}
+            className="inline-flex items-center gap-1 text-xs font-medium text-accent hover:text-accent-strong"
+          >
+            <FiPlus size={12} />새 시리즈
+          </button>
+        </div>
+        {seriesLoading ? (
+          <div className="h-9 rounded-lg bg-raised animate-pulse" />
+        ) : (
+          <Select
+            options={selectOptions}
+            setValue={handleSeriesChange}
+            defaultValue={defaultSeriesId}
+            className="block w-full rounded-lg bg-raised px-3 py-2 text-sm text-fg outline-none focus:ring-2 focus:ring-accent/40"
+          />
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="post-tag-input" className={labelStyle}>
+          태그
+        </label>
+        <div className="flex flex-wrap items-center gap-1.5 rounded-lg bg-raised p-2 focus-within:ring-2 focus-within:ring-accent/40">
           {(tags || []).map((tag, index) => (
-            <span
-              key={index}
-              className="inline-block bg-raised text-fg rounded-full px-3 py-1 text-sm font-semibold cursor-pointer hover:animate-blink duration-75"
+            <button
+              type="button"
+              key={`${tag}-${index}`}
               onClick={() => handleTagRemove(index)}
+              aria-label={`${tag} 태그 삭제`}
+              className="inline-flex items-center gap-1 rounded-full bg-surface px-2.5 py-0.5 text-xs font-medium text-fg hover:text-danger"
             >
               {tag}
-            </span>
+              <FiX size={12} />
+            </button>
           ))}
-          <div className="relative">
+          <div className="relative min-w-[6rem] flex-1">
             <input
+              id="post-tag-input"
               type="text"
-              placeholder="태그를 입력하세요"
-              className="inline min-w-12 px-2 py-1 outline-none text-fg bg-transparent border-b border-hairline text-sm"
+              placeholder={tags.length ? '' : '입력 후 Enter'}
+              className="w-full bg-transparent px-1 py-0.5 text-sm text-fg outline-none placeholder:text-fg-faint"
               onChange={handleTagInputChange}
               onKeyDown={handleTagInputKeyDown}
               onBlur={handleTagInputBlur}
@@ -255,82 +246,35 @@ const PostMetadataForm = ({
         </div>
       </div>
 
-      <div className={'flex items-center w-full gap-2 mb-4'}>
-        <div className={'w-1/2 flex justify-start items-center gap-6'}>
-          <label className={'inline-flex items-center text-nowrap gap-2 '}>
-            <span className={'font-bold'}>시&nbsp;&nbsp;리&nbsp;&nbsp;즈</span>
-            {seriesLoading ? (
-              <div>loading...</div>
-            ) : (
-              <Select
-                options={selectOptions}
-                setValue={handleSeriesChange}
-                defaultValue={defaultSeriesId}
-              />
-            )}
-          </label>
-          {/* 공개/비공개 체크박스 추가 */}
-          <div className={'flex items-center gap-2'}>
-            <label
-              className={
-                'inline-flex items-center text-nowrap gap-2 cursor-pointer'
-              }
-            >
-              <span className={'font-bold text-fg'}>
-                비&nbsp;&nbsp;&nbsp;&nbsp;공&nbsp;&nbsp;&nbsp;&nbsp;개
-              </span>
-              <input
-                type="checkbox"
-                checked={isPrivate}
-                onChange={handlePublicChange}
-                className="w-4 h-4 accent-accent bg-raised rounded focus:ring-accent focus:ring-2"
-              />
-            </label>
-          </div>
-          {/* 구독자에게 발행 체크박스 */}
-          <div className={'flex items-center gap-2'}>
-            <label
-              className={`inline-flex items-center text-nowrap gap-2 cursor-pointer ${isPrivate ? 'opacity-50' : ''}`}
-            >
-              <span className={'font-bold text-fg'}>구독자에게 발행</span>
-              <input
-                type="checkbox"
-                checked={sendToSubscribers}
-                onChange={handleSendToSubscribersChange}
-                disabled={isPrivate}
-                className="w-4 h-4 accent-accent bg-raised rounded focus:ring-accent focus:ring-2 disabled:opacity-50"
-              />
-            </label>
-          </div>
-        </div>
-
-        <button
-          onClick={onClickNewSeries}
-          className="flex items-center gap-2 py-1 px-2 bg-raised text-accent-strong font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-hairline"
+      <div className="space-y-3 border-t pt-5">
+        <label className="flex cursor-pointer items-center justify-between gap-3">
+          <span>
+            <span className="block text-sm text-fg">비공개</span>
+            <span className="block text-xs text-fg-muted">
+              관리자만 볼 수 있습니다.
+            </span>
+          </span>
+          <Switch checked={isPrivate} onChange={handlePrivateChange} />
+        </label>
+        <label
+          className={`flex items-center justify-between gap-3 ${
+            isPrivate ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+          }`}
         >
-          새로운 시리즈 <FaPlus />
-        </button>
-        <button
-          onClick={onClickOverwrite}
-          className="flex items-center gap-2 py-1 px-2 bg-raised text-blue-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-hairline dark:text-blue-200"
-        >
-          임시저장본
-          <CgMoveRight />
-        </button>
-
-        <button
-          onClick={clearDraft}
-          className="flex items-center gap-2 py-1 px-2 bg-raised text-red-400 font-semibold rounded-full hover:shadow-xl transition-all duration-300 border-4 border-hairline dark:text-red-200"
-        >
-          임시저장 삭제
-          <FaTrash />
-        </button>
+          <span>
+            <span className="block text-sm text-fg">구독자에게 발행</span>
+            <span className="block text-xs text-fg-muted">
+              발행할 때 구독자에게 메일을 보냅니다.
+            </span>
+          </span>
+          <Switch
+            checked={sendToSubscribers}
+            onChange={handleSendToSubscribersChange}
+            disabled={isPrivate}
+          />
+        </label>
       </div>
-
-      <div className="mb-4">
-        <AutoSyncToggle enabled={autoSyncEnabled} onToggle={onToggleAutoSync} />
-      </div>
-    </>
+    </div>
   );
 };
 

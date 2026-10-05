@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { FiCopy } from 'react-icons/fi';
 
 interface UploadedImageProps {
   onClick: (link: string) => void;
@@ -8,31 +9,26 @@ interface UploadedImageProps {
 const UploadedImage = ({ onClick, imageUrl }: UploadedImageProps) => {
   const markdownSyntax = `![이미지](${imageUrl})`;
 
-  const handleClick = () => {
-    onClick(markdownSyntax);
-  };
-
   return (
-    <li
-      className={
-        'relative rounded-md overflow-hidden max-w-[240px] w-full h-full aspect-video inline-block hover:opacity-80 cursor-pointer hover:shadow-lg group'
-      }
-      onClick={handleClick}
-    >
-      <p
-        className={
-          ' z-10 absolute opacity-0 group-hover:opacity-100 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-xl font-bold text-white bg-black/70 px-2 py-1 rounded backdrop-blur-sm'
-        }
+    <li>
+      <button
+        type="button"
+        onClick={() => onClick(markdownSyntax)}
+        aria-label="이미지 마크다운 링크 복사"
+        className="group relative block aspect-video w-full overflow-hidden rounded-md bg-raised focus-visible:ring-2 focus-visible:ring-accent/60 outline-none"
       >
-        링크 복사
-      </p>
-      <Image
-        className={'group object-cover'}
-        src={imageUrl}
-        alt={'이미지'}
-        fill={true}
-        sizes={'240px'}
-      />
+        <Image
+          className="object-cover transition-transform duration-200 group-hover:scale-105"
+          src={imageUrl}
+          alt=""
+          fill={true}
+          sizes="(max-width: 640px) 50vw, 240px"
+        />
+        <span className="absolute inset-0 flex items-center justify-center gap-1.5 bg-black/50 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          <FiCopy />
+          링크 복사
+        </span>
+      </button>
     </li>
   );
 };

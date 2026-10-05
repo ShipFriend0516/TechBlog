@@ -6,7 +6,7 @@ import {
   SetStateAction,
   useState,
 } from 'react';
-import { FaImage } from 'react-icons/fa';
+import { FiUpload } from 'react-icons/fi';
 import UploadedImage from '@/app/entities/post/write/UploadedImage';
 import { uploadImageFile } from '@/app/lib/utils/imageUpload';
 
@@ -102,73 +102,61 @@ const UploadImageContainer = ({
   };
 
   return (
-    <div className={'w-full mt-4'}>
-      <div className={'flex justify-between my-1'}>
-        <div>
-          <span className={'text-xl font-bold text-fg '}>
-            업로드된 이미지
-          </span>
-          {isUploading ? (
-            <p
-              className={'text-sm text-accent font-semibold animate-pulse'}
-            >
-              업로드 중... ({uploadProgress.current}/{uploadProgress.total})
-            </p>
-          ) : (
-            <p className={'text-fg-soft '}>
-              클릭하여 링크 복사
-            </p>
-          )}
+    <div className="rounded-xl border bg-surface p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-sm font-semibold text-fg">
+            이미지{' '}
+            {uploadedImages.length > 0 && (
+              <span className="text-fg-muted">{uploadedImages.length}</span>
+            )}
+          </h2>
+          <p
+            className={`text-xs ${isUploading ? 'text-accent animate-pulse' : 'text-fg-muted'}`}
+          >
+            {isUploading
+              ? `업로드 중... (${uploadProgress.current}/${uploadProgress.total})`
+              : '클릭하면 마크다운 링크가 복사됩니다. 본문에 붙여넣기해도 업로드됩니다.'}
+          </p>
         </div>
-        <div
-          className={
-            'cursor-pointer relative w-12 h-12 bg-accent rounded-md overflow-hidden'
-          }
+        <label
+          className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-raised px-3 py-2 text-sm font-medium text-fg hover:bg-fg/10 transition-colors ${
+            isUploading ? 'pointer-events-none opacity-60' : 'cursor-pointer'
+          }`}
         >
-          <FaImage
-            className={
-              'absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none'
-            }
-          />
+          <FiUpload />
+          업로드
           <input
             type={'file'}
             multiple={true}
-            placeholder={'이미지 업로드'}
             onChange={uploadToBlob}
-            className={
-              'w-full h-full file:hidden text-transparent px-2 hover:bg-accent-strong'
-            }
+            className="sr-only"
             accept={'image/*'}
             disabled={isUploading}
-          ></input>
-        </div>
+          />
+        </label>
       </div>
 
       <ul
-        className={`w-full px-4 py-4 whitespace-nowrap space-x-4 overflow-x-scroll gap-2 min-h-40 transition-colors ${
- isDragging
- ? 'border-accent/40 border-dashed border-2'
- : 'bg-raised '
- } ${isUploading ? 'opacity-70 pointer-events-none' : ''}`}
+        className={`grid min-h-28 grid-cols-2 gap-3 rounded-lg border-2 border-dashed p-3 transition-colors sm:grid-cols-3 lg:grid-cols-4 ${
+          isDragging ? 'border-accent/60 bg-accent-subtle' : 'border-hairline'
+        } ${isUploading ? 'opacity-70 pointer-events-none' : ''}`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        {uploadedImages.length === 0 && !isUploading && (
-          <div className="pointer-events-none text-sm text-fg-muted">
-            {isDragging
-              ? '떨어뜨려!!'
-              : '업로드된 이미지가 없습니다. 드래그&드랍으로 이미지를 추가하세요.'}
-          </div>
-        )}
-        {isUploading && uploadedImages.length === 0 && (
-          <div className="pointer-events-none text-sm text-accent font-semibold">
-            이미지를 업로드하는 중입니다...
-          </div>
+        {uploadedImages.length === 0 && (
+          <li className="pointer-events-none col-span-full flex items-center justify-center text-sm text-fg-muted">
+            {isUploading
+              ? '이미지를 업로드하는 중입니다...'
+              : isDragging
+                ? '여기에 놓으면 업로드됩니다'
+                : '이미지를 끌어다 놓으세요'}
+          </li>
         )}
         {uploadedImages.map((imageUrl, index) => (
-          <UploadedImage key={index} onClick={onClick} imageUrl={imageUrl} />
+          <UploadedImage key={`${index}-${imageUrl}`} onClick={onClick} imageUrl={imageUrl} />
         ))}
       </ul>
     </div>
