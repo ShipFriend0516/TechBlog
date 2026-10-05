@@ -39,11 +39,18 @@ const hash = (value: string) => {
 
 // 아르키메데스 나선: 반지름이 각도에 비례. t(0~1) 는 시간 진행도
 // θ ∝ √t 로 두어 바깥 팔에서도 별 간격이 너무 벌어지지 않게 함
+// 서버(Node)와 브라우저의 삼각함수 결과가 마지막 자릿수에서 달라 hydration 불일치가 나므로
+// SVG 속성으로 쓰는 값은 소수 둘째 자리로 반올림
+const round = (n: number) => Math.round(n * 100) / 100;
+
 const thetaOf = (t: number) => THETA_MAX * Math.sqrt(Math.min(Math.max(t, 0), 1));
 const radiusOf = (theta: number) => R_MIN + (R_MAX - R_MIN) * (theta / THETA_MAX);
 const project = (theta: number, radius: number, armOffset = 0) => {
   const angle = theta + START_ANGLE + armOffset;
-  return { x: CX + radius * Math.cos(angle), y: CY + radius * Math.sin(angle) * TILT };
+  return {
+    x: round(CX + radius * Math.cos(angle)),
+    y: round(CY + radius * Math.sin(angle) * TILT),
+  };
 };
 
 interface PlacedStar extends StarPost {
@@ -87,9 +94,9 @@ const Galaxy = ({ stars, now }: GalaxyProps) => {
       return {
         ...star,
         ...project(theta, radiusOf(theta) + jitter),
-        r: 1.8 + 3.6 * Math.sqrt(star.view / maxView),
+        r: round(1.8 + 3.6 * Math.sqrt(star.view / maxView)),
         bright: brightSlugs.has(star.slug),
-        twinkleDelay: hash(star.slug + 'd') * 4,
+        twinkleDelay: round(hash(star.slug + 'd') * 4),
       };
     });
 
@@ -110,10 +117,10 @@ const Galaxy = ({ stars, now }: GalaxyProps) => {
       const radius = radiusOf(theta) + spread;
       const angle = theta + START_ANGLE + arm;
       return {
-        x: radius * Math.cos(angle),
-        y: radius * Math.sin(angle),
-        size: 0.5 + random() * 1.1,
-        opacity: 0.12 + random() * 0.3,
+        x: round(radius * Math.cos(angle)),
+        y: round(radius * Math.sin(angle)),
+        size: round(0.5 + random() * 1.1),
+        opacity: round(0.12 + random() * 0.3),
       };
     });
 
