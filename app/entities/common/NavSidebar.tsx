@@ -1,9 +1,11 @@
 'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { IoCloseOutline } from 'react-icons/io5';
 import IconButton from '@/app/entities/common/Button/IconButton';
 import DividerWithText from '@/app/entities/common/DividerWithText';
 import useSubscribe from '@/app/hooks/useSubscribe';
+import { isActivePath, NAV_LINKS } from '@/app/lib/constants/navigation';
 
 interface NavSidebarProps {
   isOpen: boolean;
@@ -11,6 +13,7 @@ interface NavSidebarProps {
 }
 
 const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
+  const pathname = usePathname();
   const {
     nickname,
     email,
@@ -60,24 +63,23 @@ const NavSidebar = ({ isOpen, onClose }: NavSidebarProps) => {
         <DividerWithText text="Routes" className="text-xs mx-6" />
 
         <ul className={'flex flex-col gap-6 px-6 py-4 text-lg text-right'}>
-          <li>
-            <Link href="/posts">Blog</Link>
-          </li>
-          <li>
-            <Link href="/series">Series</Link>
-          </li>
-          <li>
-            <Link href="/atelier">Atelier</Link>
-          </li>
-          <li>
-            <Link href="/tags">Tags</Link>
-          </li>
-          <li>
-            <Link href="/portfolio">Portfolio</Link>
-          </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
+          {NAV_LINKS.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                aria-current={
+                  isActivePath(pathname, link.href) ? 'page' : undefined
+                }
+                className={
+                  isActivePath(pathname, link.href)
+                    ? 'text-accent font-medium'
+                    : 'text-fg-soft hover:text-fg transition-colors'
+                }
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         {/* 구독 폼 */}

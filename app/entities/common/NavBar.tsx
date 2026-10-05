@@ -8,6 +8,7 @@ import IconButton from '@/app/entities/common/Button/IconButton';
 import NavSidebar from '@/app/entities/common/NavSidebar';
 import Profile from '@/app/entities/common/Profile';
 import useTheme from '@/app/hooks/useTheme';
+import { isActivePath, NAV_LINKS } from '@/app/lib/constants/navigation';
 
 const TRANSPARENT_PATHS = ['/atelier'];
 
@@ -68,24 +69,24 @@ const NavBar = () => {
             'inline-flex max-w-5xl flex-grow justify-end gap-1.5 sm:gap-3 items-center'
           }
         >
-          <li className={'hidden sm:block'}>
-            <Link href="/posts">Blog</Link>
-          </li>
-          <li className={'hidden sm:block'}>
-            <Link href="/series">Series</Link>
-          </li>
-          <li className={'hidden sm:block'}>
-            <Link href="/atelier">Atelier</Link>
-          </li>
-          <li className={'hidden sm:block'}>
-            <Link href="/tags">Tags</Link>
-          </li>
-          <li className={'hidden sm:block'}>
-            <Link href="/portfolio">Portfolio</Link>
-          </li>
-          <li className={'hidden sm:block'}>
-            <Link href="/about">About</Link>
-          </li>
+          {NAV_LINKS.map((link) => {
+            const isActive = isActivePath(pathname, link.href);
+            return (
+              <li key={link.href} className={'hidden sm:block'}>
+                <Link
+                  href={link.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`px-2 py-1 text-sm transition-colors ${
+                    isActive
+                      ? 'text-accent font-medium'
+                      : 'text-fg-soft hover:text-fg'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
           <li>
             <IconButton
               onClick={toggleTheme}
