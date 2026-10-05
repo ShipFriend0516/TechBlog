@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import DragScroll from '@/app/entities/common/DragScroll';
 import SectionHeader from '@/app/entities/home/SectionHeader';
 import { HomeSeries } from '@/app/types/Home';
 
@@ -13,7 +14,7 @@ const SeriesRail = ({ series }: { series: HomeSeries[] }) => {
         title="이어서 읽는 글"
         action={{ href: '/series', label: '모든 시리즈' }}
       />
-      <ul className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-4 md:scroll-px-0 pb-4 -mx-4 px-4 scrollbar-none">
+      <DragScroll className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-4 md:scroll-px-0 pb-4 -mx-4 px-4 scrollbar-none">
         {series.map((item) => (
           <li key={item.slug} className="snap-start shrink-0 w-64 md:w-72">
             <Link
@@ -45,7 +46,7 @@ const SeriesRail = ({ series }: { series: HomeSeries[] }) => {
             </Link>
           </li>
         ))}
-      </ul>
+      </DragScroll>
     </section>
   );
 };
