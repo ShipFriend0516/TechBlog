@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import LogoLab from './LogoLab';
 
 export const metadata: Metadata = {
-  title: 'Logo Lab | ShipFriend',
+  title: 'Logo Lab',
   robots: { index: false, follow: false },
 };
 
