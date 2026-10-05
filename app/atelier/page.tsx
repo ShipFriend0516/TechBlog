@@ -116,27 +116,6 @@ const AtelierPage = () => {
 
   return (
     <>
-      {/* DarkVeil 배경 */}
-      {/* <div className="fixed inset-0 -z-10 opacity-20">
-        <LiquidEther
-          colors={liquidColors}
-          mouseForce={30}
-          cursorSize={100}
-          isViscous={true}
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={12}
-          resolution={0.5}
-          isBounce
-          autoDemo
-          autoSpeed={0.85}
-          autoIntensity={3.1}
-          takeoverDuration={0.25}
-          autoResumeDelay={3000}
-          autoRampDuration={0.6}
-        />
-      </div> */}
-
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[calc(100dvh-4rem)] flex flex-col gap-4 py-4">
         <div className="flex flex-col gap-4 flex-1 min-h-0 animate-atelierIn duration-1000">
           {/* 헤더 */}
