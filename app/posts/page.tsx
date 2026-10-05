@@ -1,3 +1,4 @@
+import PageHeader from '@/app/entities/common/PageHeader';
 import PostSearchClient from '@/app/entities/post/list/PostSearchClient';
 import { getPostList, getSeriesList } from '@/app/entities/post/list/queries';
 import { getTagStats } from '@/app/lib/tags';
@@ -37,12 +38,12 @@ const BlogList = async ({ searchParams }: PageProps) => {
 
   return (
     <section>
-      <header className={'max-w-6xl mx-auto px-4 mt-8 text-center'}>
-        <h1 className={'text-4xl font-bold'}>발행된 글</h1>
-        <p className={'mt-3 text-fg-soft'}>
-          검색어, 시리즈, 태그를 조합해 원하는 글을 찾아보세요.
-        </p>
-      </header>
+      {/* 글 개수와 적용된 필터는 아래 결과 줄에서 보여줌 */}
+      <PageHeader
+        eyebrow="Blog"
+        title="모든 글"
+        className="max-w-6xl mx-auto px-4 mt-10"
+      />
       <PostSearchClient
         key={`${seriesSlug}-${tag}`}
         initialQuery={initialQuery}
