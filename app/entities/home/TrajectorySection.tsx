@@ -1,4 +1,4 @@
-import Constellation from '@/app/entities/home/Constellation';
+import Galaxy from '@/app/entities/home/Galaxy';
 import SectionHeader from '@/app/entities/home/SectionHeader';
 import { BlogStats, StarPost } from '@/app/types/Home';
 
@@ -33,10 +33,10 @@ const TrajectorySection = ({ stars, stats, now }: TrajectorySectionProps) => {
         ))}
       </dl>
       <div className="rounded-[20px] bg-surface p-4 md:p-6">
-        <Constellation stars={stars} now={now} />
+        <Galaxy stars={stars} now={now} />
         <p className="mt-2 text-xs text-fg-muted">
-          별 하나가 글 하나입니다. 많이 읽힌 글일수록 크고 밝게, 같은 시리즈는
-          선으로 이어집니다.
+          가운데의 첫 글에서 바깥으로 갈수록 최근 글입니다. 많이 읽힌 글일수록
+          크고 밝게 빛나고, 별에 올리면 같은 시리즈가 이어집니다.
         </p>
       </div>
     </section>
