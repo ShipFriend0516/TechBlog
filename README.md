@@ -80,8 +80,7 @@ TechBlog/
    5 NEXTAUTH_URL=http://localhost:3000
    6 DB_URI=your_mongodb_connection_string
    7 NEXT_PUBLIC_DEPLOYMENT_URL=https://your-deployment-url.com
-   8 NEXT_PUBLIC_URL=http://localhost:3000
-   9 BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
+   8 BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
 ```
 
 `ADMIN_GITHUB_ID`는 이메일이 아닌 GitHub 계정의 숫자 id다.
