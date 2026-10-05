@@ -288,10 +288,8 @@ const BlogForm = () => {
   return (
     <div>
       <AdminPageHeader
+        hideTitle
         title={isEditMode ? '글 수정' : '새 글 작성'}
-        description={
-          isEditMode ? `/posts/${slug}` : '본문은 왼쪽, 발행 옵션은 오른쪽에서 설정합니다.'
-        }
         actions={
           <>
             <AutoSyncToggle
