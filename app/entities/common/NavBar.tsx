@@ -21,11 +21,13 @@ const NavBar = () => {
   const isSidebarOpen = sidebarOpenedAt === pathname;
 
   useEffect(() => {
+    // 콘텐츠가 투명한 내비 밑으로 들어가기 시작하면 바로 배경을 깖
     const handleScroll = () => {
-      setIsFixed(window.scrollY > 100);
+      setIsFixed(window.scrollY > 8);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -39,17 +41,18 @@ const NavBar = () => {
   const handleSidebarOpen = () => setSidebarOpenedAt(pathname);
   const handleSidebarClose = () => setSidebarOpenedAt(null);
 
-  const fixedStyle = isTransparent
-    ? 'bg-transparent'
-    : isFixed
-      ? 'bg-surface bg-opacity-20'
-      : 'bg-base';
+  // 맨 위에서는 투명하게 두어 body 배경(성운 안개)이 히어로와 이어지도록 하고,
+  // 스크롤 후에만 콘텐츠 위에 유리 배경을 깖
+  const fixedStyle =
+    isTransparent || !isFixed
+      ? 'bg-transparent'
+      : 'bg-base/70 backdrop-blur-md';
 
   return (
     <nav>
       <div className={'h-16 w-full'} />
       <div
-        className={`${fixedStyle} fixed h-16 top-0 px-4 w-screen inline-flex items-center justify-center z-40 backdrop-blur-sm`}
+        className={`${fixedStyle} fixed h-16 top-0 px-4 w-screen inline-flex items-center justify-center z-40 transition-colors duration-300`}
       >
         <div>
           <Link href={'/'} aria-label="ShipFriend TechBlog 홈">
