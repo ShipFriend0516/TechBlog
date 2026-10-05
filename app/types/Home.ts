@@ -27,6 +27,7 @@ export interface StarPost {
   date: number;
   view: number;
   seriesId?: string;
+  seriesTitle?: string;
 }
 
 export interface BlogStats {

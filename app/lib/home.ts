@@ -79,19 +79,24 @@ export const getSeriesList = async (limit: number): Promise<HomeSeries[]> => {
 // 별자리 타임라인 — 공개 글 전체와 각 글의 조회수
 export const getStarPosts = async (): Promise<StarPost[]> => {
   await dbConnect();
-  const [posts, views] = await Promise.all([
+  const [posts, views, series] = await Promise.all([
     Post.find(PUBLIC_FILTER).select('slug title date seriesId').sort({ date: 1 }).lean(),
     View.aggregate<{ _id: unknown; count: number }>([
       { $group: { _id: '$postId', count: { $sum: 1 } } },
     ]),
+    Series.find({}).select('title').lean(),
   ]);
   const viewMap = new Map(views.map((v) => [String(v._id), v.count]));
+  const seriesTitleMap = new Map(
+    (series as Record<string, unknown>[]).map((s) => [String(s._id), s.title as string])
+  );
   return (posts as Record<string, unknown>[]).map((p) => ({
     slug: p.slug as string,
     title: p.title as string,
     date: p.date as number,
     view: viewMap.get(String(p._id)) ?? 0,
     seriesId: p.seriesId ? String(p.seriesId) : undefined,
+    seriesTitle: p.seriesId ? seriesTitleMap.get(String(p.seriesId)) : undefined,
   }));
 };
 
