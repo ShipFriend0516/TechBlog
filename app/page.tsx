@@ -64,7 +64,7 @@ const Home = async () => {
   const [latest, popular, series, stars, stats, tags, now, messages] =
     await Promise.all([
       getLatestPosts(5),
-      getPopularPosts(5),
+      getPopularPosts(3),
       getSeriesList(8),
       getStarPosts(),
       getBlogStats(),
