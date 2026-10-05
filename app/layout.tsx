@@ -10,12 +10,13 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
+  TITLE_TEMPLATE,
 } from '@/app/lib/site';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_NAME,
+  title: { default: SITE_NAME, template: TITLE_TEMPLATE },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   authors: [{ name: 'ShipFriend', url: 'https://github.com/ShipFriend0516' }],
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     'TypeScript',
   ],
   openGraph: {
-    title: SITE_NAME,
+    title: { default: SITE_NAME, template: TITLE_TEMPLATE },
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: SITE_NAME,
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: SITE_NAME,
+    title: { default: SITE_NAME, template: TITLE_TEMPLATE },
     description: SITE_DESCRIPTION,
     images: [DEFAULT_SOCIAL_IMAGE],
   },

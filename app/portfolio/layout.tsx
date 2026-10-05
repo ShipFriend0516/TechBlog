@@ -1,12 +1,17 @@
 import type { Metadata } from 'next';
-import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, SITE_URL } from '@/app/lib/site';
+import {
+  DEFAULT_SOCIAL_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+  TITLE_TEMPLATE,
+} from '@/app/lib/site';
 
 export const metadata: Metadata = {
-  title: '포트폴리오 | ShipFriend TechBlog',
+  title: { default: 'Portfolio', template: TITLE_TEMPLATE },
   description: 'ShipFriend의 프로젝트 포트폴리오입니다.',
   robots: { index: true, follow: true },
   openGraph: {
-    title: '포트폴리오 | ShipFriend TechBlog',
+    title: { default: 'Portfolio', template: TITLE_TEMPLATE },
     description: 'ShipFriend의 프로젝트 포트폴리오입니다.',
     url: `${SITE_URL}/portfolio`,
     siteName: SITE_NAME,
@@ -16,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '포트폴리오 | ShipFriend TechBlog',
+    title: { default: 'Portfolio', template: TITLE_TEMPLATE },
     description: 'ShipFriend의 프로젝트 포트폴리오입니다.',
     images: [DEFAULT_SOCIAL_IMAGE],
   },

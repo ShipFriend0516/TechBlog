@@ -83,7 +83,8 @@ export const generateMetadata = async (
       canonical: postUrl,
     },
     openGraph: {
-      title: post.title,
+      // 공유 카드는 사이트명 접미사 없이 글 제목만 노출한다
+      title: { absolute: post.title },
       description,
       url: postUrl,
       siteName: SITE_NAME,
@@ -97,7 +98,7 @@ export const generateMetadata = async (
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
+      title: { absolute: post.title },
       description,
       images: [imageUrl],
     },

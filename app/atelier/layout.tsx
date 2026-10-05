@@ -1,15 +1,15 @@
 import { Metadata } from 'next';
-import { SITE_URL } from '@/app/lib/site';
+import { SITE_NAME, SITE_URL } from '@/app/lib/site';
 import AtelierClientLayout from './AtelierClientLayout';
 
 export const metadata: Metadata = {
-  title: 'Atelier - ShipFriend TechBlog',
+  title: 'Atelier',
   description: '생각들을 던져두는 곳, Atelier 페이지입니다.',
   openGraph: {
-    title: 'Atelier - ShipFriend TechBlog',
+    title: 'Atelier',
     description: '생각들을 던져두는 곳, Atelier 페이지입니다.',
     url: `${SITE_URL}/atelier`,
-    siteName: 'ShipFriend TechBlog',
+    siteName: SITE_NAME,
     type: 'website',
     images: [
       {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Atelier - ShipFriend TechBlog',
+    title: 'Atelier',
     description: '생각들을 던져두는 곳, Atelier 페이지입니다.',
     images: [`${SITE_URL}/images/atelier/atelier-og-thumbnail.webp`],
   },

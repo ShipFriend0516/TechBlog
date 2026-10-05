@@ -15,15 +15,15 @@ export async function generateMetadata(props: PortfolioDetailPageProps): Promise
 
   if (!portfolio) {
     return {
-      title: '포트폴리오 | ShipFriend TechBlog',
+      title: 'Portfolio',
     };
   }
 
   return {
-    title: `${portfolio.title} | ShipFriend TechBlog`,
+    title: portfolio.title,
     description: portfolio.description,
     openGraph: {
-      title: `${portfolio.title} | ShipFriend TechBlog`,
+      title: portfolio.title,
       description: portfolio.description,
       url: `${SITE_URL}/portfolio/${params.slug}`,
       siteName: SITE_NAME,
@@ -35,7 +35,7 @@ export async function generateMetadata(props: PortfolioDetailPageProps): Promise
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${portfolio.title} | ShipFriend TechBlog`,
+      title: portfolio.title,
       description: portfolio.description,
       images: portfolio.mainImage
         ? [absoluteUrl(portfolio.mainImage)]

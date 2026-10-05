@@ -29,12 +29,12 @@ export async function generateMetadata(
 
     if (!series) {
       return {
-        title: '시리즈 | ShipFriend TechBlog',
+        title: 'Series',
         description: '시리즈 글 목록입니다.',
       };
     }
 
-    const title = `${series.title} | ShipFriend TechBlog`;
+    const title = series.title;
     const description =
       series.description ||
       `${series.title} 시리즈의 글 목록입니다. ShipFriend TechBlog에서 연재되는 시리즈입니다.`;
@@ -82,7 +82,7 @@ export async function generateMetadata(
     };
   } catch {
     return {
-      title: '시리즈 | ShipFriend TechBlog',
+      title: 'Series',
       description: '시리즈 글 목록입니다.',
     };
   }

@@ -1,6 +1,11 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import { DEFAULT_SOCIAL_IMAGE, SITE_URL } from '@/app/lib/site';
+import {
+  DEFAULT_SOCIAL_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+  TITLE_TEMPLATE,
+} from '@/app/lib/site';
 import Loading from './[slug]/loading';
 
 interface LayoutProps {
@@ -10,7 +15,7 @@ interface LayoutProps {
 const baseUrl = SITE_URL;
 
 export const metadata: Metadata = {
-  title: 'Posts | ShipFriend TechBlog',
+  title: { default: 'Blog', template: TITLE_TEMPLATE },
   description:
     '발행된 글 목록 페이지입니다. 관심 있는 포스트를 선택해 순서대로 읽어보세요.',
   keywords: [
@@ -26,11 +31,11 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: 'Posts | ShipFriend TechBlog',
+    title: { default: 'Blog', template: TITLE_TEMPLATE },
     description:
       '발행된 글 목록 페이지입니다. 관심 있는 포스트를 선택해 순서대로 읽어보세요.',
     url: `${baseUrl}/posts`,
-    siteName: 'ShipFriend TechBlog',
+    siteName: SITE_NAME,
     locale: 'ko_KR',
     type: 'website',
     images: [
@@ -44,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Posts | ShipFriend TechBlog',
+    title: { default: 'Blog', template: TITLE_TEMPLATE },
     description:
       '발행된 글 목록 페이지입니다. 관심 있는 포스트를 선택해 순서대로 읽어보세요.',
     images: [DEFAULT_SOCIAL_IMAGE],

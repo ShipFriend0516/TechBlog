@@ -3,7 +3,7 @@ import LottiePlayer from '@/app/entities/common/Animation/LottiePlayer';
 import notfoundAnimation from '@/app/public/assets/notfound.json';
 
 export const metadata: Metadata = {
-  title: '페이지를 찾을 수 없음 | ShipFriend TechBlog',
+  title: 'Not Found',
   robots: { index: false, follow: false },
 };
 

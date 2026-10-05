@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { TITLE_TEMPLATE } from '@/app/lib/site';
 import AdminLayoutClient from './AdminLayoutClient';
 
 export const metadata: Metadata = {
-  title: '관리자 | ShipFriend TechBlog',
+  title: { default: 'Admin', template: TITLE_TEMPLATE },
   robots: {
     index: false,
     follow: false,

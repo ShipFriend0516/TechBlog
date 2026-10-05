@@ -27,7 +27,7 @@ export const revalidate = 300;
 const HERO_TAG_LIMIT = 24;
 
 export const metadata: Metadata = {
-  title: SITE_NAME,
+  title: { absolute: SITE_NAME },
   description: SITE_DESCRIPTION,
   alternates: { canonical: `${SITE_URL}/` },
 };
