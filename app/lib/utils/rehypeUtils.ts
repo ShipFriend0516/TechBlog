@@ -122,7 +122,7 @@ export const renderYoutubeEmbed = (
 /**
  * YouTube embed iframe 노드 생성
  */
-export const createYoutubeIframe = (
+const createYoutubeIframe = (
   videoId: string,
   width: number,
   height: number

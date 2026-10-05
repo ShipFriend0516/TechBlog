@@ -1,6 +1,6 @@
 // 관리자 페이지 공용 타입
 
-export interface GitHubUser {
+interface GitHubUser {
   login: string;
   avatar_url: string;
 }

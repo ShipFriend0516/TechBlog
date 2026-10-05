@@ -9,11 +9,6 @@ export const getAllSeriesData = async (isPopulate: boolean = false) => {
   return response.data;
 };
 
-export const getSeriesData = async (slug: string) => {
-  const response = await axios.get(`/api/series/${slug}`);
-  return response.data;
-};
-
 export const createSeries = async (data: {
   title: string;
   description?: string;

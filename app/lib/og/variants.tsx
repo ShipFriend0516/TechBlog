@@ -25,7 +25,7 @@ const LIGHT = {
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-export type OgContent = {
+type OgContent = {
   title: string;
   description?: string;
   siteName: string;
@@ -73,7 +73,7 @@ const Brand = ({
   </div>
 );
 
-export const OG_VARIANTS = [
+const OG_VARIANTS = [
   {
     id: 'nebula',
     name: 'A · Nebula Glow',

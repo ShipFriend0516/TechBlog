@@ -62,7 +62,7 @@ const CalloutComponent = ({
   children?: React.ReactNode;
 }) => <Callout emoji={emoji}>{children}</Callout>;
 
-export interface SelectedImage {
+interface SelectedImage {
   src: string;
   alt?: string;
   rect: DOMRect;

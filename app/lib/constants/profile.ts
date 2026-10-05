@@ -1,4 +1,4 @@
-export type ExperienceType = 'work' | 'education';
+type ExperienceType = 'work' | 'education';
 
 export interface ExperienceItem {
   company: string;
