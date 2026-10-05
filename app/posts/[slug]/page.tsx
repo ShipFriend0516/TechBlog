@@ -12,7 +12,6 @@ import { absoluteUrl, SITE_NAME, SITE_URL } from '@/app/lib/site';
 import { stripMarkdown } from '@/app/lib/utils/stripMarkdown';
 import Post from '@/app/models/Post';
 
-const defaultThumbnail = '/images/placeholder/thumbnail_example2.webp';
 const publicPostFilter = {
   $or: [{ isPrivate: false }, { isPrivate: { $exists: false } }],
 };
@@ -71,7 +70,10 @@ export const generateMetadata = async (
   const description = post.subTitle
     ? stripMarkdown(post.subTitle, 160)
     : stripMarkdown(post.content, 160);
-  const imageUrl = absoluteUrl(post.thumbnailImage || defaultThumbnail);
+  // 썸네일이 없으면 글 제목으로 만든 OG 이미지를 사용한다
+  const imageUrl = post.thumbnailImage
+    ? absoluteUrl(post.thumbnailImage)
+    : `${postUrl}/og.png`;
 
   return {
     title: post.title,
