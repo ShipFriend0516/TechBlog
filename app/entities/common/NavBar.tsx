@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -6,7 +7,6 @@ import { HiOutlineBars3BottomRight } from 'react-icons/hi2';
 import { IoMoonSharp, IoSunnySharp } from 'react-icons/io5';
 import IconButton from '@/app/entities/common/Button/IconButton';
 import NavSidebar from '@/app/entities/common/NavSidebar';
-import Profile from '@/app/entities/common/Profile';
 import useTheme from '@/app/hooks/useTheme';
 import { isActivePath, NAV_LINKS } from '@/app/lib/constants/navigation';
 
@@ -56,12 +56,9 @@ const NavBar = () => {
         className={`${fixedStyle} fixed h-16 top-0 px-4 w-screen inline-flex items-center justify-center z-40 transition-colors duration-300`}
       >
         <div>
-          <Link href={'/'} aria-label="ShipFriend TechBlog 홈">
-            <Profile
-              profileThumbnail={'/images/profile/profile.jpg'}
-              username={'Jeongwoo Seo'}
-            />
-            <span className="sr-only">ShipFriend TechBlog</span>
+          <Link href={'/'} aria-label="ShipFriend TechBlog 홈" className="flex items-center gap-2 mr-2">
+            <Image src="/images/logo/contour.png" alt="" width={40} height={40} priority className="h-10 w-10 object-contain" />
+            <span className="font-bold">Jeongwoo Seo</span>
           </Link>
         </div>
         <ul
