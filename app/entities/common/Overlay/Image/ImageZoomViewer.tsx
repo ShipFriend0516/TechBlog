@@ -3,7 +3,7 @@
 import { animate, motion, useMotionValue } from 'motion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export interface ZoomImageData {
+interface ZoomImageData {
   src: string;
   alt?: string;
   rect: DOMRect;
