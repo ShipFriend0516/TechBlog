@@ -1,9 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaGithub, FaRss } from 'react-icons/fa';
-import { HiOutlineMail } from 'react-icons/hi';
-import { githubLink } from '@/app/lib/constants/landingPageData';
+import { SOCIAL_LINKS } from '@/app/lib/constants/socialLinks';
 
 const HIDDEN_PATHS = ['/atelier'];
 
@@ -15,11 +13,7 @@ const NAV_LINKS = [
   { href: '/about', label: 'About' },
 ];
 
-const ICON_LINKS = [
-  { href: githubLink, label: 'GitHub', Icon: FaGithub, external: true },
-  { href: 'mailto:sjw4371@naver.com', label: 'Email', Icon: HiOutlineMail, external: false },
-  { href: '/rss.xml', label: 'RSS', Icon: FaRss, external: false },
-];
+const ICON_LINKS = [SOCIAL_LINKS.github, SOCIAL_LINKS.email, SOCIAL_LINKS.rss];
 
 const Footer = () => {
   const pathname = usePathname();

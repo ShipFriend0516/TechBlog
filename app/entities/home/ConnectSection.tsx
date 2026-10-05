@@ -1,16 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaGithub, FaLinkedin, FaRss } from 'react-icons/fa';
 import NewsletterForm from '@/app/entities/home/NewsletterForm';
 import SectionHeader from '@/app/entities/home/SectionHeader';
-import { githubLink, linkedinLink } from '@/app/lib/constants/landingPageData';
+import { SOCIAL_LINKS } from '@/app/lib/constants/socialLinks';
 import { AtelierPreviewMessage } from '@/app/types/Home';
 
-const LINKS = [
-  { href: githubLink, label: 'GitHub', Icon: FaGithub, external: true },
-  { href: linkedinLink, label: 'LinkedIn', Icon: FaLinkedin, external: true },
-  { href: '/rss.xml', label: 'RSS', Icon: FaRss, external: false },
-];
+const LINKS = [SOCIAL_LINKS.github, SOCIAL_LINKS.linkedin, SOCIAL_LINKS.rss];
 
 const ConnectSection = ({ messages }: { messages: AtelierPreviewMessage[] }) => (
   <section>
@@ -18,7 +13,7 @@ const ConnectSection = ({ messages }: { messages: AtelierPreviewMessage[] }) => 
     <div className="grid md:grid-cols-[1.4fr_1fr] gap-5">
       <Link
         href="/atelier"
-        className="group rounded-[20px] bg-surface p-6 md:p-8 transition-all duration-300 ease-out-expo hover:bg-raised hover:shadow-glow-md"
+        className="group card-interactive rounded-card p-6 md:p-8"
       >
         <div className="flex items-baseline justify-between">
           <p className="font-semibold">Atelier</p>
@@ -62,7 +57,7 @@ const ConnectSection = ({ messages }: { messages: AtelierPreviewMessage[] }) => 
       </Link>
 
       <div className="flex flex-col gap-5">
-        <div className="rounded-[20px] bg-surface p-6 md:p-8">
+        <div className="rounded-card bg-surface p-6 md:p-8">
           <p className="font-semibold">뉴스레터</p>
           <p className="mt-1 mb-5 text-sm text-fg-muted">
             새 글이 올라오면 메일로 알려드려요.

@@ -32,7 +32,7 @@ const TrajectorySection = ({ stars, stats, now }: TrajectorySectionProps) => {
           </div>
         ))}
       </dl>
-      <div className="rounded-[20px] bg-surface p-4 md:p-6">
+      <div className="rounded-card bg-surface p-4 md:p-6">
         <Galaxy stars={stars} now={now} />
         <p className="mt-2 text-xs text-fg-muted">
           가운데의 첫 글에서 바깥으로 갈수록 최근 글입니다. 많이 읽힌 글일수록

@@ -9,7 +9,7 @@ const linkClass =
   'inline-flex items-center gap-1.5 rounded-lg bg-base/60 px-3 py-1.5 text-xs text-fg-soft transition-colors hover:text-accent';
 
 const ProjectCard = ({ project }: { project: Project }) => (
-  <article className="group relative flex flex-col rounded-[20px] bg-surface p-5 transition-all duration-300 ease-out-expo hover:bg-raised hover:shadow-glow-md hover:-translate-y-0.5">
+  <article className="group relative flex flex-col card-interactive rounded-card p-5">
     <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-raised">
       <Image
         src={project.image}
@@ -24,7 +24,7 @@ const ProjectCard = ({ project }: { project: Project }) => (
       {project.slug ? (
         <Link
           href={`/portfolio/${project.slug}`}
-          className="after:absolute after:inset-0 after:rounded-[20px]"
+          className="after:absolute after:inset-0 after:rounded-card"
         >
           {project.title}
         </Link>

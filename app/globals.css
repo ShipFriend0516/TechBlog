@@ -154,6 +154,17 @@ body.atelier-page main {
   color: rgb(var(--fg-soft));
 }
 
+/* 공용 컴포넌트 클래스 — 카드 호버, 입력창 */
+@layer components {
+  .card-interactive {
+    @apply bg-surface transition-all duration-300 ease-out-expo hover:bg-raised hover:shadow-glow-md hover:-translate-y-0.5;
+  }
+
+  .input-field {
+    @apply rounded-xl bg-raised text-sm text-fg placeholder:text-fg-faint outline-none transition-shadow duration-150 ease-out-expo focus:ring-2 focus:ring-accent-strong;
+  }
+}
+
 /*noinspection CssUnusedSymbol*/
 @layer utilities {
   .text-balance {

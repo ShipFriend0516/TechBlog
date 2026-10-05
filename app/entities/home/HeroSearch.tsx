@@ -29,7 +29,7 @@ const HeroSearch = () => {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="어떤 글을 찾고 있나요?"
         aria-label="글 검색"
-        className="w-full rounded-xl bg-raised pl-11 pr-4 py-3.5 text-sm text-fg placeholder:text-fg-faint outline-none transition-shadow duration-150 ease-out-expo focus:ring-2 focus:ring-accent-strong"
+        className="input-field w-full pl-11 pr-4 py-3.5"
       />
     </form>
   );

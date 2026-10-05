@@ -58,6 +58,9 @@ const config: Config = {
       borderColor: {
         DEFAULT: 'rgb(var(--fg) / var(--hairline-alpha))',
       },
+      borderRadius: {
+        card: '20px',
+      },
       boxShadow: {
         'glow-sm': 'var(--glow-sm)',
         'glow-md': 'var(--glow-md)',

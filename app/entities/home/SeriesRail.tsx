@@ -19,7 +19,7 @@ const SeriesRail = ({ series }: { series: HomeSeries[] }) => {
           <li key={item.slug} className="snap-start shrink-0 w-64 md:w-72">
             <Link
               href={`/series/${item.slug}`}
-              className="group block h-full rounded-[20px] bg-surface p-4 transition-all duration-300 ease-out-expo hover:bg-raised hover:shadow-glow-md hover:-translate-y-0.5"
+              className="group block h-full card-interactive rounded-card p-4"
             >
               <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-gradient-to-br from-nebula-subtle via-raised to-accent-subtle">
                 {item.thumbnailImage && (

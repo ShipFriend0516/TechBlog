@@ -8,7 +8,7 @@ const ExperienceList = () => (
       {experiences.map((exp) => (
         <li
           key={exp.company}
-          className="grid sm:grid-cols-[180px_1fr] gap-1 sm:gap-6 rounded-[20px] bg-surface px-6 py-5"
+          className="grid sm:grid-cols-[180px_1fr] gap-1 sm:gap-6 rounded-card bg-surface px-6 py-5"
         >
           <p className="text-sm text-fg-muted tabular-nums sm:pt-0.5">
             {exp.period}

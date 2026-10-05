@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import SectionHeader from '@/app/entities/home/SectionHeader';
-import { githubLink, linkedinLink } from '@/app/lib/constants/landingPageData';
+import { SOCIAL_LINKS } from '@/app/lib/constants/socialLinks';
 import { formatDate } from '@/app/lib/utils/format';
 import { NowData } from '@/app/types/Home';
 
@@ -10,7 +9,7 @@ const MeSection = ({ now }: { now: NowData }) => (
   <section>
     <SectionHeader eyebrow="About" title="이 글을 쓰는 사람" />
     <div className="grid md:grid-cols-2 gap-5">
-      <div className="rounded-[20px] bg-surface p-6 md:p-8 flex flex-col gap-5">
+      <div className="rounded-card bg-surface p-6 md:p-8 flex flex-col gap-5">
         <div className="flex items-center gap-4">
           <Image
             src="/images/profile/profile.jpg"
@@ -32,24 +31,18 @@ const MeSection = ({ now }: { now: NowData }) => (
         </p>
         <div className="mt-auto flex items-center justify-between">
           <div className="flex gap-2">
-            <a
-              href={githubLink}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="p-2.5 rounded-xl bg-raised text-fg-soft hover:text-accent transition-colors"
-            >
-              <FaGithub size={18} />
-            </a>
-            <a
-              href={linkedinLink}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="p-2.5 rounded-xl bg-raised text-fg-soft hover:text-accent transition-colors"
-            >
-              <FaLinkedin size={18} />
-            </a>
+            {[SOCIAL_LINKS.github, SOCIAL_LINKS.linkedin].map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+                className="p-2.5 rounded-xl bg-raised text-fg-soft hover:text-accent transition-colors"
+              >
+                <Icon size={18} />
+              </a>
+            ))}
           </div>
           <Link
             href="/about"
@@ -60,7 +53,7 @@ const MeSection = ({ now }: { now: NowData }) => (
         </div>
       </div>
 
-      <div className="rounded-[20px] p-6 md:p-8 bg-surface bg-gradient-to-br from-nebula-subtle to-transparent">
+      <div className="rounded-card p-6 md:p-8 bg-surface bg-gradient-to-br from-nebula-subtle to-transparent">
         <div className="flex items-baseline justify-between">
           <p className="text-sm font-semibold text-nebula-soft">Now</p>
           {now.updatedAt && (

@@ -1,11 +1,7 @@
 import Image from 'next/image';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { githubLink, linkedinLink } from '@/app/lib/constants/landingPageData';
+import { SOCIAL_LINKS } from '@/app/lib/constants/socialLinks';
 
-const SOCIAL_LINKS = [
-  { href: githubLink, label: 'GitHub', Icon: FaGithub },
-  { href: linkedinLink, label: 'LinkedIn', Icon: FaLinkedin },
-];
+const PROFILE_LINKS = [SOCIAL_LINKS.github, SOCIAL_LINKS.linkedin];
 
 const AboutIntro = () => (
   <section className="grid md:grid-cols-[auto_1fr] items-center gap-8 md:gap-12">
@@ -40,7 +36,7 @@ const AboutIntro = () => (
         학습과 성장을 추구합니다.
       </p>
       <div className="mt-6 flex gap-2">
-        {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+        {PROFILE_LINKS.map(({ href, label, Icon }) => (
           <a
             key={label}
             href={href}

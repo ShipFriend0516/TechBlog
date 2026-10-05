@@ -82,8 +82,7 @@ const NowEditor = () => {
     }
   };
 
-  const inputClass =
-    'min-w-0 rounded-lg bg-raised px-3 py-2 text-sm text-fg placeholder:text-fg-faint outline-none focus:ring-2 focus:ring-accent-strong';
+  const inputClass = 'input-field min-w-0 rounded-lg px-3 py-2';
 
   return (
     <section className="bg-surface rounded-xl overflow-hidden mb-6">
