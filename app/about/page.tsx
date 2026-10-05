@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import AboutBlog from '@/app/entities/about/AboutBlog';
 import AboutIntro from '@/app/entities/about/AboutIntro';
 import ExperienceList from '@/app/entities/about/ExperienceList';
 import ProjectGrid from '@/app/entities/about/ProjectGrid';
@@ -17,6 +18,7 @@ const AboutPage = () => (
     <AboutIntro />
     <ExperienceList />
     <ProjectGrid projects={projects} />
+    <AboutBlog />
   </div>
 );
 
