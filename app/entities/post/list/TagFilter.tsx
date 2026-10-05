@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { FiArrowRight, FiHash } from 'react-icons/fi';
+import DragScroll from '@/app/entities/common/DragScroll';
 import { TagData } from '@/app/types/Tag';
 
 interface TagFilterProps {
@@ -22,7 +23,7 @@ const TagFilter = ({ tags, selected, onSelect }: TagFilterProps) => {
   return (
     <div className="flex items-center gap-2">
       <div className="relative flex-1 min-w-0">
-        <ul
+        <DragScroll
           aria-label="태그 필터"
           className="flex gap-2 overflow-x-auto py-1 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,black_calc(100%-2rem),transparent)]"
         >
@@ -51,7 +52,7 @@ const TagFilter = ({ tags, selected, onSelect }: TagFilterProps) => {
               </li>
             );
           })}
-        </ul>
+        </DragScroll>
       </div>
       <Link
         href="/tags"

@@ -1,19 +1,17 @@
 'use client';
 
-import { ReactNode, useEffect, useRef } from 'react';
+import { ComponentPropsWithoutRef, useEffect, useRef } from 'react';
 
 const CLICK_SUPPRESS_DISTANCE = 5;
 const FRICTION = 0.92;
 const MIN_VELOCITY = 0.05;
 
-interface DragScrollProps {
-  className?: string;
-  children: ReactNode;
-}
+// <ul> 의 일반 속성(aria-label 등)은 그대로 전달
+type DragScrollProps = ComponentPropsWithoutRef<'ul'>;
 
 // 가로 스크롤 목록을 데스크톱 마우스로 끌어서 넘길 수 있게 함
 // 터치·펜은 브라우저 기본 스와이프를 그대로 사용
-const DragScroll = ({ className = '', children }: DragScrollProps) => {
+const DragScroll = ({ className = '', children, ...rest }: DragScrollProps) => {
   const ref = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -116,7 +114,11 @@ const DragScroll = ({ className = '', children }: DragScrollProps) => {
   }, []);
 
   return (
-    <ul ref={ref} className={`[@media(pointer:fine)]:cursor-grab ${className}`}>
+    <ul
+      {...rest}
+      ref={ref}
+      className={`[@media(pointer:fine)]:cursor-grab ${className}`}
+    >
       {children}
     </ul>
   );
