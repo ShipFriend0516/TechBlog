@@ -1,18 +1,22 @@
 import type { Metadata } from 'next';
-import AboutMe from '@/app/entities/profile/AboutMe';
-import Experience from '@/app/entities/profile/Experience';
+import AboutIntro from '@/app/entities/about/AboutIntro';
+import ExperienceList from '@/app/entities/about/ExperienceList';
+import ProjectGrid from '@/app/entities/about/ProjectGrid';
 import { SITE_NAME, SITE_URL } from '@/app/lib/site';
+import { projects } from '@/app/portfolio/data';
 
 export const metadata: Metadata = {
   title: `About | ${SITE_NAME}`,
-  description: 'ShipFriend TechBlog를 운영하는 개발자 서정우를 소개합니다.',
+  description:
+    'ShipFriend TechBlog를 운영하는 개발자 서정우의 소개, 경력, 프로젝트입니다.',
   alternates: { canonical: `${SITE_URL}/about` },
 };
 
 const AboutPage = () => (
-  <div className="w-full max-w-4xl mx-auto grid gap-16 px-4 md:px-8 pt-12 pb-12">
-    <AboutMe />
-    <Experience />
+  <div className="w-full max-w-6xl mx-auto flex flex-col gap-20 md:gap-28 px-4 md:px-8 pt-10 md:pt-16 pb-12">
+    <AboutIntro />
+    <ExperienceList />
+    <ProjectGrid projects={projects} />
   </div>
 );
 
