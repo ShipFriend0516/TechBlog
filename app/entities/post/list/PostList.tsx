@@ -55,17 +55,21 @@ const PostList = (props: {
           );
         })
       ) : (
-        <div className={'flex flex-col gap-4 col-span-4'}>
+        <div className={'flex flex-col gap-4 col-span-full py-8'}>
           <NotFound
-            message={`${props.query || '검색어'}에 대한 검색 결과가 없습니다.`}
+            message={
+              props.query
+                ? `"${props.query}"에 대한 검색 결과가 없습니다.`
+                : '조건에 맞는 글이 없습니다.'
+            }
           />
           <button
             onClick={props.resetSearchCondition}
             className={
-              'bg-fg-muted text-base hover:bg-fg/80 px-4 py-1 rounded mx-auto'
+              'rounded-lg bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong transition-colors mx-auto'
             }
           >
-            검색 초기화하기
+            필터 초기화하기
           </button>
         </div>
       )}
