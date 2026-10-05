@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
+import { SITE_URL } from '@/app/lib/site';
 import Post from '@/app/models/Post';
 
 export const dynamic = 'force-dynamic'; // 캐싱 방지
@@ -7,29 +8,21 @@ export const dynamic = 'force-dynamic'; // 캐싱 방지
 export async function GET() {
   try {
     await dbConnect();
-    const pageUrl =
-      process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-      process.env.NEXTAUTH_URL ||
-      'https://shipfriend.dev';
 
     // 최신 글 1개 가져오기
     const latestPost = await Post.findOne({}).sort({ date: -1 }).select('slug');
 
     if (!latestPost) {
       // 블로그 홈페이지로 리다이렉션 (글이 없는 경우)
-      return NextResponse.redirect(new URL(`${pageUrl}/posts`));
+      return NextResponse.redirect(new URL(`${SITE_URL}/posts`));
     }
 
     // 최신 글로 리다이렉션
     return NextResponse.redirect(
-      new URL(`${pageUrl}/posts/${latestPost.slug}`)
+      new URL(`${SITE_URL}/posts/${latestPost.slug}`)
     );
   } catch (error) {
     console.error('Error redirecting to latest post:', error);
-    const pageUrl =
-      process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-      process.env.NEXTAUTH_URL ||
-      'https://shipfriend.dev';
-    return NextResponse.redirect(new URL(`${pageUrl}/posts`));
+    return NextResponse.redirect(new URL(`${SITE_URL}/posts`));
   }
 }

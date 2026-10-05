@@ -1,11 +1,9 @@
+import { SITE_URL } from '@/app/lib/site';
 import { stripMarkdown } from '@/app/lib/utils/stripMarkdown';
 import { Post } from '@/app/types/Post';
 
 const PostJSONLd = ({ post }: { post: Post }) => {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXT_PUBLIC_URL ||
-    'https://shipfriend.dev';
+  const baseUrl = SITE_URL;
 
   const postUrl = `${baseUrl}/posts/${post.slug}`;
 

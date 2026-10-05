@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+import { SITE_URL } from '@/app/lib/site';
 import Loading from './[slug]/loading';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const baseUrl =
-  process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev';
+const baseUrl = SITE_URL;
 
 export const metadata: Metadata = {
   title: 'Posts | ShipFriend TechBlog',

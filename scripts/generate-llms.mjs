@@ -88,10 +88,9 @@ async function main() {
     .filter(Boolean)
     .slice(0, 3);
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXTAUTH_URL ||
-    'http://localhost:3000';
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev'
+  ).replace(/\/$/, '');
 
   const formatDate = (timestamp) =>
     new Date(timestamp).toISOString().split('T')[0];

@@ -1,13 +1,12 @@
+import { SITE_URL } from '@/app/lib/site';
+
 interface Props {
   title: string;
   slug: string;
 }
 
 const PostBreadcrumbJSONLd = ({ title, slug }: Props) => {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXT_PUBLIC_URL ||
-    'https://shipfriend.dev';
+  const baseUrl = SITE_URL;
 
   const json = JSON.stringify({
     '@context': 'https://schema.org',

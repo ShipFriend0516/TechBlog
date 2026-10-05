@@ -1,4 +1,5 @@
 import dbConnect from '@/app/lib/dbConnect';
+import { SITE_URL } from '@/app/lib/site';
 import Post from '@/app/models/Post';
 
 export const revalidate = 300;
@@ -25,10 +26,7 @@ export async function GET(_req: Request, props: { params: Promise<{ slug: string
     return new Response('Not found', { status: 404 });
   }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXT_PUBLIC_URL ||
-    'https://shipfriend.dev';
+  const baseUrl = SITE_URL;
 
   const lines: string[] = [
     `# ${post.title}`,

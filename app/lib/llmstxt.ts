@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { SITE_URL } from '@/app/lib/site';
 
 interface PostSummary {
   title: string;
@@ -17,10 +18,7 @@ export function generateLlmsTxt(
   recentPosts: PostSummary[],
   popularPosts: PopularPostSummary[]
 ) {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL ||
-    process.env.NEXTAUTH_URL ||
-    'http://localhost:3000';
+  const siteUrl = SITE_URL;
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toISOString().split('T')[0];

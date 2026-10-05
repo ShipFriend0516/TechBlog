@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
+import { SITE_URL } from '@/app/lib/site';
 
 interface OGData {
   url: string;
@@ -14,9 +15,7 @@ interface OGData {
 }
 
 const fetchOGData = async (href: string): Promise<OGData | null> => {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_DEPLOYMENT_URL || process.env.NEXT_PUBLIC_URL || '';
-  const absoluteUrl = href.startsWith('/') ? `${baseUrl}${href}` : href;
+  const absoluteUrl = href.startsWith('/') ? `${SITE_URL}${href}` : href;
   try {
     const res = await fetch(
       `/api/opengraph?url=${encodeURIComponent(absoluteUrl)}`
