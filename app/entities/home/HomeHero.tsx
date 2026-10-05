@@ -43,8 +43,9 @@ const HomeHero = ({ tags }: HomeHeroProps) => (
         개발자
       </h1>
       <p className="text-fg-soft leading-7 max-w-md">
-        서정우, Software Engineer. 깔끔한 코드와 확장성을 고민하고, 그 과정을
-        이곳에 기록합니다.
+        안녕하세요. Software Engineer 서정우입니다.
+        <br />
+        깔끔한 코드와 확장성을 고민하고, 그 과정을 기록합니다.
       </p>
       <HeroSearch />
       <div className="flex gap-4 text-sm">
