@@ -1,44 +1,36 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import useSubscribe from '@/app/hooks/useSubscribe';
 
-type Status = 'idle' | 'loading' | 'done' | 'error';
-
+// 검증·요청·결과 토스트는 사이드바 구독 폼과 같은 useSubscribe 훅을 사용
 const NewsletterForm = () => {
-  const [nickname, setNickname] = useState('');
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<Status>('idle');
-  const [message, setMessage] = useState('');
+  const {
+    nickname,
+    email,
+    isLoading,
+    isSubmitted,
+    setNickname,
+    setEmail,
+    handleSubmit,
+    handleReset,
+  } = useSubscribe();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), nickname: nickname.trim() }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setStatus('done');
-      setMessage(data.message ?? '인증 이메일을 보냈어요. 메일함을 확인해주세요.');
-    } catch (error) {
-      setStatus('error');
-      setMessage(
-        error instanceof Error && error.message
-          ? error.message
-          : '구독 요청에 실패했어요. 잠시 후 다시 시도해주세요.'
-      );
-    }
-  };
-
-  if (status === 'done') {
-    return <p className="text-sm text-accent leading-6">{message}</p>;
+  if (isSubmitted) {
+    return (
+      <div className="flex flex-col items-start gap-2">
+        <p className="text-sm text-accent leading-6">
+          인증 이메일을 보냈어요. 메일함을 확인해주세요.
+        </p>
+        <button
+          type="button"
+          onClick={handleReset}
+          className="text-xs text-fg-muted underline hover:text-fg transition-colors"
+        >
+          다른 이메일로 구독하기
+        </button>
+      </div>
+    );
   }
-
-  const inputClass =
-    'w-full rounded-xl bg-raised px-4 py-3 text-sm text-fg placeholder:text-fg-faint outline-none transition-shadow focus:ring-2 focus:ring-accent-strong';
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
@@ -47,9 +39,8 @@ const NewsletterForm = () => {
         onChange={(e) => setNickname(e.target.value)}
         placeholder="닉네임"
         aria-label="닉네임"
-        minLength={2}
-        required
-        className={inputClass}
+        disabled={isLoading}
+        className="input-field w-full px-4 py-3"
       />
       <input
         type="email"
@@ -57,17 +48,16 @@ const NewsletterForm = () => {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="이메일"
         aria-label="이메일"
-        required
-        className={inputClass}
+        disabled={isLoading}
+        className="input-field w-full px-4 py-3"
       />
       <button
         type="submit"
-        disabled={status === 'loading'}
+        disabled={isLoading}
         className="mt-1 rounded-xl bg-accent py-3 text-sm font-semibold text-on-accent transition-all hover:bg-accent-strong hover:shadow-glow-sm disabled:opacity-60"
       >
-        {status === 'loading' ? '요청 중…' : '새 글 소식 받기'}
+        {isLoading ? '요청 중…' : '새 글 소식 받기'}
       </button>
-      {status === 'error' && <p className="text-xs text-danger">{message}</p>}
     </form>
   );
 };
