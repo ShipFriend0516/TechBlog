@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import { SITE_URL } from '@/app/lib/site';
+import { DEFAULT_SOCIAL_IMAGE, SITE_URL } from '@/app/lib/site';
 import Loading from './[slug]/loading';
 
 interface LayoutProps {
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: `${baseUrl}/images/profile/profile-banner.png`,
-        width: 1424,
-        height: 752,
+        url: DEFAULT_SOCIAL_IMAGE,
+        width: 1200,
+        height: 630,
         alt: 'ShipFriend TechBlog Posts',
       },
     ],
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: 'Posts | ShipFriend TechBlog',
     description:
       '발행된 글 목록 페이지입니다. 관심 있는 포스트를 선택해 순서대로 읽어보세요.',
-    images: [`${baseUrl}/images/profile/profile-banner.png`],
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   alternates: {
     canonical: `${baseUrl}/posts`,

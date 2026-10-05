@@ -45,8 +45,8 @@ export async function generateMetadata(
       : [
           {
             url: DEFAULT_SOCIAL_IMAGE,
-            width: 1424,
-            height: 752,
+            width: 1200,
+            height: 630,
             alt: 'ShipFriend TechBlog',
           },
         ];

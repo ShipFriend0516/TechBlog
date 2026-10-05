@@ -6,7 +6,7 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_DEPLOYMENT_URL || 'https://shipfriend.dev'
 ).replace(/\/$/, '');
 
-export const DEFAULT_SOCIAL_IMAGE = `${SITE_URL}/images/profile/profile-banner.png`;
+export const DEFAULT_SOCIAL_IMAGE = `${SITE_URL}/opengraph-image`;
 
 export function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
