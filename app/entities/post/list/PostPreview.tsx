@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import Profile from '@/app/entities/common/Profile';
+import Skeleton from '@/app/entities/common/Skeleton/Skeleton';
 import Timestamp from '@/app/entities/common/Timestamp';
 import { Post } from '@/app/types/Post';
 import example from '@/public/images/placeholder/thumbnail_example2.webp';
@@ -33,9 +33,10 @@ const PostPreview = ({
           }
         >
           {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-raised">
-              <AiOutlineLoading3Quarters className="w-8 h-8 animate-spin text-fg-muted" />
-            </div>
+            <Skeleton
+              useCustomBackground
+              className="absolute inset-0 !rounded-none bg-raised"
+            />
           )}
           <Image
             src={thumbnailImage || example}

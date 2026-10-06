@@ -1,0 +1,9 @@
+packages:
+  - .
+
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
+
+overrides:
+  csstype: 3.1.3

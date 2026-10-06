@@ -1,12 +1,10 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 import {
   DEFAULT_SOCIAL_IMAGE,
   SITE_NAME,
   SITE_URL,
   TITLE_TEMPLATE,
 } from '@/app/lib/site';
-import Loading from './[slug]/loading';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -60,7 +58,7 @@ export const metadata: Metadata = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  return <Suspense fallback={<Loading />}>{children}</Suspense>;
+  return children;
 };
 
 export default Layout;
