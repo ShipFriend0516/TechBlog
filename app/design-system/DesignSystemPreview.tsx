@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ReactNode, useState } from 'react';
 import TypingText from '@/app/entities/common/Typography/TypingText';
 import useTheme from '@/app/hooks/useTheme';
@@ -26,6 +27,20 @@ const ACCENT_TOKENS = [
   { name: 'accent-strong', desc: '호버, 포커스' },
   { name: 'accent-subtle', desc: '태그, 선택 상태' },
   { name: 'hairline', desc: '표, 구분선 (최소 사용)' },
+];
+
+// 디자인 시스템 하위 실험 페이지
+const LAB_PAGES = [
+  {
+    href: '/design-system/logo',
+    name: 'Logo Lab',
+    desc: '로고 시안 비교',
+  },
+  {
+    href: '/design-system/not-found',
+    name: '404 Lab',
+    desc: '불시착 404 애니메이션 시안',
+  },
 ];
 
 const NEBULA_TOKENS = [
@@ -412,6 +427,28 @@ const DesignSystemPreview = () => {
             </span>{' '}
             · fast 150ms · base 250ms · slow 500ms
           </p>
+        </Section>
+
+        <Section title="Labs">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {LAB_PAGES.map((lab) => (
+              <Link
+                key={lab.href}
+                href={lab.href}
+                className={`${styles.card} flex items-center justify-between gap-4 p-6`}
+              >
+                <div>
+                  <h3 className={`${styles.cardTitle} text-lg font-semibold`}>
+                    {lab.name}
+                  </h3>
+                  <p className="mt-1 text-sm text-fg-muted">{lab.desc}</p>
+                </div>
+                <span aria-hidden className="text-fg-faint">
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
         </Section>
       </div>
     </div>
