@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import LottiePlayer from '@/app/entities/common/Animation/LottiePlayer';
-import notfoundAnimation from '@/app/public/assets/notfound.json';
+import Link from 'next/link';
+import SceneCanvas from '@/app/entities/common/Animation/space/SceneCanvas';
 
 export const metadata: Metadata = {
   title: 'Not Found',
@@ -9,26 +9,28 @@ export const metadata: Metadata = {
 
 const NotFound = () => {
   return (
-    <div className={' relative mx-auto max-w-4xl'}>
-      <LottiePlayer
-        animationData={notfoundAnimation}
-        loop
-        play
-        speed={0.5}
-        style={{
-          width: '75%',
-          height: '50%',
-        }}
-        className={'mx-auto'}
-      />
-      <h1
-        className={
-          'absolute left-1/2 bottom-1/4 -translate-x-1/2 -translate-y-1/4 text-center text-2xl text-nowrap'
-        }
-      >
-        이런, 요청하신 데이터를 찾지 못했습니다.
-      </h1>
-    </div>
+    <main className="mx-auto max-w-5xl px-4 pb-16 pt-24">
+      <div className="relative h-[70vh] min-h-[480px] overflow-hidden rounded-card bg-[#1A1F55]">
+        <SceneCanvas scene="adrift" className="absolute inset-0 h-full w-full" />
+        <div className="absolute left-0 top-0 flex max-w-sm flex-col gap-3 p-6 md:p-10">
+          <p className="bg-gradient-to-b from-[#5EEAD4] to-[#A3ADFF] bg-clip-text text-6xl font-extrabold leading-none tracking-tight text-transparent md:text-7xl">
+            404
+          </p>
+          <h1 className="text-xl font-bold text-white break-keep md:text-2xl">
+            궤도를 벗어난 페이지예요
+          </h1>
+          <p className="text-sm leading-6 text-[#D5DAFF] break-keep">
+            찾으시는 페이지가 이 우주 어딘가로 사라졌어요.
+          </p>
+          <Link
+            href="/"
+            className="mt-1 w-fit rounded-full bg-[#34D399] px-4 py-2 text-sm font-semibold text-[#04110C] transition-colors hover:bg-[#6EE7B7]"
+          >
+            홈으로 귀환
+          </Link>
+        </div>
+      </div>
+    </main>
   );
 };
 
