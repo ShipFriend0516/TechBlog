@@ -1,12 +1,5 @@
-import SVGLoadingSpinner from '@/app/entities/common/Loading/SVGLoadingSpinner';
+import PostDetailSkeleton from '@/app/entities/common/Skeleton/PostDetailSkeleton';
 
 export default function Loading() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh]">
-      <SVGLoadingSpinner />
-      <p className="mt-4 text-fg-soft">
-        글을 불러오는 중...
-      </p>
-    </div>
-  );
+  return <PostDetailSkeleton />;
 }
