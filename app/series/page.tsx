@@ -1,5 +1,6 @@
-import { FaBookOpen } from 'react-icons/fa';
+import NotFound from '@/app/entities/common/Animation/NotFound';
 import PageHeader from '@/app/entities/common/PageHeader';
+import { SERIES_GRID_CLASS } from '@/app/entities/series/list/seriesGrid';
 import SeriesListEntry from '@/app/entities/series/list/SeriesListEntry';
 import SeriesLoadMore from '@/app/entities/series/list/SeriesLoadMore';
 import { getPublicSeriesPage } from '@/app/lib/getPublicSeriesPage';
@@ -13,14 +14,9 @@ const SeriesListPage = async () => {
     <section className="w-full max-w-6xl mx-auto px-4 pb-4">
       <PageHeader eyebrow="Series" title="모든 시리즈" className="mt-10 mb-8" />
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-8 text-center">
-          <FaBookOpen className="mb-4 h-12 w-12 text-fg-muted" />
-          <h2 className="text-xl font-semibold text-fg">
-            No Series Found
-          </h2>
-        </div>
+        <NotFound message="아직 공개된 시리즈가 없습니다." className="py-8" />
       ) : (
-        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ul className={SERIES_GRID_CLASS}>
           {items.map((item, index) => (
             <SeriesListEntry key={item._id} item={item} index={index} />
           ))}

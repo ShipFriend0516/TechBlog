@@ -1,68 +1,52 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { FaBookOpen, FaCalendar } from 'react-icons/fa';
+import SeriesThumbnail from '@/app/entities/series/SeriesThumbnail';
+import { formatDotDate } from '@/app/lib/utils/format';
 import type { SeriesListItem } from '@/app/types/Series.d';
 
 interface SeriesPreviewProps {
   item: SeriesListItem;
 }
 
+// 썸네일 뒤로 겹친 장을 깔아 '여러 편이 묶인 시리즈'임을 표현, 호버 시 살짝 펼쳐진다
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
-  const lightmodeStyle = `bg-surface text-fg `;
-  const darkmodeStyle = `    `;
-
   return (
     <Link
-      title={item.title}
       href={`/series/${item.slug}`}
-      key={item.slug}
-      className="block cursor-pointer group rounded-lg"
+      className="group flex h-full flex-col card-interactive rounded-card p-4"
     >
-      <div
-        className={`min-h-[326px] shadow-sm hover:shadow-xl origin-bottom transition-all duration-300 hover:-translate-y-2 active:scale-95 overflow-hidden border rounded-lg ${lightmodeStyle} ${darkmodeStyle}`}
-      >
-        <div className="relative aspect-video w-full overflow-hidden">
-          {item.thumbnailImage ? (
-            <Image
-              width={400}
-              height={300}
-              src={item.thumbnailImage}
-              alt={item.title}
-              loading={'lazy'}
-              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 320px"
-              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200"
-            />
-          ) : (
-            <div className="w-full h-full bg-raised flex items-center justify-center">
-              <FaBookOpen className="w-12 h-12 text-fg-muted" />
-            </div>
-          )}
-        </div>
-
-        <div className="p-5">
-          <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-accent-strong transition-colors">
-            {item.title}
-          </h3>
-
-          <div className="flex items-center gap-2 text-sm text-fg-soft mb-3">
-            <span className="flex items-center gap-1">
-              <FaCalendar className="w-4 h-4" />
-              {new Date(item.date).toLocaleDateString('ko-KR', {
-                timeZone: 'Asia/Seoul',
-              })}
-            </span>
-            <span className="ml-auto flex items-center gap-1">
-              <FaBookOpen className="w-4 h-4" />
-              {item.postCount} posts
-            </span>
-          </div>
-
-          <p className="text-sm text-fg-soft line-clamp-3">
-            {item.description || 'No description available'}
-          </p>
-        </div>
+      <div className="relative pt-2.5">
+        <span
+          aria-hidden
+          className="absolute inset-x-6 top-0 h-6 rounded-t-xl bg-fg/[0.06] transition-transform duration-300 ease-out-expo group-hover:-translate-y-1"
+        />
+        <span
+          aria-hidden
+          className="absolute inset-x-3 top-1.5 h-6 rounded-t-xl bg-fg/[0.1] transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5"
+        />
+        <SeriesThumbnail
+          src={item.thumbnailImage}
+          alt={`${item.title} 시리즈 썸네일`}
+          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 360px"
+          className="aspect-[16/10] rounded-xl"
+        />
+        <span className="absolute bottom-2 right-2 rounded-full bg-base/80 px-2.5 py-0.5 text-xs font-medium text-fg-soft backdrop-blur">
+          {item.postCount}편
+        </span>
       </div>
+
+      <h2 className="mt-4 text-lg font-semibold leading-snug break-keep line-clamp-2 transition-colors group-hover:text-accent-strong">
+        {item.title}
+      </h2>
+      {item.description && (
+        <p className="mt-1.5 text-sm leading-6 text-fg-muted line-clamp-2">
+          {item.description}
+        </p>
+      )}
+      <p className="mt-auto pt-4 text-[13px] text-fg-faint tabular-nums">
+        {formatDotDate(item.date)}
+      </p>
     </Link>
   );
 };
+
 export default SeriesPreview;

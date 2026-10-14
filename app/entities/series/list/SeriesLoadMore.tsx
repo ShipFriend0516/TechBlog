@@ -89,7 +89,7 @@ export default function SeriesLoadMore({
             <button
               type="button"
               onClick={() => void loadMore()}
-              className="rounded-lg border px-4 py-2 text-sm hover:bg-raised"
+              className="rounded-xl bg-surface px-4 py-2 text-sm text-fg-soft transition-colors hover:bg-raised hover:text-fg"
             >
               시리즈를 불러오지 못했습니다. 다시 시도
             </button>
