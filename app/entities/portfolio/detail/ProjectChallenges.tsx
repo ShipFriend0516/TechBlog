@@ -18,7 +18,7 @@ const ProjectChallenges = ({ challenges }: ProjectChallengesProps) => {
           {problem.url ? (
             <Link
               href={problem.url || '#'}
-              className={`${problem.url && 'text-blue-400 hover:text-blue-500'} flex items-center gap-2`}
+              className={`${problem.url && 'text-accent hover:text-accent-strong'} flex items-center gap-2`}
             >
               <h3 className="text-lg font-semibold">{problem.title}</h3>
               {problem.url && <FaLink />}

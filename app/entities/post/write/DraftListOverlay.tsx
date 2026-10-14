@@ -62,7 +62,7 @@ const DraftListOverlay = ({
                 onClick={() => !isCurrentDraft && handleItemClick(draft)}
                 className={`
  border rounded-lg p-4 transition-all
- ${draft.source === 'local' ? 'border-blue-300' : 'border-accent/40'}
+ ${draft.source === 'local' ? 'border-info/40' : 'border-accent/40'}
  ${isCurrentDraft
  ? 'opacity-50 cursor-not-allowed'
  : mode === 'load'
@@ -78,7 +78,7 @@ const DraftListOverlay = ({
                         {draft.title || '제목 없음'}
                       </h3>
                       {isCurrentDraft && (
-                        <span className="text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200 font-semibold">
+                        <span className="text-xs px-2 py-1 rounded bg-warning/10 text-warning font-semibold">
                           작성 중
                         </span>
                       )}
@@ -92,7 +92,7 @@ const DraftListOverlay = ({
  text-xs px-2 py-1 rounded
  ${
  draft.source === 'local'
- ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
+ ? 'bg-info/10 text-info'
  : 'bg-accent-subtle text-accent '
  }
  `}
@@ -105,7 +105,7 @@ const DraftListOverlay = ({
                   {mode === 'delete' && onDeleteDraft && (
                     <button
                       onClick={(e) => handleDelete(draft, e)}
-                      className="ml-4 px-3 py-1 bg-danger text-white rounded hover:bg-danger/90 transition-colors"
+                      className="ml-4 px-3 py-1 bg-danger text-on-danger rounded hover:bg-danger/90 transition-colors"
                     >
                       삭제
                     </button>

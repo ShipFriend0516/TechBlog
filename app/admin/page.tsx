@@ -112,7 +112,7 @@ const AdminDashboard = () => {
           </p>
         </div>
         <button
-          className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-danger text-white rounded-lg shadow-sm hover:bg-danger/90 transition-colors"
+          className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-danger text-on-danger rounded-lg shadow-sm hover:bg-danger/90 transition-colors"
           onClick={() => signOut()}
         >
           <FiLogOut size={14} />

@@ -100,7 +100,7 @@ const MessageActions = ({
             <button
               type="button"
               onClick={onDelete}
-              className="text-xs text-fg-soft hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
+              className="text-xs text-fg-soft hover:text-danger transition-colors px-1.5 py-0.5 rounded"
             >
               삭제
             </button>
@@ -119,7 +119,7 @@ const MessageActions = ({
                 <button
                   type="button"
                   onClick={onBlock}
-                  className="text-xs text-fg-soft hover:text-red-500 transition-colors px-1.5 py-0.5 rounded"
+                  className="text-xs text-fg-soft hover:text-danger transition-colors px-1.5 py-0.5 rounded"
                 >
                   차단
                 </button>

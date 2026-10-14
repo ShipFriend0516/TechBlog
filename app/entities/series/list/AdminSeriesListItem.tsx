@@ -96,7 +96,7 @@ const AdminSeriesListItem = ({
           <button
             onClick={handleDeleteButtonClick}
             className={
-              'inline-flex items-center gap-1.5 rounded-lg bg-surface px-3 py-1.5 text-sm font-medium text-fg transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:hover:border-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-300'
+              'inline-flex items-center gap-1.5 rounded-lg bg-surface px-3 py-1.5 text-sm font-medium text-fg transition-colors hover:bg-danger/10 hover:text-danger'
             }
           >
             <FaTrash className="h-3 w-3" />

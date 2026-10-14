@@ -106,7 +106,7 @@ const OgLinkCard = ({ href }: OgLinkCardProps) => {
       rel="noopener noreferrer"
       className={[
         'og-link-card group mb-4 flex overflow-hidden rounded-xl border transition-all duration-250',
-        'border-border bg-surface',
+        'border-hairline bg-surface',
         'hover:-translate-y-0.5 hover:shadow-lg',
         ' ',
         '',

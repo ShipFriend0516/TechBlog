@@ -141,8 +141,8 @@ const MessageInput = ({
             disabled={disabled}
             className={`flex-1 resize-none rounded-xl border bg-transparent p-3 text-sm outline-none focus:ring-1 transition-all disabled:opacity-50 ${
  isOverLimit
- ? 'border-red-500 focus:ring-red-500'
- : 'border-border focus:ring-accent'
+ ? 'border-danger focus:ring-danger'
+ : 'focus:ring-accent'
  }`}
             rows={2}
             placeholder={placeholder ?? '생각을 던져보세요... (Enter)'}
@@ -155,7 +155,7 @@ const MessageInput = ({
           className="px-4 rounded-xl bg-accent text-on-accent text-sm font-medium hover:opacity-90 disabled:opacity-30 transition-opacity"
         >
           {isSending ? (
-            <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+            <span className="inline-block w-4 h-4 border-2 border-on-accent/40 border-t-on-accent rounded-full animate-spin" />
           ) : (
             '전송'
           )}

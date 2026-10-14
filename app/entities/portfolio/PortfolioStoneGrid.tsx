@@ -8,12 +8,12 @@ const PortfolioStoneGrid = ({ projects }: { projects: Project[] }) => {
   const [windowWidth, setWindowWidth] = useState<number>(1024); // 기본값 설정
 
   const pastelColors = [
-    'bg-accent-subtle ',
-    'bg-blue-200 dark:bg-blue-900',
-    'bg-amber-200 dark:bg-amber-900',
-    'bg-purple-200 dark:bg-purple-900',
-    'bg-accent-subtle ',
-    'bg-rose-200 dark:bg-rose-900',
+    'bg-accent-subtle',
+    'bg-nebula-subtle',
+    'bg-warning/15',
+    'bg-nebula/20',
+    'bg-accent-subtle',
+    'bg-danger/15',
   ];
 
   // 클라이언트 사이드에서만 window 크기 감지

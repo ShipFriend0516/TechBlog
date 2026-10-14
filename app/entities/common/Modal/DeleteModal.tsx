@@ -22,8 +22,8 @@ const DeleteModal = ({
     <Modal onClose={onCancel}>
       <div className="p-6 flex flex-col gap-5">
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="w-12 h-12 rounded-full bg-red-50 dark:bg-red-950/40 flex items-center justify-center">
-            <FiAlertTriangle className="w-6 h-6 text-red-500" aria-hidden />
+          <div className="w-12 h-12 rounded-full bg-danger/10 flex items-center justify-center">
+            <FiAlertTriangle className="w-6 h-6 text-danger" aria-hidden />
           </div>
           <div>
             <h2 className="text-base font-semibold text-fg">{title}</h2>
@@ -34,13 +34,13 @@ const DeleteModal = ({
         <div className="flex gap-2">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium border text-fg-soft hover:bg-fg/50 transition-colors"
+            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium border text-fg-soft hover:bg-raised transition-colors"
           >
             취소
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium bg-danger text-white hover:bg-danger/90 transition-colors"
+            className="flex-1 px-4 py-2 rounded-xl text-sm font-medium bg-danger text-on-danger hover:bg-danger/90 transition-colors"
           >
             삭제
           </button>
