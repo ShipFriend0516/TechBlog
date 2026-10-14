@@ -18,13 +18,13 @@ const Modal = ({ onClose, children, className = '' }: ModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center scrim"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose?.();
       }}
     >
       <div
-        className={`animate-popUp bg-base rounded-2xl shadow-xl w-full max-w-sm mx-4 ${className}`}
+        className={`animate-popUp bg-overlay rounded-2xl shadow-xl w-full max-w-sm mx-4 ${className}`}
       >
         {children}
       </div>

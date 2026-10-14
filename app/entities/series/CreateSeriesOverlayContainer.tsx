@@ -95,7 +95,7 @@ const CreateSeriesOverlayContainer = ({
     'w-full rounded-lg bg-surface px-3.5 py-2.5 text-sm text-fg placeholder:text-fg-muted outline-none transition-colors focus:border-accent/40 focus:ring-2 focus:ring-accent/30 ';
 
   return (
-    <div className="mx-auto w-full max-w-lg overflow-hidden rounded-2xl bg-surface shadow-2xl">
+    <div className="mx-auto w-full max-w-lg overflow-hidden rounded-2xl bg-overlay shadow-2xl">
       <div className="flex items-start justify-between gap-4 border-b border-hairline px-6 py-5">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-subtle text-accent">
@@ -125,7 +125,7 @@ const CreateSeriesOverlayContainer = ({
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-fg">
             시리즈 이름
-            <span className="ml-1 text-red-500">*</span>
+            <span className="ml-1 text-danger">*</span>
           </label>
           <input
             type="text"
@@ -177,14 +177,14 @@ const CreateSeriesOverlayContainer = ({
             </div>
           )}
           {thumbnailError && (
-            <p className="text-xs text-red-500">
+            <p className="text-xs text-danger">
               이미지를 불러올 수 없습니다. URL을 확인해주세요.
             </p>
           )}
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 border-t border-hairline bg-surface px-6 py-4">
+      <div className="flex justify-end gap-2 border-t border-hairline bg-overlay px-6 py-4">
         <button
           onClick={close}
           className="rounded-lg px-4 py-2 text-sm font-medium text-fg transition-colors hover:bg-fg/10"

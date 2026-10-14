@@ -50,7 +50,7 @@ function MobilePanel({
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/30 z-40 md:hidden"
+          className="fixed inset-0 scrim z-40 md:hidden"
           onClick={onClose}
         />
       )}

@@ -36,8 +36,8 @@ const NicknameGate = ({ onClose }: NicknameGateProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="w-full max-w-sm rounded-2xl bg-surface p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center scrim">
+      <div className="w-full max-w-sm rounded-2xl bg-overlay p-6 shadow-xl">
         <h2 className="text-lg font-semibold text-fg mb-1">
           로그인이 필요해요
         </h2>
@@ -48,7 +48,7 @@ const NicknameGate = ({ onClose }: NicknameGateProps) => {
         <button
           type="button"
           onClick={handleGithubLogin}
-          className="inline-flex items-center justify-center gap-2 w-full rounded-xl border text-sm text-fg py-2 hover:bg-surface transition-colors"
+          className="inline-flex items-center justify-center gap-2 w-full rounded-xl border text-sm text-fg py-2 hover:bg-raised transition-colors"
         >
           <FaGithub />
           GitHub으로 로그인
@@ -66,7 +66,7 @@ const NicknameGate = ({ onClose }: NicknameGateProps) => {
             autoFocus
             className="rounded-xl border bg-transparent px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-accent"
           />
-          {error && <p className="text-xs text-red-500">{error}</p>}
+          {error && <p className="text-xs text-danger">{error}</p>}
 
           <button
             type="submit"

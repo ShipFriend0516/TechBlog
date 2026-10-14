@@ -34,7 +34,7 @@ const Overlay = ({
     overlayOpen && (
       <div
         ref={overlayRef}
-        className="fixed flex justify-center items-center w-screen h-screen top-0 left-0 inset-0 bg-black bg-opacity-50 z-50"
+        className="fixed flex justify-center items-center w-screen h-screen top-0 left-0 inset-0 scrim z-50"
       >
         <div
           className={`${animate ? 'animate-popUp' : ''} container bg-opacity-90 text-fg rounded-lg mx-auto ${isMaxWidthTypeNumber ? `max-w-[${maxWidth}px]` : `max-w-${maxWidth}`}`}

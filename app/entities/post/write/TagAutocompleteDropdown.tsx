@@ -18,7 +18,7 @@ const TagAutocompleteDropdown = ({
   if (!isOpen || suggestions.length === 0) return null;
 
   return (
-    <div className="absolute z-50 mt-1 w-full min-w-48 bg-surface border rounded-lg shadow-lg overflow-hidden">
+    <div className="absolute z-50 mt-1 w-full min-w-48 bg-overlay border rounded-lg shadow-lg overflow-hidden">
       {suggestions.map((suggestion, index) => (
         <div
           key={suggestion.tag}

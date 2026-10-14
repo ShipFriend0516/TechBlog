@@ -394,7 +394,7 @@ const BlogForm = () => {
 
       {isEditMode && uiState.seriesLoading && (
         <LoadingBackdrop>
-          <div className="animate-slideUp w-[240px] h-[120px] bg-surface rounded-2xl flex flex-col gap-4 justify-center items-center">
+          <div className="animate-slideUp w-[240px] h-[120px] bg-overlay rounded-2xl flex flex-col gap-4 justify-center items-center">
             <LoadingSpinner size={24} />
             <p>수정할 글을 불러오고 있습니다.</p>
           </div>
@@ -409,7 +409,7 @@ const headerButtonStyle =
 
 const LoadingBackdrop = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-black/30 flex justify-center items-center backdrop-blur-[4px]">
+    <div className="fixed inset-0 z-50 scrim flex justify-center items-center">
       {children}
     </div>
   );
