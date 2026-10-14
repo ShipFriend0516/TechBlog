@@ -18,6 +18,7 @@
   --nebula: 79 91 213;
   --nebula-soft: 125 135 230;
   --danger: 220 38 38;
+  --on-danger: 255 255 255;
   --warning: 217 119 6;
   --info: 79 91 213;
 
@@ -48,6 +49,7 @@
   --nebula: 109 124 255;
   --nebula-soft: 163 173 255;
   --danger: 248 113 113;
+  --on-danger: 28 8 8;
   --warning: 251 191 36;
   --info: 163 173 255;
 
@@ -158,6 +160,11 @@ body.atelier-page main {
 @layer components {
   .card-interactive {
     @apply bg-surface transition-all duration-300 ease-out-expo hover:bg-raised hover:shadow-glow-md hover:-translate-y-0.5;
+  }
+
+  /* 모달·사이드바 뒤 딤 처리 */
+  .scrim {
+    @apply bg-black/50 backdrop-blur-sm;
   }
 
   .input-field {
