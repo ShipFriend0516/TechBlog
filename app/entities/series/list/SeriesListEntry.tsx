@@ -9,7 +9,7 @@ interface SeriesListEntryProps {
 export default function SeriesListEntry({ item, index }: SeriesListEntryProps) {
   return (
     <li
-      className="opacity-0 translate-y-5 animate-popUp"
+      className="opacity-0 translate-y-5 animate-popUp hover:z-10 focus-within:z-10"
       style={{
         animationDelay: `${Math.min(index, 8) * 0.06}s`,
         animationFillMode: 'forwards',

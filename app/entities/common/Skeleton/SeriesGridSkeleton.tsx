@@ -4,12 +4,12 @@ interface SeriesGridSkeletonProps {
   gridCount: number;
 }
 
-// SeriesPreview 카드와 같은 뼈대 — 겹친 장, 썸네일, 제목, 설명, 날짜
+// SeriesPreview 카드와 같은 뼈대 — 오른쪽에 비치는 장, 썸네일, 제목, 설명, 날짜
 const SeriesGridSkeleton = ({ gridCount }: SeriesGridSkeletonProps) =>
   Array.from({ length: gridCount }, (_, index) => (
     <li key={index} className="rounded-card bg-surface p-4">
-      <div className="relative pt-2.5">
-        <div className="absolute inset-x-3 top-1.5 h-6 rounded-t-xl bg-fg/[0.06]" />
+      <div className="relative">
+        <div className="absolute inset-0 translate-x-1.5 scale-y-[0.93] rounded-xl bg-fg/[0.06]" />
         <Skeleton className="relative aspect-[16/10] !rounded-xl" />
       </div>
       <Skeleton className="mt-4 h-6 w-3/4" />

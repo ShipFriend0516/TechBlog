@@ -1,28 +1,58 @@
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 import SeriesThumbnail from '@/app/entities/series/SeriesThumbnail';
 import { formatDotDate } from '@/app/lib/utils/format';
 import type { SeriesListItem } from '@/app/types/Series.d';
+import styles from './SeriesPreview.module.css';
+
+// 썸네일이 첫 장이므로 뒤에 깔리는 종이는 (글 수 - 1)장, 너무 많으면 지저분해서 상한을 둔다
+const MAX_SHEETS = 6;
+// 종이는 오른쪽으로만 밀려나고, 뒤 장일수록 세로를 줄여 위·아래는 썸네일 뒤에 숨긴다
+const FAN_STEP_X = 4;
+const FAN_STEP_SCALE = 0.035;
+const FAN_STAGGER_MS = 40;
+// 평소 오른쪽에 살짝 비치는 장 수와 그 간격
+const REST_PEEK_COUNT = 2;
+const REST_STEP_X = 3;
 
 interface SeriesPreviewProps {
   item: SeriesListItem;
 }
 
-// 썸네일 뒤로 겹친 장을 깔아 '여러 편이 묶인 시리즈'임을 표현, 호버 시 살짝 펼쳐진다
+const getSheets = (postCount: number) => {
+  const count = Math.min(Math.max(postCount - 1, 0), MAX_SHEETS);
+
+  return Array.from({ length: count }, (_, index) => {
+    const rank = index + 1;
+    const isPeeking = rank <= REST_PEEK_COUNT;
+
+    return {
+      rank,
+      style: {
+        '--rest-x': `${isPeeking ? rank * REST_STEP_X : 0}px`,
+        '--rest-opacity': isPeeking ? 1 : 0,
+        '--sheet-scale': 1 - rank * FAN_STEP_SCALE,
+        '--fan-x': `${rank * FAN_STEP_X}px`,
+        '--fan-delay': `${index * FAN_STAGGER_MS}ms`,
+      } as CSSProperties,
+    };
+  })
+    // 바깥 장이 뒤에 깔리도록 먼저 그린다
+    .sort((a, b) => b.rank - a.rank);
+};
+
 const SeriesPreview = ({ item }: SeriesPreviewProps) => {
+  const sheets = getSheets(item.postCount);
+
   return (
     <Link
       href={`/series/${item.slug}`}
       className="group flex h-full flex-col card-interactive rounded-card p-4"
     >
-      <div className="relative pt-2.5">
-        <span
-          aria-hidden
-          className="absolute inset-x-6 top-0 h-6 rounded-t-xl bg-fg/[0.06] transition-transform duration-300 ease-out-expo group-hover:-translate-y-1"
-        />
-        <span
-          aria-hidden
-          className="absolute inset-x-3 top-1.5 h-6 rounded-t-xl bg-fg/[0.1] transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5"
-        />
+      <div className="relative">
+        {sheets.map((sheet, index) => (
+          <span key={index} aria-hidden className={styles.sheet} style={sheet.style} />
+        ))}
         <SeriesThumbnail
           src={item.thumbnailImage}
           alt={`${item.title} 시리즈 썸네일`}
