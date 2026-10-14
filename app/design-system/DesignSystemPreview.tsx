@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ReactNode, useState } from 'react';
+import Toast from '@/app/entities/common/Toast/Toast';
 import TypingText from '@/app/entities/common/Typography/TypingText';
 import useTheme from '@/app/hooks/useTheme';
 import styles from './design-system.module.css';
@@ -339,6 +340,30 @@ const DesignSystemPreview = () => {
                 bg-overlay · .scrim
               </div>
             </div>
+          </div>
+        </Section>
+
+        <Section
+          title="Toast"
+          caption="overlay 위에 띄우고, 아이콘은 상태 배지 규칙을 따릅니다. 누르면 닫힙니다."
+        >
+          <div className="flex flex-col gap-3">
+            <Toast
+              type="success"
+              message="글을 발행했어요"
+              removeToast={() => {}}
+            />
+            <Toast
+              type="error"
+              message="이미지 업로드에 실패했어요"
+              removeToast={() => {}}
+            />
+            <Toast
+              type="info"
+              title="글을 읽어주셔서 감사합니다!"
+              message="하단에서 이메일 구독을 신청하면 새 글 알림을 받을 수 있어요."
+              removeToast={() => {}}
+            />
           </div>
         </Section>
 
