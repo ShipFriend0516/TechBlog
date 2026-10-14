@@ -16,7 +16,7 @@ const SeriesPostItem = ({ post, number }: SeriesPostItemProps) => (
       href={`/posts/${post.slug}`}
       className="group flex items-center gap-4 md:gap-6 card-interactive rounded-card p-4 md:p-5"
     >
-      <span className="w-8 shrink-0 text-center text-2xl font-bold tabular-nums text-fg-faint transition-colors group-hover:text-accent">
+      <span className="w-8 shrink-0 text-center text-2xl font-bold tabular-nums text-fg-muted transition-colors group-hover:text-accent">
         {String(number).padStart(2, '0')}
       </span>
 
@@ -25,11 +25,11 @@ const SeriesPostItem = ({ post, number }: SeriesPostItemProps) => (
           {post.title}
         </h3>
         {post.excerpt && (
-          <p className="mt-1 text-sm leading-6 text-fg-muted line-clamp-2">
+          <p className="mt-1 text-sm leading-6 text-fg-soft line-clamp-2">
             {post.excerpt}
           </p>
         )}
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-fg-faint tabular-nums">
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-fg-muted tabular-nums">
           <span>{formatDotDate(post.date)}</span>
           {post.timeToRead > 0 && <span>{post.timeToRead}분</span>}
           {post.tags.length > 0 && (
