@@ -1,5 +1,5 @@
-import React from 'react';
-import { CiCircleCheck, CiCircleRemove, CiMail } from 'react-icons/ci';
+import { IconType } from 'react-icons';
+import { FiCheck, FiInfo, FiX } from 'react-icons/fi';
 
 type ToastType = 'success' | 'error' | 'info';
 
@@ -10,29 +10,40 @@ interface ToastProps {
   removeToast: () => void;
 }
 
-const iconMap: Record<ToastType, React.JSX.Element> = {
-  success: <CiCircleCheck className="text-accent" size={40} />,
-  error: <CiCircleRemove className="text-danger" size={40} />,
-  info: <CiMail className="text-info" size={40} />,
+// 아이콘 배지는 디자인 시스템 상태 배지 규칙(bg-<token>/10 text-<token>)을 따른다
+const iconMap: Record<ToastType, { Icon: IconType; className: string }> = {
+  success: { Icon: FiCheck, className: 'bg-accent-subtle text-accent' },
+  error: { Icon: FiX, className: 'bg-danger/10 text-danger' },
+  info: { Icon: FiInfo, className: 'bg-info/10 text-info' },
 };
 
 const Toast = ({ message, title, type, removeToast }: ToastProps) => {
+  const { Icon, className: iconClassName } = iconMap[type];
+
   return (
-    <div
-      onClick={() => removeToast()}
-      className={`transform transition-all duration-300 ease-out animate-slideUp bg-raised/90 text-fg px-3 py-2 rounded-lg flex items-center gap-3 backdrop-blur-sm w-full max-w-md origin-center cursor-pointer hover:bg-fg/15 shadow-lg hover:shadow-lg `}
-    >
-      <div className={`flex items-center justify-center rounded-full p-0.5`}>
-        {iconMap[type]}
-      </div>
-      <div className="flex-1 min-w-0">
-        {title && <p className="text font-semibold text-sm">{title}</p>}
-        <p
-          className={`text whitespace-pre-line ${title ? 'text-xs text-fg-soft mt-0.5' : 'line-clamp-1'}`}
+    <div role={type === 'error' ? 'alert' : 'status'}>
+      <button
+        type="button"
+        onClick={() => removeToast()}
+        title="클릭하면 닫힘"
+        className="animate-slideUp flex w-full max-w-md items-center gap-3 rounded-2xl bg-overlay px-4 py-3 text-left text-fg shadow-xl transition-colors duration-300 ease-out-expo hover:bg-raised"
+      >
+        <span
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${iconClassName}`}
         >
-          {message}
-        </p>
-      </div>
+          <Icon size={16} aria-hidden />
+        </span>
+        <span className="min-w-0 flex-1">
+          {title && (
+            <span className="block text-sm font-semibold">{title}</span>
+          )}
+          <span
+            className={`block whitespace-pre-line text-sm ${title ? 'mt-0.5 text-fg-soft' : 'line-clamp-1'}`}
+          >
+            {message}
+          </span>
+        </span>
+      </button>
     </div>
   );
 };
