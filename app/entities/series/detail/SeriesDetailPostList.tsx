@@ -1,69 +1,70 @@
-import { BiBook } from 'react-icons/bi';
-import { FaChevronDown } from 'react-icons/fa';
-import Select from '@/app/entities/common/Select';
-import SeriesPostListItem from '@/app/entities/post/list/SeriesInnerPostListItem';
-import { Post } from '@/app/types/Post';
-import { SeriesDetail } from '@/app/types/Series';
+'use client';
+
+import { useState } from 'react';
+import SeriesPostItem from '@/app/entities/series/detail/SeriesPostItem';
+import { SeriesPostSummary } from '@/app/types/Series';
+
+type Order = 'oldest' | 'latest';
+
+const ORDER_OPTIONS: { value: Order; label: string }[] = [
+  { value: 'oldest', label: '1편부터' },
+  { value: 'latest', label: '최신부터' },
+];
 
 interface SeriesDetailPostListProps {
-  series: SeriesDetail;
-  orderOption: 'latest' | 'oldest' | string;
-  setOrderOption: (value: 'latest' | 'oldest' | string) => void;
-  posts: Post[];
+  // 작성일 오름차순 — 회차 번호의 기준
+  posts: SeriesPostSummary[];
 }
 
-const SeriesDetailPostList = ({
-  series,
-  orderOption,
-  setOrderOption,
-  posts,
-}: SeriesDetailPostListProps) => {
-  const orderOptions = [
-    { value: 'latest', label: '최신순' },
-    { value: 'oldest', label: '오래된 순' },
-  ];
+const SeriesDetailPostList = ({ posts }: SeriesDetailPostListProps) => {
+  const [order, setOrder] = useState<Order>('oldest');
+
+  const numbered = posts.map((post, index) => ({ post, number: index + 1 }));
+  const ordered = order === 'oldest' ? numbered : [...numbered].reverse();
 
   return (
-    <div className={'mt-3'}>
-      <div className={'flex items-center justify-between'}>
-        <h2 className={'inline-flex items-center gap-1 md:text-lg '}>
-          <BiBook />
-          시리즈 내 포스트
-          <span className={'text-fg-soft'}>
-            ({series.posts ? series.posts.length : 0})
-          </span>
+    <section className="mt-14">
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <h2 className="text-lg font-semibold">
+          목차 <span className="text-fg-muted font-normal">{posts.length}</span>
         </h2>
-        <div className={'inline-flex items-center gap-1'}>
-          <FaChevronDown />
-          <Select
-            options={orderOptions}
-            defaultValue={orderOption}
-            setValue={setOrderOption}
-          />
-        </div>
-      </div>
-      <hr className={'my-2'} />
-      <ul className={'drop-shadow-sm rounded-lg '}>
-        {series.posts && series.posts.length > 0 ? (
-          posts.map((post: Post) => (
-            <SeriesPostListItem
-              key={post._id}
-              slug={post.slug}
-              title={post.title}
-              subTitle={post.subTitle || ''}
-              content={post.content || ''}
-              thumbnailImage={post.thumbnailImage || ''}
-              date={post.date}
-              timeToRead={post.timeToRead}
-              tags={post.tags || []}
-              isPrivate={post.isPrivate}
-            />
-          ))
-        ) : (
-          <p className={'py-4 text-fg-muted'}>👻 포스트가 없습니다.</p>
+        {posts.length > 1 && (
+          <div
+            role="group"
+            aria-label="정렬"
+            className="inline-flex rounded-full bg-surface p-1 text-sm"
+          >
+            {ORDER_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                aria-pressed={order === option.value}
+                onClick={() => setOrder(option.value)}
+                className={`rounded-full px-3 py-1 transition-colors ${
+                  order === option.value
+                    ? 'bg-raised text-fg font-medium'
+                    : 'text-fg-muted hover:text-fg'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
         )}
-      </ul>
-    </div>
+      </div>
+
+      {posts.length > 0 ? (
+        <ol className="flex flex-col gap-3">
+          {ordered.map(({ post, number }) => (
+            <SeriesPostItem key={post._id} post={post} number={number} />
+          ))}
+        </ol>
+      ) : (
+        <p className="rounded-card bg-surface py-10 text-center text-sm text-fg-muted">
+          이 시리즈에는 아직 공개된 글이 없습니다.
+        </p>
+      )}
+    </section>
   );
 };
 
