@@ -50,6 +50,13 @@ const NEBULA_TOKENS = [
   { name: 'nebula-haze', desc: '페이지 배경 안개' },
 ];
 
+const SEMANTIC_TOKENS = [
+  { name: 'danger', desc: '삭제, 오류, 검증 실패' },
+  { name: 'on-danger', desc: 'danger 위 텍스트' },
+  { name: 'warning', desc: '주의, 진행 중 상태' },
+  { name: 'info', desc: '안내, 로컬/보조 상태' },
+];
+
 const HEX: Record<Theme, Record<string, string>> = {
   dark: {
     bg: '#060a09',
@@ -68,6 +75,10 @@ const HEX: Record<Theme, Record<string, string>> = {
     'nebula-soft': '#a3adff',
     'nebula-subtle': 'rgba(109,124,255,.14)',
     'nebula-haze': 'rgba(109,124,255,.07)',
+    danger: '#f87171',
+    'on-danger': '#1c0808',
+    warning: '#fbbf24',
+    info: '#a3adff',
   },
   light: {
     bg: '#f2f5f4',
@@ -86,6 +97,10 @@ const HEX: Record<Theme, Record<string, string>> = {
     'nebula-soft': '#7d87e6',
     'nebula-subtle': 'rgba(79,91,213,.10)',
     'nebula-haze': 'rgba(79,91,213,.05)',
+    danger: '#dc2626',
+    'on-danger': '#ffffff',
+    warning: '#d97706',
+    info: '#4f5bd5',
   },
 };
 
@@ -290,6 +305,39 @@ const DesignSystemPreview = () => {
               <p className="mt-2 text-fg-soft leading-6">
                 배경 안개, 히어로 그라디언트, 썸네일 placeholder. 깊이감만 더합니다.
               </p>
+            </div>
+          </div>
+        </Section>
+
+        <Section
+          title="Semantic"
+          caption="상태 표현은 이 네 가지만 씁니다. 배경은 /10 투명도로 깔고 글자는 원색. 기본 팔레트(red-500 등)는 설정에서 막혀 있습니다."
+        >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {SEMANTIC_TOKENS.map((t) => (
+              <Swatch key={t.name} {...t} hex={HEX[theme][t.name]} />
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap items-center gap-3 text-sm">
+            <span className="rounded-full bg-danger/10 px-2.5 py-0.5 text-xs font-medium text-danger">오류</span>
+            <span className="rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-medium text-warning">작성 중</span>
+            <span className="rounded-full bg-info/10 px-2.5 py-0.5 text-xs font-medium text-info">로컬</span>
+            <button className="rounded-xl bg-danger px-4 py-2 text-sm font-medium text-on-danger hover:bg-danger/90">
+              삭제
+            </button>
+          </div>
+        </Section>
+
+        <Section
+          title="Layers"
+          caption="모달, 드롭다운, 사이드바는 overlay 위에 띄우고, 뒤는 .scrim 으로 딥니다."
+        >
+          <div className="relative h-48 overflow-hidden rounded-[var(--ds-radius-lg)] bg-surface">
+            <div className="absolute inset-0 scrim" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="rounded-2xl bg-overlay px-6 py-4 text-sm shadow-xl">
+                bg-overlay · .scrim
+              </div>
             </div>
           </div>
         </Section>
