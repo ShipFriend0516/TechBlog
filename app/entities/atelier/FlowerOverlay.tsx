@@ -1,7 +1,7 @@
 'use client';
 
 const chars = ['🌸', '🌺', '✿', '❀'];
-const colors = ['text-pink-300', 'text-pink-400', 'text-rose-400'];
+const colors = ['text-effect-petal-300', 'text-effect-petal-400', 'text-effect-petal-deep'];
 const particles = Array.from({ length: 8 }, (_, i) => ({
   id: i,
   char: chars[i % chars.length],

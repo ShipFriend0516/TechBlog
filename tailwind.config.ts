@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import twColors from 'tailwindcss/colors';
 
 // Space + Minimal 디자인 토큰 — 실제 값은 app/globals.css 의 CSS 변수에 정의
 const token = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
@@ -11,50 +12,73 @@ const config: Config = {
   ],
   safelist: [
     'ring-2',
-    'ring-amber-400/50',
-    'ring-pink-400/50',
+    'ring-effect-star-400/50',
+    'ring-effect-petal-400/50',
   ],
   darkMode: 'class',
   theme: {
-    extend: {
-      colors: {
-        // Surface — bg 대신 base 로 명명 (bg-base)
-        base: token('base'),
-        surface: token('surface'),
-        raised: token('raised'),
-        overlay: token('overlay'),
+    // 기본 팔레트(red-500, blue-100 …)를 쓰지 않도록 colors 는 extend 가 아닌 theme 에 직접 정의
+    // 원본: /design-system
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      inherit: 'inherit',
+      // 이미지·영상 위 텍스트, scrim 등 테마와 무관한 곳에만 사용
+      white: twColors.white,
+      black: twColors.black,
 
-        // Text
-        fg: {
-          DEFAULT: token('fg'),
-          soft: token('fg-soft'),
-          muted: token('fg-muted'),
-          faint: token('fg-faint'),
-        },
+      // Surface — bg 대신 base 로 명명 (bg-base)
+      base: token('base'),
+      surface: token('surface'),
+      raised: token('raised'),
+      overlay: token('overlay'),
 
-        // Accent — 클릭 가능한 요소에만 사용
-        accent: {
-          DEFAULT: token('accent'),
-          strong: token('accent-strong'),
-          subtle: 'rgb(var(--accent) / var(--accent-subtle-alpha))',
-        },
-        'on-accent': token('on-accent'),
-
-        // Nebula — 배경, 히어로, 썸네일 같은 장식에만 사용
-        nebula: {
-          DEFAULT: token('nebula'),
-          soft: token('nebula-soft'),
-          subtle: 'rgb(var(--nebula) / var(--nebula-subtle-alpha))',
-          haze: 'rgb(var(--nebula) / var(--nebula-haze-alpha))',
-        },
-
-        hairline: 'rgb(var(--fg) / var(--hairline-alpha))',
-
-        // Semantic
-        danger: token('danger'),
-        warning: token('warning'),
-        info: token('info'),
+      // Text
+      fg: {
+        DEFAULT: token('fg'),
+        soft: token('fg-soft'),
+        muted: token('fg-muted'),
+        faint: token('fg-faint'),
       },
+
+      // Accent — 클릭 가능한 요소에만 사용
+      accent: {
+        DEFAULT: token('accent'),
+        strong: token('accent-strong'),
+        subtle: 'rgb(var(--accent) / var(--accent-subtle-alpha))',
+      },
+      'on-accent': token('on-accent'),
+
+      // Nebula — 배경, 히어로, 썸네일 같은 장식에만 사용
+      nebula: {
+        DEFAULT: token('nebula'),
+        soft: token('nebula-soft'),
+        subtle: 'rgb(var(--nebula) / var(--nebula-subtle-alpha))',
+        haze: 'rgb(var(--nebula) / var(--nebula-haze-alpha))',
+      },
+
+      hairline: 'rgb(var(--fg) / var(--hairline-alpha))',
+
+      // Semantic
+      danger: token('danger'),
+      'on-danger': token('on-danger'),
+      warning: token('warning'),
+      info: token('info'),
+
+      // Atelier 메시지 이펙트 전용 장식 색 — 다른 곳에서 사용 금지
+      'effect-star': {
+        300: twColors.amber[300],
+        400: twColors.amber[400],
+        500: twColors.amber[500],
+      },
+      'effect-petal': {
+        300: twColors.pink[300],
+        400: twColors.pink[400],
+        500: twColors.pink[500],
+        deep: twColors.rose[400],
+      },
+    },
+    extend: {
       borderColor: {
         DEFAULT: 'rgb(var(--fg) / var(--hairline-alpha))',
       },

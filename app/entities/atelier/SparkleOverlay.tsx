@@ -9,7 +9,7 @@ const particles = Array.from({ length: 8 }, (_, i) => ({
   sr: Math.random() * 360 - 180,
   delay: Math.random() * 0.6,
   duration: Math.random() * 0.6 + 0.8,
-  color: ['text-amber-300', 'text-amber-400', 'text-amber-500'][i % 3],
+  color: ['text-effect-star-300', 'text-effect-star-400', 'text-effect-star-500'][i % 3],
 }));
 
 const SparkleOverlay = ({ children }: { children: React.ReactNode }) => {
