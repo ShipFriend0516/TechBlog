@@ -28,11 +28,11 @@ export default async function ErrorPage(
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface px-4">
-      <div className="max-w-md w-full bg-surface rounded-lg shadow-lg p-8 text-center">
+      <div className="max-w-md w-full bg-surface rounded-card p-8 text-center">
         <div className="mb-6">
-          <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 dark:bg-red-900">
+          <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-danger/10">
             <svg
-              className="h-10 w-10 text-red-600 dark:text-red-400"
+              className="h-10 w-10 text-danger"
               fill="none"
               stroke="currentColor"
               viewBox="0 24"
